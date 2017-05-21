@@ -4,27 +4,40 @@
   box-sizing: border-box;
 }
 
+body {
+  position: relative;
+}
+
 .map {
   height: 100vh;
   width: 100vw;
 }
 
-.map.mode-create {
-  cursor: crosshair;
+.overlay {
+  z-index: 314159;
+  display: none;
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  height: 30%;
+  width: 15%;
+  background-color: #fff;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 15px;
 }
 
-.leaflet-edge {
-  background-color: #95bc59;
-  box-shadow: 0 0 0 2px white, 0 0 10px rgba(0, 0, 0, .35);
-  border-radius: 50%;
-  cursor: move;
-  outline: none;
-  transition: background-color .25s;
+.show {
+  display: flex;
 }
 
-.leaflet-polygon {
-  fill: #b4cd8a;
-  stroke: #50622b;
-  stroke-width: 2;
-  fill-opacity: .75;
+.actions {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+}
+
+.show, .actions {
+  padding: 10px;
 }
