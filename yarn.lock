@@ -658,10 +658,6 @@ cli-width@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-2.1.0.tgz#b234ca209b29ef66fc518d9b98d5847b00edf00a"
 
-clipper-lib@^6.2.1:
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/clipper-lib/-/clipper-lib-6.2.1.tgz#266d8ec7575c589f05f23e9cd003de50e23117b6"
-
 co@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
@@ -1387,15 +1383,11 @@ kind-of@^3.0.2:
   dependencies:
     is-buffer "^1.1.5"
 
-leaflet-freedraw@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/leaflet-freedraw/-/leaflet-freedraw-2.1.1.tgz#eb01bead62fc712730fb049afb7fd4653b511e34"
-  dependencies:
-    clipper-lib "^6.2.1"
-    leaflet "^1.0.1"
-    ramda "^0.22.1"
+leaflet-draw@^0.4.9:
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/leaflet-draw/-/leaflet-draw-0.4.9.tgz#44105088310f47e4856d5ede37d47ecfad0cf2d5"
 
-leaflet@^1.0.1, leaflet@^1.0.3:
+leaflet@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.0.3.tgz#1f401b98b45c8192134c6c8d69686253805007c8"
 
@@ -1606,10 +1598,6 @@ process-nextick-args@~1.0.6:
 progress@^1.1.8:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/progress/-/progress-1.1.8.tgz#e260c78f6161cdd9b0e56cc3e0a85de17c7a57be"
-
-ramda@^0.22.1:
-  version "0.22.1"
-  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.22.1.tgz#031da0c3df417c5b33c96234757eb37033f36a0e"
 
 randomatic@^1.1.3:
   version "1.1.6"

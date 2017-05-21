@@ -22,7 +22,7 @@
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.0.1",
     "leaflet": "^1.0.3",
-    "leaflet-freedraw": "^2.1.1",
+    "leaflet-draw": "^0.4.9",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
