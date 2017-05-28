@@ -14,8 +14,10 @@
   "dependencies": {
     "babel-eslint": "^7.2.3",
     "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.4.0",
+    "babel-preset-react": "^6.24.1",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.2.0",
@@ -23,10 +25,14 @@
     "eslint-plugin-react": "^7.0.1",
     "leaflet": "^1.0.3",
     "leaflet-draw": "^0.4.9",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-hyperscript": "^3.0.0",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-replace": "^1.1.1",
     "rollup-watch": "^3.2.2"
   }
 }

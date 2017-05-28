@@ -1,31 +1,74 @@
+/* @flow */
 import 'babel-polyfill';
 import L from 'leaflet';
 import 'leaflet-draw';
+import h from 'react-hyperscript';
+import { Component } from 'react';
+import ReactDOM from 'react-dom';
 
 const state = {
   selected: null,
 };
 
-function getOverlay(doc = document) {
-  return doc.querySelector('.overlay');
+class Overlay extends Component {
+  static defaultProps = {
+    defaultName: '',
+    show: false,
+  };
+
+  state = {
+    name: '',
+  };
+
+  props: {
+    defaultName: string,
+    show: boolean,
+  };
+
+  handleSave = () => {
+    const { name } = this.state;
+    if (!state.selected) return;
+    state.selected.options.hood = name;
+  };
+
+  handleInput = (event) => {
+    const name = event.target.value;
+    this.setState({ name });
+  }
+
+  render() {
+    const { defaultName, show } = this.props;
+    const { name } = this.state;
+
+    if (!show) return null;
+
+    return h('div.overlay', [
+      h('div', [
+        h('label', { for: 'hood-name' }, 'Hood'),
+        h('input', {
+          type: 'input',
+          defaultValue: defaultName,
+          value: name,
+          onChange: this.handleInput,
+        }),
+      ]),
+      h('div.actions', [
+        h('button', 'Save'),
+        h('button', 'Cancel'),
+      ]),
+    ]);
+  }
+}
+
+function renderOverlay(props) {
+  ReactDOM.render(
+    h(Overlay, props),
+    document.querySelector('.overlay-cont'),
+  );
 }
 
 function getMap(doc = document) {
   return doc.querySelector('.map');
-}
-
-function getHoodInput(doc = document) {
-  return doc.querySelector('.overlay .name input');
-}
-
-function getSave(doc = document) {
-  return doc.querySelector('.overlay .actions .save');
-}
-
-function getHoodName() {
-  const input = getHoodInput();
-  console.log(input);
-  return input.value;
 }
 
 function isNeighborhoodSelected(polygon) {
@@ -34,26 +77,14 @@ function isNeighborhoodSelected(polygon) {
 }
 
 function showNeighborhoodOverlay(polygon) {
-  const overlay = getOverlay();
-  overlay.classList.add('show');
   const hood = polygon.options.hood;
-  getHoodInput().value = hood || '';
+  console.log(hood);
+  renderOverlay({ name: hood, show: true });
 }
 
 function hideNeighborhoodOverlay() {
-  const overlay = getOverlay();
-  overlay.classList.remove('show');
-  getHoodInput().value = '';
+  renderOverlay({ show: false });
 }
-
-const save = getSave();
-save.addEventListener('click', () => {
-  if (!state.selected) return;
-  console.log('click');
-  const value = getHoodName();
-  console.log(value);
-  state.selected.options.hood = value;
-});
 
 const polygonStyle = () => ({
   color: 'blue',

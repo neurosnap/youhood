@@ -1,5 +1,6 @@
 {
   "presets": [
+    "react",
     ["env", {
       "modules": false,
       "useBuiltIns": true,
@@ -9,5 +10,5 @@
       }
     }]
   ],
-  "plugins": ["external-helpers"]
+  "plugins": ["external-helpers", "transform-class-properties"]
 }
