@@ -11,17 +11,31 @@ const state = {
   selected: null,
 };
 
+// https://gist.github.com/jed/982883
+function createUuid(a: any): string {
+  /* eslint-disable max-len, space-infix-ops, no-mixed-operators, no-bitwise */
+  return a ? (a ^ Math.random() * 16 >> a / 4).toString(16) : ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, getUuid);
+}
+
+function getHoodFeature(hood) {
+  return hood.feature || hood;
+}
+
+function getHoodProperties(hood) {
+  return getHoodFeature(hood).properties;
+}
+
 function getHoodId(hood) {
-  return hood._leaflet_id;
+  return getHoodProperties(hood).id;
 }
 
 function getHoodName(hood) {
-  return hood.options.hoodName;
+  return getHoodProperties(hood).name;
 }
 
 function setHoodName(hood, value) {
   /* eslint-disable no-param-reassign */
-  hood.options.hoodName = value;
+  getHoodProperties(hood).name = value;
 }
 
 function isHoodSelected(hood) {
@@ -46,14 +60,14 @@ function clearSelectedHood() {
 
 function deselectHood(hood) {
   if (!hood) return;
-  hood.setStyle(hoodStyle());
+  getHoodProperties(hood).selected = false;
   state.selected = null;
   hideHoodOverlay();
 }
 
 function selectHood(hood) {
   if (!hood) return;
-  hood.setStyle(hoodStyleSelected());
+  getHoodProperties(hood).selected = true;
   state.selected = hood;
   showHoodOverlay(hood);
 }
@@ -201,11 +215,20 @@ map.addControl(drawControl);
 
 map.on(L.Draw.Event.CREATED, (event) => {
   const hood = event.layer.toGeoJSON();
-  // hood.setStyle(hoodStyle());
-  drawnItems.addData(hood);
-  // hood.on('click', onHoodClick);
-  // clearSelectedHood();
-  // selectHood(hood);
+  const id = createUuid();
+  hood.properties = {
+    id,
+    selected: false,
+    name: '',
+  };
+
+  drawnItems.addData(hood, {
+    style: (feature) => {
+      if (getHoodProperties(feature).selected === true) return hoodStyleSelected();
+      return hoodStyle();
+    },
+  });
+  selectHood(hood);
 });
 
 map.on('click', (event) => {
@@ -213,4 +236,5 @@ map.on('click', (event) => {
   console.log(event.latlng);
   const results = leafletPip.pointInLayer(event.latlng, drawnItems);
   console.log(results);
+  toggleSelectHood(results[0]);
 });
