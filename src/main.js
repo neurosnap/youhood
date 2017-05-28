@@ -10,6 +10,44 @@ const state = {
   selected: null,
 };
 
+function isNeighborhoodSelected(polygon) {
+  if (!state.selected) return false;
+  return state.selected._leaflet_id === polygon._leaflet_id;
+}
+
+function showNeighborhoodOverlay(polygon) {
+  const hood = polygon.options.hood;
+  renderOverlay({ name: hood, show: true });
+}
+
+function hideNeighborhoodOverlay() {
+  renderOverlay({ show: false });
+}
+
+function deselectNeighborhood(polygon) {
+  if (!polygon) return;
+  polygon.setStyle(polygonStyle());
+  state.selected = null;
+  hideNeighborhoodOverlay();
+}
+
+function selectNeighborhood(polygon) {
+  if (!polygon) return;
+  polygon.setStyle(polygonStyleSelected());
+  state.selected = polygon;
+  showNeighborhoodOverlay(polygon);
+}
+
+function toggleNeighborhoodSelection(polygon) {
+  if (isNeighborhoodSelected(polygon)) {
+    deselectNeighborhood(polygon);
+    return;
+  }
+
+  deselectNeighborhood(polygon);
+  selectNeighborhood(polygon);
+}
+
 class Overlay extends Component {
   static defaultProps = {
     defaultName: '',
@@ -31,10 +69,14 @@ class Overlay extends Component {
     state.selected.options.hood = name;
   };
 
+  handleCancel = () => {
+    deselectNeighborhood(state.selected);
+  };
+
   handleInput = (event) => {
     const name = event.target.value;
     this.setState({ name });
-  }
+  };
 
   render() {
     const { defaultName, show } = this.props;
@@ -53,8 +95,8 @@ class Overlay extends Component {
         }),
       ]),
       h('div.actions', [
-        h('button', 'Save'),
-        h('button', 'Cancel'),
+        h('button', { onClick: this.handleSave }, 'Save'),
+        h('button', { onClick: this.handleCancel }, 'Cancel'),
       ]),
     ]);
   }
@@ -71,21 +113,6 @@ function getMap(doc = document) {
   return doc.querySelector('.map');
 }
 
-function isNeighborhoodSelected(polygon) {
-  if (!state.selected) return false;
-  return state.selected._leaflet_id === polygon._leaflet_id;
-}
-
-function showNeighborhoodOverlay(polygon) {
-  const hood = polygon.options.hood;
-  console.log(hood);
-  renderOverlay({ name: hood, show: true });
-}
-
-function hideNeighborhoodOverlay() {
-  renderOverlay({ show: false });
-}
-
 const polygonStyle = () => ({
   color: 'blue',
 });
@@ -97,18 +124,7 @@ const polygonStyleSelected = () => ({
 function polyClick(event) {
   console.log(event);
   const polygon = event.target;
-
-  if (isNeighborhoodSelected(polygon)) {
-    polygon.setStyle(polygonStyle());
-    state.selected = null;
-    hideNeighborhoodOverlay();
-    return;
-  }
-
-  polygon.setStyle(polygonStyleSelected());
-
-  state.selected = polygon;
-  showNeighborhoodOverlay(polygon);
+  toggleNeighborhoodSelection(polygon);
 }
 
 const tileMapUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
@@ -151,9 +167,10 @@ const drawControl = new L.Control.Draw({
 map.addControl(drawControl);
 
 map.on(L.Draw.Event.CREATED, (event) => {
-  console.log(event);
   const layer = event.layer;
+  console.log(layer);
   layer.setStyle(polygonStyle());
   layer.on('click', polyClick);
+  selectNeighborhood(layer);
   drawnItems.addLayer(layer);
 });
