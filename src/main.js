@@ -1,5 +1,6 @@
 /* @flow */
 import 'babel-polyfill';
+import leafletPip from '@mapbox/leaflet-pip';
 import L from 'leaflet';
 import 'leaflet-draw';
 import h from 'react-hyperscript';
@@ -10,46 +11,72 @@ const state = {
   selected: null,
 };
 
-function isNeighborhoodSelected(polygon) {
+function getHoodId(hood) {
+  return hood._leaflet_id;
+}
+
+function getHoodName(hood) {
+  return hood.options.hoodName;
+}
+
+function setHoodName(hood, value) {
+  /* eslint-disable no-param-reassign */
+  hood.options.hoodName = value;
+}
+
+function isHoodSelected(hood) {
   if (!state.selected) return false;
-  return state.selected._leaflet_id === polygon._leaflet_id;
+  return getHoodId(state.selected) === getHoodId(hood);
 }
 
-function showNeighborhoodOverlay(polygon) {
-  const hood = polygon.options.hood;
-  renderOverlay({ name: hood, show: true });
+function showHoodOverlay(hood) {
+  const name = getHoodName(hood);
+  const id = getHoodId(hood);
+  renderOverlay({ id, defaultName: name, show: true });
 }
 
-function hideNeighborhoodOverlay() {
+function hideHoodOverlay() {
   renderOverlay({ show: false });
 }
 
-function deselectNeighborhood(polygon) {
-  if (!polygon) return;
-  polygon.setStyle(polygonStyle());
+function clearSelectedHood() {
+  const hood = state.selected;
+  deselectHood(hood);
+}
+
+function deselectHood(hood) {
+  if (!hood) return;
+  hood.setStyle(hoodStyle());
   state.selected = null;
-  hideNeighborhoodOverlay();
+  hideHoodOverlay();
 }
 
-function selectNeighborhood(polygon) {
-  if (!polygon) return;
-  polygon.setStyle(polygonStyleSelected());
-  state.selected = polygon;
-  showNeighborhoodOverlay(polygon);
+function selectHood(hood) {
+  if (!hood) return;
+  hood.setStyle(hoodStyleSelected());
+  state.selected = hood;
+  showHoodOverlay(hood);
 }
 
-function toggleNeighborhoodSelection(polygon) {
-  if (isNeighborhoodSelected(polygon)) {
-    deselectNeighborhood(polygon);
+function toggleSelectHood(hood) {
+  if (isHoodSelected(hood)) {
+    deselectHood(hood);
     return;
   }
 
-  deselectNeighborhood(polygon);
-  selectNeighborhood(polygon);
+  clearSelectedHood();
+  console.log(hood);
+  selectHood(hood);
 }
+
+/* function removeHood(hood) {
+  if (!hood) return;
+  hood.remove();
+} */
 
 class Overlay extends Component {
   static defaultProps = {
+    id: '',
     defaultName: '',
     show: false,
   };
@@ -58,7 +85,14 @@ class Overlay extends Component {
     name: '',
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.id !== this.props.id) {
+      this.setState({ name: nextProps.defaultName });
+    }
+  }
+
   props: {
+    id: string,
     defaultName: string,
     show: boolean,
   };
@@ -66,11 +100,11 @@ class Overlay extends Component {
   handleSave = () => {
     const { name } = this.state;
     if (!state.selected) return;
-    state.selected.options.hood = name;
+    setHoodName(state.selected, name);
   };
 
-  handleCancel = () => {
-    deselectNeighborhood(state.selected);
+  handleClose = () => {
+    deselectHood(state.selected);
   };
 
   handleInput = (event) => {
@@ -96,7 +130,7 @@ class Overlay extends Component {
       ]),
       h('div.actions', [
         h('button', { onClick: this.handleSave }, 'Save'),
-        h('button', { onClick: this.handleCancel }, 'Cancel'),
+        h('button', { onClick: this.handleClose }, 'Close'),
       ]),
     ]);
   }
@@ -113,18 +147,17 @@ function getMap(doc = document) {
   return doc.querySelector('.map');
 }
 
-const polygonStyle = () => ({
+const hoodStyle = () => ({
   color: 'blue',
 });
 
-const polygonStyleSelected = () => ({
+const hoodStyleSelected = () => ({
   color: 'yellow',
 });
 
-function polyClick(event) {
-  console.log(event);
-  const polygon = event.target;
-  toggleNeighborhoodSelection(polygon);
+function onHoodClick(event) {
+  const hood = event.target;
+  toggleSelectHood(hood);
 }
 
 const tileMapUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
@@ -136,7 +169,7 @@ const map = L
 L.tileLayer(tileMapUrl, { attribution })
  .addTo(map);
 
-const drawnItems = L.featureGroup().addTo(map);
+const drawnItems = L.geoJson().addTo(map);
 
 L.control.layers(null, {
   Neighborhoods: drawnItems,
@@ -167,10 +200,17 @@ const drawControl = new L.Control.Draw({
 map.addControl(drawControl);
 
 map.on(L.Draw.Event.CREATED, (event) => {
-  const layer = event.layer;
-  console.log(layer);
-  layer.setStyle(polygonStyle());
-  layer.on('click', polyClick);
-  selectNeighborhood(layer);
-  drawnItems.addLayer(layer);
+  const hood = event.layer.toGeoJSON();
+  // hood.setStyle(hoodStyle());
+  drawnItems.addData(hood);
+  // hood.on('click', onHoodClick);
+  // clearSelectedHood();
+  // selectHood(hood);
+});
+
+map.on('click', (event) => {
+  console.log(event);
+  console.log(event.latlng);
+  const results = leafletPip.pointInLayer(event.latlng, drawnItems);
+  console.log(results);
 });

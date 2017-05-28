@@ -2,6 +2,7 @@
   "parser": "babel-eslint",
   "extends": [
     "airbnb",
+    "plugin:flowtype/recommended"
   ],
   "env": {
     "browser": true,
@@ -10,5 +11,9 @@
     "no-console": 0,
     "no-underscore-dangle": 0,
     "no-use-before-define": 0,
-  }
+  },
+  "plugins": [
+    "flowtype",
+    "react"
+  ]
 }
