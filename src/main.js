@@ -1,5 +1,4 @@
 /* @flow */
-import 'babel-polyfill';
 import leafletPip from '@mapbox/leaflet-pip';
 import L from 'leaflet';
 import 'leaflet-draw';

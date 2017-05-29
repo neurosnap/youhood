@@ -9,8 +9,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "build": "browserify src/main.js -o public/bundle.js -t babelify",
     "lint": "eslint ./src --fix"
   },
   "author": "Eric Bower",
@@ -18,11 +17,12 @@
   "dependencies": {
     "@mapbox/leaflet-pip": "^1.1.0",
     "babel-eslint": "^7.2.3",
-    "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.4.0",
     "babel-preset-react": "^6.24.1",
+    "babelify": "^7.3.0",
+    "browserify": "^14.4.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-flowtype": "^2.33.0",
@@ -33,12 +33,6 @@
     "leaflet-draw": "^0.4.9",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-hyperscript": "^3.0.0",
-    "rollup": "^0.41.6",
-    "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-replace": "^1.1.1",
-    "rollup-watch": "^3.2.2"
+    "react-hyperscript": "^3.0.0"
   }
 }
