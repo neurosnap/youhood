@@ -14,7 +14,9 @@ const state = {
 // https://gist.github.com/jed/982883
 function createUuid(a: any): string {
   /* eslint-disable max-len, space-infix-ops, no-mixed-operators, no-bitwise */
-  return a ? (a ^ Math.random() * 16 >> a / 4).toString(16) : ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, getUuid);
+  return a ?
+    (a ^ Math.random() * 16 >> a / 4).toString(16)
+    : ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, createUuid);
 }
 
 function getHoodFeature(hood) {
@@ -61,25 +63,28 @@ function clearSelectedHood() {
 function deselectHood(hood) {
   if (!hood) return;
   getHoodProperties(hood).selected = false;
+  hood.setStyle(styleFn(hood));
   state.selected = null;
   hideHoodOverlay();
 }
 
 function selectHood(hood) {
   if (!hood) return;
+  console.log('SELECT', hood);
   getHoodProperties(hood).selected = true;
+  hood.setStyle(styleFn(hood));
   state.selected = hood;
   showHoodOverlay(hood);
 }
 
 function toggleSelectHood(hood) {
+  console.log('TOGGLE', hood);
   if (isHoodSelected(hood)) {
     deselectHood(hood);
     return;
   }
 
   clearSelectedHood();
-  console.log(hood);
   selectHood(hood);
 }
 
@@ -169,10 +174,14 @@ const hoodStyleSelected = () => ({
   color: 'yellow',
 });
 
-function onHoodClick(event) {
-  const hood = event.target;
-  toggleSelectHood(hood);
-}
+const styleFn = (hood) => {
+  console.log(hood);
+  if (getHoodProperties(hood).selected === true) {
+    return hoodStyleSelected();
+  }
+
+  return hoodStyle();
+};
 
 const tileMapUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
 const attribution = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
@@ -183,7 +192,9 @@ const map = L
 L.tileLayer(tileMapUrl, { attribution })
  .addTo(map);
 
-const drawnItems = L.geoJson().addTo(map);
+const drawnItems = L.geoJson(undefined, {
+  style: styleFn,
+}).addTo(map);
 
 L.control.layers(null, {
   Neighborhoods: drawnItems,
@@ -222,19 +233,15 @@ map.on(L.Draw.Event.CREATED, (event) => {
     name: '',
   };
 
-  drawnItems.addData(hood, {
-    style: (feature) => {
-      if (getHoodProperties(feature).selected === true) return hoodStyleSelected();
-      return hoodStyle();
-    },
-  });
+  drawnItems.addData(hood);
   selectHood(hood);
 });
 
 map.on('click', (event) => {
-  console.log(event);
-  console.log(event.latlng);
   const results = leafletPip.pointInLayer(event.latlng, drawnItems);
   console.log(results);
+  if (results.length === 0) {
+    return;
+  }
   toggleSelectHood(results[0]);
 });
