@@ -10,6 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify src/main.js -o public/bundle.js -t babelify",
+    "dev": "watchify src/main.js -o public/bundle.js -t babelify",
     "lint": "eslint ./src --fix"
   },
   "author": "Eric Bower",
@@ -33,6 +34,8 @@
     "leaflet-draw": "^0.4.9",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-hyperscript": "^3.0.0"
+    "react-hyperscript": "^3.0.0",
+    "uuid": "^3.0.1",
+    "watchify": "^3.9.0"
   }
 }

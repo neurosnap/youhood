@@ -5,21 +5,41 @@ import 'leaflet-draw';
 import h from 'react-hyperscript';
 import { Component } from 'react';
 import ReactDOM from 'react-dom';
+import createUuid from 'uuid/v4';
 
 const state = {
   selected: null,
 };
 
-// https://gist.github.com/jed/982883
-function createUuid(a: any): string {
-  /* eslint-disable max-len, space-infix-ops, no-mixed-operators, no-bitwise */
-  return a ?
-    (a ^ Math.random() * 16 >> a / 4).toString(16)
-    : ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, createUuid);
-}
+type HoodProperties = {
+  id: string,
+  selected: boolean,
+  name: string,
+};
 
-function getHoodFeature(hood) {
-  return hood.feature || hood;
+type GeoJson = {
+  geometry: {
+    coordinates: Array<*>,
+  },
+  properties: HoodProperties,
+  type: string,
+};
+
+type LeafletLayer = {
+  feature: GeoJson,
+};
+
+type LayerOrGeo = LeafletLayer | GeoJson;
+
+const createHood = (props: HoodProperties | Object = {}): HoodProperties => ({
+  id: props.id || createUuid(),
+  selected: props.selected || false,
+  name: props.name || '',
+});
+
+function getHoodFeature(hood: LayerOrGeo): GeoJson {
+  if (hood.feature) return hood.feature;
+  return hood;
 }
 
 function getHoodProperties(hood) {
@@ -69,7 +89,7 @@ function deselectHood(hood) {
 
 function selectHood(hood) {
   if (!hood) return;
-  console.log('SELECT', hood);
+  clearSelectedHood();
   getHoodProperties(hood).selected = true;
   hood.setStyle(styleFn(hood));
   state.selected = hood;
@@ -77,13 +97,11 @@ function selectHood(hood) {
 }
 
 function toggleSelectHood(hood) {
-  console.log('TOGGLE', hood);
   if (isHoodSelected(hood)) {
     deselectHood(hood);
     return;
   }
 
-  clearSelectedHood();
   selectHood(hood);
 }
 
@@ -93,6 +111,43 @@ function toggleSelectHood(hood) {
 } */
 
 class Overlay extends Component {
+  render() {
+    const { show } = this.props;
+
+    if (!show) return null;
+    return h('div.overlay', [
+      h(Hood, this.props),
+      h(HoodSelection, this.props),
+    ]);
+  }
+}
+
+class HoodSelection extends Component {
+  static defaultProps = {
+    hoods: [],
+  };
+
+  props: {
+    hoods: Array<GeoJson>,
+  };
+
+  handleClick = (hood) => {
+    selectHood(hood);
+  };
+
+  render() {
+    const { hoods } = this.props;
+    return h('div', hoods.map((hood) => {
+      const { id, name } = getHoodProperties(hood);
+      return h('div', {
+        key: id,
+        onClick: () => this.handleClick(hood),
+      }, `[${name}] - ${id}`);
+    }));
+  }
+}
+
+class Hood extends Component {
   static defaultProps = {
     id: '',
     defaultName: '',
@@ -103,6 +158,10 @@ class Overlay extends Component {
     name: '',
   };
 
+  componentWillMount() {
+    this.setState({ name: this.props.defaultName });
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.id !== this.props.id) {
       this.setState({ name: nextProps.defaultName });
@@ -112,7 +171,6 @@ class Overlay extends Component {
   props: {
     id: string,
     defaultName: string,
-    show: boolean,
   };
 
   handleSave = () => {
@@ -131,17 +189,13 @@ class Overlay extends Component {
   };
 
   render() {
-    const { defaultName, show } = this.props;
     const { name } = this.state;
 
-    if (!show) return null;
-
-    return h('div.overlay', [
+    return h('div', [
       h('div', [
-        h('label', { for: 'hood-name' }, 'Hood'),
+        h('label', { htmlFor: 'hood-name' }, 'Hood'),
         h('input', {
           type: 'input',
-          defaultValue: defaultName,
           value: name,
           onChange: this.handleInput,
         }),
@@ -174,7 +228,6 @@ const hoodStyleSelected = () => ({
 });
 
 const styleFn = (hood) => {
-  console.log(hood);
   if (getHoodProperties(hood).selected === true) {
     return hoodStyleSelected();
   }
@@ -191,9 +244,7 @@ const map = L
 L.tileLayer(tileMapUrl, { attribution })
  .addTo(map);
 
-const drawnItems = L.geoJson(undefined, {
-  style: styleFn,
-}).addTo(map);
+const drawnItems = L.geoJson().addTo(map);
 
 L.control.layers(null, {
   Neighborhoods: drawnItems,
@@ -205,9 +256,6 @@ L.control.layers(null, {
 const drawControl = new L.Control.Draw({
   edit: {
     featureGroup: drawnItems,
-    poly: {
-      allowIntersection: false,
-    },
   },
   draw: {
     marker: false,
@@ -215,7 +263,6 @@ const drawControl = new L.Control.Draw({
     polyline: false,
     circle: false,
     polygon: {
-      allowIntersection: false,
       showArea: true,
     },
   },
@@ -225,22 +272,25 @@ map.addControl(drawControl);
 
 map.on(L.Draw.Event.CREATED, (event) => {
   const hood = event.layer.toGeoJSON();
-  const id = createUuid();
-  hood.properties = {
-    id,
-    selected: false,
-    name: '',
-  };
-
+  hood.properties = createHood();
   drawnItems.addData(hood);
+});
+
+drawnItems.on('layeradd', (e) => {
+  const hood = e.layer;
   selectHood(hood);
 });
 
 map.on('click', (event) => {
   const results = leafletPip.pointInLayer(event.latlng, drawnItems);
-  console.log(results);
   if (results.length === 0) {
     return;
   }
-  toggleSelectHood(results[0]);
+
+  if (results.length === 1) {
+    toggleSelectHood(results[0]);
+    return;
+  }
+
+  renderOverlay({ hoods: results, show: true });
 });
