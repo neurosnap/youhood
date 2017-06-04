@@ -13,19 +13,28 @@ body {
   width: 100vw;
 }
 
-.overlay {
+.overlay-container {
   z-index: 314159;
   display: flex;
   position: absolute;
-  top: 10%;
+  top: 0;
   right: 10%;
-  height: 30%;
   width: 15%;
-  background-color: #fff;
+  height: 100%;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+}
+
+.overlay {
+  margin: 20px 0;
   border-radius: 15px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .actions {
@@ -36,4 +45,21 @@ body {
 
 .show, .actions {
   padding: 10px;
+}
+
+.hood {
+  height: 20%;
+}
+
+.hood-selection {
+  height: 20%;
+}
+
+.hood-list-item {
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.hood-list-item:hover {
+  background-color: green;
 }

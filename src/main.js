@@ -7,9 +7,46 @@ import { Component } from 'react';
 import ReactDOM from 'react-dom';
 import createUuid from 'uuid/v4';
 
-const state = {
-  selected: null,
+type State = {
+  selected: ?Polygon,
+  polygons: Polygons,
 };
+
+const state: State = {
+  selected: null,
+  polygons: [],
+};
+
+type PolygonOptions = {
+  attribution: ?string,
+  color: string,
+  dashArray: ?string,
+  dashOffset: ?string,
+  fill: boolean,
+  fillColor: ?string,
+  fillOpacity: number,
+  fillRule: string,
+  interactive: boolean,
+  lineCap: string,
+  lineJoin: string,
+  noClip: boolean,
+  nonBubblingEvents: Array<Object>,
+  opacity: number,
+  pane: string,
+  smoothFactor: number,
+  stroke: boolean,
+  weight: number,
+};
+
+type Polygon = {
+  feature: GeoJson,
+  options: PolygonOptions,
+  _leaflet_id: number,
+  setStyle: Function,
+  bringToFront: Function,
+};
+
+type Polygons = Array<Polygon>;
 
 type HoodProperties = {
   id: string,
@@ -25,49 +62,43 @@ type GeoJson = {
   type: string,
 };
 
-type LeafletLayer = {
-  feature: GeoJson,
-};
-
-type LayerOrGeo = LeafletLayer | GeoJson;
-
 const createHood = (props: HoodProperties | Object = {}): HoodProperties => ({
   id: props.id || createUuid(),
   selected: props.selected || false,
   name: props.name || '',
 });
 
-function getHoodFeature(hood: LayerOrGeo): GeoJson {
-  if (hood.feature) return hood.feature;
-  return hood;
+function getHoodFeature(polygon: Polygon): GeoJson {
+  if (polygon.feature) return polygon.feature;
+  return polygon;
 }
 
-function getHoodProperties(hood) {
-  return getHoodFeature(hood).properties;
+function getHoodProperties(polygon: Polygon) {
+  return getHoodFeature(polygon).properties;
 }
 
-function getHoodId(hood) {
-  return getHoodProperties(hood).id;
+function getHoodId(polygon: Polygon) {
+  return getHoodProperties(polygon).id;
 }
 
-function getHoodName(hood) {
-  return getHoodProperties(hood).name;
+function getHoodName(polygon: Polygon) {
+  return getHoodProperties(polygon).name;
 }
 
-function setHoodName(hood, value) {
+function setHoodName(polygon: Polygon, value: string) {
   /* eslint-disable no-param-reassign */
-  getHoodProperties(hood).name = value;
+  getHoodProperties(polygon).name = value;
 }
 
-function isHoodSelected(hood) {
+function isHoodSelected(polygon: Polygon) {
   if (!state.selected) return false;
-  return getHoodId(state.selected) === getHoodId(hood);
+  return getHoodId(state.selected) === getHoodId(polygon);
 }
 
-function showHoodOverlay(hood) {
-  const name = getHoodName(hood);
-  const id = getHoodId(hood);
-  renderOverlay({ id, defaultName: name, show: true });
+function showHoodOverlay(polygon: Polygon) {
+  const name = getHoodName(polygon);
+  const id = getHoodId(polygon);
+  renderOverlay({ id, defaultName: name, show: true, polygons: state.polygons });
 }
 
 function hideHoodOverlay() {
@@ -75,25 +106,30 @@ function hideHoodOverlay() {
 }
 
 function clearSelectedHood() {
-  const hood = state.selected;
-  deselectHood(hood);
+  const polygon: ?Polygon = state.selected;
+  deselectHood(polygon);
 }
 
-function deselectHood(hood) {
-  if (!hood) return;
-  getHoodProperties(hood).selected = false;
-  hood.setStyle(styleFn(hood));
+function deselectHood(polygon: ?Polygon) {
+  if (!polygon) return;
+  getHoodProperties(polygon).selected = false;
+  polygon.setStyle(styleFn(polygon));
   state.selected = null;
-  hideHoodOverlay();
 }
 
-function selectHood(hood) {
-  if (!hood) return;
+function selectHood(polygon: ?Polygon) {
+  if (!polygon) return;
   clearSelectedHood();
-  getHoodProperties(hood).selected = true;
-  hood.setStyle(styleFn(hood));
-  state.selected = hood;
-  showHoodOverlay(hood);
+  getHoodProperties(polygon).selected = true;
+  polygon.setStyle(styleFn(polygon));
+  polygon.bringToFront();
+  state.selected = polygon;
+  showHoodOverlay(polygon);
+}
+
+function hoverHood(polygon: ?Polygon, hover) {
+  if (!polygon) return;
+  polygon.setStyle(styleFn(polygon, hover));
 }
 
 function toggleSelectHood(hood) {
@@ -112,10 +148,7 @@ function toggleSelectHood(hood) {
 
 class Overlay extends Component {
   render() {
-    const { show } = this.props;
-
-    if (!show) return null;
-    return h('div.overlay', [
+    return h('div.overlay-container', [
       h(Hood, this.props),
       h(HoodSelection, this.props),
     ]);
@@ -125,23 +158,33 @@ class Overlay extends Component {
 class HoodSelection extends Component {
   static defaultProps = {
     hoods: [],
+    show: false,
   };
 
   props: {
-    hoods: Array<GeoJson>,
+    polygons: Polygons,
+    show: boolean,
   };
 
-  handleClick = (hood) => {
-    selectHood(hood);
+  handleClick = (polygon: Polygon) => {
+    toggleSelectHood(polygon);
+  };
+
+  handleHover = (polygon: Polygon, hover) => {
+    hoverHood(polygon, hover);
   };
 
   render() {
-    const { hoods } = this.props;
-    return h('div', hoods.map((hood) => {
-      const { id, name } = getHoodProperties(hood);
-      return h('div', {
+    const { polygons, show } = this.props;
+    if (!show || polygons.length < 2) return null;
+
+    return h('div.overlay.hood-selection', polygons.map((polygon) => {
+      const { id, name } = getHoodProperties(polygon);
+      return h('div.hood-list-item', {
         key: id,
-        onClick: () => this.handleClick(hood),
+        onClick: () => this.handleClick(polygon),
+        onMouseEnter: () => this.handleHover(polygon, true),
+        onMouseLeave: () => this.handleHover(polygon, false),
       }, `[${name}] - ${id}`);
     }));
   }
@@ -171,6 +214,7 @@ class Hood extends Component {
   props: {
     id: string,
     defaultName: string,
+    show: boolean,
   };
 
   handleSave = () => {
@@ -181,6 +225,7 @@ class Hood extends Component {
 
   handleClose = () => {
     deselectHood(state.selected);
+    hideHoodOverlay();
   };
 
   handleInput = (event) => {
@@ -189,9 +234,11 @@ class Hood extends Component {
   };
 
   render() {
+    const { show } = this.props;
+    if (!show) return null;
     const { name } = this.state;
 
-    return h('div', [
+    return h('div.overlay.hood', [
       h('div', [
         h('label', { htmlFor: 'hood-name' }, 'Hood'),
         h('input', {
@@ -227,7 +274,15 @@ const hoodStyleSelected = () => ({
   color: 'yellow',
 });
 
-const styleFn = (hood) => {
+const hoodStyleHover = () => ({
+  color: 'green',
+});
+
+const styleFn = (hood, hover = false) => {
+  if (hover) {
+    return hoodStyleHover();
+  }
+
   if (getHoodProperties(hood).selected === true) {
     return hoodStyleSelected();
   }
@@ -277,20 +332,22 @@ map.on(L.Draw.Event.CREATED, (event) => {
 });
 
 drawnItems.on('layeradd', (e) => {
-  const hood = e.layer;
-  selectHood(hood);
+  const polygon: Polygon = e.layer;
+  selectHood(polygon);
 });
 
 map.on('click', (event) => {
-  const results = leafletPip.pointInLayer(event.latlng, drawnItems);
-  if (results.length === 0) {
+  const polygons = leafletPip.pointInLayer(event.latlng, drawnItems);
+  state.polygons = polygons;
+
+  if (polygons.length === 0) {
     return;
   }
 
-  if (results.length === 1) {
-    toggleSelectHood(results[0]);
+  if (polygons.length === 1) {
+    toggleSelectHood(polygons[0]);
     return;
   }
 
-  renderOverlay({ hoods: results, show: true });
+  renderOverlay({ polygons, show: true });
 });
