@@ -6,12 +6,13 @@ import h from 'react-hyperscript';
 import type { State, Polygon } from './types';
 import {
   toggleSelectHood,
+  deselectHood,
   hoverHood,
-  getHoodProperties,
   setHoodName,
   getHoodName,
+  getHoodProperties,
   getHoodId,
-  deselectHood,
+  getHoodUser,
 } from './polygon';
 
 export class Overlay extends Component {
@@ -50,22 +51,22 @@ class HoodSelection extends Component {
 
     return h('div.overlay.hood-selection', polygons.map((polygon) => {
       const { id, name } = getHoodProperties(polygon);
+      const user = getHoodUser(polygon);
       return h('div.hood-list-item', {
         key: id,
         onClick: () => this.handleClick(polygon),
         onMouseEnter: () => this.handleHover(polygon, true),
         onMouseLeave: () => this.handleHover(polygon, false),
-      }, `[${name}] - ${id}`);
+      }, `[${name}] - ${user.name}`);
     }));
   }
 }
 
 class Hood extends Component {
   static defaultProps = {
-    id: '',
-    defaultName: '',
     show: false,
     state: {},
+    hood: null,
   };
 
   state = {
@@ -73,18 +74,17 @@ class Hood extends Component {
   };
 
   componentWillMount() {
-    this.setState({ name: this.props.defaultName });
+    this.setState({ name: getHoodName(this.props.hood) });
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.id !== this.props.id) {
-      this.setState({ name: nextProps.defaultName });
+    if (getHoodId(nextProps.hood) !== getHoodId(this.props.hood)) {
+      this.setState({ name: getHoodName(nextProps.hood) });
     }
   }
 
   props: {
-    id: string,
-    defaultName: string,
+    hood: Polygon,
     show: boolean,
     state: State,
   };
@@ -108,12 +108,17 @@ class Hood extends Component {
   };
 
   render() {
-    const { show } = this.props;
+    const { hood, show } = this.props;
     if (!show) return null;
     const { name } = this.state;
+    const user = getHoodUser(hood);
 
     return h('div.overlay.hood', [
       h('div', [
+        h('div', [
+          h('span', 'User: '),
+          h('span', user.name),
+        ]),
         h('label', { htmlFor: 'hood-name' }, 'Hood'),
         h('input', {
           type: 'input',
@@ -130,9 +135,7 @@ class Hood extends Component {
 }
 
 export function showHoodOverlay(polygon: Polygon, state: State) {
-  const name = getHoodName(polygon);
-  const id = getHoodId(polygon);
-  renderOverlay({ id, defaultName: name, show: true, state });
+  renderOverlay({ hood: polygon, show: true, state });
 }
 
 export function hideHoodOverlay() {

@@ -7,6 +7,10 @@ function translate(feature) {
   });
 
   feature.properties = props;
+  feature.properties.user = {
+    name: 'Zillow',
+    id: '1',
+  };
   return feature;
 }
 

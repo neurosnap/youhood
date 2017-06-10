@@ -35,10 +35,20 @@ export type Polygon = {
 
 export type Polygons = Array<Polygon>;
 
+export type HoodUser = {
+  id: string,
+  name: string,
+};
+
 export type HoodProperties = {
   id: string,
   selected: boolean,
   name: string,
+  state: string,
+  county: string,
+  city: string,
+  regionid?: string,
+  user: HoodUser,
 };
 
 export type GeoJson = {

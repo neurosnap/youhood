@@ -1,14 +1,22 @@
 /* @flow */
 import createUuid from 'uuid/v4';
 
-import type { State, Polygon, GeoJson, HoodProperties } from './types';
+import type { State, Polygon, GeoJson, HoodProperties, HoodUser } from './types';
 import { showHoodOverlay } from './overlay';
 import styleFn from './style';
 
-export const createHood = (props: HoodProperties | Object = {}): HoodProperties => ({
+const defaultHood = { user: {} };
+export const createHood = (props: HoodProperties | Object = defaultHood): HoodProperties => ({
   id: props.id || createUuid(),
   selected: props.selected || false,
   name: props.name || '',
+  city: props.city || '',
+  county: props.county || '',
+  state: props.state || '',
+  user: {
+    id: props.user.id || createUuid(),
+    name: props.user.name || 'Anonymous',
+  },
 });
 
 export function getHoodFeature(polygon: Polygon): GeoJson {
@@ -16,16 +24,23 @@ export function getHoodFeature(polygon: Polygon): GeoJson {
   return polygon;
 }
 
-export function getHoodProperties(polygon: Polygon) {
+export function getHoodProperties(polygon: Polygon): HoodProperties {
   return getHoodFeature(polygon).properties;
 }
 
-export function getHoodId(polygon: Polygon) {
+export function getHoodId(polygon: Polygon): string {
+  if (!polygon) return '';
   return getHoodProperties(polygon).id;
 }
 
-export function getHoodName(polygon: Polygon) {
+export function getHoodName(polygon: Polygon): string {
+  if (!polygon) return '';
   return getHoodProperties(polygon).name;
+}
+
+export function getHoodUser(polygon: Polygon): HoodUser {
+  if (!polygon) return { id: '', name: '' };
+  return getHoodProperties(polygon).user;
 }
 
 export function setHoodName(polygon: Polygon, value: string) {
@@ -33,7 +48,7 @@ export function setHoodName(polygon: Polygon, value: string) {
   getHoodProperties(polygon).name = value;
 }
 
-export function isHoodSelected(polygon: Polygon, state: State) {
+export function isHoodSelected(polygon: Polygon, state: State): boolean {
   if (!state.selected) return false;
   return getHoodId(state.selected) === getHoodId(polygon);
 }
