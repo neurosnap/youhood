@@ -9,8 +9,10 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify src/main.js -o public/bundle.js -t babelify",
-    "dev": "watchify src/main.js -o public/bundle.js -t babelify",
+    "build": "BABEL_ENV=web NODE_ENV=production browserify src/main.js -o public/bundle.js -t babelify",
+    "dev": "BABEL_ENV=web NODE_ENV=development watchify src/main.js -o public/bundle.js -t babelify",
+    "server": "BABEL_ENV=server NODE_ENV=production browserify src/server.js -o server.js -t babelify",
+    "server-dev": "BABEL_ENV=server NODE_ENV=development watchify src/server.js -o server.js -t babelify",
     "lint": "eslint ./src --fix"
   },
   "author": "Eric Bower",
@@ -30,11 +32,13 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.0.1",
+    "express": "^4.15.3",
     "leaflet": "^1.0.3",
     "leaflet-draw": "^0.4.9",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-hyperscript": "^3.0.0",
+    "socket.io": "^2.0.2",
     "uuid": "^3.0.1",
     "watchify": "^3.9.0"
   }
