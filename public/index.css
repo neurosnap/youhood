@@ -63,3 +63,13 @@ body {
 .hood-list-item:hover {
   background-color: green;
 }
+
+.leaflet-save {
+  padding: 5px;
+  background-color: white;
+  text-decoration: none;
+}
+
+.leaflet-save:hover {
+  background-color: #f4f4f4;
+}

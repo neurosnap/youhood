@@ -1,21 +1,53 @@
-import path from 'path';
 import express from 'express';
 import http from 'http';
-import socketIO from 'socket.io';
+import WebSocket from 'ws';
+import fs from 'fs';
 
 const app = express();
 const server = http.Server(app);
-const io = socketIO(server);
+const wss = new WebSocket.Server({ server });
 
-server.listen(80);
+const file = fs.readFileSync('./data/user.json');
+const geojson = JSON.parse(file.toString());
 
-app.get('/', (req, res) => {
-  res.sendfile(path.join(__dirname, '/index.html'));
+server.listen(8080, () => {
+  console.log('Listening on %d', server.address().port);
 });
 
-io.on('connection', (socket) => {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', (data) => {
-    console.log(data);
+wss.on('connection', (socket) => {
+  console.log('user connected');
+
+  socket.on('message', (event) => {
+    const jso = JSON.parse(event);
+    console.log('message', jso);
+
+    switch (jso.type) {
+      case 'get-hoods':
+        getHoods(socket, jso);
+        break;
+      case 'save-hoods':
+        saveHoods(socket, jso);
+        break;
+      default:
+        break;
+    }
   });
 });
+
+function getHoods(socket) {
+  socket.send(JSON.stringify({ type: 'got-hoods', data: geojson }));
+}
+
+function saveHoods(socket, event) {
+  console.log(event);
+  const data = event.data;
+
+  fs.writeFile('./data/user.json', JSON.stringify(data, null, 2), (err) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+
+    console.log('hoods saved!');
+  });
+}

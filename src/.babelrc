@@ -19,7 +19,7 @@
           "useBuiltIns": true,
           "debug": false,
           "targets": {
-            "node": "6.9"
+            "node": 6.9
           }
         }],
       ],
