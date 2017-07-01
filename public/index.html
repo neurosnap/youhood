@@ -2,12 +2,31 @@
 <html>
   <head>
     <title>YouHood</title>
-    <link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="../node_modules/leaflet-draw/dist/leaflet.draw.css" />
-    <link rel="stylesheet" href="index.css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="../node_modules/leaflet/dist/leaflet.css" rel="stylesheet">
+    <link href="../node_modules/leaflet-draw/dist/leaflet.draw.css" rel="stylesheet">
+    <link href="index.css" rel="stylesheet">
   </head>
 
   <body>
+    <div class="nav">
+      <div class="nav-content">
+        <div class="nav-left">
+          <i class="material-icons hamburger">menu</i>
+          <div class="brand">YouHood</div>
+        </div>
+        <div class="nav-center">
+          <div class="search">
+            <i class="material-icons search-icon">search</i>
+            <input class="search-input" placeholder="Search">
+        </div>
+        </div>
+        <div class="nav-right">
+          <a href="#" class="sign-in">Sign In</a>
+        </div>
+      </div>
+    </div>
     <div class="map"></div>
     <div class="overlay-cont"></div>
 
