@@ -3,15 +3,18 @@ import L from 'leaflet';
 import 'leaflet-draw';
 import leafletPip from '@mapbox/leaflet-pip';
 
-import data from '../data/ann-arbor.json';
-
 import type { Polygon } from './types';
 import { renderOverlay } from './overlay';
 import { createHood, selectHood, toggleSelectHood } from './polygon';
 import createState from './state';
 
+const socket = new WebSocket('ws://localhost:8080');
+socket.addEventListener('open', () => {
+  console.log('SOCKET CONNECTED');
+  socket.send(JSON.stringify({ type: 'get-hoods' }));
+});
+
 const state = createState();
-state.polygons = data.features;
 
 function getMap(doc = document) {
   return doc.querySelector('.map');
@@ -52,6 +55,28 @@ const drawControl = new L.Control.Draw({
 
 map.addControl(drawControl);
 
+L.Control.Save = L.Control.extend({
+  onAdd() {
+    const save = L.DomUtil.create('a');
+    save.href = '#';
+    save.className = 'leaflet-bar leaflet-save';
+    save.innerHTML = 'Save';
+
+    save.addEventListener('click', (e) => {
+      e.preventDefault();
+      const data = { type: 'save-hoods', data: drawnItems.toGeoJSON() };
+      console.log('SAVING', data);
+      socket.send(JSON.stringify(data));
+    });
+
+    return save;
+  },
+  onRemove() {},
+});
+
+L.control.save = (opts) => new L.Control.Save(opts);
+L.control.save({ position: 'topleft' }).addTo(map);
+
 map.on(L.Draw.Event.CREATED, (event) => {
   const hood = event.layer.toGeoJSON();
   hood.properties = createHood();
@@ -78,3 +103,23 @@ map.on('click', (event) => {
 
   renderOverlay({ show: true, state });
 });
+
+socket.addEventListener('message', (event) => {
+  console.log(event);
+  const jso = JSON.parse(event.data);
+  console.log(jso);
+
+  switch (jso.type) {
+    case 'got-hoods':
+      gotHoods(jso);
+      break;
+    default:
+      break;
+  }
+});
+
+function gotHoods(event) {
+  const data = event.data;
+  drawnItems.addData(data.features);
+  state.polygons.push(data.features);
+}

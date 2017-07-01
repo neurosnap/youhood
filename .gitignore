@@ -3,3 +3,5 @@
 *.swp
 node_modules
 public/bundle.js
+server.js
+server.js.map
