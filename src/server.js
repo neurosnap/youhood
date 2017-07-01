@@ -6,9 +6,15 @@ import fs from 'fs';
 const app = express();
 const server = http.Server(app);
 const wss = new WebSocket.Server({ server });
+const userFile = './data/user.json';
 
-const file = fs.readFileSync('./data/user.json');
-const geojson = JSON.parse(file.toString());
+let geojson = { features: [] };
+try {
+  const file = fs.readFileSync(userFile);
+  geojson = JSON.parse(file.toString());
+} catch (err) {
+  console.log(err);
+}
 
 server.listen(8080, () => {
   console.log('Listening on %d', server.address().port);

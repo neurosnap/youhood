@@ -104,8 +104,9 @@ map.on('click', (event) => {
   renderOverlay({ show: true, state });
 });
 
-socket.addEventListener('message', (event) => {
+socket.addEventListener('message', (event: Event) => {
   console.log(event);
+  // $FlowFixMe
   const jso = JSON.parse(event.data);
   console.log(jso);
 
