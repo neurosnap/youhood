@@ -6,21 +6,20 @@ import h from 'react-hyperscript';
 export const Navbar = () =>
   h('div.nav-content', [
     h('div.nav-left', [
-      h('i.material-icons.hamburger', 'menu'),
+      h('i.material-icons.icon', 'menu'),
       h('div.brand', 'YouHood'),
     ]),
-    h('div.nav-center', [
+    h('div.nav-right', [
       h('div.search', [
         h('i.material-icons.search-icon', 'search'),
         h('input.search-input', { placeholder: 'Search' }),
       ]),
-    ]),
-    h('div.nav-right', [
+      h('i.material-icons.icon', 'whatshot'),
       h(SignIn),
     ]),
   ]);
 
-class SignIn extends Component  {
+class SignIn extends Component {
   state = {
     open: false,
   };
