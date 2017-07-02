@@ -5,8 +5,11 @@ import leafletPip from '@mapbox/leaflet-pip';
 
 import type { Polygon } from './types';
 import { renderOverlay } from './overlay';
+import { renderNavbar } from './navbar';
 import { createHood, selectHood, toggleSelectHood } from './polygon';
 import createState from './state';
+
+renderNavbar();
 
 const socket = new WebSocket('ws://localhost:8080');
 socket.addEventListener('open', () => {
@@ -105,7 +108,6 @@ map.on('click', (event) => {
 });
 
 socket.addEventListener('message', (event: Event) => {
-  console.log(event);
   // $FlowFixMe
   const jso = JSON.parse(event.data);
   console.log(jso);
