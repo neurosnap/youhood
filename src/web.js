@@ -2,22 +2,44 @@
 import L from 'leaflet';
 import 'leaflet-draw';
 import leafletPip from '@mapbox/leaflet-pip';
+import h from 'react-hyperscript';
+import { Provider } from 'react-redux';
+import { render } from 'react-dom';
 
 import type { Polygon } from './types';
-import { renderOverlay } from './overlay';
-import { renderNavbar } from './navbar';
-import { createHood, selectHood, toggleSelectHood } from './polygon';
-import createState from './state';
+import { OverlayConn } from './overlay';
+import { Navbar } from './navbar';
+import { createHood } from './hood';
+import {
+  selectHood,
+  toggleHoodSelected,
+  addHoods,
+  setHoodsOnPoint,
+  showMenu,
+} from './action-creators';
+import createState from './store';
 
-renderNavbar();
+const store = createState();
+window.reduxStore = store;
+
+const App = () =>
+  h('div', [
+    h(OverlayConn),
+    h(Navbar),
+  ]);
+
+render(
+  h(Provider, { store }, [
+    h(App),
+  ]),
+  document.querySelector('#app'),
+);
 
 const socket = new WebSocket('ws://localhost:8080');
 socket.addEventListener('open', () => {
   console.log('SOCKET CONNECTED');
   socket.send(JSON.stringify({ type: 'get-hoods' }));
 });
-
-const state = createState();
 
 function getMap(doc = document) {
   return doc.querySelector('.map');
@@ -32,7 +54,7 @@ const map = L
 L.tileLayer(tileMapUrl, { attribution })
  .addTo(map);
 
-const drawnItems = L.geoJson(state.polygons).addTo(map);
+const drawnItems = L.geoJson(store.getState().polygons).addTo(map);
 
 L.control.layers(null, {
   Neighborhoods: drawnItems,
@@ -88,23 +110,25 @@ map.on(L.Draw.Event.CREATED, (event) => {
 
 drawnItems.on('layeradd', (e) => {
   const polygon: Polygon = e.layer;
-  selectHood(polygon, state);
+  store.dispatch(addHoods([polygon]));
+  store.dispatch(selectHood(polygon));
 });
 
 map.on('click', (event) => {
   const polygons = leafletPip.pointInLayer(event.latlng, drawnItems);
-  state.polygons = polygons;
 
   if (polygons.length === 0) {
     return;
   }
 
+  store.dispatch(setHoodsOnPoint(polygons));
+
   if (polygons.length === 1) {
-    toggleSelectHood(polygons[0], state);
+    store.dispatch(toggleHoodSelected(polygons[0]));
     return;
   }
 
-  renderOverlay({ show: true, state });
+  store.dispatch(showMenu('overlay'));
 });
 
 socket.addEventListener('message', (event: Event) => {
@@ -113,16 +137,17 @@ socket.addEventListener('message', (event: Event) => {
   console.log(jso);
 
   switch (jso.type) {
-    case 'got-hoods':
-      gotHoods(jso);
-      break;
-    default:
-      break;
+  case 'got-hoods':
+    gotHoods(jso);
+    break;
+  default:
+    break;
   }
 });
 
 function gotHoods(event) {
   const data = event.data;
+  if (data.features.length === 0) return;
   drawnItems.addData(data.features);
-  state.polygons.push(data.features);
+  store.dispatch(addHoods(data.features));
 }

@@ -1,52 +1,60 @@
 /* @flow */
 import { Component } from 'react';
-import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
 import h from 'react-hyperscript';
 
-import type { State, Polygon } from './types';
+import type { Polygon, Polygons, InputEvent } from './types';
 import {
-  toggleSelectHood,
-  deselectHood,
   hoverHood,
-  setHoodName,
   getHoodName,
   getHoodProperties,
   getHoodId,
   getHoodUser,
-} from './polygon';
+} from './hood';
+import {
+  deselectHood,
+  toggleHoodSelected,
+  setHoodName,
+  hideMenu,
+} from './action-creators';
 
 export class Overlay extends Component {
   render() {
     return h('div.overlay-container', [
-      h(Hood, this.props),
-      h(HoodSelection, this.props),
+      h(HoodConn, this.props),
+      h(HoodSelectionConn, this.props),
     ]);
   }
 }
 
-class HoodSelection extends Component {
+export const OverlayConn = connect(
+  (state) => ({
+    show: state.menus.overlay,
+  }),
+)(Overlay);
+
+export class HoodSelection extends Component {
   static defaultProps = {
-    hoods: [],
     show: false,
-    state: {},
+    polygons: [],
   };
 
   props: {
     show: boolean,
-    state: State,
+    handleToggleHoodSelected: Function,
+    polygons: Polygons,
   };
 
   handleClick = (polygon: Polygon) => {
-    toggleSelectHood(polygon, this.props.state);
+    this.props.handleToggleHoodSelected(polygon);
   };
 
-  handleHover = (polygon: Polygon, hover) => {
+  handleHover = (polygon: Polygon, hover: boolean) => {
     hoverHood(polygon, hover);
   };
 
   render() {
-    const { state, show } = this.props;
-    const { polygons } = state;
+    const { show, polygons } = this.props;
     if (!show || polygons.length < 2) return null;
 
     return h('div.overlay.hood-selection', polygons.map((polygon) => {
@@ -62,10 +70,26 @@ class HoodSelection extends Component {
   }
 }
 
-class Hood extends Component {
+const HoodSelectionConn = connect(
+  (state) => ({
+    polygons: state.hoodsOnPoint,
+  }),
+  (dispatch) => ({
+    handleToggleHoodSelected: (hood) => dispatch(toggleHoodSelected(hood)),
+  }),
+)(HoodSelection);
+
+type HoodProps = {
+  hood: Polygon,
+  show: boolean,
+  updateHoodName: Function,
+  handleDeselectHood: Function,
+  hideHoodOverlay: Function,
+};
+
+export class Hood extends Component {
   static defaultProps = {
     show: false,
-    state: {},
     hood: null,
   };
 
@@ -77,32 +101,27 @@ class Hood extends Component {
     this.setState({ name: getHoodName(this.props.hood) });
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: HoodProps) {
     if (getHoodId(nextProps.hood) !== getHoodId(this.props.hood)) {
       this.setState({ name: getHoodName(nextProps.hood) });
     }
   }
 
-  props: {
-    hood: Polygon,
-    show: boolean,
-    state: State,
-  };
+  props: HoodProps;
 
   handleSave = () => {
+    const { hood, updateHoodName } = this.props;
     const { name } = this.state;
-    const { state } = this.props;
-    if (!state.selected) return;
-    setHoodName(state.selected, name);
+    updateHoodName({ hoodId: getHoodId(hood), name });
   };
 
   handleClose = () => {
-    const { state } = this.props;
-    deselectHood(state.selected, state);
+    const { handleDeselectHood, hideHoodOverlay, hood } = this.props;
+    handleDeselectHood(hood);
     hideHoodOverlay();
   };
 
-  handleInput = (event) => {
+  handleInput = (event: InputEvent) => {
     const name = event.target.value;
     this.setState({ name });
   };
@@ -134,17 +153,13 @@ class Hood extends Component {
   }
 }
 
-export function showHoodOverlay(polygon: Polygon, state: State) {
-  renderOverlay({ hood: polygon, show: true, state });
-}
-
-export function hideHoodOverlay() {
-  renderOverlay({ show: false });
-}
-
-export function renderOverlay(props: Object) {
-  ReactDOM.render(
-    h(Overlay, props),
-    document.querySelector('.overlay-cont'),
-  );
-}
+const HoodConn = connect(
+  (state) => ({
+    hood: state.selected,
+  }),
+  (dispatch) => ({
+    updateHoodName: (payload) => dispatch(setHoodName(payload)),
+    handleDeselectHood: (hood) => dispatch(deselectHood(hood)),
+    hideHoodOverlay: () => dispatch(hideMenu('overlay')),
+  }),
+)(Hood);
