@@ -28,14 +28,14 @@ wss.on('connection', (socket) => {
     console.log('message', jso);
 
     switch (jso.type) {
-      case 'get-hoods':
-        getHoods(socket, jso);
-        break;
-      case 'save-hoods':
-        saveHoods(socket, jso);
-        break;
-      default:
-        break;
+    case 'get-hoods':
+      getHoods(socket, jso);
+      break;
+    case 'save-hoods':
+      saveHoods(socket, jso);
+      break;
+    default:
+      break;
     }
   });
 });
