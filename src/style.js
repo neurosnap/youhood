@@ -1,6 +1,7 @@
 /* @flow */
-import type { Polygon } from './types';
-import { getHoodProperties } from './polygon';
+type Style = {
+  color: string,
+};
 
 const hoodStyle = () => ({
   color: 'blue',
@@ -14,12 +15,25 @@ const hoodStyleHover = () => ({
   color: 'green',
 });
 
-export default (hood: Polygon, hover: boolean = false) => {
+type StyleProps = {
+  selected?: boolean,
+  hover?: boolean,
+};
+
+const defaultProps = {
+  selected: false,
+  hover: false,
+};
+
+export default ({
+  selected = defaultProps.selected,
+  hover = defaultProps.hover,
+}: StyleProps = defaultProps): Style => {
   if (hover) {
     return hoodStyleHover();
   }
 
-  if (getHoodProperties(hood).selected === true) {
+  if (selected === true) {
     return hoodStyleSelected();
   }
 

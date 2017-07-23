@@ -4,6 +4,9 @@ export type State = {
   polygons: Polygons,
 };
 
+export type HoodId = string;
+export type HoodIds = Array<HoodId>;
+
 export type PolygonOptions = {
   attribution: ?string,
   color: string,
@@ -41,8 +44,7 @@ export type HoodUser = {
 };
 
 export type HoodProperties = {
-  id: string,
-  selected: boolean,
+  id: HoodId,
   name: string,
   state: string,
   county: string,
@@ -58,3 +60,5 @@ export type GeoJson = {
   properties: HoodProperties,
   type: string,
 };
+
+export type InputEvent = Event & {target: HTMLInputElement};

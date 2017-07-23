@@ -4,18 +4,20 @@ import ReactDOM from 'react-dom';
 import h from 'react-hyperscript';
 
 export const Navbar = () =>
-  h('div.nav-content', [
-    h('div.nav-left', [
-      h('i.material-icons.icon', 'menu'),
-      h('div.brand', 'YouHood'),
-    ]),
-    h('div.nav-right', [
-      h('div.search', [
-        h('i.material-icons.search-icon', 'search'),
-        h('input.search-input', { placeholder: 'Search' }),
+  h('div.nav', [
+    h('div.nav-content', [
+      h('div.nav-left', [
+        h('i.material-icons.icon', 'menu'),
+        h('div.brand', 'YouHood'),
       ]),
-      h('i.material-icons.icon', 'whatshot'),
-      h(SignIn),
+      h('div.nav-right', [
+        h('div.search', [
+          h('i.material-icons.search-icon', 'search'),
+          h('input.search-input', { placeholder: 'Search' }),
+        ]),
+        h('i.material-icons.icon', 'whatshot'),
+        h(SignIn),
+      ]),
     ]),
   ]);
 
