@@ -8,12 +8,13 @@
     "url": "github.com:neurosnap/youhood.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run lint",
     "web": "BABEL_ENV=web NODE_ENV=production browserify src/web.js -o public/bundle.js -t babelify -t envify",
     "dev": "BABEL_ENV=web NODE_ENV=development watchify src/web.js -o public/bundle.js -t babelify -t envify",
     "server": "BABEL_ENV=server NODE_ENV=production babel src/server.js -o server.js --source-maps",
     "dev-server": "BABEL_ENV=server NODE_ENV=development babel src/server.js -o server.js -w --source-maps",
-    "lint": "eslint ./src --fix",
+    "lint": "eslint ./src",
+    "lint-fix": "eslint ./src --fix",
     "start": "xdg-open public/index.html",
     "start-server": "node ./server.js"
   },
