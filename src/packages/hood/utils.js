@@ -1,7 +1,7 @@
 /* @flow */
 import createUuid from 'uuid/v4';
 
-import type { Polygon, GeoJson, HoodProperties, HoodUser, HoodId } from './types';
+import type { Polygon, GeoJson, HoodProperties, HoodUser, HoodId } from '../../types';
 import styleFn from './style';
 
 const defaultHood = { user: {} };

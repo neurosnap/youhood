@@ -3,20 +3,26 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import h from 'react-hyperscript';
 
-import type { Polygon, Polygons, InputEvent } from './types';
+import type { Polygon, Polygons, InputEvent } from '../../types';
 import {
+  utils,
+  actionCreators,
+} from '../../packages/hood';
+import { actionCreators as menuActionCreators } from '../../packages/menu';
+
+const {
   hoverHood,
   getHoodName,
   getHoodProperties,
   getHoodId,
   getHoodUser,
-} from './hood';
-import {
+} = utils;
+const {
   deselectHood,
   toggleHoodSelected,
   setHoodName,
-  hideMenu,
-} from './action-creators';
+} = actionCreators;
+const { hideMenu } = menuActionCreators;
 
 export class Overlay extends Component {
   render() {

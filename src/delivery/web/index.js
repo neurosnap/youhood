@@ -6,27 +6,24 @@ import h from 'react-hyperscript';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
 
-import type { Polygon } from './types';
-import { OverlayConn } from './overlay';
-import { Navbar } from './navbar';
-import { createHood } from './hood';
-import {
+import type { Polygon } from '../../types';
+import { utils, actionCreators } from '../../packages/hood';
+import { actionCreators as menuActionCreators } from '../../packages/menu';
+import createState from '../../store';
+
+import App from './app';
+
+const { createHood } = utils;
+const {
   selectHood,
   toggleHoodSelected,
   addHoods,
   setHoodsOnPoint,
-  showMenu,
-} from './action-creators';
-import createState from './store';
+} = actionCreators;
+const { showMenu } = menuActionCreators;
 
 const store = createState();
 window.reduxStore = store;
-
-const App = () =>
-  h('div', [
-    h(OverlayConn),
-    h(Navbar),
-  ]);
 
 render(
   h(Provider, { store }, [
