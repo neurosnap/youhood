@@ -1,12 +1,11 @@
 /* @flow */
+import type { Menus } from '../../types';
+
 import {
   SHOW_MENU,
   HIDE_MENU,
 } from './action-types';
-
-type Menus = {
-  overlay: boolean,
-};
+import * as selectors from './selectors';
 
 const defaultMenus = {
   overlay: false,
@@ -29,4 +28,8 @@ export const menus = (state: Menus = defaultMenus, action: Object) => {
   default:
     return state;
   }
+};
+
+export default {
+  [selectors.menus]: menus,
 };
