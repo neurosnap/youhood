@@ -1,7 +1,13 @@
 /* @flow */
 export type State = {
   selected: ?Polygon,
-  polygons: Polygons,
+  hoods: Polygons,
+  menus: Menus,
+  hoodsOnPoint: Polygons,
+};
+
+export type Menus = {
+  overlay: boolean,
 };
 
 export type HoodId = string;

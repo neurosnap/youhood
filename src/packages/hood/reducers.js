@@ -12,6 +12,7 @@ import {
   ADD_HOODS,
   SET_HOOD_NAME,
 } from './action-types';
+import * as selectors from './selectors';
 
 export const hoodSelected = (state: ?Polygon = null, action: Object) => {
   switch (action.type) {
@@ -73,4 +74,10 @@ export const hoods = (state: Polygons = [], action: Object) => {
   default:
     return state;
   }
+};
+
+export default {
+  [selectors.hoodSelected]: hoodSelected,
+  [selectors.hoodsOnPoint]: hoodsOnPoint,
+  [selectors.hoods]: hoods,
 };

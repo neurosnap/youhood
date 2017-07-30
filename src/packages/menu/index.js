@@ -1,5 +1,6 @@
 /* @flow */
-import * as reducers from './reducers';
+import reducers from './reducers';
 import * as actionCreators from './action-creators';
+import * as selectors from './selectors';
 
-export { reducers, actionCreators };
+export { reducers, actionCreators, selectors };

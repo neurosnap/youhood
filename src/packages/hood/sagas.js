@@ -1,5 +1,6 @@
+/* @flow */
 import { takeEvery } from 'redux-saga';
-import { put, call, all } from 'redux-saga/effects';
+import { put, call, all, select } from 'redux-saga/effects';
 
 import {
   DESELECT_HOOD,
@@ -7,30 +8,36 @@ import {
   TOGGLE_HOOD_SELECTED,
 } from './action-types';
 import styleFn from './style';
+import { getHoods } from './selectors';
 
-import { showMenu } from '../menu';
+import { actionCreators } from '../menu';
 
-export function* deselectHoodSaga() {
+const { showMenu } = actionCreators;
+
+export function* deselectHoodSaga(): Generator<*, *, *> {
   yield takeEvery(DESELECT_HOOD, deselectHood);
 }
 
-function deselectHood(action) {
-  const hood = action.payload;
-  hood.setStyle(styleFn({ selected: false }));
+function* deselectHood() {
+  const hoods = yield select(getHoods);
+  hoods.forEach((hood) => {
+    hood.setStyle(styleFn({ selected: false }));
+  });
 }
 
-export function* selectHoodSaga() {
+export function* selectHoodSaga(): Generator<*, *, *> {
   yield takeEvery(SELECT_HOOD, selectHood);
 }
 
 function* selectHood(action) {
   const hood = action.payload;
+  yield call(deselectHood);
   hood.setStyle(styleFn({ selected: true }));
   hood.bringToFront();
   yield put(showMenu('overlay'));
 }
 
-export function* toggleHoodSelectedSaga() {
+export function* toggleHoodSelectedSaga(): Generator<*, *, *> {
   yield takeEvery(TOGGLE_HOOD_SELECTED, toggleHoodSelected);
 }
 

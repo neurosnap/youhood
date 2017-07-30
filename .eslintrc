@@ -15,7 +15,8 @@
     "arrow-parens": ["error", "always"],
     "no-prototype-builtins": 0,
     "indent": [2, 2, {"SwitchCase": 0}],
-    "import/prefer-default-export": 0
+    "import/prefer-default-export": 0,
+    "import/no-named-as-default": 0
   },
   "plugins": [
     "flowtype",
