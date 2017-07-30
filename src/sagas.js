@@ -1,43 +1,12 @@
-import { takeEvery } from 'redux-saga';
-import { put, call, all } from 'redux-saga/effects';
+/* @flow */
+import { all, spawn } from 'redux-saga/effects';
 
-import {
-  DESELECT_HOOD,
-  SELECT_HOOD,
-  TOGGLE_HOOD_SELECTED,
-} from './action-types';
-import {
-  showMenu,
-} from './action-creators';
-import styleFn from './style';
+import { sagas } from './packages/hood';
 
-export function* deselectHoodSaga() {
-  yield takeEvery(DESELECT_HOOD, deselectHood);
-}
+const prepSagas = (sag: Array<Function>) => Object.values(sag).map((saga) => spawn(saga));
 
-function deselectHood(action) {
-  const hood = action.payload;
-  hood.setStyle(styleFn({ selected: false }));
-}
-
-export function* selectHoodSaga() {
-  yield takeEvery(SELECT_HOOD, selectHood);
-}
-
-function* selectHood(action) {
-  const hood = action.payload;
-  hood.setStyle(styleFn({ selected: true }));
-  hood.bringToFront();
-  yield put(showMenu('overlay'));
-}
-
-export function* toggleHoodSelectedSaga() {
-  yield takeEvery(TOGGLE_HOOD_SELECTED, toggleHoodSelected);
-}
-
-function* toggleHoodSelected(hood) {
+export default function* rootSaga(): Generator<*, *, *> {
   yield all([
-    call(deselectHood, hood),
-    call(selectHood, hood),
+    ...prepSagas(sagas),
   ]);
 }
