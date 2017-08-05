@@ -31,6 +31,8 @@ type HoodProps = {
 };
 
 export class Hood extends Component {
+  props: HoodProps;
+
   static defaultProps = {
     show: false,
     hood: null,
@@ -49,8 +51,6 @@ export class Hood extends Component {
       this.setState({ name: getHoodName(nextProps.hood) });
     }
   }
-
-  props: HoodProps;
 
   handleSave = () => {
     const { hood, updateHoodName } = this.props;

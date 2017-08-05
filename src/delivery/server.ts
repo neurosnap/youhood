@@ -47,7 +47,7 @@ function getHoods(socket: WebSocket) {
 interface WebSocketEvent {
   data: WebSocket.Data; 
   type: string; 
-  target: WebSocket,
+  target: WebSocket;
 }
 
 function saveHoods(socket: WebSocket, event: WebSocketEvent) {

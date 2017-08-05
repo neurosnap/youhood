@@ -11,7 +11,8 @@
       "import-name": false,
       "ter-indent": [2, true],
       "align": [false],
-      "variable-name": [false]
+      "variable-name": [false],
+      "ter-arrow-parens": [true, "always"]
     },
     "rulesDirectory": []
 }
