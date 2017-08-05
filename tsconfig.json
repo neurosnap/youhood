@@ -7,9 +7,8 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "target": "es5",
-    "outDir": "./dist",
-    "lib": ["DOM", "ES5", "ScriptHost", "DOM.Iterable", "ES2015.Iterable"]
+    "target": "es6",
+    "outDir": "./dist"
   },
   "include": [
     "src/**/*"
