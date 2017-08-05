@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import h from 'react-hyperscript';
 
-import { Polygon, Polygons, State } from '../../types';
+import { Hoods, Hood, State } from '../../types';
 import { utils, actionCreators, selectors } from '../../packages/hood';
 
 const { getHoodsOnPoint } = selectors;
@@ -13,23 +13,30 @@ const {
 } = utils;
 const { toggleHoodSelected } = actionCreators;
 
+interface Props {
+  show: boolean;
+  handleToggleHoodSelected: Function;
+  polygons: Hoods;
+}
+
+interface DefaultProps {
+  show: boolean;
+  polygons: Hoods;
+}
+
 export class HoodSelection extends Component {
-  static defaultProps = {
+  props: Props;
+
+  static defaultProps: DefaultProps = {
     show: false,
     polygons: [],
   };
 
-  props: {
-    show: boolean,
-    handleToggleHoodSelected: Function,
-    polygons: Polygons,
-  };
-
-  handleClick = (polygon: Polygon) => {
+  handleClick = (polygon: Hood) => {
     this.props.handleToggleHoodSelected(polygon);
   }
 
-  handleHover = (polygon: Polygon, hover: boolean) => {
+  handleHover = (polygon: Hood, hover: boolean) => {
     hoverHood(polygon, hover);
   }
 
@@ -46,7 +53,7 @@ export class HoodSelection extends Component {
           onClick: () => this.handleClick(polygon),
           onMouseEnter: () => this.handleHover(polygon, true),
           onMouseLeave: () => this.handleHover(polygon, false),
-        }, 
+        },
         `[${name}] - ${user.name}`,
       );
     }));
@@ -58,6 +65,6 @@ export default connect(
     polygons: getHoodsOnPoint(state),
   }),
   (dispatch: Function) => ({
-    handleToggleHoodSelected: (hood: Polygon) => dispatch(toggleHoodSelected(hood)),
+    handleToggleHoodSelected: (hood: Hood) => dispatch(toggleHoodSelected(hood)),
   }),
 )(HoodSelection);

@@ -1,8 +1,10 @@
 import h from 'react-hyperscript';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
+import { Store } from 'redux';
 
 import createState from '../../store';
+import { State } from '../../types';
 
 import App from './app';
 import { setupMap, setupMapEvents } from './maps';

@@ -4,4 +4,9 @@ const handler = {
   },
 };
 
-export default new Proxy({}, handler);
+interface Type {
+  [key: string]: any;
+}
+
+const actionType: Type = new Proxy({}, handler);
+export default actionType;

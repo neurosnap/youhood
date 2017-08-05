@@ -1,4 +1,4 @@
-import { Polygon, Polygons, HoodIds } from '../../types';
+import { Hood, Hoods, HoodIds } from '../../types';
 
 import { getHoodId, setHoodName } from './utils';
 import {
@@ -11,9 +11,16 @@ import {
   ADD_HOODS,
   SET_HOOD_NAME,
 } from './action-types';
+import {
+  HoodSelectedAction,
+  HoodsAction,
+  SetHoodNameAction,
+  SetHoodNamePayload,
+  HopAction,
+} from './action-creators';
 import * as selectors from './selectors';
 
-export const hoodSelected = (state: Polygon = null, action: Object) => {
+export const hoodSelected = (state: Hood = null, action: HoodSelectedAction): Hood => {
   switch (action.type) {
   case SELECT_HOOD:
     return action.payload;
@@ -36,8 +43,8 @@ export const hoodSelected = (state: Polygon = null, action: Object) => {
   }
 };
 
-const defaultHop = [];
-export const hoodsOnPoint = (state: HoodIds = defaultHop, action: Object) => {
+const defaultHop: HoodIds = [];
+export const hoodsOnPoint = (state: HoodIds = defaultHop, action: HopAction): HoodIds => {
   switch (action.type) {
   case SET_HOODS_ON_POINT:
     return action.payload;
@@ -48,19 +55,22 @@ export const hoodsOnPoint = (state: HoodIds = defaultHop, action: Object) => {
   }
 };
 
-const findHoodIndex = (state, hoodId) => state.findIndex((hood) => getHoodId(hood) === hoodId);
+const findHoodIndex = (state: Hoods, hoodId: string) =>
+  state.findIndex((hood) => getHoodId(hood) === hoodId);
 
-export const hoods = (state: Polygons = [], action: Object) => {
+export const hoods = (state: Hoods = [], action: HoodsAction | SetHoodNameAction) => {
   switch (action.type) {
   case SET_HOODS:
     return action.payload;
 
-  case ADD_HOODS:
-    if (!action.payload || action.payload.length === 0) return state;
-    return [...state, ...action.payload];
+  case ADD_HOODS: {
+    const hoods = <Hoods>action.payload;
+    if (!hoods || hoods.length === 0) return state;
+    return [...state, ...hoods];
+  }
 
   case SET_HOOD_NAME: {
-    const { hoodId, name } = action.payload;
+    const { hoodId, name } = <SetHoodNamePayload>action.payload;
     const hoodIndex = findHoodIndex(state, hoodId);
     if (hoodIndex === -1) return state;
 

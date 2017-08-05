@@ -2,5 +2,11 @@ import { creator } from '../shared';
 
 import * as types from './action-types';
 
-export const hideMenu = creator(types.HIDE_MENU);
-export const showMenu = creator(types.SHOW_MENU);
+export   type MenuPayload = string;
+export interface MenuAction {
+  type: string;
+  payload: MenuPayload;
+}
+
+export const hideMenu = creator<MenuPayload>(types.HIDE_MENU);
+export const showMenu = creator<MenuPayload>(types.SHOW_MENU);

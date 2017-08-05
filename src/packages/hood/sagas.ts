@@ -1,7 +1,7 @@
 import { takeEvery } from 'redux-saga';
 import { put, call, all, select } from 'redux-saga/effects';
 
-import { Polygon } from '../../types';
+import { Hood } from '../../types';
 
 import { actionCreators } from '../menu';
 
@@ -10,6 +10,9 @@ import {
   SELECT_HOOD,
   TOGGLE_HOOD_SELECTED,
 } from './action-types';
+import {
+  HoodSelectedAction,
+} from './action-creators';
 import styleFn from './style';
 import { getHoods } from './selectors';
 
@@ -21,7 +24,7 @@ export function* deselectHoodSaga() {
 
 function* deselectHood() {
   const hoods = yield select(getHoods);
-  hoods.forEach((hood: Polygon) => {
+  hoods.forEach((hood: Hood) => {
     hood.setStyle(styleFn({ selected: false }));
   });
 }
@@ -30,7 +33,7 @@ export function* selectHoodSaga() {
   yield takeEvery(SELECT_HOOD, selectHood);
 }
 
-function* selectHood(action) {
+function* selectHood(action: HoodSelectedAction) {
   const hood = action.payload;
   yield call(deselectHood);
   hood.setStyle(styleFn({ selected: true }));
@@ -42,9 +45,9 @@ export function* toggleHoodSelectedSaga() {
   yield takeEvery(TOGGLE_HOOD_SELECTED, toggleHoodSelected);
 }
 
-function* toggleHoodSelected(hood: Polygon) {
+function* toggleHoodSelected(hood: Hood) {
   yield all([
     call(deselectHood, hood),
-    call(selectHood, hood),
+    call(selectHood, { payload: hood }),
   ]);
 }

@@ -1,8 +1,8 @@
 export interface State {
-  selected: Polygon;
-  hoods: Polygons;
+  selected: Hood;
+  hoods: Hoods;
   menus: Menus;
-  hoodsOnPoint: Polygons;
+  hoodsOnPoint: HoodIds;
 }
 
 export interface Menus {
@@ -42,6 +42,8 @@ export interface Polygon {
 }
 
 export type Polygons = Polygon[];
+export type Hood = Polygon;
+export type Hoods = Hood[];
 
 export interface HoodUser {
   id: string;
