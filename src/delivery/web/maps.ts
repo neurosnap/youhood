@@ -1,12 +1,13 @@
-/* @flow */
 import L from 'leaflet';
 import 'leaflet-draw';
 import leafletPip from '@mapbox/leaflet-pip';
+import { Store } from 'redux';
 
-import type { Polygon } from '../../types';
-import { utils, actionCreators } from '../../packages/hood';
+import { Polygon, State } from '../../types';
+import { utils, actionCreators, selectors } from '../../packages/hood';
 import { actionCreators as menuActionCreators } from '../../packages/menu';
 
+const { getHoods } = selectors;
 const { createHood } = utils;
 const {
   selectHood,
@@ -26,10 +27,10 @@ function gotHoods(event, drawnItems) {
   drawnItems.addData(data.features);
 }
 
-type Props = {
-  store: Object,
-  socket: Object,
-};
+interface Props {
+  store: Store<State>;
+  socket: WebSocket;
+}
 
 export function setupMap({ store, socket }: Props) {
   const tileMapUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
@@ -41,7 +42,7 @@ export function setupMap({ store, socket }: Props) {
   L.tileLayer(tileMapUrl, { attribution })
    .addTo(map);
 
-  const drawnItems = L.geoJson(store.getState().polygons).addTo(map);
+  const drawnItems = L.geoJson(getHoods(store.getState())).addTo(map);
 
   L.control.layers(null, {
     Neighborhoods: drawnItems,

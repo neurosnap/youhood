@@ -1,5 +1,4 @@
-/* @flow */
-import type { State, Menus } from '../../types';
+import { State, Menus } from '../../types';
 
 export const menus = 'menus';
 

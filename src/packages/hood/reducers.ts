@@ -1,5 +1,4 @@
-/* @flow */
-import type { Polygon, Polygons, HoodIds } from '../../types';
+import { Polygon, Polygons, HoodIds } from '../../types';
 
 import { getHoodId, setHoodName } from './utils';
 import {
@@ -14,7 +13,7 @@ import {
 } from './action-types';
 import * as selectors from './selectors';
 
-export const hoodSelected = (state: ?Polygon = null, action: Object) => {
+export const hoodSelected = (state: Polygon = null, action: Object) => {
   switch (action.type) {
   case SELECT_HOOD:
     return action.payload;

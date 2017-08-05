@@ -4,7 +4,7 @@ import WebSocket from 'ws';
 import fs from 'fs';
 
 const app = express();
-const server = http.Server(app);
+const server = new http.Server(app);
 const wss = new WebSocket.Server({ server });
 const userFile = './data/user.json';
 
@@ -20,16 +20,16 @@ server.listen(8080, () => {
   console.log('Listening on %d', server.address().port);
 });
 
-wss.on('connection', (socket) => {
+wss.on('connection', (socket: WebSocket) => {
   console.log('user connected');
 
-  socket.on('message', (event) => {
+  socket.on('message', (event: string) => {
     const jso = JSON.parse(event);
     console.log('message', jso);
 
     switch (jso.type) {
     case 'get-hoods':
-      getHoods(socket, jso);
+      getHoods(socket);
       break;
     case 'save-hoods':
       saveHoods(socket, jso);
@@ -40,11 +40,17 @@ wss.on('connection', (socket) => {
   });
 });
 
-function getHoods(socket) {
+function getHoods(socket: WebSocket) {
   socket.send(JSON.stringify({ type: 'got-hoods', data: geojson }));
 }
 
-function saveHoods(socket, event) {
+interface WebSocketEvent {
+  data: WebSocket.Data; 
+  type: string; 
+  target: WebSocket,
+}
+
+function saveHoods(socket: WebSocket, event: WebSocketEvent) {
   console.log(event);
   const data = event.data;
 

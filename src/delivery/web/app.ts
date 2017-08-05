@@ -1,4 +1,3 @@
-/* @flow */
 import h from 'react-hyperscript';
 
 import { OverlayConn } from './overlay';

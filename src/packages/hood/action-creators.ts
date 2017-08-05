@@ -1,4 +1,3 @@
-/* @flow */
 import { creator } from '../shared';
 
 import * as types from './action-types';

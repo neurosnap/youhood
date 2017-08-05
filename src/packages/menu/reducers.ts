@@ -1,5 +1,4 @@
-/* @flow */
-import type { Menus } from '../../types';
+import { Menus } from '../../types';
 
 import {
   SHOW_MENU,

@@ -1,9 +1,8 @@
-/* @flow */
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import h from 'react-hyperscript';
 
-import type { Polygon, Polygons } from '../../types';
+import { Polygon, Polygons, State } from '../../types';
 import { utils, actionCreators, selectors } from '../../packages/hood';
 
 const { getHoodsOnPoint } = selectors;
@@ -28,11 +27,11 @@ export class HoodSelection extends Component {
 
   handleClick = (polygon: Polygon) => {
     this.props.handleToggleHoodSelected(polygon);
-  };
+  }
 
   handleHover = (polygon: Polygon, hover: boolean) => {
     hoverHood(polygon, hover);
-  };
+  }
 
   render() {
     const { show, polygons } = this.props;
@@ -41,21 +40,24 @@ export class HoodSelection extends Component {
     return h('div.overlay.hood-selection', polygons.map((polygon) => {
       const { id, name } = getHoodProperties(polygon);
       const user = getHoodUser(polygon);
-      return h('div.hood-list-item', {
-        key: id,
-        onClick: () => this.handleClick(polygon),
-        onMouseEnter: () => this.handleHover(polygon, true),
-        onMouseLeave: () => this.handleHover(polygon, false),
-      }, `[${name}] - ${user.name}`);
+      return h(
+        'div.hood-list-item', {
+          key: id,
+          onClick: () => this.handleClick(polygon),
+          onMouseEnter: () => this.handleHover(polygon, true),
+          onMouseLeave: () => this.handleHover(polygon, false),
+        }, 
+        `[${name}] - ${user.name}`,
+      );
     }));
   }
 }
 
 export default connect(
-  (state) => ({
+  (state: State) => ({
     polygons: getHoodsOnPoint(state),
   }),
-  (dispatch) => ({
-    handleToggleHoodSelected: (hood) => dispatch(toggleHoodSelected(hood)),
+  (dispatch: Function) => ({
+    handleToggleHoodSelected: (hood: Polygon) => dispatch(toggleHoodSelected(hood)),
   }),
 )(HoodSelection);

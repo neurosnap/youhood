@@ -1,9 +1,8 @@
-/* @flow */
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import h from 'react-hyperscript';
 
-import type { Polygon, InputEvent } from '../../types';
+import { Polygon, InputEvent, State } from '../../types';
 import {
   utils,
   actionCreators,
@@ -57,18 +56,18 @@ export class Hood extends Component {
     const { hood, updateHoodName } = this.props;
     const { name } = this.state;
     updateHoodName({ hoodId: getHoodId(hood), name });
-  };
+  }
 
   handleClose = () => {
     const { handleDeselectHood, hideHoodOverlay, hood } = this.props;
     handleDeselectHood(hood);
     hideHoodOverlay();
-  };
+  }
 
   handleInput = (event: InputEvent) => {
     const name = event.target.value;
     this.setState({ name });
-  };
+  }
 
   render() {
     const { hood, show } = this.props;
@@ -98,12 +97,12 @@ export class Hood extends Component {
 }
 
 export default connect(
-  (state) => ({
+  (state: State) => ({
     hood: getHoodSelected(state),
   }),
-  (dispatch) => ({
-    updateHoodName: (payload) => dispatch(setHoodName(payload)),
-    handleDeselectHood: (hood) => dispatch(deselectHood(hood)),
+  (dispatch: Function) => ({
+    updateHoodName: (payload: string) => dispatch(setHoodName(payload)),
+    handleDeselectHood: (hood: Polygon) => dispatch(deselectHood(hood)),
     hideHoodOverlay: () => dispatch(hideMenu('overlay')),
   }),
 )(Hood);

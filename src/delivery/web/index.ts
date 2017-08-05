@@ -1,4 +1,3 @@
-/* @flow */
 import h from 'react-hyperscript';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
@@ -8,8 +7,12 @@ import createState from '../../store';
 import App from './app';
 import { setupMap, setupMapEvents } from './maps';
 
+interface WindowInterface extends Window {
+  reduxStore: any;
+}
+
 const store = createState();
-window.reduxStore = store;
+(window as WindowInterface).reduxStore = store;
 
 render(
   h(Provider, { store }, [

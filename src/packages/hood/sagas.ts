@@ -1,4 +1,3 @@
-/* @flow */
 import { takeEvery } from 'redux-saga';
 import { put, call, all, select } from 'redux-saga/effects';
 
@@ -14,7 +13,7 @@ import { actionCreators } from '../menu';
 
 const { showMenu } = actionCreators;
 
-export function* deselectHoodSaga(): Generator<*, *, *> {
+export function* deselectHoodSaga() {
   yield takeEvery(DESELECT_HOOD, deselectHood);
 }
 
@@ -25,7 +24,7 @@ function* deselectHood() {
   });
 }
 
-export function* selectHoodSaga(): Generator<*, *, *> {
+export function* selectHoodSaga() {
   yield takeEvery(SELECT_HOOD, selectHood);
 }
 
@@ -37,7 +36,7 @@ function* selectHood(action) {
   yield put(showMenu('overlay'));
 }
 
-export function* toggleHoodSelectedSaga(): Generator<*, *, *> {
+export function* toggleHoodSelectedSaga() {
   yield takeEvery(TOGGLE_HOOD_SELECTED, toggleHoodSelected);
 }
 

@@ -1,4 +1,3 @@
-/* @flow */
 import { typeCreator } from '../shared';
 
 export const {

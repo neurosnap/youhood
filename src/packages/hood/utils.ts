@@ -1,11 +1,10 @@
-/* @flow */
 import createUuid from 'uuid/v4';
 
-import type { Polygon, GeoJson, HoodProperties, HoodUser, HoodId } from '../../types';
+import { Polygon, GeoJson, HoodProperties, HoodUser, HoodId } from '../../types';
 import styleFn from './style';
 
 const defaultHood = { user: {} };
-export const createHood = (props: HoodProperties | Object = defaultHood): HoodProperties => ({
+export const createHood = (props: HoodProperties = defaultHood): HoodProperties => ({
   id: props.id || createUuid(),
   name: props.name || '',
   city: props.city || '',
@@ -26,7 +25,7 @@ export function getHoodProperties(polygon: Polygon): HoodProperties {
   return getHoodFeature(polygon).properties;
 }
 
-export function getHoodId(polygon: ?Polygon): HoodId {
+export function getHoodId(polygon: Polygon): HoodId {
   if (!polygon) return '';
   return getHoodProperties(polygon).id;
 }
@@ -46,7 +45,7 @@ export function setHoodName(polygon: Polygon, value: string) {
   getHoodProperties(polygon).name = value;
 }
 
-export function hoverHood(polygon: ?Polygon, hover: boolean) {
+export function hoverHood(polygon: Polygon, hover: boolean) {
   if (!polygon) return;
   polygon.setStyle(styleFn({ hover }));
 }

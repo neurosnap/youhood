@@ -1,4 +1,3 @@
-/* @flow */
 import { combineReducers } from 'redux';
 
 import { reducers as hoodReducers } from './packages/hood';

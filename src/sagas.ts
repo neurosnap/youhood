@@ -5,7 +5,7 @@ import { sagas } from './packages/hood';
 
 const prepSagas = (sag) => Object.values(sag).map((saga) => spawn(saga));
 
-export default function* rootSaga(): Generator<*, *, *> {
+export default function* rootSaga() {
   yield all([
     ...prepSagas(sagas),
   ]);
