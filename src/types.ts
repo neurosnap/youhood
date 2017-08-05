@@ -1,3 +1,5 @@
+import WebSocket from 'ws';
+
 export interface State {
   selected: Hood;
   hoods: Hoods;
@@ -68,4 +70,13 @@ export interface GeoJson {
   type: string;
 }
 
-export type InputEvent = Event & {target: HTMLInputElement};
+export interface WebSocketEvent {
+  data: WebSocket.Data;
+  type: string;
+  target: WebSocket;
+}
+
+export interface WebSocketMessage {
+  type: string;
+  data: L.GeoJSON;
+}

@@ -3,17 +3,14 @@ import http from 'http';
 import WebSocket from 'ws';
 import fs from 'fs';
 
-import { GeoJson } from '../types';
+import { GeoJson, GeoJsonFeatures, WebSocketEvent } from '../types';
 
 const app = express();
 const server = new http.Server(app);
 const wss = new WebSocket.Server({ server });
 const userFile = './data/user.json';
 
-interface Features {
-  features: GeoJson[];
-}
-let geojson: Features = { features: [] };
+let geojson: GeoJsonFeatures = { features: [] };
 try {
   const file = fs.readFileSync(userFile);
   geojson = JSON.parse(file.toString());
@@ -47,12 +44,6 @@ wss.on('connection', (socket: WebSocket) => {
 
 function getHoods(socket: WebSocket) {
   socket.send(JSON.stringify({ type: 'got-hoods', data: geojson }));
-}
-
-interface WebSocketEvent {
-  data: WebSocket.Data;
-  type: string;
-  target: WebSocket;
 }
 
 function saveHoods(socket: WebSocket, event: WebSocketEvent) {

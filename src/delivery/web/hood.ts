@@ -8,6 +8,7 @@ import {
   actionCreators,
   selectors,
 } from '../../packages/hood';
+import { SetHoodNamePayload } from '../../packages/hood/action-creators';
 import { actionCreators as menuActionCreators } from '../../packages/menu';
 
 const { getHoodSelected } = selectors;
@@ -22,18 +23,23 @@ const {
 } = actionCreators;
 const { hideMenu } = menuActionCreators;
 
-type HoodProps = {
-  hood: Polygon,
-  show: boolean,
-  updateHoodName: Function,
-  handleDeselectHood: Function,
-  hideHoodOverlay: Function,
-};
+interface HoodProps {
+  hood: Polygon;
+  show: boolean;
+  updateHoodName: Function;
+  handleDeselectHood: Function;
+  hideHoodOverlay: Function;
+}
+
+interface DefaultProps {
+  show: boolean;
+  hood: Hood;
+}
 
 export class Hood extends Component {
   props: HoodProps;
 
-  static defaultProps = {
+  static defaultProps: DefaultProps = {
     show: false,
     hood: null,
   };
@@ -101,7 +107,7 @@ export default connect(
     hood: getHoodSelected(state),
   }),
   (dispatch: Function) => ({
-    updateHoodName: (payload: string) => dispatch(setHoodName(payload)),
+    updateHoodName: (payload: SetHoodNamePayload) => dispatch(setHoodName(payload)),
     handleDeselectHood: (hood: Polygon) => dispatch(deselectHood(hood)),
     hideHoodOverlay: () => dispatch(hideMenu('overlay')),
   }),

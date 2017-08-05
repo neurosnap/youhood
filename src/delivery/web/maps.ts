@@ -3,7 +3,7 @@ import 'leaflet-draw';
 import leafletPip from '@mapbox/leaflet-pip';
 import { Store } from 'redux';
 
-import { Polygon, State } from '../../types';
+import { Polygon, State, WebSocketEvent, GeoJsonFeatures, WebSocketMessage } from '../../types';
 import { utils, actionCreators, selectors } from '../../packages/hood';
 import { actionCreators as menuActionCreators } from '../../packages/menu';
 
@@ -17,11 +17,11 @@ const {
 } = actionCreators;
 const { showMenu } = menuActionCreators;
 
-function getMap(doc = document) {
+function getMap(doc = document): Element {
   return doc.querySelector('.map');
 }
 
-function gotHoods(event, drawnItems) {
+function gotHoods(event: WebSocketMessage, drawnItems: L.GeoJSON) {
   const data = event.data;
   if (data.features.length === 0) return;
   drawnItems.addData(data.features);
@@ -42,7 +42,7 @@ export function setupMap({ store, socket }: Props) {
   L.tileLayer(tileMapUrl, { attribution })
    .addTo(map);
 
-  const drawnItems = L.geoJson(getHoods(store.getState())).addTo(map);
+  const drawnItems = L.geoJSON(getHoods(store.getState())).addTo(map);
 
   L.control.layers(null, {
     Neighborhoods: drawnItems,
@@ -96,12 +96,12 @@ export function setupMap({ store, socket }: Props) {
   };
 }
 
-type MapEventsProps = {
-  store: Object,
-  socket: Object,
-  drawnItems: Object,
-  map: Object,
-};
+interface MapEventsProps {
+  store: Store<State>;
+  socket: WebSocket;
+  drawnItems: L.GeoJSON;
+  map: L.Map;
+}
 
 export function setupMapEvents({ map, drawnItems, socket, store }: MapEventsProps) {
   map.on(L.Draw.Event.CREATED, (event) => {
@@ -133,9 +133,8 @@ export function setupMapEvents({ map, drawnItems, socket, store }: MapEventsProp
     store.dispatch(showMenu('overlay'));
   });
 
-  socket.addEventListener('message', (event: Event) => {
-    // $FlowFixMe
-    const jso = JSON.parse(event.data);
+  socket.addEventListener('message', (event) => {
+    const jso: WebSocketMessage = JSON.parse(event.data);
     console.log(jso);
 
     switch (jso.type) {
