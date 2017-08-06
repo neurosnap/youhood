@@ -67,4 +67,4 @@ export default connect(
   (dispatch: Function) => ({
     handleToggleHoodSelected: (hood: Hood) => dispatch(toggleHoodSelected(hood)),
   }),
-)(HoodSelection);
+)(HoodSelection as any);

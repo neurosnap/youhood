@@ -14,34 +14,7 @@ export interface Menus {
 export type HoodId = string;
 export type HoodIds = HoodId[];
 
-export interface PolygonOptions {
-  attribution: string;
-  color: string;
-  dashArray: string;
-  dashOffset: string;
-  fill: boolean;
-  fillColor: string;
-  fillOpacity: number;
-  fillRule: string;
-  interactive: boolean;
-  lineCap: string;
-  lineJoin: string;
-  noClip: boolean;
-  nonBubblingEvents: Object[];
-  opacity: number;
-  pane: string;
-  smoothFactor: number;
-  stroke: boolean;
-  weight: number;
-}
-
-export interface Polygon {
-  feature: GeoJson;
-  options: PolygonOptions;
-  _leaflet_id: number;
-  setStyle: Function;
-  bringToFront: Function;
-}
+export type Polygon = L.Polygon;
 
 export type Polygons = Polygon[];
 export type Hood = Polygon;
@@ -76,7 +49,9 @@ export interface WebSocketEvent {
   target: WebSocket;
 }
 
+export type GeoJsonFeatures = GeoJSON.FeatureCollection<GeoJSON.Polygon>;
+
 export interface WebSocketMessage {
   type: string;
-  data: L.GeoJSON;
+  data: GeoJSON.FeatureCollection<GeoJSON.Polygon>;
 }

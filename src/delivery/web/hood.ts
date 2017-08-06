@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import h from 'react-hyperscript';
 
-import { Polygon, InputEvent, State } from '../../types';
+import { Polygon, State } from '../../types';
 import {
   utils,
   actionCreators,
@@ -70,8 +70,8 @@ export class Hood extends Component {
     hideHoodOverlay();
   }
 
-  handleInput = (event: InputEvent) => {
-    const name = event.target.value;
+  handleInput = (event: Event) => {
+    const name = (<HTMLInputElement>event.target).value;
     this.setState({ name });
   }
 
@@ -111,4 +111,4 @@ export default connect(
     handleDeselectHood: (hood: Polygon) => dispatch(deselectHood(hood)),
     hideHoodOverlay: () => dispatch(hideMenu('overlay')),
   }),
-)(Hood);
+)(Hood as any);

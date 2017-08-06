@@ -10,7 +10,7 @@ const server = new http.Server(app);
 const wss = new WebSocket.Server({ server });
 const userFile = './data/user.json';
 
-let geojson: GeoJsonFeatures = { features: [] };
+let geojson: GeoJsonFeatures = { type: 'FeatureCollection', features: [] };
 try {
   const file = fs.readFileSync(userFile);
   geojson = JSON.parse(file.toString());

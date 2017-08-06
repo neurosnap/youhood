@@ -23,4 +23,4 @@ export const OverlayConn = connect(
   (state: State) => ({
     show: isOverlayOpen(state),
   }),
-)(Overlay);
+)(Overlay as any);

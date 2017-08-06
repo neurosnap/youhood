@@ -2,8 +2,9 @@ import L from 'leaflet';
 import 'leaflet-draw';
 import leafletPip from '@mapbox/leaflet-pip';
 import { Store } from 'redux';
+import '../leaflet.d';
 
-import { Polygon, State, WebSocketEvent, GeoJsonFeatures, WebSocketMessage } from '../../types';
+import { Polygon, State, WebSocketEvent, WebSocketMessage } from '../../types';
 import { utils, actionCreators, selectors } from '../../packages/hood';
 import { actionCreators as menuActionCreators } from '../../packages/menu';
 
@@ -17,14 +18,14 @@ const {
 } = actionCreators;
 const { showMenu } = menuActionCreators;
 
-function getMap(doc = document): Element {
-  return doc.querySelector('.map');
+function getMap(doc = document): HTMLElement {
+  return <HTMLElement>doc.querySelector('.map');
 }
 
 function gotHoods(event: WebSocketMessage, drawnItems: L.GeoJSON) {
   const data = event.data;
   if (data.features.length === 0) return;
-  drawnItems.addData(data.features);
+  drawnItems.addData(data);
 }
 
 interface Props {
@@ -42,7 +43,8 @@ export function setupMap({ store, socket }: Props) {
   L.tileLayer(tileMapUrl, { attribution })
    .addTo(map);
 
-  const drawnItems = L.geoJSON(getHoods(store.getState())).addTo(map);
+  // getHoods(store.getState())
+  const drawnItems = L.geoJSON().addTo(map);
 
   L.control.layers(null, {
     Neighborhoods: drawnItems,
@@ -68,9 +70,9 @@ export function setupMap({ store, socket }: Props) {
 
   map.addControl(drawControl);
 
-  L.Control.Save = L.Control.extend({
+  const Save = L.Control.extend({
     onAdd() {
-      const save = L.DomUtil.create('a');
+      const save = <HTMLLinkElement>L.DomUtil.create('a');
       save.href = '#';
       save.className = 'leaflet-bar leaflet-save';
       save.innerHTML = 'Save';
@@ -87,7 +89,7 @@ export function setupMap({ store, socket }: Props) {
     onRemove() {},
   });
 
-  L.control.save = (opts) => new L.Control.Save(opts);
+  L.control.save = (opts: any) => new Save(opts);
   L.control.save({ position: 'topleft' }).addTo(map);
 
   return {
@@ -103,20 +105,25 @@ interface MapEventsProps {
   map: L.Map;
 }
 
+interface MapEvent extends L.Event {
+  layer: L.Polygon;
+  latlng: L.LatLng;
+}
+
 export function setupMapEvents({ map, drawnItems, socket, store }: MapEventsProps) {
-  map.on(L.Draw.Event.CREATED, (event) => {
+  map.on(L.Draw.Event.CREATED, (event: MapEvent) => {
     const hood = event.layer.toGeoJSON();
     hood.properties = createHood();
     drawnItems.addData(hood);
   });
 
-  drawnItems.on('layeradd', (e) => {
-    const polygon: Polygon = e.layer;
+  drawnItems.on('layeradd', (e: MapEvent) => {
+    const polygon = e.layer;
     store.dispatch(addHoods([polygon]));
     store.dispatch(selectHood(polygon));
   });
 
-  map.on('click', (event) => {
+  map.on('click', (event: MapEvent) => {
     const polygons = leafletPip.pointInLayer(event.latlng, drawnItems);
 
     if (polygons.length === 0) {
