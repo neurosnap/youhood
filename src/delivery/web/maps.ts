@@ -4,7 +4,7 @@ import leafletPip from '@mapbox/leaflet-pip';
 import { Store } from 'redux';
 import '../leaflet.d';
 
-import { Polygon, State, WebSocketEvent, WebSocketMessage } from '../../types';
+import { HoodGeoJSON, HoodMap, Hood, State, WebSocketEvent, WebSocketMessage } from '../../types';
 import { utils, actionCreators, selectors } from '../../packages/hood';
 import { actionCreators as menuActionCreators } from '../../packages/menu';
 
@@ -13,7 +13,6 @@ const { createHood } = utils;
 const {
   selectHood,
   toggleHoodSelected,
-  addHoods,
   setHoodsOnPoint,
 } = actionCreators;
 const { showMenu } = menuActionCreators;
@@ -22,18 +21,17 @@ function getMap(doc = document): HTMLElement {
   return <HTMLElement>doc.querySelector('.map');
 }
 
-function gotHoods(event: WebSocketMessage, drawnItems: L.GeoJSON) {
+function gotHoods(event: WebSocketMessage, hoodGeoJSON: HoodGeoJSON) {
   const data = event.data;
   if (data.features.length === 0) return;
-  drawnItems.addData(data);
+  hoodGeoJSON.addData(data);
 }
 
 interface Props {
-  store: Store<State>;
   socket: WebSocket;
 }
 
-export function setupMap({ store, socket }: Props) {
+export function setupMap({ socket }: Props): HoodMap {
   const tileMapUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
   const attribution = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
   const map = L
@@ -43,11 +41,10 @@ export function setupMap({ store, socket }: Props) {
   L.tileLayer(tileMapUrl, { attribution })
    .addTo(map);
 
-  // getHoods(store.getState())
-  const drawnItems = L.geoJSON().addTo(map);
+  const hoodGeoJSON: HoodGeoJSON = L.geoJSON().addTo(map);
 
   L.control.layers(null, {
-    Neighborhoods: drawnItems,
+    Neighborhoods: hoodGeoJSON,
   }, {
     position: 'topleft',
     collapsed: false,
@@ -55,7 +52,7 @@ export function setupMap({ store, socket }: Props) {
 
   const drawControl = new L.Control.Draw({
     edit: {
-      featureGroup: drawnItems,
+      featureGroup: hoodGeoJSON,
     },
     draw: {
       marker: false,
@@ -79,7 +76,7 @@ export function setupMap({ store, socket }: Props) {
 
       save.addEventListener('click', (e) => {
         e.preventDefault();
-        const data = { type: 'save-hoods', data: drawnItems.toGeoJSON() };
+        const data = { type: 'save-hoods', data: hoodGeoJSON.toGeoJSON() };
         console.log('SAVING', data);
         socket.send(JSON.stringify(data));
       });
@@ -94,14 +91,14 @@ export function setupMap({ store, socket }: Props) {
 
   return {
     map,
-    drawnItems,
+    hoodGeoJSON,
   };
 }
 
 interface MapEventsProps {
   store: Store<State>;
   socket: WebSocket;
-  drawnItems: L.GeoJSON;
+  hoodGeoJSON: HoodGeoJSON;
   map: L.Map;
 }
 
@@ -110,21 +107,20 @@ interface MapEvent extends L.Event {
   latlng: L.LatLng;
 }
 
-export function setupMapEvents({ map, drawnItems, socket, store }: MapEventsProps) {
+export function setupMapEvents({ map, hoodGeoJSON, socket, store }: MapEventsProps) {
   map.on(L.Draw.Event.CREATED, (event: MapEvent) => {
     const hood = event.layer.toGeoJSON();
     hood.properties = createHood();
-    drawnItems.addData(hood);
+    hoodGeoJSON.addData(hood);
   });
 
-  drawnItems.on('layeradd', (e: MapEvent) => {
-    const polygon = e.layer;
-    store.dispatch(addHoods([polygon]));
+  hoodGeoJSON.on('layeradd', (e: MapEvent) => {
+    const polygon = e.layer.toGeoJSON();
     store.dispatch(selectHood(polygon));
   });
 
   map.on('click', (event: MapEvent) => {
-    const polygons = leafletPip.pointInLayer(event.latlng, drawnItems);
+    const polygons = leafletPip.pointInLayer(event.latlng, hoodGeoJSON);
 
     if (polygons.length === 0) {
       return;
@@ -146,7 +142,7 @@ export function setupMapEvents({ map, drawnItems, socket, store }: MapEventsProp
 
     switch (jso.type) {
     case 'got-hoods':
-      gotHoods(jso, drawnItems);
+      gotHoods(jso, hoodGeoJSON);
       break;
     default:
       break;

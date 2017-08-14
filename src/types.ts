@@ -11,13 +11,10 @@ export interface Menus {
   overlay: boolean;
 }
 
-export type HoodId = string;
+export type HoodId = number;
 export type HoodIds = HoodId[];
 
-export type Polygon = L.Polygon;
-
-export type Polygons = Polygon[];
-export type Hood = Polygon;
+export type Hood = GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>;
 export type Hoods = Hood[];
 
 export interface HoodUser {
@@ -54,4 +51,11 @@ export type GeoJsonFeatures = GeoJSON.FeatureCollection<GeoJSON.Polygon>;
 export interface WebSocketMessage {
   type: string;
   data: GeoJSON.FeatureCollection<GeoJSON.Polygon>;
+}
+
+export type HoodGeoJSON = L.GeoJSON;
+
+export interface HoodMap {
+  map: L.Map;
+  hoodGeoJSON: HoodGeoJSON;
 }

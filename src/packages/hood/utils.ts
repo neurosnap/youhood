@@ -16,12 +16,8 @@ export const createHood = (props: { [key: string]: any } = defaultHood): HoodPro
   },
 });
 
-export function getHoodFeature(polygon: Hood): GeoJson {
-  return polygon.feature;
-}
-
 export function getHoodProperties(polygon: Hood): HoodProperties {
-  return getHoodFeature(polygon).properties;
+  return polygon.properties;
 }
 
 export function getHoodId(polygon: Hood): HoodId {

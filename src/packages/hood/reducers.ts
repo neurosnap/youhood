@@ -7,15 +7,9 @@ import {
   TOGGLE_HOOD_SELECTED,
   SET_HOODS_ON_POINT,
   CLEAR_HOODS_ON_POINT,
-  SET_HOODS,
-  ADD_HOODS,
-  SET_HOOD_NAME,
 } from './action-types';
 import {
   HoodSelectedAction,
-  HoodsAction,
-  SetHoodNameAction,
-  SetHoodNamePayload,
   HopAction,
 } from './action-creators';
 import * as selectors from './selectors';
@@ -29,13 +23,13 @@ export const hoodSelected = (state: Hood = null, action: HoodSelectedAction): Ho
     return null;
 
   case TOGGLE_HOOD_SELECTED: {
-    const hood = action.payload;
+    const hoodId = action.payload;
 
-    if (getHoodId(hood) === getHoodId(state)) {
+    if (hoodId === state) {
       return null;
     }
 
-    return hood;
+    return hoodId;
   }
 
   default:
@@ -58,35 +52,7 @@ export const hoodsOnPoint = (state: HoodIds = defaultHop, action: HopAction): Ho
 const findHoodIndex = (state: Hoods, hoodId: string) =>
   state.findIndex((hood) => getHoodId(hood) === hoodId);
 
-export const hoods = (state: Hoods = [], action: HoodsAction | SetHoodNameAction) => {
-  switch (action.type) {
-  case SET_HOODS:
-    return action.payload;
-
-  case ADD_HOODS: {
-    const hoods = <Hoods>action.payload;
-    if (!hoods || hoods.length === 0) return state;
-    return [...state, ...hoods];
-  }
-
-  case SET_HOOD_NAME: {
-    const { hoodId, name } = <SetHoodNamePayload>action.payload;
-    const hoodIndex = findHoodIndex(state, hoodId);
-    if (hoodIndex === -1) return state;
-
-    const nextState = [...state];
-    nextState[hoodIndex] = { ...nextState[hoodIndex] };
-    setHoodName(nextState[hoodIndex], name);
-    return nextState;
-  }
-
-  default:
-    return state;
-  }
-};
-
 export default {
   [selectors.hoodSelected]: hoodSelected,
   [selectors.hoodsOnPoint]: hoodsOnPoint,
-  [selectors.hoods]: hoods,
 };

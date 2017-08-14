@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import h from 'react-hyperscript';
 
-import { Polygon, State } from '../../types';
+import { Hood, State } from '../../types';
 import {
   utils,
   actionCreators,
@@ -24,7 +24,7 @@ const {
 const { hideMenu } = menuActionCreators;
 
 interface HoodProps {
-  hood: Polygon;
+  hood: Hood;
   show: boolean;
   updateHoodName: Function;
   handleDeselectHood: Function;
@@ -36,7 +36,7 @@ interface DefaultProps {
   hood: Hood;
 }
 
-export class Hood extends Component {
+export class HoodView extends Component {
   props: HoodProps;
 
   static defaultProps: DefaultProps = {
@@ -108,7 +108,7 @@ export default connect(
   }),
   (dispatch: Function) => ({
     updateHoodName: (payload: SetHoodNamePayload) => dispatch(setHoodName(payload)),
-    handleDeselectHood: (hood: Polygon) => dispatch(deselectHood(hood)),
+    handleDeselectHood: (hood: Hood) => dispatch(deselectHood(hood)),
     hideHoodOverlay: () => dispatch(hideMenu('overlay')),
   }),
-)(Hood as any);
+)(HoodView as any);

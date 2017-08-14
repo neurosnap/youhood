@@ -4,9 +4,14 @@ import { createStore, applyMiddleware, Middleware, Store } from 'redux';
 
 import rootReducer from './reducers';
 import rootSaga from './sagas';
-import { State } from './types';
+import { State, HoodMap } from './types';
 
-export default function createState(initState?: State): Store<State> {
+interface Props {
+  initState?: State;
+  hoodMap: HoodMap;
+}
+
+export default function createState({ initState, hoodMap }: Props): Store<State> {
   const sagaMiddleware = createSagaMiddleware();
   const middleware: Middleware[] = [sagaMiddleware];
 
@@ -21,6 +26,6 @@ export default function createState(initState?: State): Store<State> {
     initState,
     applyMiddleware(...middleware),
   );
-  sagaMiddleware.run(rootSaga);
+  sagaMiddleware.run(rootSaga, hoodMap);
   return store;
 }

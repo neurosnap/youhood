@@ -13,21 +13,23 @@ interface WindowInterface extends Window {
   reduxStore: any;
 }
 
-const store = createState();
-(window as WindowInterface).reduxStore = store;
-
-render(
-  h(Provider, { store }, [
-    h(App),
-  ]),
-  document.querySelector('#app'),
-);
-
 const socket = new WebSocket('ws://localhost:8080');
 socket.addEventListener('open', () => {
   console.log('SOCKET CONNECTED');
   socket.send(JSON.stringify({ type: 'get-hoods' }));
 });
 
-const { map, drawnItems } = setupMap({ store, socket });
-setupMapEvents({ store, socket, map, drawnItems });
+const hoodMap = setupMap({ socket });
+const { map, hoodGeoJSON } = hoodMap;
+
+const store = createState({ hoodMap });
+(window as WindowInterface).reduxStore = store;
+
+setupMapEvents({ store, socket, map, hoodGeoJSON });
+
+render(
+  h(Provider, { store }, [
+    h(App, { hoodMap }),
+  ]),
+  document.querySelector('#app'),
+);
