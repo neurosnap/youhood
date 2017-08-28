@@ -2,18 +2,18 @@ import L from 'leaflet';
 import 'leaflet-draw';
 import leafletPip from '@mapbox/leaflet-pip';
 import { Store } from 'redux';
-import '../leaflet.d';
 
 import { HoodGeoJSON, HoodMap, Hood, State, WebSocketEvent, WebSocketMessage } from '../../types';
 import { utils, actionCreators, selectors } from '../../packages/hood';
 import { actionCreators as menuActionCreators } from '../../packages/menu';
 
 const { getHoods } = selectors;
-const { createHood } = utils;
+const { createHood, getHoodId } = utils;
 const {
   selectHood,
   toggleHoodSelected,
   setHoodsOnPoint,
+  addHoods,
 } = actionCreators;
 const { showMenu } = menuActionCreators;
 
@@ -116,7 +116,9 @@ export function setupMapEvents({ map, hoodGeoJSON, socket, store }: MapEventsPro
 
   hoodGeoJSON.on('layeradd', (e: MapEvent) => {
     const polygon = e.layer.toGeoJSON();
-    store.dispatch(selectHood(polygon));
+    console.log(polygon);
+    store.dispatch(selectHood(getHoodId(polygon)));
+    store.dispatch(addHoods([polygon]));
   });
 
   map.on('click', (event: MapEvent) => {
@@ -129,7 +131,7 @@ export function setupMapEvents({ map, hoodGeoJSON, socket, store }: MapEventsPro
     store.dispatch(setHoodsOnPoint(polygons));
 
     if (polygons.length === 1) {
-      store.dispatch(toggleHoodSelected(polygons[0]));
+      store.dispatch(toggleHoodSelected(getHoodId(polygons[0])));
       return;
     }
 

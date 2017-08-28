@@ -29,9 +29,16 @@ export interface ToggleHoodSelectedAction {
   payload: HoodId;
 }
 
+export interface SetHoodsAction {
+  type: ActionType;
+  payload: Hoods;
+}
+
 export const clearHoodsOnPoint = creator(types.CLEAR_HOODS_ON_POINT);
-export const deselectHood = creator<Hood>(types.DESELECT_HOOD);
-export const selectHood = creator<Hood>(types.SELECT_HOOD);
+export const deselectHood = creator(types.DESELECT_HOOD);
+export const selectHood = creator<HoodId>(types.SELECT_HOOD);
 export const setHoodName = creator<SetHoodNamePayload>(types.SET_HOOD_NAME);
-export const setHoodsOnPoint = creator<Hoods>(types.SET_HOODS_ON_POINT);
-export const toggleHoodSelected = creator<Hood>(types.TOGGLE_HOOD_SELECTED);
+export const setHoodsOnPoint = creator<HoodIds>(types.SET_HOODS_ON_POINT);
+export const toggleHoodSelected = creator<HoodId>(types.TOGGLE_HOOD_SELECTED);
+export const setHoods = creator<Hoods>(types.SET_HOODS);
+export const addHoods = creator<Hoods>(types.ADD_HOODS);

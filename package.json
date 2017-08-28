@@ -9,14 +9,14 @@
   },
   "scripts": {
     "test": "npm run circular && npm run lint && flow",
-    "web": "BABEL_ENV=web NODE_ENV=production browserify src/delivery/web/index.js -o public/bundle.js -t babelify -t envify",
-    "dev": "BABEL_ENV=web NODE_ENV=development watchify src/delivery/web/index.js -o public/bundle.js -t babelify -t envify",
-    "server": "BABEL_ENV=server NODE_ENV=production babel src/delivery/server.js -o server.js --source-maps",
-    "dev-server": "BABEL_ENV=server NODE_ENV=development babel src/delivery/server.js -o server.js -w --source-maps",
+    "web": "BABEL_ENV=web NODE_ENV=production browserify dist/delivery/web/index.js -o public/bundle.js -t babelify -t envify",
+    "dev": "BABEL_ENV=web NODE_ENV=development watchify dist/delivery/web/index.js -o public/bundle.js -t babelify -t envify",
+    "server": "BABEL_ENV=server NODE_ENV=production babel dist/delivery/server.js -o server.js --source-maps",
+    "dev-server": "BABEL_ENV=server NODE_ENV=development babel dist/delivery/server.js -o server.js -w --source-maps",
     "lint": "tslint ./src",
     "start": "xdg-open public/index.html",
     "start-server": "node ./server.js",
-    "circular": "madge --circular src/delivery/web/index.js"
+    "circular": "madge --circular dist/delivery/web/index.js"
   },
   "author": "Eric Bower",
   "license": "MIT",

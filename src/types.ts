@@ -11,7 +11,7 @@ export interface Menus {
   overlay: boolean;
 }
 
-export type HoodId = number;
+export type HoodId = string;
 export type HoodIds = HoodId[];
 
 export type Hood = GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>;

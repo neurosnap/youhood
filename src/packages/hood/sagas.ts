@@ -1,7 +1,7 @@
 import { takeEvery } from 'redux-saga';
 import { put, call, all, select } from 'redux-saga/effects';
 
-import { Hood, HoodMap } from '../../types';
+import { Hood, HoodMap, HoodId } from '../../types';
 
 import { actionCreators } from '../menu';
 
@@ -13,18 +13,20 @@ import {
 import {
   HoodSelectedAction,
   ToggleHoodSelectedAction,
+  selectHood,
+  deselectHood,
 } from './action-creators';
 import styleFn from './style';
-import { getHoods } from './selectors';
+import { getHoods, getHoodIdSelected } from './selectors';
+import { getHoodId } from './utils';
 
-const { showMenu } = actionCreators;
+const { showMenu, hideMenu } = actionCreators;
 
 export function* deselectHoodSaga(hoodMap: HoodMap) {
-  yield takeEvery(DESELECT_HOOD, deselectHood, hoodMap);
+  yield takeEvery(DESELECT_HOOD, onDeselectHood, hoodMap);
 }
 
-function* deselectHood({ hoodGeoJSON }: HoodMap) {
-  const hoods = yield select(getHoods);
+function onDeselectHood({ hoodGeoJSON }: HoodMap) {
   hoodGeoJSON.eachLayer((hood: L.Polygon) => {
     console.log(hood);
     hood.setStyle(styleFn({ selected: false }));
@@ -32,13 +34,27 @@ function* deselectHood({ hoodGeoJSON }: HoodMap) {
 }
 
 export function* selectHoodSaga(hoodMap: HoodMap) {
-  yield takeEvery(SELECT_HOOD, selectHood, hoodMap);
+  yield takeEvery(SELECT_HOOD, onSelectHood, hoodMap);
 }
 
-function* selectHood(hoodMap: HoodMap, action: HoodSelectedAction) {
-  const hoodId = action.payload;
+function findHood(layers: L.GeoJSON, hoodId: HoodId): Hood {
+  let hood = null;
+
+  layers.eachLayer((layer: L.Polygon) => {
+    if (getHoodId(layer) === hoodId) {
+      hood = layer;
+    }
+  });
+
+  return hood;
+}
+
+function* onSelectHood(hoodMap: HoodMap, action: HoodSelectedAction) {
   yield call(deselectHood, hoodMap);
-  const hood: L.Polygon = hoodMap.hoodGeoJSON.getLayer(hoodId);
+  const hoodId = action.payload;
+  const hood = findHood(hoodMap.hoodGeoJSON, hoodId);
+  if (!hood) return;
+
   hood.setStyle(styleFn({ selected: true }));
   hood.bringToFront();
   yield put(showMenu('overlay'));
@@ -50,8 +66,14 @@ export function* toggleHoodSelectedSaga(hoodMap: HoodMap) {
 
 function* toggleHoodSelected(hoodMap: HoodMap, action: ToggleHoodSelectedAction) {
   const hoodId = action.payload;
-  yield all([
-    call(deselectHood, hoodMap),
-    call(selectHood, hoodMap, { payload: hoodId }),
-  ]);
+  const hoodIdSelected = yield select(getHoodIdSelected);
+
+  if (hoodId === hoodIdSelected) {
+    yield put(deselectHood());
+    yield put(hideMenu('overlay'));
+    return;
+  }
+
+  yield put(deselectHood());
+  yield put(selectHood(hoodId));
 }
