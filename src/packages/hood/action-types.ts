@@ -9,4 +9,5 @@ export const {
   TOGGLE_HOOD_SELECTED,
   SET_HOODS,
   ADD_HOODS,
+  HOVER_HOOD,
 } = typeCreator;

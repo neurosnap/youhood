@@ -45,8 +45,3 @@ export function setHoodName(polygon: Polygon, value: string) {
   /* eslint-disable no-param-reassign */
   getHoodProperties(polygon).name = value;
 }
-
-export function hoverHood(polygon: Polygon, hover: boolean) {
-  if (!polygon) return;
-  polygon.setStyle(styleFn({ hover }));
-}

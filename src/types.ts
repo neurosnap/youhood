@@ -1,8 +1,12 @@
 import WebSocket from 'ws';
 
+export type HoodId = string;
+export type HoodIds = HoodId[];
+export type HoodHash = { [key: string]: Hood };
+
 export interface State {
-  selected: Hood;
-  hoods: Hoods;
+  selected: HoodId;
+  hoods: HoodHash;
   menus: Menus;
   hoodsOnPoint: HoodIds;
 }
@@ -10,9 +14,6 @@ export interface State {
 export interface Menus {
   overlay: boolean;
 }
-
-export type HoodId = string;
-export type HoodIds = HoodId[];
 
 export type Hood = GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>;
 export type Hoods = Hood[];

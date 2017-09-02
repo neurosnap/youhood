@@ -2,26 +2,37 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import h from 'react-hyperscript';
 
-import { Hoods, Hood, State } from '../../types';
+import { Hoods, Hood, State, HoodId } from '../../types';
 import { utils, actionCreators, selectors } from '../../packages/hood';
 
 const { getHoodsOnPoint } = selectors;
 const {
-  hoverHood,
   getHoodProperties,
   getHoodUser,
+  getHoodId,
 } = utils;
-const { toggleHoodSelected } = actionCreators;
+const { toggleHoodSelected, hoverHood } = actionCreators;
 
 interface Props {
   show: boolean;
-  handleToggleHoodSelected: Function;
-  polygons: Hoods;
+  toggle: Function;
+  hoods: Hoods;
+  hover: Hover;
+}
+
+interface Hover {
+  (hoodId: HoodId, hover: boolean): void;
+}
+
+interface Toggle {
+  (hoodId: HoodId): void;
 }
 
 interface DefaultProps {
   show: boolean;
-  polygons: Hoods;
+  hoods: Hoods;
+  hover: Hover;
+  toggle: Toggle;
 }
 
 export class HoodSelection extends Component {
@@ -29,30 +40,25 @@ export class HoodSelection extends Component {
 
   static defaultProps: DefaultProps = {
     show: false,
-    polygons: [],
+    hoods: [],
+    hover: () => {},
+    toggle: () => {},
   };
 
-  handleClick = (polygon: Hood) => {
-    this.props.handleToggleHoodSelected(polygon);
-  }
-
-  handleHover = (polygon: Hood, hover: boolean) => {
-    hoverHood(polygon, hover);
-  }
-
   render() {
-    const { show, polygons } = this.props;
-    if (!show || polygons.length < 2) return null;
+    const { show, hoods, hover, toggle } = this.props;
+    if (!show || hoods.length < 2) return null;
 
-    return h('div.overlay.hood-selection', polygons.map((polygon) => {
-      const { id, name } = getHoodProperties(polygon);
-      const user = getHoodUser(polygon);
+    return h('div.overlay.hood-selection', hoods.map((hood) => {
+      const { name } = getHoodProperties(hood);
+      const hoodId = getHoodId(hood);
+      const user = getHoodUser(hood);
       return h(
         'div.hood-list-item', {
-          key: id,
-          onClick: () => this.handleClick(polygon),
-          onMouseEnter: () => this.handleHover(polygon, true),
-          onMouseLeave: () => this.handleHover(polygon, false),
+          key: hoodId,
+          onClick: () => toggle(hoodId),
+          onMouseEnter: () => hover(hoodId, true),
+          onMouseLeave: () => hover(hoodId, false),
         },
         `[${name}] - ${user.name}`,
       );
@@ -62,9 +68,10 @@ export class HoodSelection extends Component {
 
 export default connect(
   (state: State) => ({
-    polygons: getHoodsOnPoint(state),
+    hoods: getHoodsOnPoint(state),
   }),
   (dispatch: Function) => ({
-    handleToggleHoodSelected: (hood: Hood) => dispatch(toggleHoodSelected(hood)),
+    toggle: (hoodId: HoodId) => dispatch(toggleHoodSelected(hoodId)),
+    hover: (hoodId: HoodId, hover: boolean) => dispatch(hoverHood({ hoodId, hover })),
   }),
 )(HoodSelection as any);

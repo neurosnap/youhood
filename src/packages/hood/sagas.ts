@@ -9,12 +9,14 @@ import {
   DESELECT_HOOD,
   SELECT_HOOD,
   TOGGLE_HOOD_SELECTED,
+  HOVER_HOOD,
 } from './action-types';
 import {
   HoodSelectedAction,
   ToggleHoodSelectedAction,
   selectHood,
   deselectHood,
+  HoverHoodAction,
 } from './action-creators';
 import styleFn from './style';
 import { getHoods, getHoodIdSelected } from './selectors';
@@ -49,15 +51,38 @@ function findHood(layers: L.GeoJSON, hoodId: HoodId): Hood {
   return hood;
 }
 
-function* onSelectHood(hoodMap: HoodMap, action: HoodSelectedAction) {
-  yield call(deselectHood, hoodMap);
-  const hoodId = action.payload;
+interface ApplyStyle {
+  hoodMap: HoodMap;
+  hoodId: HoodId;
+  style: Object;
+}
+
+function applyStyle({ hoodMap, hoodId, style }: ApplyStyle) {
   const hood = findHood(hoodMap.hoodGeoJSON, hoodId);
   if (!hood) return;
 
-  hood.setStyle(styleFn({ selected: true }));
+  hood.setStyle(styleFn(style));
   hood.bringToFront();
+}
+
+function* onSelectHood(hoodMap: HoodMap, action: HoodSelectedAction) {
+  const hoodId = action.payload;
+  const style = { selected: true };
+  yield all([
+    call(deselectHood, hoodMap),
+    call(applyStyle, { hoodMap, hoodId, style }),
+  ]);
   yield put(showMenu('overlay'));
+}
+
+function* onHoverHood(hoodMap: HoodMap, action: HoverHoodAction) {
+  const { hoodId, hover } = action.payload;
+  const style = { hover };
+  yield call(applyStyle, { hoodMap, hoodId, style });
+}
+
+export function* hoverHoodSaga(hoodMap: HoodMap) {
+  yield takeEvery(HOVER_HOOD, onHoverHood, hoodMap);
 }
 
 export function* toggleHoodSelectedSaga(hoodMap: HoodMap) {

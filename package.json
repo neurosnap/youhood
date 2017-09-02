@@ -14,7 +14,7 @@
     "server": "BABEL_ENV=server NODE_ENV=production babel dist/delivery/server.js -o server.js --source-maps",
     "dev-server": "BABEL_ENV=server NODE_ENV=development babel dist/delivery/server.js -o server.js -w --source-maps",
     "lint": "tslint ./src",
-    "start": "xdg-open public/index.html",
+    "start": "open public/index.html",
     "start-server": "node ./server.js",
     "circular": "madge --circular dist/delivery/web/index.js"
   },
