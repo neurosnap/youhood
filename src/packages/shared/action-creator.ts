@@ -5,7 +5,11 @@ export interface Action<T, P> {
 type ActionType = string;
 
 export default <P>(type: ActionType) =>
-  (payload: P): Action<ActionType, P> => ({
-    type,
-    payload,
-  });
+  (payload: P): Action<ActionType, P> => {
+    if (!payload) return { type };
+
+    return {
+      type,
+      payload,
+    };
+  };

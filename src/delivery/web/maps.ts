@@ -123,7 +123,7 @@ export function setupMapEvents({ map, hoodGeoJSON, socket, store }: MapEventsPro
   });
 
   hoodGeoJSON.on('layeradd', (e: MapEvent) => {
-    const polygon = e.layer.toGeoJSON();
+    const polygon = <Hood>e.layer.toGeoJSON();
     store.dispatch(selectHood(getHoodId(polygon)));
     store.dispatch(addHoods([polygon]));
   });

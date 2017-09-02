@@ -44,8 +44,8 @@ export interface HoverHoodAction {
   payload: HoverHoodPayload;
 }
 
-export const clearHoodsOnPoint = creator(types.CLEAR_HOODS_ON_POINT);
-export const deselectHood = creator(types.DESELECT_HOOD);
+export const clearHoodsOnPoint = () => ({ type: types.CLEAR_HOODS_ON_POINT });
+export const deselectHood = () => ({ type: types.DESELECT_HOOD });
 export const selectHood = creator<HoodId>(types.SELECT_HOOD);
 export const setHoodName = creator<SetHoodNamePayload>(types.SET_HOOD_NAME);
 export const setHoodsOnPoint = creator<HoodIds>(types.SET_HOODS_ON_POINT);

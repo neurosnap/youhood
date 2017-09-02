@@ -1,7 +1,7 @@
 import { takeEvery } from 'redux-saga';
 import { put, call, all, select } from 'redux-saga/effects';
 
-import { Hood, HoodMap, HoodId } from '../../types';
+import { PolygonLeaflet, PolygonHood, Hood, HoodMap, HoodId } from '../../types';
 
 import { actionCreators } from '../menu';
 
@@ -29,8 +29,7 @@ export function* deselectHoodSaga(hoodMap: HoodMap) {
 }
 
 function onDeselectHood({ hoodGeoJSON }: HoodMap) {
-  hoodGeoJSON.eachLayer((hood: L.Polygon) => {
-    console.log(hood);
+  hoodGeoJSON.eachLayer((hood: PolygonLeaflet) => {
     hood.setStyle(styleFn({ selected: false }));
   });
 }
@@ -39,10 +38,10 @@ export function* selectHoodSaga(hoodMap: HoodMap) {
   yield takeEvery(SELECT_HOOD, onSelectHood, hoodMap);
 }
 
-function findHood(layers: L.GeoJSON, hoodId: HoodId): Hood {
+function findHood(layers: L.GeoJSON, hoodId: HoodId): PolygonHood {
   let hood = null;
 
-  layers.eachLayer((layer: L.Polygon) => {
+  layers.eachLayer((layer) => {
     if (getHoodId(layer) === hoodId) {
       hood = layer;
     }
@@ -58,7 +57,7 @@ interface ApplyStyle {
 }
 
 function applyStyle({ hoodMap, hoodId, style }: ApplyStyle) {
-  const hood = findHood(hoodMap.hoodGeoJSON, hoodId);
+  const hood = <PolygonLeaflet>findHood(hoodMap.hoodGeoJSON, hoodId);
   if (!hood) return;
 
   hood.setStyle(styleFn(style));

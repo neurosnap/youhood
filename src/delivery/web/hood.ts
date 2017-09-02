@@ -108,7 +108,7 @@ export default connect(
   }),
   (dispatch: Function) => ({
     updateHoodName: (payload: SetHoodNamePayload) => dispatch(setHoodName(payload)),
-    handleDeselectHood: (hood: Hood) => dispatch(deselectHood(hood)),
+    handleDeselectHood: (hood: Hood) => dispatch(deselectHood()),
     hideHoodOverlay: () => dispatch(hideMenu('overlay')),
   }),
 )(HoodView as any);

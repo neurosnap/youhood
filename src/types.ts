@@ -15,9 +15,6 @@ export interface Menus {
   overlay: boolean;
 }
 
-export type Hood = GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>;
-export type Hoods = Hood[];
-
 export interface HoodUser {
   id: string;
   name: string;
@@ -32,6 +29,20 @@ export interface HoodProperties {
   regionid?: string;
   user: HoodUser;
 }
+
+export interface Feature<T extends GeoJSON.GeometryObject> extends GeoJSON.Feature<T> {
+  properties: HoodProperties;
+}
+
+export interface Polygon<T extends GeoJSON.Polygon | GeoJSON.MultiPolygon> extends L.Polygon {
+  toGeoJSON(): Feature<T>;
+  feature?: Feature<T>;
+}
+
+export type PolygonLeaflet = Polygon<GeoJSON.Polygon>;
+export type Hood = Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>;
+export type Hoods = Hood[];
+export type PolygonHood = Hood | PolygonLeaflet | L.Layer;
 
 export interface GeoJson {
   geometry: {
