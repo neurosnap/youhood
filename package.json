@@ -8,7 +8,7 @@
     "url": "github.com:neurosnap/youhood.git"
   },
   "scripts": {
-    "test": "npm run circular && npm run lint && tsc --noEmit",
+    "test": "tsc && npm run circular && npm run lint",
     "web": "BABEL_ENV=web NODE_ENV=production browserify dist/delivery/web/index.js -o public/bundle.js -t babelify -t envify",
     "dev": "BABEL_ENV=web NODE_ENV=development watchify dist/delivery/web/index.js -o public/bundle.js -t babelify -t envify",
     "server": "BABEL_ENV=server NODE_ENV=production babel dist/delivery/server.js -o server.js --source-maps",
