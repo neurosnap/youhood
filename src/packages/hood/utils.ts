@@ -1,6 +1,5 @@
 import createUuid from 'uuid/v4';
 
-import './geojson.d';
 import {
   PolygonHood,
   PolygonLeaflet,

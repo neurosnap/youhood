@@ -67,10 +67,8 @@ function applyStyle({ hoodMap, hoodId, style }: ApplyStyle) {
 function* onSelectHood(hoodMap: HoodMap, action: HoodSelectedAction) {
   const hoodId = action.payload;
   const style = { selected: true };
-  yield all([
-    call(deselectHood, hoodMap),
-    call(applyStyle, { hoodMap, hoodId, style }),
-  ]);
+  yield call(onDeselectHood, hoodMap);
+  yield call(applyStyle, { hoodMap, hoodId, style });
   yield put(showMenu('overlay'));
 }
 
