@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import h from 'react-hyperscript';
+import * as h from 'react-hyperscript';
 
 import { Hoods, Hood, State, HoodId } from '../../types';
 import { utils, actionCreators, selectors } from '../../packages/hood';

@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import ReactDOM from 'react-dom';
-import h from 'react-hyperscript';
+import * as h from 'react-hyperscript';
 
 export const Navbar = () =>
   h('div.nav', [

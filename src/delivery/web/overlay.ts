@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import h from 'react-hyperscript';
+import * as h from 'react-hyperscript';
 
 import { selectors } from '../../packages/menu';
 import { State } from '../../types';

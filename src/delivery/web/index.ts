@@ -1,4 +1,4 @@
-import h from 'react-hyperscript';
+import * as h from 'react-hyperscript';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
 import { Store } from 'redux';

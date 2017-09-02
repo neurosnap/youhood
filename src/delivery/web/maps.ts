@@ -1,6 +1,6 @@
-import L from 'leaflet';
+import * as L from 'leaflet';
 import 'leaflet-draw';
-import leafletPip from '@mapbox/leaflet-pip';
+import * as leafletPip from '@mapbox/leaflet-pip';
 import { Store } from 'redux';
 
 import {

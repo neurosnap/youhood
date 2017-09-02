@@ -9,9 +9,8 @@
   },
   "scripts": {
     "test": "tsc && npm run circular && npm run lint",
-    "web": "BABEL_ENV=web NODE_ENV=production browserify src/delivery/web/index.ts -o public/bundle.js -p [ tsify ] -t babelify -t envify ",
-    "dev": "BABEL_ENV=web NODE_ENV=development watchify src/delivery/web/index.ts -o public/bundle.js -p [ tsify ] -t babelify -t envify ",
-    "server": "tsc && BABEL_ENV=server NODE_ENV=production babel dist/delivery/server.js -o server.js --source-maps",
+    "web": "NODE_ENV=production  browserify src/delivery/web/index.ts -o public/bundle.js -p [ tsify ] -t envify",
+    "dev": "NODE_ENV=development watchify   src/delivery/web/index.ts -o public/bundle.js -p [ tsify ] -t envify ",
     "lint": "tslint ./src",
     "start": "open public/index.html",
     "start-server": "node ./server.js",

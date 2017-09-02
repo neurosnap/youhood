@@ -1,16 +1,14 @@
-import express from 'express';
-import http from 'http';
-import WebSocket from 'ws';
-import fs from 'fs';
-
-import { GeoJson, GeoJsonFeatures, WebSocketEvent } from '../types';
+const express = require('express');
+const http = require('http');
+const WebSocket = require('ws');
+const fs = require('fs');
 
 const app = express();
 const server = new http.Server(app);
 const wss = new WebSocket.Server({ server });
 const userFile = './data/user.json';
 
-let geojson: GeoJsonFeatures = { type: 'FeatureCollection', features: [] };
+let geojson = { type: 'FeatureCollection', features: [] };
 try {
   const file = fs.readFileSync(userFile);
   geojson = JSON.parse(file.toString());
@@ -22,10 +20,10 @@ server.listen(8080, () => {
   console.log('Listening on %d', server.address().port);
 });
 
-wss.on('connection', (socket: WebSocket) => {
+wss.on('connection', (socket) => {
   console.log('user connected');
 
-  socket.on('message', (event: string) => {
+  socket.on('message', (event) => {
     const jso = JSON.parse(event);
     console.log('message', jso);
 
@@ -42,11 +40,11 @@ wss.on('connection', (socket: WebSocket) => {
   });
 });
 
-function getHoods(socket: WebSocket) {
+function getHoods(socket) {
   socket.send(JSON.stringify({ type: 'got-hoods', data: geojson }));
 }
 
-function saveHoods(socket: WebSocket, event: WebSocketEvent) {
+function saveHoods(socket, event) {
   console.log(event);
   const data = event.data;
 

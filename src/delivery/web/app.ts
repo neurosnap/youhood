@@ -1,4 +1,4 @@
-import h from 'react-hyperscript';
+import * as h from 'react-hyperscript';
 
 import { OverlayConn } from './overlay';
 import { Navbar } from './navbar';
