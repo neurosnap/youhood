@@ -1,3 +1,4 @@
+import { Reducer } from 'redux';
 import { Hood, Hoods, HoodId, HoodIds } from '../../types';
 
 import { getHoodId, setHoodName } from './utils';

@@ -1,6 +1,6 @@
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
-import { createStore, applyMiddleware, Middleware, Store } from 'redux';
+import { createStore, applyMiddleware, Middleware, Store, Reducer } from 'redux';
 
 import rootReducer from './reducers';
 import rootSaga from './sagas';
@@ -21,7 +21,7 @@ export default function createState({ initState, hoodMap }: Props): Store<State>
     );
   }
 
-  const store: Store<State> = createStore(
+  const store = createStore<State>(
     rootReducer,
     initState,
     applyMiddleware(...middleware),
