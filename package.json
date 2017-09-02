@@ -8,7 +8,7 @@
     "url": "github.com:neurosnap/youhood.git"
   },
   "scripts": {
-    "test": "tsc && npm run circular && npm run lint",
+    "test": "tsc --noEmit && npm run circular && npm run lint",
     "web": "NODE_ENV=production  browserify src/delivery/web/index.ts -o public/bundle.js -p [ tsify ] -t envify",
     "dev": "NODE_ENV=development watchify   src/delivery/web/index.ts -o public/bundle.js -p [ tsify ] -t envify ",
     "lint": "tslint ./src",
