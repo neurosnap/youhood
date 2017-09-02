@@ -1,4 +1,4 @@
-import { Hood, Hoods, HoodIds, HoodId } from '../../types';
+import { Hoods, HoodIds, HoodId } from '../../types';
 import { creator } from '../shared';
 import * as types from './action-types';
 

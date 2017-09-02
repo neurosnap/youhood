@@ -1,15 +1,13 @@
 import { eventChannel } from 'redux-saga';
-import { takeEvery, take, put, call } from 'redux-saga/effects';
+import { take, call } from 'redux-saga/effects';
 
 import {
   HoodMap,
-  WebSocketEvent,
-  WebSocketMessage,
   GeoJsonFeatures,
   HoodGeoJSON,
 } from '../../types';
 
-const createUpdaterChannel = (socket: WebSocket) => eventChannel((emit) => {
+const createSocketChannel = (socket: WebSocket) => eventChannel((emit) => {
   const onOpen = () => {
     console.log('SOCKET CONNECTED');
     socket.send(JSON.stringify({ type: 'get-hoods' }));
@@ -31,7 +29,7 @@ const createUpdaterChannel = (socket: WebSocket) => eventChannel((emit) => {
 
 export function* socketSaga({ hoodGeoJSON }: HoodMap) {
   const socket = new WebSocket('ws://localhost:8080');
-  const channel = yield call(createUpdaterChannel, socket);
+  const channel = yield call(createSocketChannel, socket);
 
   /* eslint-disable no-constant-condition */
   while (true) {

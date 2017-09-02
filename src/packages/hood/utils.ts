@@ -4,12 +4,10 @@ import {
   PolygonHood,
   PolygonLeaflet,
   Hood,
-  GeoJson,
   HoodProperties,
   HoodUser,
   HoodId,
 } from '../../types';
-import styleFn from './style';
 
 const defaultHood = { user: {} };
 export const createHood = (props: { [key: string]: any } = defaultHood): HoodProperties => ({

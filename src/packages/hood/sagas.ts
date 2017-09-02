@@ -1,7 +1,7 @@
 import { takeEvery } from 'redux-saga';
-import { put, call, all, select } from 'redux-saga/effects';
+import { put, call, select } from 'redux-saga/effects';
 
-import { PolygonLeaflet, PolygonHood, Hood, HoodMap, HoodId } from '../../types';
+import { PolygonLeaflet, PolygonHood, HoodMap, HoodId } from '../../types';
 
 import { actionCreators } from '../menu';
 
@@ -19,7 +19,7 @@ import {
   HoverHoodAction,
 } from './action-creators';
 import styleFn from './style';
-import { getHoods, getHoodIdSelected } from './selectors';
+import { getHoodIdSelected } from './selectors';
 import { getHoodId } from './utils';
 
 const { showMenu, hideMenu } = actionCreators;

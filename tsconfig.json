@@ -3,6 +3,7 @@
   "typeRoots": ["types"],
   "compilerOptions": {
     "noImplicitAny": true,
+    "noUnusedLocals": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,

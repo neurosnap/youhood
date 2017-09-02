@@ -1,4 +1,3 @@
-import { Reducer } from 'redux';
 import { Hood, Hoods, HoodId, HoodIds } from '../../types';
 
 import { getHoodId, setHoodName } from './utils';
@@ -78,9 +77,6 @@ export const hoods = (state: HoodObj = {}, action: SetHoodsAction | SetHoodNameA
     return state;
   }
 };
-
-const findHoodIndex = (state: Hoods, hoodId: string) =>
-  state.findIndex((hood) => getHoodId(hood) === hoodId);
 
 export default {
   [selectors.hoodSelected]: hoodSelected,
