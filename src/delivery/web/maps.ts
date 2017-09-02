@@ -1,6 +1,6 @@
-import L from 'leaflet';
+import * as L from 'leaflet';
 import 'leaflet-draw';
-import leafletPip from '@mapbox/leaflet-pip';
+import * as leafletPip from '@mapbox/leaflet-pip';
 import { Store } from 'redux';
 
 import {
@@ -40,6 +40,7 @@ interface Props {
 }
 
 export function setupMap({ socket }: Props): HoodMap {
+  console.log('SETUP MAP');
   const tileMapUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
   const attribution = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
   const map = L
@@ -75,7 +76,7 @@ export function setupMap({ socket }: Props): HoodMap {
 
   map.addControl(drawControl);
 
-  const Save = L.Control.extend({
+  /* const Save = L.Control.extend({
     onAdd() {
       const save = <HTMLLinkElement>L.DomUtil.create('a');
       save.href = '#';
@@ -95,7 +96,7 @@ export function setupMap({ socket }: Props): HoodMap {
   });
 
   L.control.save = (opts: any) => new Save(opts);
-  L.control.save({ position: 'topleft' }).addTo(map);
+  L.control.save({ position: 'topleft' }).addTo(map); */
 
   return {
     map,
@@ -110,26 +111,28 @@ interface MapEventsProps {
   map: L.Map;
 }
 
-interface MapEvent extends L.Event {
+interface MapEvent extends L.Evented {
   layer: L.Polygon;
   latlng: L.LatLng;
 }
 
 export function setupMapEvents({ map, hoodGeoJSON, socket, store }: MapEventsProps) {
-  map.on(L.Draw.Event.CREATED, (event: MapEvent) => {
-    const hood = event.layer.toGeoJSON();
+  map.on(L.Draw.Event.CREATED, (event: L.LayerEvent) => {
+    const layer = <L.Polygon>event.layer;
+    const hood = layer.toGeoJSON();
     hood.properties = createHood();
     hoodGeoJSON.addData(hood);
   });
 
-  hoodGeoJSON.on('layeradd', (e: MapEvent) => {
-    const polygon = <Hood>e.layer.toGeoJSON();
+  hoodGeoJSON.on('layeradd', (event: L.LayerEvent) => {
+    const layer = <L.Polygon>event.layer;
+    const polygon = <Hood>layer.toGeoJSON();
     const hoodId = getHoodId(polygon);
     store.dispatch(selectHood(hoodId));
     store.dispatch(addHoods([polygon]));
   });
 
-  map.on('click', (event: MapEvent) => {
+  map.on('click', (event: L.LeafletMouseEvent) => {
     const polygons: Hoods = leafletPip.pointInLayer(event.latlng, hoodGeoJSON);
 
     if (polygons.length === 0) {

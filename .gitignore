@@ -2,8 +2,6 @@
 *.log
 *.swp
 node_modules
-public/bundle.js
-/server.js
-/server.js.map
+public/bundle.js*
 data/user.json
 dist/

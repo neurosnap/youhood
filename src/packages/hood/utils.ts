@@ -1,4 +1,4 @@
-import createUuid from 'uuid/v4';
+import * as createUuid from 'uuid/v4';
 
 import {
   PolygonHood,
