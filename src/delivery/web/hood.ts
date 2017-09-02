@@ -1,14 +1,14 @@
-/* @flow */
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import h from 'react-hyperscript';
 
-import type { Polygon, InputEvent } from '../../types';
+import { Hood, State } from '../../types';
 import {
   utils,
   actionCreators,
   selectors,
 } from '../../packages/hood';
+import { SetHoodNamePayload } from '../../packages/hood/action-creators';
 import { actionCreators as menuActionCreators } from '../../packages/menu';
 
 const { getHoodSelected } = selectors;
@@ -23,16 +23,23 @@ const {
 } = actionCreators;
 const { hideMenu } = menuActionCreators;
 
-type HoodProps = {
-  hood: Polygon,
-  show: boolean,
-  updateHoodName: Function,
-  handleDeselectHood: Function,
-  hideHoodOverlay: Function,
-};
+interface HoodProps {
+  hood: Hood;
+  show: boolean;
+  updateHoodName: Function;
+  handleDeselectHood: Function;
+  hideHoodOverlay: Function;
+}
 
-export class Hood extends Component {
-  static defaultProps = {
+interface DefaultProps {
+  show: boolean;
+  hood: Hood;
+}
+
+export class HoodView extends Component {
+  props: HoodProps;
+
+  static defaultProps: DefaultProps = {
     show: false,
     hood: null,
   };
@@ -51,24 +58,22 @@ export class Hood extends Component {
     }
   }
 
-  props: HoodProps;
-
   handleSave = () => {
     const { hood, updateHoodName } = this.props;
     const { name } = this.state;
     updateHoodName({ hoodId: getHoodId(hood), name });
-  };
+  }
 
   handleClose = () => {
     const { handleDeselectHood, hideHoodOverlay, hood } = this.props;
     handleDeselectHood(hood);
     hideHoodOverlay();
-  };
+  }
 
-  handleInput = (event: InputEvent) => {
-    const name = event.target.value;
+  handleInput = (event: Event) => {
+    const name = (<HTMLInputElement>event.target).value;
     this.setState({ name });
-  };
+  }
 
   render() {
     const { hood, show } = this.props;
@@ -98,12 +103,12 @@ export class Hood extends Component {
 }
 
 export default connect(
-  (state) => ({
+  (state: State) => ({
     hood: getHoodSelected(state),
   }),
-  (dispatch) => ({
-    updateHoodName: (payload) => dispatch(setHoodName(payload)),
-    handleDeselectHood: (hood) => dispatch(deselectHood(hood)),
+  (dispatch: Function) => ({
+    updateHoodName: (payload: SetHoodNamePayload) => dispatch(setHoodName(payload)),
+    handleDeselectHood: (hood: Hood) => dispatch(deselectHood()),
     hideHoodOverlay: () => dispatch(hideMenu('overlay')),
   }),
-)(Hood);
+)(HoodView as any);

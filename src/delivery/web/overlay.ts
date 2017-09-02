@@ -1,9 +1,10 @@
-/* @flow */
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import h from 'react-hyperscript';
 
 import { selectors } from '../../packages/menu';
+import { State } from '../../types';
+
 import Hood from './hood';
 import HoodSelection from './hood-selection';
 
@@ -19,7 +20,7 @@ export class Overlay extends Component {
 }
 
 export const OverlayConn = connect(
-  (state) => ({
+  (state: State) => ({
     show: isOverlayOpen(state),
   }),
-)(Overlay);
+)(Overlay as any);

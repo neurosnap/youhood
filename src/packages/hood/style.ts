@@ -1,7 +1,6 @@
-/* @flow */
-type Style = {
-  color: string,
-};
+interface Style {
+  color: string;
+}
 
 const hoodStyle = () => ({
   color: 'blue',
@@ -15,10 +14,10 @@ const hoodStyleHover = () => ({
   color: 'green',
 });
 
-type StyleProps = {
-  selected?: boolean,
-  hover?: boolean,
-};
+interface StyleProps {
+  selected?: boolean;
+  hover?: boolean;
+}
 
 const defaultProps = {
   selected: false,
