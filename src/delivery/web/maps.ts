@@ -40,6 +40,7 @@ interface Props {
 }
 
 export function setupMap({ socket }: Props): HoodMap {
+  console.log('SETUP MAP');
   const tileMapUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
   const attribution = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
   const map = L

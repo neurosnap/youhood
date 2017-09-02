@@ -2,7 +2,7 @@
 *.log
 *.swp
 node_modules
-public/bundle.js
+public/bundle.js*
 /server.js
 /server.js.map
 data/user.json
