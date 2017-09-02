@@ -35,11 +35,7 @@ function gotHoods(event: WebSocketMessage, hoodGeoJSON: HoodGeoJSON) {
   hoodGeoJSON.addData(data);
 }
 
-interface Props {
-  socket: WebSocket;
-}
-
-export function setupMap({ socket }: Props): HoodMap {
+export function setupMap(): HoodMap {
   console.log('SETUP MAP');
   const tileMapUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
   const attribution = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
@@ -106,7 +102,6 @@ export function setupMap({ socket }: Props): HoodMap {
 
 interface MapEventsProps {
   store: Store<State>;
-  socket: WebSocket;
   hoodGeoJSON: HoodGeoJSON;
   map: L.Map;
 }
@@ -116,7 +111,7 @@ interface MapEvent extends L.Evented {
   latlng: L.LatLng;
 }
 
-export function setupMapEvents({ map, hoodGeoJSON, socket, store }: MapEventsProps) {
+export function setupMapEvents({ map, hoodGeoJSON, store }: MapEventsProps) {
   map.on(L.Draw.Event.CREATED, (event: L.LayerEvent) => {
     const layer = <L.Polygon>event.layer;
     const hood = layer.toGeoJSON();
@@ -149,18 +144,5 @@ export function setupMapEvents({ map, hoodGeoJSON, socket, store }: MapEventsPro
     }
 
     store.dispatch(showMenu('overlay'));
-  });
-
-  socket.addEventListener('message', (event) => {
-    const jso: WebSocketMessage = JSON.parse(event.data);
-    console.log(jso);
-
-    switch (jso.type) {
-    case 'got-hoods':
-      gotHoods(jso, hoodGeoJSON);
-      break;
-    default:
-      break;
-    }
   });
 }

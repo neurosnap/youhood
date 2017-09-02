@@ -1,6 +1,7 @@
 import { all, spawn } from 'redux-saga/effects';
 
 import { sagas } from './packages/hood';
+import { sagas as socketSagas } from './packages/socket';
 import { HoodMap } from './types';
 
 const prepSagas = (hoodMap: HoodMap) => (sag: Object) =>
@@ -8,8 +9,9 @@ const prepSagas = (hoodMap: HoodMap) => (sag: Object) =>
 
 export default function* rootSaga(hoodMap: HoodMap) {
   const sagaExec = prepSagas(hoodMap);
-  
+
   yield all([
     ...sagaExec(sagas),
+    ...sagaExec(socketSagas),
   ]);
 }
