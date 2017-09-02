@@ -60,7 +60,7 @@
     "@types/react" "*"
     redux "^3.6.0"
 
-"@types/react@*", "@types/react@^16.0.0":
+"@types/react@*", "@types/react@16.0.0":
   version "16.0.0"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.0.tgz#fec7e6302e11c1cd307129d8ce1e6d5dca4a0283"
 
@@ -2971,6 +2971,10 @@ typescript@2.0.10:
 typescript@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.2.tgz#f8395f85d459276067c988aa41837a8f82870844"
+
+typescript@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.5.2.tgz#038a95f7d9bbb420b1bf35ba31d4c5c1dd3ffe34"
 
 ua-parser-js@^0.7.9:
   version "0.7.12"
