@@ -1,8 +1,16 @@
 import { Component } from 'react';
-import ReactDOM from 'react-dom';
 import * as h from 'react-hyperscript';
+import { connect } from 'react-redux';
 
-export const Navbar = () =>
+import { State, Points } from '../../types';
+import { selectors } from '../../packages/point';
+const { getTotalPoints } = selectors;
+
+interface Props {
+  points: Points;
+}
+
+export const Navbar = ({ points }: Props) =>
   h('div.nav', [
     h('div.nav-content', [
       h('div.nav-left', [
@@ -14,11 +22,20 @@ export const Navbar = () =>
           h('i.material-icons.search-icon', 'search'),
           h('input.search-input', { placeholder: 'Search' }),
         ]),
-        h('i.material-icons.icon', 'whatshot'),
+        h('div.points-container', [
+          h('i.material-icons.icon', 'whatshot'),
+          h('span.points', points),
+        ]),
         h(SignIn),
       ]),
     ]),
   ]);
+
+export default connect(
+  (state: State) => ({
+    points: getTotalPoints(state),
+  }),
+)(Navbar as any);
 
 class SignIn extends Component {
   state = {
@@ -39,10 +56,3 @@ class SignIn extends Component {
 }
 
 const SignInMenu = () => h('div', 'Hi');
-
-export function renderNavbar(props: Object = {}) {
-  ReactDOM.render(
-    h(Navbar, props),
-    document.querySelector('.nav'),
-  );
-}

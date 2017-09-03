@@ -19,7 +19,7 @@ export class Overlay extends Component {
   }
 }
 
-export const OverlayConn = connect(
+export default connect(
   (state: State) => ({
     show: isOverlayOpen(state),
   }),

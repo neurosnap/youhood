@@ -17,30 +17,24 @@ const {
   selectHood,
   toggleHoodSelected,
   setHoodsOnPoint,
-  addHoods,
+  userAddHoods,
 } = actionCreators;
 const { showMenu } = menuActionCreators;
 
-const LAYER_ADD = 'LAYER_ADD';
 const MAP_CLICK = 'MAP_CLICK';
-
-interface LayerAddAction {
-  type: string;
-  payload: Hood;
-}
+const DRAW_CREATED = 'DRAW_CREATED';
 
 interface MapClickAction {
   type: string;
   payload: Hoods;
 }
 
-const createMapChannel = ({ map, hoodGeoJSON }: HoodMap) => eventChannel((emit) => {
-  const onLayerAdd = (event: L.LayerEvent) => {
-    const layer = <L.Polygon>event.layer;
-    const polygon = <Hood>layer.toGeoJSON();
-    emit({ type: LAYER_ADD, payload: polygon });
-  };
+interface DrawCreatedAction {
+  type: string;
+  payload: Hood;
+}
 
+const createMapChannel = ({ map, hoodGeoJSON }: HoodMap) => eventChannel((emit) => {
   const onMapClick = (event: L.LeafletMouseEvent) => {
     const polygons: Hoods = leafletPip.pointInLayer(event.latlng, hoodGeoJSON);
     emit({ type: MAP_CLICK, payload: polygons });
@@ -51,14 +45,13 @@ const createMapChannel = ({ map, hoodGeoJSON }: HoodMap) => eventChannel((emit) 
     const hood = layer.toGeoJSON();
     hood.properties = createHood();
     hoodGeoJSON.addData(hood);
+    emit({ type: DRAW_CREATED, payload: hood });
   };
 
-  hoodGeoJSON.on('layeradd', onLayerAdd);
   map.on('click', onMapClick);
   map.on(L.Draw.Event.CREATED, onDrawCreated);
 
   return () => {
-    hoodGeoJSON.off('layeradd', onLayerAdd);
     map.off('click', onMapClick);
     map.off(L.Draw.Event.CREATED, onDrawCreated);
   };
@@ -74,22 +67,23 @@ export function* mapSaga(hoodMap: HoodMap) {
     console.log(type, payload);
 
     switch (type) {
-      case LAYER_ADD:
-        yield spawn(layerAdd, event);
-        break;
       case MAP_CLICK:
         yield spawn(mapClick, event);
+        break;
+      case DRAW_CREATED:
+        yield spawn(drawCreated, event);
+        break;
       default:
         break;
     }
   }
 }
 
-function* layerAdd(action: LayerAddAction) {
-  const polygon = action.payload;
-  const hoodId = getHoodId(polygon);
+function* drawCreated(action: DrawCreatedAction) {
+  const hood = action.payload;
+  const hoodId = getHoodId(hood);
   yield put(selectHood(hoodId));
-  yield put(addHoods([polygon]));
+  yield put(userAddHoods([hood]));
 }
 
 function* mapClick(action: MapClickAction) {

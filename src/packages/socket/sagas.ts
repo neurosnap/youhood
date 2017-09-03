@@ -1,11 +1,14 @@
 import { eventChannel } from 'redux-saga';
-import { take, call } from 'redux-saga/effects';
+import { take, call, spawn, put } from 'redux-saga/effects';
 
 import {
+  Hoods,
   HoodMap,
   GeoJsonFeatures,
   HoodGeoJSON,
 } from '../../types';
+import { actionCreators } from '../hood';
+const { addHoods } = actionCreators;
 
 const createSocketChannel = (socket: WebSocket) => eventChannel((emit) => {
   const onOpen = () => {
@@ -15,7 +18,6 @@ const createSocketChannel = (socket: WebSocket) => eventChannel((emit) => {
 
   const onMessage = (event: any) => {
     const { type, data } = JSON.parse(event.data);
-    console.log(type, data);
     emit({ type, payload: data });
   };
 
@@ -39,14 +41,16 @@ export function* socketSaga({ hoodGeoJSON }: HoodMap) {
 
     switch (type) {
       case 'got-hoods':
-        gotHoods(payload, hoodGeoJSON);
+        yield spawn(gotHoods, payload, hoodGeoJSON);
+        break;
       default:
         break;
     }
   }
 }
 
-function gotHoods(data: GeoJsonFeatures, hoodGeoJSON: HoodGeoJSON) {
+function* gotHoods(data: GeoJsonFeatures, hoodGeoJSON: HoodGeoJSON) {
   if (data.features.length === 0) return;
   hoodGeoJSON.addData(data);
+  yield put(addHoods(<Hoods>data.features));
 }

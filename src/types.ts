@@ -4,13 +4,6 @@ export type HoodId = string;
 export type HoodIds = HoodId[];
 export type HoodHash = { [key: string]: Hood };
 
-export interface State {
-  selected: HoodId;
-  hoods: HoodHash;
-  menus: Menus;
-  hoodsOnPoint: HoodIds;
-}
-
 export interface Menus {
   overlay: boolean;
 }
@@ -70,4 +63,18 @@ export type HoodGeoJSON = L.GeoJSON;
 export interface HoodMap {
   map: L.Map;
   hoodGeoJSON: HoodGeoJSON;
+}
+
+export interface Point {
+  value: number;
+  reason: string;
+}
+export type Points = Point[];
+
+export interface State {
+  selected: HoodId;
+  hoods: HoodHash;
+  menus: Menus;
+  hoodsOnPoint: HoodIds;
+  points: Points;
 }
