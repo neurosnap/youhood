@@ -5,7 +5,7 @@ import * as h from 'react-hyperscript';
 import { selectors } from '../../packages/menu';
 import { State } from '../../types';
 
-import Hood from './hood';
+import HoodCreate from './hood-create';
 import HoodSelection from './hood-selection';
 
 const { isOverlayOpen } = selectors;
@@ -13,7 +13,7 @@ const { isOverlayOpen } = selectors;
 export class Overlay extends Component {
   render() {
     return h('div.overlay-container', [
-      h(Hood, this.props),
+      h(HoodCreate, this.props),
       h(HoodSelection, this.props),
     ]);
   }

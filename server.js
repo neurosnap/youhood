@@ -16,6 +16,11 @@ try {
   console.log(err);
 }
 
+const users = [
+  { id: '1', name: 'Zillow' },
+  { id: '2', name: 'Erock' },
+];
+
 server.listen(8080, () => {
   console.log('Listening on %d', server.address().port);
 });
@@ -30,6 +35,7 @@ wss.on('connection', (socket) => {
     switch (jso.type) {
     case 'get-hoods':
       getHoods(socket);
+      getUsers(socket);
       break;
     case 'save-hoods':
       saveHoods(socket, jso);
@@ -42,6 +48,10 @@ wss.on('connection', (socket) => {
 
 function getHoods(socket) {
   socket.send(JSON.stringify({ type: 'got-hoods', data: geojson }));
+}
+
+function getUsers(socket) {
+  socket.send(JSON.stringify({ type: 'got-users', data: users }));
 }
 
 function saveHoods(socket, event) {

@@ -2,7 +2,7 @@ import * as L from 'leaflet';
 import 'leaflet-draw';
 import * as leafletPip from '@mapbox/leaflet-pip';
 import { eventChannel } from 'redux-saga';
-import { take, put, spawn, call } from 'redux-saga/effects';
+import { take, put, spawn, call, select } from 'redux-saga/effects';
 
 import {
   Hood,
@@ -10,19 +10,26 @@ import {
   HoodMap,
 } from '../../types';
 import { utils, actionCreators } from '../../packages/hood';
-import { actionCreators as menuActionCreators } from '../../packages/menu';
-
-const { createHood, getHoodId } = utils;
 const {
   selectHood,
   toggleHoodSelected,
   setHoodsOnPoint,
   userAddHoods,
 } = actionCreators;
+const { createHood, getHoodId } = utils;
+import { actionCreators as menuActionCreators } from '../../packages/menu';
 const { showMenu } = menuActionCreators;
+import {
+  utils as userUtils,
+  actionCreators as userActionCreators,
+  selectors as userSelectors,
+} from '../../packages/user';
+const { createUser } = userUtils;
+const { addUsers, setUser } = userActionCreators;
+const { getCurrentUser } = userSelectors;
 
 const MAP_CLICK = 'MAP_CLICK';
-const DRAW_CREATED = 'DRAW_CREATED';
+const HOOD_CREATED = 'HOOD_CREATED';
 
 interface MapClickAction {
   type: string;
@@ -43,9 +50,8 @@ const createMapChannel = ({ map, hoodGeoJSON }: HoodMap) => eventChannel((emit) 
   const onDrawCreated = (event: L.LayerEvent) => {
     const layer = <L.Polygon>event.layer;
     const hood = layer.toGeoJSON();
-    hood.properties = createHood();
     hoodGeoJSON.addData(hood);
-    emit({ type: DRAW_CREATED, payload: hood });
+    emit({ type: HOOD_CREATED, payload: hood });
   };
 
   map.on('click', onMapClick);
@@ -70,8 +76,8 @@ export function* mapSaga(hoodMap: HoodMap) {
       case MAP_CLICK:
         yield spawn(mapClick, event);
         break;
-      case DRAW_CREATED:
-        yield spawn(drawCreated, event);
+      case HOOD_CREATED:
+        yield spawn(hoodCreated, event);
         break;
       default:
         break;
@@ -79,11 +85,20 @@ export function* mapSaga(hoodMap: HoodMap) {
   }
 }
 
-function* drawCreated(action: DrawCreatedAction) {
+function* hoodCreated(action: DrawCreatedAction) {
   const hood = action.payload;
+
+  let user = yield select(getCurrentUser);
+  if (!user) {
+    user = createUser();
+    yield put(addUsers([user]));
+    yield put(setUser(user.id));
+  }
+
+  hood.properties = createHood({ userId: user.id });
+  yield put(userAddHoods([hood]));
   const hoodId = getHoodId(hood);
   yield put(selectHood(hoodId));
-  yield put(userAddHoods([hood]));
 }
 
 function* mapClick(action: MapClickAction) {

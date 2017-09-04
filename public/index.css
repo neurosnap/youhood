@@ -45,16 +45,21 @@ input, textarea {
   height: 36px;
 }
 
-.icon {
+.nav-hover {
   cursor: pointer;
-  padding: 5px;
-  margin: 0 5px;
-  border-radius: 2px;
-  height: 36px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  margin: 0 10px;
 }
 
-.icon:hover {
+.nav-hover:hover {
   background-color: rgba(255, 255, 255, 0.25);
+}
+
+.menu {
+  height: 36px;
 }
 
 .search {
@@ -86,6 +91,10 @@ input, textarea {
 
 .search:hover {
   background-color: rgba(255, 255, 255, 0.25);
+}
+
+.sign-in-container {
+  margin-left: 0;
 }
 
 .sign-in {
@@ -148,6 +157,7 @@ input, textarea {
 
 .hood {
   height: 20%;
+  padding: 10px;
 }
 
 .hood-selection {
@@ -171,4 +181,20 @@ input, textarea {
 
 .leaflet-save:hover {
   background-color: #f4f4f4;
+}
+
+.points-container {
+  margin-right: 0;
+}
+
+.points {
+  color: #fff;
+  background-color: limegreen;
+  border-radius: 5px;
+  padding: 2px 5px;
+  font-size: 12px;
+}
+
+.fa-search {
+  margin: 0 10px;
 }
