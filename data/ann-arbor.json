@@ -9,10 +9,7 @@
         "city": "Ann Arbor",
         "name": "Barton Hills",
         "regionid": "37293",
-        "user": {
-          "name": "Zillow",
-          "id": "1"
-        }
+        "userId": "1"
       },
       "geometry": {
         "type": "Polygon",

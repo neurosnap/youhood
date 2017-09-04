@@ -8,7 +8,6 @@ import { utils, actionCreators, selectors } from '../../packages/hood';
 const { getHoodsOnPoint } = selectors;
 const {
   getHoodProperties,
-  getHoodUser,
   getHoodId,
 } = utils;
 const { toggleHoodSelected, hoverHood } = actionCreators;
@@ -52,7 +51,6 @@ export class HoodSelection extends Component {
     return h('div.overlay.hood-selection', hoods.map((hood) => {
       const { name } = getHoodProperties(hood);
       const hoodId = getHoodId(hood);
-      const user = getHoodUser(hood);
       return h(
         'div.hood-list-item', {
           key: hoodId,
@@ -60,7 +58,7 @@ export class HoodSelection extends Component {
           onMouseEnter: () => hover(hoodId, true),
           onMouseLeave: () => hover(hoodId, false),
         },
-        `[${name}] - ${user.name}`,
+        `[${name}]`,
       );
     }));
   }

@@ -53,3 +53,4 @@ export const toggleHoodSelected = creator<HoodId>(types.TOGGLE_HOOD_SELECTED);
 export const setHoods = creator<Hoods>(types.SET_HOODS);
 export const addHoods = creator<Hoods>(types.ADD_HOODS);
 export const hoverHood = creator<HoverHoodPayload>(types.HOVER_HOOD);
+export const userAddHoods = creator<Hoods>(types.USER_ADD_HOODS);

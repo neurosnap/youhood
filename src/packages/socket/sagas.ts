@@ -1,11 +1,20 @@
 import { eventChannel } from 'redux-saga';
-import { take, call } from 'redux-saga/effects';
+import { take, call, spawn, put } from 'redux-saga/effects';
 
 import {
+  Hoods,
   HoodMap,
   GeoJsonFeatures,
   HoodGeoJSON,
+  Users,
 } from '../../types';
+import { actionCreators } from '../hood';
+const { addHoods } = actionCreators;
+import { actionCreators as userActionCreators } from '../user';
+const { addUsers } = userActionCreators;
+
+const GOT_HOODS = 'got-hoods';
+const GOT_USERS = 'got-users';
 
 const createSocketChannel = (socket: WebSocket) => eventChannel((emit) => {
   const onOpen = () => {
@@ -15,7 +24,6 @@ const createSocketChannel = (socket: WebSocket) => eventChannel((emit) => {
 
   const onMessage = (event: any) => {
     const { type, data } = JSON.parse(event.data);
-    console.log(type, data);
     emit({ type, payload: data });
   };
 
@@ -38,15 +46,23 @@ export function* socketSaga({ hoodGeoJSON }: HoodMap) {
     console.log(type, payload);
 
     switch (type) {
-      case 'got-hoods':
-        gotHoods(payload, hoodGeoJSON);
+      case GOT_HOODS:
+        yield spawn(gotHoods, payload, hoodGeoJSON);
+        break;
+      case GOT_USERS:
+        yield spawn(gotUsers, payload);
       default:
         break;
     }
   }
 }
 
-function gotHoods(data: GeoJsonFeatures, hoodGeoJSON: HoodGeoJSON) {
+function* gotHoods(data: GeoJsonFeatures, hoodGeoJSON: HoodGeoJSON) {
   if (data.features.length === 0) return;
   hoodGeoJSON.addData(data);
+  yield put(addHoods(<Hoods>data.features));
+}
+
+function* gotUsers(users: Users) {
+  yield put(addUsers(users));
 }

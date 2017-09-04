@@ -2,7 +2,7 @@ import * as L from 'leaflet';
 import 'leaflet-draw';
 import * as leafletPip from '@mapbox/leaflet-pip';
 import { eventChannel } from 'redux-saga';
-import { take, put, spawn, call } from 'redux-saga/effects';
+import { take, put, spawn, call, select } from 'redux-saga/effects';
 
 import {
   Hood,
@@ -10,37 +10,38 @@ import {
   HoodMap,
 } from '../../types';
 import { utils, actionCreators } from '../../packages/hood';
-import { actionCreators as menuActionCreators } from '../../packages/menu';
-
-const { createHood, getHoodId } = utils;
 const {
   selectHood,
   toggleHoodSelected,
   setHoodsOnPoint,
-  addHoods,
+  userAddHoods,
 } = actionCreators;
+const { createHood, getHoodId } = utils;
+import { actionCreators as menuActionCreators } from '../../packages/menu';
 const { showMenu } = menuActionCreators;
+import {
+  utils as userUtils,
+  actionCreators as userActionCreators,
+  selectors as userSelectors,
+} from '../../packages/user';
+const { createUser } = userUtils;
+const { addUsers, setUser } = userActionCreators;
+const { getCurrentUser } = userSelectors;
 
-const LAYER_ADD = 'LAYER_ADD';
 const MAP_CLICK = 'MAP_CLICK';
-
-interface LayerAddAction {
-  type: string;
-  payload: Hood;
-}
+const HOOD_CREATED = 'HOOD_CREATED';
 
 interface MapClickAction {
   type: string;
   payload: Hoods;
 }
 
-const createMapChannel = ({ map, hoodGeoJSON }: HoodMap) => eventChannel((emit) => {
-  const onLayerAdd = (event: L.LayerEvent) => {
-    const layer = <L.Polygon>event.layer;
-    const polygon = <Hood>layer.toGeoJSON();
-    emit({ type: LAYER_ADD, payload: polygon });
-  };
+interface DrawCreatedAction {
+  type: string;
+  payload: Hood;
+}
 
+const createMapChannel = ({ map, hoodGeoJSON }: HoodMap) => eventChannel((emit) => {
   const onMapClick = (event: L.LeafletMouseEvent) => {
     const polygons: Hoods = leafletPip.pointInLayer(event.latlng, hoodGeoJSON);
     emit({ type: MAP_CLICK, payload: polygons });
@@ -49,16 +50,14 @@ const createMapChannel = ({ map, hoodGeoJSON }: HoodMap) => eventChannel((emit) 
   const onDrawCreated = (event: L.LayerEvent) => {
     const layer = <L.Polygon>event.layer;
     const hood = layer.toGeoJSON();
-    hood.properties = createHood();
     hoodGeoJSON.addData(hood);
+    emit({ type: HOOD_CREATED, payload: hood });
   };
 
-  hoodGeoJSON.on('layeradd', onLayerAdd);
   map.on('click', onMapClick);
   map.on(L.Draw.Event.CREATED, onDrawCreated);
 
   return () => {
-    hoodGeoJSON.off('layeradd', onLayerAdd);
     map.off('click', onMapClick);
     map.off(L.Draw.Event.CREATED, onDrawCreated);
   };
@@ -74,22 +73,32 @@ export function* mapSaga(hoodMap: HoodMap) {
     console.log(type, payload);
 
     switch (type) {
-      case LAYER_ADD:
-        yield spawn(layerAdd, event);
-        break;
       case MAP_CLICK:
         yield spawn(mapClick, event);
+        break;
+      case HOOD_CREATED:
+        yield spawn(hoodCreated, event);
+        break;
       default:
         break;
     }
   }
 }
 
-function* layerAdd(action: LayerAddAction) {
-  const polygon = action.payload;
-  const hoodId = getHoodId(polygon);
+function* hoodCreated(action: DrawCreatedAction) {
+  const hood = action.payload;
+
+  let user = yield select(getCurrentUser);
+  if (!user) {
+    user = createUser();
+    yield put(addUsers([user]));
+    yield put(setUser(user.id));
+  }
+
+  hood.properties = createHood({ userId: user.id });
+  yield put(userAddHoods([hood]));
+  const hoodId = getHoodId(hood);
   yield put(selectHood(hoodId));
-  yield put(addHoods([polygon]));
 }
 
 function* mapClick(action: MapClickAction) {

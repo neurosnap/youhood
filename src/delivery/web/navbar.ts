@@ -1,24 +1,52 @@
 import { Component } from 'react';
-import ReactDOM from 'react-dom';
 import * as h from 'react-hyperscript';
+import { connect } from 'react-redux';
 
-export const Navbar = () =>
+import { State } from '../../types';
+import { selectors } from '../../packages/point';
+const { getTotalPoints } = selectors;
+
+interface Props {
+  points: number;
+}
+
+export default ({ points }: Props) =>
   h('div.nav', [
     h('div.nav-content', [
       h('div.nav-left', [
-        h('i.material-icons.icon', 'menu'),
+        h('.nav-hover.menu', [
+          h('i.fa.fa-bars.fa-lg'),
+        ]),
         h('div.brand', 'YouHood'),
       ]),
       h('div.nav-right', [
         h('div.search', [
-          h('i.material-icons.search-icon', 'search'),
+          h('i.fa.fa-search'),
           h('input.search-input', { placeholder: 'Search' }),
         ]),
-        h('i.material-icons.icon', 'whatshot'),
-        h(SignIn),
+        h('div.points-container.nav-hover', [
+          h(PointsConn, { points }),
+        ]),
+        h('div.sign-in-container.nav-hover', [
+          h(SignIn),
+        ]),
       ]),
     ]),
   ]);
+
+const Points = ({ points }: Props) => {
+  if (points === 0) {
+    return h('i.fa.fa-trophy.fa-lg');
+  }
+
+  return h('span.points', `+${points}`);
+};
+
+const PointsConn = connect(
+  (state: State) => ({
+    points: getTotalPoints(state),
+  }),
+)(Points as any);
 
 class SignIn extends Component {
   state = {
@@ -39,10 +67,3 @@ class SignIn extends Component {
 }
 
 const SignInMenu = () => h('div', 'Hi');
-
-export function renderNavbar(props: Object = {}) {
-  ReactDOM.render(
-    h(Navbar, props),
-    document.querySelector('.nav'),
-  );
-}

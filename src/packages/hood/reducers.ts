@@ -8,6 +8,7 @@ import {
   CLEAR_HOODS_ON_POINT,
   ADD_HOODS,
   SET_HOODS,
+  USER_ADD_HOODS,
   SET_HOOD_NAME,
 } from './action-types';
 import {
@@ -58,6 +59,7 @@ export const hoods = (state: HoodObj = {}, action: SetHoodsAction | SetHoodNameA
   case SET_HOODS:
     return arrayToObj(<Hoods>action.payload);
 
+  case USER_ADD_HOODS:
   case ADD_HOODS: {
     const hoodPayload = <Hoods>action.payload;
     if (!hoodPayload || hoodPayload.length === 0) return state;

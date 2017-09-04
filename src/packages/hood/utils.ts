@@ -5,21 +5,17 @@ import {
   PolygonLeaflet,
   Hood,
   HoodProperties,
-  HoodUser,
   HoodId,
 } from '../../types';
 
-const defaultHood = { user: {} };
+const defaultHood = {};
 export const createHood = (props: { [key: string]: any } = defaultHood): HoodProperties => ({
   id: props.id || createUuid(),
+  userId: props.userId || '',
   name: props.name || '',
   city: props.city || '',
   county: props.county || '',
   state: props.state || '',
-  user: {
-    id: props.user.id || createUuid(),
-    name: props.user.name || 'Anonymous',
-  },
 });
 
 export function getHoodProperties(polygon: PolygonHood): HoodProperties {
@@ -38,11 +34,6 @@ export function getHoodId(polygon: PolygonHood): HoodId {
 export function getHoodName(polygon: PolygonHood): string {
   if (!polygon) return '';
   return getHoodProperties(polygon).name;
-}
-
-export function getHoodUser(polygon: PolygonHood): HoodUser {
-  if (!polygon) return { id: '', name: '' };
-  return getHoodProperties(polygon).user;
 }
 
 export function setHoodName(polygon: PolygonHood, value: string) {

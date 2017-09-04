@@ -4,30 +4,28 @@ export type HoodId = string;
 export type HoodIds = HoodId[];
 export type HoodHash = { [key: string]: Hood };
 
-export interface State {
-  selected: HoodId;
-  hoods: HoodHash;
-  menus: Menus;
-  hoodsOnPoint: HoodIds;
-}
-
 export interface Menus {
   overlay: boolean;
 }
 
-export interface HoodUser {
-  id: string;
+export type UserId = string;
+export interface User {
+  id: UserId;
   name: string;
+}
+export type Users = User[];
+export interface UserHash {
+  [key: string]: User;
 }
 
 export interface HoodProperties {
   id: HoodId;
+  userId: UserId;
   name: string;
   state: string;
   county: string;
   city: string;
   regionid?: string;
-  user: HoodUser;
 }
 
 export interface Feature<T extends GeoJSON.GeometryObject> extends GeoJSON.Feature<T> {
@@ -70,4 +68,20 @@ export type HoodGeoJSON = L.GeoJSON;
 export interface HoodMap {
   map: L.Map;
   hoodGeoJSON: HoodGeoJSON;
+}
+
+export interface Point {
+  value: number;
+  reason: string;
+}
+export type Points = Point[];
+
+export interface State {
+  selected: HoodId;
+  hoods: HoodHash;
+  menus: Menus;
+  hoodsOnPoint: HoodIds;
+  points: Points;
+  currentUser: UserId;
+  users: UserHash;
 }
