@@ -10,6 +10,8 @@ import {
   SELECT_HOOD,
   TOGGLE_HOOD_SELECTED,
   HOVER_HOOD,
+  EDIT_HOOD,
+  SAVE_HOOD,
 } from './action-types';
 import {
   HoodSelectedAction,
@@ -17,10 +19,13 @@ import {
   selectHood,
   deselectHood,
   HoverHoodAction,
+  EditHoodAction,
+  SaveHoodAction,
+  addHoods,
 } from './action-creators';
 import styleFn from './style';
-import { getHoodIdSelected } from './selectors';
-import { getHoodId } from './utils';
+import { getHoodIdSelected, getHoodById } from './selectors';
+import { getHoodId, getHoodProperties } from './utils';
 
 const { showMenu, hideMenu } = actionCreators;
 
@@ -98,4 +103,36 @@ function* toggleHoodSelected(hoodMap: HoodMap, action: ToggleHoodSelectedAction)
 
   yield put(deselectHood());
   yield put(selectHood(hoodId));
+}
+
+function onEditHood({ hoodGeoJSON }: HoodMap, action: EditHoodAction) {
+  const { hoodId, edit } = action.payload;
+  const hood = <any>findHood(hoodGeoJSON, hoodId);
+  if (!hood) return;
+
+  if (edit) {
+    hood.editing.enable();
+  } else {
+    hood.editing.disable();
+  }
+}
+
+export function* editHoodSaga(hoodMap: HoodMap) {
+  yield takeEvery(EDIT_HOOD, onEditHood, hoodMap);
+}
+
+function* onSaveHood({ hoodGeoJSON }: HoodMap, action: SaveHoodAction) {
+  const hoodId = action.payload;
+  const hood = <PolygonLeaflet>findHood(hoodGeoJSON, hoodId);
+  if (!hood) return;
+
+  const hoodGeo = hood.toGeoJSON();
+  const curHood = yield select(getHoodById, { id: hoodId });
+  const hoodProperties = getHoodProperties(curHood);
+  hoodGeo.properties = hoodProperties;
+  yield put(addHoods([hoodGeo]));
+}
+
+export function* saveHoodSaga(hoodMap: HoodMap) {
+  yield takeEvery(SAVE_HOOD, onSaveHood, hoodMap);
 }

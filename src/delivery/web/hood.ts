@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import * as h from 'react-hyperscript';
 
-import { Hood, State, User } from '../../types';
+import { HoodId, Hood, State, User } from '../../types';
 import {
   utils,
   actionCreators,
@@ -15,9 +15,11 @@ const {
 const {
   deselectHood,
   setHoodName,
+  editHood,
+  saveHood,
 } = actionCreators;
 const { getHoodSelected } = selectors;
-import { SetHoodNamePayload } from '../../packages/hood/action-creators';
+import { SetHoodNamePayload, EditHoodPayload } from '../../packages/hood/action-creators';
 import { actionCreators as menuActionCreators } from '../../packages/menu';
 const { hideMenu } = menuActionCreators;
 import { selectors as userSelectors } from '../../packages/user';
@@ -27,10 +29,12 @@ interface HoodProps {
   hood: Hood;
   user: User;
   show: boolean;
+  canEdit: boolean;
   updateHoodName: Function;
   handleDeselectHood: Function;
   hideHoodOverlay: Function;
-  canEdit: boolean;
+  edit: Function;
+  save: Function;
 }
 
 interface DefaultProps {
@@ -38,9 +42,10 @@ interface DefaultProps {
   hood: Hood;
   user: User;
   canEdit: boolean;
+  edit: boolean;
 }
 
-export class HoodCreate extends Component {
+export class HoodView extends Component {
   props: HoodProps;
 
   static defaultProps: DefaultProps = {
@@ -51,6 +56,7 @@ export class HoodCreate extends Component {
       id: '',
     },
     canEdit: false,
+    edit: false,
   };
 
   state = {
@@ -69,23 +75,22 @@ export class HoodCreate extends Component {
   }
 
   handleSave = () => {
-    const { hood, updateHoodName } = this.props;
+    const { hood, updateHoodName, edit, save } = this.props;
     const { name } = this.state;
     updateHoodName({ hoodId: getHoodId(hood), name });
     this.setState({ editing: false });
+    const hoodId = getHoodId(hood);
+    edit({ hoodId, edit: false });
+    save(hoodId);
   }
 
   handleCancel = () => {
+    const { edit, hood } = this.props;
     this.setState({
       editing: false,
       name: getHoodName(this.props.hood),
     });
-  }
-
-  handleClose = () => {
-    const { handleDeselectHood, hideHoodOverlay, hood } = this.props;
-    handleDeselectHood(hood);
-    hideHoodOverlay();
+    edit({ hoodId: getHoodId(hood), edit: false });
   }
 
   handleInput = (event: Event) => {
@@ -94,7 +99,9 @@ export class HoodCreate extends Component {
   }
 
   handleEdit = () => {
+    const { edit, hood } = this.props;
     this.setState({ editing: true });
+    edit({ hoodId: getHoodId(hood), edit: true });
   }
 
   render() {
@@ -111,7 +118,6 @@ export class HoodCreate extends Component {
     } else if (canEdit) {
       actions = [
         h('button', { onClick: this.handleEdit }, 'Edit'),
-        h('button', { onClick: this.handleClose }, 'Close'),
       ];
     }
 
@@ -160,5 +166,7 @@ export default connect(
     updateHoodName: (payload: SetHoodNamePayload) => dispatch(setHoodName(payload)),
     handleDeselectHood: (hood: Hood) => dispatch(deselectHood()),
     hideHoodOverlay: () => dispatch(hideMenu('overlay')),
+    edit: (opts: EditHoodPayload) => dispatch(editHood(opts)),
+    save: (hoodId: HoodId) => dispatch(saveHood(hoodId)),
   }),
-)(HoodCreate as any);
+)(HoodView as any);
