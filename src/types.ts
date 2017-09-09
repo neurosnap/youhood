@@ -76,6 +76,9 @@ export interface Point {
 }
 export type Points = Point[];
 
+export type Token = string;
+export type AuthError = string;
+
 export interface State {
   selected: HoodId;
   hoods: HoodHash;
@@ -84,4 +87,6 @@ export interface State {
   points: Points;
   currentUser: UserId;
   users: UserHash;
+  token: Token;
+  authError: AuthError;
 }

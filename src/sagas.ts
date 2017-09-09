@@ -4,6 +4,7 @@ import { sagas } from './packages/hood';
 import { sagas as socketSagas } from './packages/socket';
 import { sagas as mapSagas } from './packages/map';
 import { sagas as pointSagas } from './packages/point';
+import { sagas as authSagas } from './packages/auth';
 import { HoodMap } from './types';
 
 const prepSagas = (hoodMap: HoodMap) => (sag: Object) =>
@@ -17,5 +18,6 @@ export default function* rootSaga(hoodMap: HoodMap) {
     ...sagaExec(socketSagas),
     ...sagaExec(mapSagas),
     ...sagaExec(pointSagas),
+    ...sagaExec(authSagas),
   ]);
 }
