@@ -17,3 +17,4 @@ export const getHoodsOnPoint = (state: State): Hoods => {
   return getHoodIdsOnPoint(state)
     .map((hoodId: HoodId) => hoods[hoodId]);
 };
+export const getHoodById = (state: State, { id }: { id: HoodId }): Hood => getHoods(state)[id];

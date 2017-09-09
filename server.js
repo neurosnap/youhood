@@ -1,11 +1,11 @@
-const express = require('express');
-const http = require('http');
-const WebSocket = require('ws');
 const fs = require('fs');
+const path = require('path');
+const express = require('express');
+const WebSocket = require('ws');
+const bodyParser = require('body-parser');
+const uuid = require('uuid/v4');
 
 const app = express();
-const server = new http.Server(app);
-const wss = new WebSocket.Server({ server });
 const userFile = './data/user.json';
 
 let geojson = { type: 'FeatureCollection', features: [] };
@@ -21,9 +21,49 @@ const users = [
   { id: '2', name: 'Erock' },
 ];
 
-server.listen(8080, () => {
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static('public'));
+
+app.get('/leaflet.css', (req, res) => {
+  const file = path.join(__dirname, 'node_modules/leaflet/dist/leaflet.css');
+  return res.sendFile(file);
+});
+
+app.get('/leaflet.draw.css', (req, res) => {
+  const file = path.join(__dirname, 'node_modules/leaflet-draw/dist/leaflet.draw.css');
+  return res.sendFile(file);
+});
+
+app.get('/images/layers-2x.png', (req, res) => {
+  return res.sendFile(path.join(__dirname, 'node_modules/leaflet/dist/images/layers-2x.png'));
+});
+
+app.get('/images/spritesheet.svg', (req, res) => {
+  return res.sendFile(path.join(__dirname, 'node_modules/leaflet-draw/dist/images/spritesheet.svg'));
+});
+
+app.get('/ok', (req, res) => {
+  const file = path.join(__dirname, 'public', 'index.html');
+  return res.sendFile(file);
+});
+
+app.post('/auth', (req, res) => {
+  const jso = { token: uuid(), user: users[1] };
+  console.log('REQ: ', req.body);
+  console.log('RES: ', jso);
+  return res.json(jso);
+  // return res.status(400).json({ error: 'Invalid email or password' });
+});
+
+app.post('/register', (req, res) => {
+  return res.json(users[1]);
+});
+
+const server = app.listen(8080, () => {
   console.log('Listening on %d', server.address().port);
 });
+const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (socket) => {
   console.log('user connected');
@@ -40,9 +80,9 @@ wss.on('connection', (socket) => {
     case 'save-hoods':
       saveHoods(socket, jso);
       break;
-    default:
-      break;
     }
+
+    return;
   });
 });
 

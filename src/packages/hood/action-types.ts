@@ -11,4 +11,6 @@ export const {
   ADD_HOODS,
   HOVER_HOOD,
   USER_ADD_HOODS,
+  EDIT_HOOD,
+  SAVE_HOOD,
 } = typeCreator;

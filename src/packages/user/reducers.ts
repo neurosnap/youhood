@@ -1,12 +1,15 @@
 import { UserId, UserHash } from '../../types';
 import { SetUserAction, AddUsersAction } from './action-creators';
-import { ADD_USERS, SET_USER } from './action-types';
+import { ADD_USERS, SET_USER, RESET_USER } from './action-types';
 import * as selectors from './selectors';
 
-const currentUser = (state: UserId = '', action: SetUserAction): UserId => {
+const defaultState = '';
+const currentUser = (state: UserId = defaultState, action: SetUserAction): UserId => {
   switch (action.type) {
   case SET_USER:
     return action.payload;
+  case RESET_USER:
+    return defaultState;
   default:
     return state;
   }

@@ -16,3 +16,4 @@ export interface AddUsersAction {
 
 export const setUser = creator<UserId>(types.SET_USER);
 export const addUsers = creator<Users>(types.ADD_USERS);
+export const resetUser = () => ({ type: types.RESET_USER });

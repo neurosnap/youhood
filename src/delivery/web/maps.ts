@@ -11,7 +11,6 @@ function getMap(doc = document): HTMLElement {
 }
 
 export function setupMap(): HoodMap {
-  console.log('SETUP MAP');
   const tileMapUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
   const attribution = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
   const map = L
@@ -31,14 +30,12 @@ export function setupMap(): HoodMap {
   }).addTo(map);
 
   const drawControl = new L.Control.Draw({
-    edit: {
-      featureGroup: hoodGeoJSON,
-    },
     draw: {
       marker: false,
       rectangle: false,
       polyline: false,
       circle: false,
+      // circlemarker: false,
       polygon: {
         showArea: true,
       },
@@ -52,25 +49,3 @@ export function setupMap(): HoodMap {
     hoodGeoJSON,
   };
 }
-
-/* const Save = L.Control.extend({
-    onAdd() {
-      const save = <HTMLLinkElement>L.DomUtil.create('a');
-      save.href = '#';
-      save.className = 'leaflet-bar leaflet-save';
-      save.innerHTML = 'Save';
-
-      save.addEventListener('click', (e) => {
-        e.preventDefault();
-        const data = { type: 'save-hoods', data: hoodGeoJSON.toGeoJSON() };
-        console.log('SAVING', data);
-        socket.send(JSON.stringify(data));
-      });
-
-      return save;
-    },
-    onRemove() {},
-  });
-
-  L.control.save = (opts: any) => new Save(opts);
-  L.control.save({ position: 'topleft' }).addTo(map); */

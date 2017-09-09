@@ -5,10 +5,12 @@ import { reducers as hoodReducers } from './packages/hood';
 import { reducers as menuReducers } from './packages/menu';
 import { reducers as pointReducers } from './packages/point';
 import { reducers as userReducers } from './packages/user';
+import { reducers as authReducers } from './packages/auth';
 
 export default combineReducers<State>({
   ...hoodReducers,
   ...menuReducers,
   ...pointReducers,
   ...userReducers,
+  ...authReducers,
 });

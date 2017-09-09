@@ -9,3 +9,4 @@ export interface AddPointsAction {
 }
 
 export const addPoints = creator<Points>(types.ADD_POINTS);
+export const resetPoints = () => ({ type: types.RESET_POINTS });
