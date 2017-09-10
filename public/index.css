@@ -255,3 +255,22 @@ input, textarea {
 .fa-search {
   margin: 0 10px;
 }
+
+.overlayHoodContainer {
+  display: flex;
+}
+
+.votes {
+  margin-right: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vote-up {
+  cursor: pointer;
+}
+
+.vote-up.voted {
+  color: orange;
+}

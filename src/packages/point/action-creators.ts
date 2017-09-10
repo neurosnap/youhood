@@ -1,6 +1,7 @@
 import { Points } from '../../types';
 
 import { creator } from '../shared';
+
 import * as types from './action-types';
 
 export interface AddPointsAction {

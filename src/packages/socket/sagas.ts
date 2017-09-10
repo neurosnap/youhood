@@ -32,6 +32,7 @@ const createSocketChannel = (socket: WebSocket) => eventChannel((emit) => {
 
   return () => {
     socket.removeEventListener('open', onOpen);
+    socket.removeEventListener('message', onMessage);
   };
 });
 

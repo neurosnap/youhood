@@ -79,6 +79,10 @@ export type Points = Point[];
 export type Token = string;
 export type AuthError = string;
 
+export interface Votes {
+  [key: string]: UserId[];
+}
+
 export interface State {
   selected: HoodId;
   hoods: HoodHash;
@@ -89,4 +93,5 @@ export interface State {
   users: UserHash;
   token: Token;
   authError: AuthError;
+  votes: Votes;
 }
