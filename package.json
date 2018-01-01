@@ -12,7 +12,7 @@
     "web": "NODE_ENV=production  browserify src/delivery/web/index.ts -o public/bundle.js -p [ tsify ] -t envify",
     "dev": "NODE_ENV=development watchify   src/delivery/web/index.ts -o public/bundle.js -p [ tsify ] -t envify ",
     "lint": "tslint ./src",
-    "start": "open public/index.html",
+    "start": "open http://localhost:8080/ok",
     "start-server": "node ./server.js",
     "circular": "madge --circular src/delivery/web/index.ts"
   },

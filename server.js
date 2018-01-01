@@ -48,6 +48,23 @@ app.get('/ok', (req, res) => {
   return res.sendFile(file);
 });
 
+app.get('/votes/:hoodIds', (req, res) => {
+  const hoodIds = req.params.hoodIds.split(',');
+  const userIds = ['3', '4'];
+  const votes = hoodIds.reduce((acc, hoodId) => {
+    acc[hoodId] = userIds;
+    return acc;
+  }, {});
+  return res.json({ votes });
+});
+
+app.post('/vote/:hoodId/:userId', (req, res) => {
+  const hoodId = req.params.hoodId;
+  const userId = req.params.userId;
+  const votes = { [hoodId]: ['3', '4', userId] };
+  return res.json({ votes });
+});
+
 app.post('/auth', (req, res) => {
   const jso = { token: uuid(), user: users[1] };
   console.log('REQ: ', req.body);

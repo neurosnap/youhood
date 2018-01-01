@@ -1,7 +1,9 @@
 import { typeCreator } from '../shared';
 
 export const {
-  ADD_POINTS,
-  RESET_POINTS,
   VOTE,
+  UNVOTE,
+  FETCH_VOTES_BY_HOOD,
+  ADD_VOTES,
+  REMOVE_VOTES,
 } = typeCreator;
