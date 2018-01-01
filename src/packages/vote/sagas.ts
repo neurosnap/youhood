@@ -1,4 +1,4 @@
-import { takeEvery, put } from 'redux-saga/effects';
+import { takeEvery, put, call } from 'redux-saga/effects';
 
 import { actionTypes } from '../hood';
 const { SET_HOODS_ON_POINT } = actionTypes;
@@ -13,7 +13,7 @@ import { VOTE, UNVOTE } from './action-types';
 
 function* onFetchVotes(action: FetchVotesByHoodAction) {
   const hoodIds = action.payload;
-  const resp = yield fetch(`/votes/${hoodIds.join(',')}`, {
+  const resp = yield call(fetch, `/vote/${hoodIds.join(',')}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -29,7 +29,7 @@ export function* fetchVoteSaga() {
 
 function* onVote(action: VoteAction) {
   const { hoodId, userId } = action.payload;
-  const resp = yield fetch(`/vote/${hoodId}/${userId}`, {
+  const resp = yield call(fetch, `/vote/${hoodId}/${userId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ export function* voteSaga() {
 function* onUnvote(action: VoteAction) {
   const { hoodId, userId } = action.payload;
   yield put(removeVotes({ [hoodId]: [userId] }));
-  yield fetch(`/vote/${hoodId}/${userId}`, {
+  yield call(fetch, `/vote/${hoodId}/${userId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

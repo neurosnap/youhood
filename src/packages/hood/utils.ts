@@ -39,4 +39,16 @@ export function getHoodName(polygon: PolygonHood): string {
 export function setHoodName(polygon: PolygonHood, value: string) {
   /* eslint-disable no-param-reassign */
   getHoodProperties(polygon).name = value;
+  }
+
+export function findHood(layers: L.GeoJSON, hoodId: HoodId): PolygonHood {
+  let hood = null;
+
+  layers.eachLayer((layer) => {
+    if (getHoodId(layer) === hoodId) {
+      hood = layer;
+    }
+  });
+
+  return hood;
 }

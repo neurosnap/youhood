@@ -49,6 +49,7 @@ interface HoodProps {
   canUserVote: boolean;
   handleVote: Function;
   handleUnvote: Function;
+  currentUserId: UserId;
 }
 
 interface DefaultProps {
@@ -66,7 +67,7 @@ export class HoodView extends Component {
     show: false,
     hood: null,
     user: {
-      name: 'Unknown',
+      email: 'Unknown',
       id: '',
     },
     canEdit: false,
@@ -129,10 +130,10 @@ export class HoodView extends Component {
       canUserVote,
       handleVote,
       handleUnvote,
+      currentUserId,
     } = this.props;
     if (!show) return null;
     const { name, editing } = this.state;
-    const userId = user.id;
 
     let actions = null;
     if (editing) {
@@ -164,11 +165,11 @@ export class HoodView extends Component {
       h(`i.vote-up.fa.fa-angle-up${userVoted ? '.voted' : ''}`, {
         onClick: () => {
           if (userVoted) {
-            handleUnvote(hoodId, userId);
+            handleUnvote(hoodId, currentUserId);
             return;
           }
 
-          handleVote(hoodId, userId);
+          handleVote(hoodId, currentUserId);
         },
       })
       : null;
@@ -183,7 +184,7 @@ export class HoodView extends Component {
           hoodInfo,
           h('div', [
             h('span', 'User: '),
-            h('span', user.name),
+            h('span', user.email),
           ]),
         ]),
       ]),
@@ -199,7 +200,7 @@ export default connect(
     const userId = hood.properties.userId;
     const user = getUserById(state, { id: hood.properties.userId });
     const currentUserId = getCurrentUserId(state);
-    const didUserCreateHood = user.id === currentUserId;
+    const didUserCreateHood = user && user.id === currentUserId;
     const hoodId = getHoodId(hood);
     const userIsAuthenticated = isUserAuthenticated(state);
     const canUserVote = userIsAuthenticated;
@@ -212,6 +213,7 @@ export default connect(
       votes: getVoteCountByHood(state, { hoodId }),
       userVoted: didUserVoteOnHood(state, { hoodId, userId }),
       canUserVote,
+      currentUserId,
     };
   },
   (dispatch: Function) => ({

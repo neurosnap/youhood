@@ -3,7 +3,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { actionCreators, selectors as authSelectors } from '../../packages/auth';
-const { signIn } = actionCreators;
+const { signIn, register } = actionCreators;
 const { getAuthError, isUserAuthenticated } = authSelectors;
 import { selectors } from '../../packages/user';
 const { getCurrentUserId, getCurrentUser } = selectors;
@@ -14,6 +14,7 @@ import Profile from './profile';
 
 interface Props {
   handleSignIn: Function;
+  handleRegister: Function;
   currentUserId: UserId;
   error: AuthError;
 }
@@ -40,6 +41,12 @@ class SignInMenu extends Component {
     handleSignIn({ email, password, currentUserId });
   }
 
+  register = () => {
+    const { email, password } = this.state;
+    const { handleRegister, currentUserId } = this.props;
+    handleRegister({ email, password, currentUserId });
+  }
+
   render() {
     const { email, password } = this.state;
     const { error } = this.props;
@@ -63,7 +70,7 @@ class SignInMenu extends Component {
           h('div.nav-hover.button', { onClick: this.login }, [
             h('div', 'Sign In'),
           ]),
-          h('div.nav-hover.button', [
+          h('div.nav-hover.button', { onClick: this.register }, [
             h('div', 'Register'),
           ]),
         ]),
@@ -79,6 +86,7 @@ const SignInMenuConn = connect(
   }),
   (dispatch: Function) => ({
     handleSignIn: (payload: AuthPayload) => dispatch(signIn(payload)),
+    handleRegister: (payload: AuthPayload) => dispatch(register(payload)),
   }),
 )(SignInMenu as any);
 
@@ -132,7 +140,7 @@ export class SignIn extends Component {
     return h('div.signin-container', { style: { position: 'relative' } }, [
       h('div.nav-hover', signinProps, [
         h('div.signin', [
-          authenticated ? h('a', user.name) : h('a', 'Sign In'),
+          authenticated ? h('a', user.email) : h('a', 'Sign In'),
         ]),
       ]),
       menu,

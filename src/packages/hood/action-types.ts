@@ -13,4 +13,5 @@ export const {
   USER_ADD_HOODS,
   EDIT_HOOD,
   SAVE_HOOD,
+  AFTER_SAVE_HOOD,
 } = typeCreator;

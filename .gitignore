@@ -5,3 +5,4 @@ node_modules
 public/bundle.js*
 data/user.json
 dist/
+env.sh
