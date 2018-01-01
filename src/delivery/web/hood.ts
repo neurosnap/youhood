@@ -28,8 +28,8 @@ import {
   selectors as voteSelectors,
   actionCreators as voteActionCreators,
 } from '../../packages/vote';
-const { getVoteCountByHood, didUserVoteOnHood, didUserVoteInHoodsOnPoint } = voteSelectors;
-const { vote } = voteActionCreators;
+const { getVoteCountByHood, didUserVoteOnHood } = voteSelectors;
+const { vote, unvote } = voteActionCreators;
 import { selectors as authSelectors } from '../../packages/auth';
 const { isUserAuthenticated } = authSelectors;
 
@@ -48,6 +48,7 @@ interface HoodProps {
   userVoted: boolean;
   canUserVote: boolean;
   handleVote: Function;
+  handleUnvote: Function;
 }
 
 interface DefaultProps {
@@ -118,7 +119,17 @@ export class HoodView extends Component {
   }
 
   render() {
-    const { hoodId, show, user, canEdit, votes, userVoted, canUserVote, handleVote } = this.props;
+    const {
+      hoodId,
+      show,
+      user,
+      canEdit,
+      votes,
+      userVoted,
+      canUserVote,
+      handleVote,
+      handleUnvote,
+    } = this.props;
     if (!show) return null;
     const { name, editing } = this.state;
     const userId = user.id;
@@ -151,7 +162,14 @@ export class HoodView extends Component {
 
     const userVoting = canUserVote ?
       h(`i.vote-up.fa.fa-angle-up${userVoted ? '.voted' : ''}`, {
-        onClick: () => handleVote(hoodId, userId),
+        onClick: () => {
+          if (userVoted) {
+            handleUnvote(hoodId, userId);
+            return;
+          }
+
+          handleVote(hoodId, userId);
+        },
       })
       : null;
 
@@ -184,6 +202,7 @@ export default connect(
     const didUserCreateHood = user.id === currentUserId;
     const hoodId = getHoodId(hood);
     const userIsAuthenticated = isUserAuthenticated(state);
+    const canUserVote = userIsAuthenticated;
 
     return {
       hood,
@@ -192,10 +211,7 @@ export default connect(
       canEdit: didUserCreateHood,
       votes: getVoteCountByHood(state, { hoodId }),
       userVoted: didUserVoteOnHood(state, { hoodId, userId }),
-      canUserVote: (
-        !didUserVoteInHoodsOnPoint(state, { userId })
-        && userIsAuthenticated
-      ),
+      canUserVote,
     };
   },
   (dispatch: Function) => ({
@@ -205,5 +221,6 @@ export default connect(
     edit: (opts: EditHoodPayload) => dispatch(editHood(opts)),
     save: (hoodId: HoodId) => dispatch(saveHood(hoodId)),
     handleVote: (hoodId: HoodId, userId: UserId) => dispatch(vote({ hoodId, userId })),
+    handleUnvote: (hoodId: HoodId, userId: UserId) => dispatch(unvote({ hoodId, userId })),
   }),
 )(HoodView as any);

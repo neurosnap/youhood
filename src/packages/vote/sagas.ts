@@ -3,8 +3,13 @@ import { takeEvery, put } from 'redux-saga/effects';
 import { actionTypes } from '../hood';
 const { SET_HOODS_ON_POINT } = actionTypes;
 
-import { FetchVotesByHoodAction, addVotes, VoteAction } from './action-creators';
-import { VOTE } from './action-types';
+import {
+  FetchVotesByHoodAction,
+  addVotes,
+  removeVotes,
+  VoteAction,
+} from './action-creators';
+import { VOTE, UNVOTE } from './action-types';
 
 function* onFetchVotes(action: FetchVotesByHoodAction) {
   const hoodIds = action.payload;
@@ -39,4 +44,19 @@ function* onVote(action: VoteAction) {
 
 export function* voteSaga() {
   yield takeEvery(VOTE, onVote);
+}
+
+function* onUnvote(action: VoteAction) {
+  const { hoodId, userId } = action.payload;
+  yield put(removeVotes({ [hoodId]: [userId] }));
+  yield fetch(`/vote/${hoodId}/${userId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
+export function* unvoteSaga() {
+  yield takeEvery(UNVOTE, onUnvote);
 }

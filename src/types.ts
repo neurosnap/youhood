@@ -78,7 +78,7 @@ export type Points = Point[];
 
 export type Token = string;
 export type AuthError = string;
-
+export type VoteList = UserId[];
 export interface Votes {
   [key: string]: UserId[];
 }

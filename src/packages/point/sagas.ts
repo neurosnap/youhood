@@ -3,7 +3,7 @@ import { takeEvery, put } from 'redux-saga/effects';
 import { actionTypes } from '../hood';
 const { USER_ADD_HOODS } = actionTypes;
 import { actionTypes as voteActionTypes } from '../vote';
-const { VOTE } = voteActionTypes;
+const { VOTE, UNVOTE } = voteActionTypes;
 
 import { addPoints } from './action-creators';
 
@@ -29,6 +29,19 @@ function* userVoted() {
   yield put(addPoints([point]));
 }
 
+function* userUnvoted() {
+  const point = {
+    value: -1,
+    reason: VOTE,
+  };
+
+  yield put(addPoints([point]));
+}
+
 export function* userVotedSaga() {
   yield takeEvery(VOTE, userVoted);
+}
+
+export function* userUnvotedSaga() {
+  yield takeEvery(UNVOTE, userUnvoted);
 }
