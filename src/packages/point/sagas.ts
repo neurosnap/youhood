@@ -1,40 +1,80 @@
-import { takeEvery, put } from 'redux-saga/effects';
+import { takeEvery, put, call, select, fork } from 'redux-saga/effects';
 
-import { actionTypes } from '../hood';
-const { USER_ADD_HOODS } = actionTypes;
+import { UserId, HoodId, Hoods } from '../../types';
+import { actionTypes, utils } from '../hood';
+const { AFTER_SAVE_HOOD } = actionTypes;
+const { getHoodId } = utils;
 import { actionTypes as voteActionTypes } from '../vote';
 const { VOTE, UNVOTE } = voteActionTypes;
+import { VoteAction } from '../vote/action-creators';
+import { selectors } from '../user';
+const { getCurrentUserId } = selectors;
 
 import { addPoints } from './action-creators';
+import pointMap from './point-map';
 
-function* hoodCreated() {
+interface SubmitPoints {
+  userId: UserId;
+  hoodId: HoodId;
+  reason: string;
+}
+
+function* submitPoints({ userId, hoodId, reason }: SubmitPoints) {
+  const result = yield call(fetch, `/point/${userId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      hoodId,
+      reason,
+    }),
+  });
+
+  const body = yield result.json();
+  console.log(body);
+}
+
+interface HoodsAction {
+  type: string;
+  payload: Hoods;
+}
+
+function* hoodCreated(action: HoodsAction) {
+  const hoodId = getHoodId(action.payload[0]);
   const point = {
-    value: 10,
-    reason: USER_ADD_HOODS,
+    value: pointMap[AFTER_SAVE_HOOD],
+    reason: AFTER_SAVE_HOOD,
   };
 
+  const userId = yield select(getCurrentUserId);
+  yield fork(submitPoints, { userId, hoodId, reason: point.reason });
   yield put(addPoints([point]));
 }
 
 export function* hoodCreatedSaga() {
-  yield takeEvery(USER_ADD_HOODS, hoodCreated);
+  yield takeEvery(AFTER_SAVE_HOOD, hoodCreated);
 }
 
-function* userVoted() {
+function* userVoted(action: VoteAction) {
+  const { userId, hoodId } = action.payload;
   const point = {
-    value: 1,
+    value: pointMap[VOTE],
     reason: VOTE,
   };
 
+  yield fork(submitPoints, { userId, hoodId, reason: point.reason });
   yield put(addPoints([point]));
 }
 
-function* userUnvoted() {
+function* userUnvoted(action: VoteAction) {
+  const { userId, hoodId } = action.payload;
   const point = {
-    value: -1,
-    reason: VOTE,
+    value: pointMap[UNVOTE],
+    reason: UNVOTE,
   };
 
+  yield fork(submitPoints, { userId, hoodId, reason: point.reason });
   yield put(addPoints([point]));
 }
 

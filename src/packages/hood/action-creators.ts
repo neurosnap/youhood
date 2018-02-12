@@ -71,3 +71,4 @@ export const hoverHood = creator<HoverHoodPayload>(types.HOVER_HOOD);
 export const userAddHoods = creator<Hoods>(types.USER_ADD_HOODS);
 export const editHood = creator<EditHoodPayload>(types.EDIT_HOOD);
 export const saveHood = creator<HoodId>(types.SAVE_HOOD);
+export const afterSaveHood = creator<Hoods>(types.AFTER_SAVE_HOOD);

@@ -11,7 +11,7 @@ export interface Menus {
 export type UserId = string;
 export interface User {
   id: UserId;
-  name: string;
+  email: string;
 }
 export type Users = User[];
 export interface UserHash {

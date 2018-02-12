@@ -1,7 +1,7 @@
 import { takeEvery } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 
-import { PolygonLeaflet, PolygonHood, HoodMap, HoodId } from '../../types';
+import { PolygonLeaflet, HoodMap, HoodId } from '../../types';
 
 import { actionCreators } from '../menu';
 
@@ -20,14 +20,17 @@ import {
   deselectHood,
   HoverHoodAction,
   EditHoodAction,
-  SaveHoodAction,
-  addHoods,
 } from './action-creators';
 import styleFn from './style';
-import { getHoodIdSelected, getHoodById } from './selectors';
-import { getHoodId, getHoodProperties } from './utils';
+import { getHoodIdSelected } from './selectors';
+import { findHood } from './utils';
+import { onSaveHood } from './effects';
 
 const { showMenu, hideMenu } = actionCreators;
+
+export function* saveHoodSaga(hoodMap: HoodMap) {
+  yield takeEvery(SAVE_HOOD, onSaveHood, hoodMap);
+}
 
 export function* deselectHoodSaga(hoodMap: HoodMap) {
   yield takeEvery(DESELECT_HOOD, onDeselectHood, hoodMap);
@@ -41,18 +44,6 @@ function onDeselectHood({ hoodGeoJSON }: HoodMap) {
 
 export function* selectHoodSaga(hoodMap: HoodMap) {
   yield takeEvery(SELECT_HOOD, onSelectHood, hoodMap);
-}
-
-function findHood(layers: L.GeoJSON, hoodId: HoodId): PolygonHood {
-  let hood = null;
-
-  layers.eachLayer((layer) => {
-    if (getHoodId(layer) === hoodId) {
-      hood = layer;
-    }
-  });
-
-  return hood;
 }
 
 interface ApplyStyle {
@@ -119,20 +110,4 @@ function onEditHood({ hoodGeoJSON }: HoodMap, action: EditHoodAction) {
 
 export function* editHoodSaga(hoodMap: HoodMap) {
   yield takeEvery(EDIT_HOOD, onEditHood, hoodMap);
-}
-
-function* onSaveHood({ hoodGeoJSON }: HoodMap, action: SaveHoodAction) {
-  const hoodId = action.payload;
-  const hood = <PolygonLeaflet>findHood(hoodGeoJSON, hoodId);
-  if (!hood) return;
-
-  const hoodGeo = hood.toGeoJSON();
-  const curHood = yield select(getHoodById, { id: hoodId });
-  const hoodProperties = getHoodProperties(curHood);
-  hoodGeo.properties = hoodProperties;
-  yield put(addHoods([hoodGeo]));
-}
-
-export function* saveHoodSaga(hoodMap: HoodMap) {
-  yield takeEvery(SAVE_HOOD, onSaveHood, hoodMap);
 }

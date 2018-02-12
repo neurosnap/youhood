@@ -7,7 +7,7 @@ const { addUsers, setUser, resetUser } = actionCreators;
 import { actionCreators as pointActionCreators } from '../../packages/point';
 const { resetPoints } = pointActionCreators;
 
-import { SIGN_IN, SIGN_OUT } from './action-types';
+import { SIGN_IN, SIGN_OUT, REGISTER } from './action-types';
 import { AuthAction, setToken, authError, resetToken } from './action-creators';
 
 interface SuccessJSON {
@@ -20,7 +20,7 @@ interface FailureJSON {
 }
 
 function* onSignIn(action: AuthAction) {
-  const resp = yield call(fetch, '/auth', {
+  const resp = yield call(fetch, '/auth/signin', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -47,6 +47,22 @@ function* onSignOut() {
   yield put(resetUser());
   yield put(resetToken());
   yield put(resetPoints());
+}
+
+function* onRegister(action: AuthAction) {
+  const resp = yield call(fetch, '/auth/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(action.payload),
+  });
+  const body = yield resp.json();
+  console.log(body);
+}
+
+export function* registerSaga() {
+  yield takeEvery(REGISTER, onRegister);
 }
 
 export function* signInSaga() {
