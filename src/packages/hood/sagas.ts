@@ -1,9 +1,12 @@
 import { takeEvery } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 
-import { PolygonLeaflet, HoodMap, HoodId } from '../../types';
+import { PolygonLeaflet, HoodMap, HoodId, RawUser, User } from '../../types';
 
 import { actionCreators } from '../menu';
+const { showMenu, hideMenu } = actionCreators;
+import { actionCreators as userActionCreatiors } from '../user';
+const { addUsers } = userActionCreatiors;
 
 import {
   DESELECT_HOOD,
@@ -22,11 +25,9 @@ import {
   EditHoodAction,
 } from './action-creators';
 import styleFn from './style';
-import { getHoodIdSelected } from './selectors';
-import { findHood } from './utils';
+import { getHoodIdSelected, getHoodSelected } from './selectors';
+import { findHood, getHoodProperties } from './utils';
 import { onSaveHood } from './effects';
-
-const { showMenu, hideMenu } = actionCreators;
 
 export function* saveHoodSaga(hoodMap: HoodMap) {
   yield takeEvery(SAVE_HOOD, onSaveHood, hoodMap);
@@ -60,12 +61,30 @@ function applyStyle({ hoodMap, hoodId, style }: ApplyStyle) {
   hood.bringToFront();
 }
 
+function  transformUser(rawUser: RawUser): User {
+  if (!rawUser) return null;
+  return {
+    id: rawUser.id,
+    email: rawUser.email,
+    createdAt: rawUser.created_at,
+    isTmp: rawUser.is_tmp,
+  };
+}
+
 function* onSelectHood(hoodMap: HoodMap, action: HoodSelectedAction) {
   const hoodId = action.payload;
   const style = { selected: true };
   yield call(onDeselectHood, hoodMap);
   yield call(applyStyle, { hoodMap, hoodId, style });
   yield put(showMenu('overlay'));
+
+  const hood = yield select(getHoodSelected);
+  const userId = getHoodProperties(hood).userId;
+  const userResp = yield call(fetch, `/user/${userId}`);
+  const rawUser = yield userResp.json();
+  const user = transformUser(rawUser.user);
+  if (!user) return;
+  yield put(addUsers([user]));
 }
 
 function* onHoverHood(hoodMap: HoodMap, action: HoverHoodAction) {

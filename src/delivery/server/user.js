@@ -1,3 +1,4 @@
+const router = require('express-promise-router')();
 const uuid = require('uuid/v4');
 const debug = require('debug');
 
@@ -5,8 +6,18 @@ const db = require('./db');
 
 const log = debug('server:users');
 
+router.get('/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  const user = await findUser(userId);
+  if (user.error) {
+    return res.status(400).json(user);
+  }
+
+  return res.json(user);
+});
+
 async function findUser(id) {
-  const sql = "SELECT * FROM hood_user WHERE id=$1";
+  const sql = 'SELECT * FROM hood_user WHERE id=$1';
 
   try {
     const result = await db.query(sql, [id]);
@@ -53,6 +64,7 @@ async function findOrCreateUser(userId) {
 }
 
 module.exports = {
+  router,
   findUser,
   createTmpUser,
   findOrCreateUser,

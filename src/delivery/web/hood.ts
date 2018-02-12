@@ -69,6 +69,8 @@ export class HoodView extends Component {
     user: {
       email: 'Unknown',
       id: '',
+      createdAt: '',
+      isTmp: true,
     },
     canEdit: false,
     edit: false,
@@ -184,7 +186,7 @@ export class HoodView extends Component {
           hoodInfo,
           h('div', [
             h('span', 'User: '),
-            h('span', user.email),
+            h('span', user.isTmp ? 'Anonymous' : user.email),
           ]),
         ]),
       ]),

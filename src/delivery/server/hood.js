@@ -2,12 +2,24 @@ const router = require('express-promise-router')();
 const debug = require('debug');
 
 const db = require('./db');
-const { findOrCreateUser } = require('./users');
+const { findOrCreateUser } = require('./user');
+console.log(findOrCreateUser);
 
 const log = debug('router:hood');
 
+router.get('/:hoodId', async (req, res) => {
+  const hoodId = req.params.hoodId;
+  const hood = await findHood(hoodId);
+  if (hood.error) {
+    return res.status(400).json(hood);
+  }
+
+  return res.json(hood);
+});
+
 router.post('/save', async (req, res) => {
   log(req.body);
+
   const data = transformHood(req.body);
   const results = await Promise.all(
     data.map(
@@ -18,7 +30,6 @@ router.post('/save', async (req, res) => {
     .filter((res) => res.hood)
     .map((res) => ({ properties: { id: res.hood.id } }));
 
-  console.log(hoods);
   res.json({ hoods });
 });
 
@@ -159,15 +170,19 @@ async function getHoods(socket) {
     log(err);
   }
 
-  const features = data.map(transformToJson);
-  const geojson = {
-    type: "FeatureCollection",
-    features,
-  };
+  const geojson = transformSQLToGeoJson(data);
   socket.send(JSON.stringify({ type: 'got-hoods', data: geojson }));
 }
 
-function transformToJson(hood) {
+function transformSQLToGeoJson(sqlResults) {
+  const features = sqlResults.map(transformFeaturesToJson);
+  return {
+    type: "FeatureCollection",
+    features,
+  };
+}
+
+function transformFeaturesToJson(hood) {
   return {
     type: 'Feature',
     properties: {

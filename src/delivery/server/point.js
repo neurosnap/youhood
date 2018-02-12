@@ -1,7 +1,7 @@
 const router = require('express-promise-router')();
 
 const db = require('./db');
-const { findOrCreateUser } = require('./users');
+const { findOrCreateUser } = require('./user');
 
 module.exports = router;
 

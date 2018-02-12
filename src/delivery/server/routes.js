@@ -2,7 +2,6 @@ const path = require('path');
 const uuid = require('uuid/v4');
 const router = require('express-promise-router')();
 
-const users = require('./users');
 const db = require('./db');
 
 module.exports = router;
