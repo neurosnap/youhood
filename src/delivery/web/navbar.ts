@@ -2,6 +2,7 @@ import * as h from 'react-hyperscript';
 
 import SignIn from './signin';
 import Points from './points';
+import DrawHood from './draw';
 
 interface Props {
   points: number;
@@ -17,6 +18,9 @@ export default ({ points }: Props) =>
         h('div.brand', 'YouHood'),
       ]),
       h('div.nav-right', [
+        h('div.nav-hover', [
+          h(DrawHood),
+        ]),
         h('div.search', [
           h('i.fa.fa-search'),
           h('input.search-input', { placeholder: 'Search' }),

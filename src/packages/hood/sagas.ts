@@ -1,3 +1,5 @@
+import * as L from 'leaflet';
+import 'leaflet-draw';
 import { takeEvery } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 
@@ -15,6 +17,7 @@ import {
   HOVER_HOOD,
   EDIT_HOOD,
   SAVE_HOOD,
+  DRAW_HOOD,
 } from './action-types';
 import {
   HoodSelectedAction,
@@ -28,6 +31,15 @@ import styleFn from './style';
 import { getHoodIdSelected, getHoodSelected } from './selectors';
 import { findHood, getHoodProperties } from './utils';
 import { onSaveHood } from './effects';
+
+export function* drawHoodSaga(hoodMap: HoodMap) {
+  yield takeEvery(DRAW_HOOD, onDrawHood, hoodMap);
+}
+
+function onDrawHood({ map, drawControl }: HoodMap) {
+  console.log(drawControl);
+  new L.Draw.Polygon(map).enable();
+}
 
 export function* saveHoodSaga(hoodMap: HoodMap) {
   yield takeEvery(SAVE_HOOD, onSaveHood, hoodMap);

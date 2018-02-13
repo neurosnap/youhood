@@ -26,9 +26,9 @@
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-1.0.3.tgz#fbcf7fa5eb6dd108d51385cc6987ec1f24214523"
 
-"@types/leaflet-draw@^0.4.6":
-  version "0.4.8"
-  resolved "https://registry.yarnpkg.com/@types/leaflet-draw/-/leaflet-draw-0.4.8.tgz#fc9c8cb2a97b65b4400a36d2bf79fb30247b826b"
+"@types/leaflet-draw@0.4.11":
+  version "0.4.11"
+  resolved "https://registry.yarnpkg.com/@types/leaflet-draw/-/leaflet-draw-0.4.11.tgz#ef4d88d67d00fc2eefb956ea8dcb2d0f4e143859"
   dependencies:
     "@types/leaflet" "*"
 

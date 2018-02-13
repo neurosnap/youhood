@@ -35,7 +35,7 @@ export function setupMap(): HoodMap {
       rectangle: false,
       polyline: false,
       circle: false,
-      // circlemarker: false,
+      circlemarker: false,
       polygon: {
         showArea: true,
       },
@@ -47,5 +47,6 @@ export function setupMap(): HoodMap {
   return {
     map,
     hoodGeoJSON,
+    drawControl,
   };
 }
