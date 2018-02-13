@@ -37,7 +37,7 @@
     "express": "^4.15.3",
     "express-promise-router": "^2.0.0",
     "express-session": "^1.15.6",
-    "leaflet": "^1.0.3",
+    "leaflet": "1.2.0",
     "leaflet-draw": "0.4.14",
     "madge": "^2.2.0",
     "pg": "^7.4.0",
