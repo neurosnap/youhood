@@ -11,7 +11,11 @@
     "outDir": "./dist",
     "moduleResolution": "node",
     "lib": ["es2015", "es2017", "dom"],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+       "@youhood/*": ["src/packages/*"]
+    }
   },
   "include": [
     "src/**/*"

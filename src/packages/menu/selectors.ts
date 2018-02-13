@@ -1,5 +1,6 @@
-import { State, Menus } from '../../types';
+import { Menus } from '@youhood/menu/types';
 
+type State = any;
 export const menus = 'menus';
 
 export const getMenus = (state: State): Menus => state[menus];

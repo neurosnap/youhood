@@ -2,9 +2,11 @@ import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
 import { createStore, applyMiddleware, Middleware, Store } from 'redux';
 
+import { HoodMap } from '@youhood/map/types';
+
 import rootReducer from './reducers';
 import rootSaga from './sagas';
-import { State, HoodMap } from './types';
+import { State } from './types';
 
 interface Props {
   initState?: State;

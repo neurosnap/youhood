@@ -1,4 +1,4 @@
-import { creator } from '../shared';
+import { creator } from '@youhood/shared';
 
 import * as types from './action-types';
 

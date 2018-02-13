@@ -1,29 +1,7 @@
-import { UserId, Token, AuthError } from '../../types';
-
-import { creator } from '../shared';
+import { creator } from '@youhood/shared';
+import { Token, AuthError, AuthPayload } from './types';
 
 import * as types from './action-types';
-
-export interface TokenAction {
-  type: string;
-  payload: Token;
-}
-
-export interface AuthAction {
-  type: string;
-  payload: AuthPayload;
-}
-
-export interface AuthPayload {
-  email: string;
-  password: string;
-  currentUserId: UserId;
-}
-
-export interface AuthErrorAction {
-  type: string;
-  payload: AuthError;
-}
 
 export const signIn = creator<AuthPayload>(types.SIGN_IN);
 export const register = creator<AuthPayload>(types.REGISTER);

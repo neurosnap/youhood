@@ -6,7 +6,7 @@ import {
   Hood,
   HoodProperties,
   HoodId,
-} from '../../types';
+} from './types';
 
 const defaultHood = {};
 export const createHood = (props: { [key: string]: any } = defaultHood): HoodProperties => ({

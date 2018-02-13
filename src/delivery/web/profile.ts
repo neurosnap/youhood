@@ -1,7 +1,7 @@
 import * as h from 'react-hyperscript';
 import { connect } from 'react-redux';
 
-import { actionCreators } from '../../packages/auth';
+import { actionCreators } from '@youhood/auth';
 const { signOut } = actionCreators;
 
 interface Props {

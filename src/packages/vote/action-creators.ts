@@ -1,5 +1,8 @@
-import { UserId, HoodId, HoodIds, Votes } from '../../types';
-import { creator } from '../shared';
+import { HoodId, HoodIds } from '@youhood/hood/types';
+import { UserId } from '@youhood/user/types';
+import { Votes } from './types';
+
+import { creator } from '@youhood/shared';
 
 import * as types from './action-types';
 

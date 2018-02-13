@@ -1,4 +1,4 @@
-import { Hood, Hoods, HoodId, HoodIds } from '../../types';
+import { Hood, Hoods, HoodId, HoodIds } from './types';
 
 import { getHoodId, setHoodName } from './utils';
 import {

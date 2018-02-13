@@ -3,12 +3,14 @@ import 'leaflet-draw';
 import { takeEvery } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 
-import { PolygonLeaflet, HoodMap, HoodId, RawUser, User } from '../../types';
+import { HoodMap } from '@youhood/map/types';
+import { PolygonLeaflet, HoodId } from './types';
 
-import { actionCreators } from '../menu';
+import { actionCreators } from '@youhood/menu';
 const { showMenu, hideMenu } = actionCreators;
-import { actionCreators as userActionCreatiors } from '../user';
-const { addUsers } = userActionCreatiors;
+import { actionCreators as userActionCreators } from '@youhood/user';
+const { addUsers } = userActionCreators;
+import { User, RawUser } from '@youhood/user/types';
 
 import {
   DESELECT_HOOD,

@@ -1,6 +1,6 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 
-import { actionTypes } from '../hood';
+import { actionTypes } from '@youhood/hood';
 const { SET_HOODS_ON_POINT } = actionTypes;
 
 import {

@@ -1,4 +1,4 @@
-import { Points } from '../../types';
+import { Points } from '@youhood/point/types';
 
 import { ADD_POINTS, RESET_POINTS } from './action-types';
 import { AddPointsAction } from './action-creators';

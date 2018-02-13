@@ -1,7 +1,6 @@
-import { Token, AuthError } from '../../types';
+import { Token, AuthError, TokenAction, AuthErrorAction } from './types';
 
 import { SET_TOKEN, RESET_TOKEN, AUTH_ERROR } from './action-types';
-import { TokenAction, AuthErrorAction } from './action-creators';
 import * as selectors from './selectors';
 
 const defaultState = '';

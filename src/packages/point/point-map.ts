@@ -1,6 +1,6 @@
-import { actionTypes } from '../hood';
+import { actionTypes } from '@youhood/hood';
 const { AFTER_SAVE_HOOD } = actionTypes;
-import { actionTypes as voteActionTypes } from '../vote';
+import { actionTypes as voteActionTypes } from '@youhood/vote';
 const { VOTE, UNVOTE } = voteActionTypes;
 
 export default {

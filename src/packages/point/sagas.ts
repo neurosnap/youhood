@@ -1,14 +1,15 @@
 import { takeEvery, put, call, select, fork } from 'redux-saga/effects';
 
-import { UserId, HoodId, Hoods } from '../../types';
-import { actionTypes, utils } from '../hood';
+import { HoodId, Hoods } from '@youhood/hood/types';
+import { actionTypes, utils } from '@youhood/hood';
 const { AFTER_SAVE_HOOD } = actionTypes;
 const { getHoodId } = utils;
-import { actionTypes as voteActionTypes } from '../vote';
+import { actionTypes as voteActionTypes } from '@youhood/vote';
 const { VOTE, UNVOTE } = voteActionTypes;
-import { VoteAction } from '../vote/action-creators';
-import { selectors } from '../user';
+import { VoteAction } from '@youhood/vote/action-creators';
+import { selectors } from '@youhood/user';
 const { getCurrentUserId } = selectors;
+import { UserId } from '@youhood/user/types';
 
 import { addPoints } from './action-creators';
 import pointMap from './point-map';

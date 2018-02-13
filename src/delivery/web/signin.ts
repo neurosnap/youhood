@@ -2,13 +2,14 @@ import * as h from 'react-hyperscript';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { actionCreators, selectors as authSelectors } from '../../packages/auth';
+import { actionCreators, selectors as authSelectors } from '@youhood/auth';
 const { signIn, register } = actionCreators;
 const { getAuthError, isUserAuthenticated } = authSelectors;
-import { selectors } from '../../packages/user';
+import { selectors } from '@youhood/user';
 const { getCurrentUserId, getCurrentUser } = selectors;
-import { AuthPayload } from '../../packages/auth/action-creators';
-import { State, UserId, AuthError, User } from '../../types';
+import { AuthPayload, AuthError } from '@youhood/auth/types';
+import { UserId, User } from '@youhood/user/types';
+import { State } from '../../types';
 
 import Profile from './profile';
 

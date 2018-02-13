@@ -1,7 +1,7 @@
 import * as h from 'react-hyperscript';
 import { connect } from 'react-redux';
 
-import { actionCreators } from '../../packages/hood';
+import { actionCreators } from '@youhood/hood';
 const { drawHood } = actionCreators;
 
 const DrawHood = ({ handleDrawHood }: { handleDrawHood: Function }) =>

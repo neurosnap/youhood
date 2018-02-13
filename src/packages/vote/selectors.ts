@@ -1,8 +1,9 @@
-import { State, HoodId, UserId } from '../../types';
-
-import { selectors } from '../../packages/hood';
+import { UserId } from '@youhood/user/types';
+import { HoodId } from '@youhood/hood/types';
+import { selectors } from '@youhood/hood';
 const { getHoodIdsOnPoint } = selectors;
 
+type State = any;
 export const votes = 'votes';
 
 interface HoodIdInProp {

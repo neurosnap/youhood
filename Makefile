@@ -2,6 +2,13 @@ PORT="5432"
 PGHOST="localhost"
 PGUSER="postgres"
 PGDATABASE="postgres"
+BIN="./node_modules/.bin"
+
+dev:
+	$(BIN)/webpack --watch
+
+prod:
+	$(BIN)/webpack
 
 psql-setup:
 	docker network create youhood-network

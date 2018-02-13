@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import * as h from 'react-hyperscript';
 
-import { selectors } from '../../packages/menu';
+import { selectors } from '@youhood/menu';
 import { State } from '../../types';
 
 import HoodView from './hood';

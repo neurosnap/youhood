@@ -1,5 +1,6 @@
-import { State, Point, Points } from '../../types';
+import { Point, Points } from '@youhood/point/types';
 
+type State = any;
 export const points = 'points';
 
 export const getPoints = (state: State): Points => state[points];

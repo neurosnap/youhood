@@ -2,8 +2,9 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import * as h from 'react-hyperscript';
 
-import { Hoods, State, HoodId } from '../../types';
-import { utils, actionCreators, selectors } from '../../packages/hood';
+import { Hoods, HoodId } from '@youhood/hood/types';
+import { State } from '../../types';
+import { utils, actionCreators, selectors } from '@youhood/hood';
 
 const { getHoodsOnPoint } = selectors;
 const {

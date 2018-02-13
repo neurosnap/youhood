@@ -1,4 +1,4 @@
-import { Menus } from '../../types';
+import { Menus } from '@youhood/menu/types';
 
 import {
   SHOW_MENU,

@@ -1,17 +1,13 @@
 import { eventChannel } from 'redux-saga';
 import { take, call, spawn, put } from 'redux-saga/effects';
 
-import {
-  Hoods,
-  HoodMap,
-  GeoJsonFeatures,
-  HoodGeoJSON,
-  Users,
-} from '../../types';
-import { actionCreators } from '../hood';
+import { HoodMap, HoodGeoJSON } from '@youhood/map/types';
+import { Hoods, GeoJsonFeatures } from '@youhood/hood/types';
+import { actionCreators } from '@youhood/hood';
 const { addHoods } = actionCreators;
-import { actionCreators as userActionCreators } from '../user';
+import { actionCreators as userActionCreators } from '@youhood/user';
 const { addUsers } = userActionCreators;
+import { Users } from '@youhood/user/types';
 
 const GOT_HOODS = 'got-hoods';
 const GOT_USERS = 'got-users';

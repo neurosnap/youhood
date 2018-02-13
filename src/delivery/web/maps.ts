@@ -4,7 +4,7 @@ import 'leaflet-draw';
 import {
   HoodGeoJSON,
   HoodMap,
-} from '../../types';
+} from '@youhood/map/types';
 
 function getMap(doc = document): HTMLElement {
   return <HTMLElement>doc.querySelector('.map');

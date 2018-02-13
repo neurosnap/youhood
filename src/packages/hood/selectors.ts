@@ -1,9 +1,10 @@
-import { State, Hood, Hoods, HoodId, HoodIds, HoodHash } from '../../types';
+import { Hood, Hoods, HoodId, HoodIds, HoodHash } from './types';
 
 export const hoodSelected = 'selected';
 export const hoodsOnPoint = 'hoodsOnPoint';
 export const hoods = 'hoods';
 
+type State = any;
 export const getHoods = (state: State): HoodHash => state[hoods];
 export const getHoodIdSelected = (state: State): HoodId => state[hoodSelected];
 export const getHoodSelected = (state: State): Hood => {

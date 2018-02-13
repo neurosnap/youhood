@@ -2,12 +2,14 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import * as h from 'react-hyperscript';
 
-import { HoodId, Hood, State, User, UserId } from '../../types';
+import { HoodId, Hood } from '@youhood/hood/types';
+import { User, UserId } from '@youhood/user/types';
+import { State } from '../../types';
 import {
   utils,
   actionCreators,
   selectors,
-} from '../../packages/hood';
+} from '@youhood/hood';
 const {
   getHoodName,
   getHoodId,
@@ -19,18 +21,18 @@ const {
   saveHood,
 } = actionCreators;
 const { getHoodSelected } = selectors;
-import { SetHoodNamePayload, EditHoodPayload } from '../../packages/hood/action-creators';
-import { actionCreators as menuActionCreators } from '../../packages/menu';
+import { SetHoodNamePayload, EditHoodPayload } from '@youhood/hood/action-creators';
+import { actionCreators as menuActionCreators } from '@youhood/menu';
 const { hideMenu } = menuActionCreators;
-import { selectors as userSelectors } from '../../packages/user';
+import { selectors as userSelectors } from '@youhood/user';
 const { getUserById, getCurrentUserId } = userSelectors;
 import {
   selectors as voteSelectors,
   actionCreators as voteActionCreators,
-} from '../../packages/vote';
+} from '@youhood/vote';
 const { getVoteCountByHood, didUserVoteOnHood } = voteSelectors;
 const { vote, unvote } = voteActionCreators;
-import { selectors as authSelectors } from '../../packages/auth';
+import { selectors as authSelectors } from '@youhood/auth';
 const { isUserAuthenticated } = authSelectors;
 
 interface HoodProps {

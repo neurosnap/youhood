@@ -1,12 +1,12 @@
 import { all, spawn } from 'redux-saga/effects';
 
-import { sagas } from './packages/hood';
-import { sagas as socketSagas } from './packages/socket';
-import { sagas as mapSagas } from './packages/map';
-import { sagas as pointSagas } from './packages/point';
-import { sagas as authSagas } from './packages/auth';
-import { sagas as voteSagas } from './packages/vote';
-import { HoodMap } from './types';
+import { sagas } from '@youhood/hood';
+import { sagas as socketSagas } from '@youhood/socket';
+import { sagas as mapSagas } from '@youhood/map';
+import { sagas as pointSagas } from '@youhood/point';
+import { sagas as authSagas } from '@youhood/auth';
+import { sagas as voteSagas } from '@youhood/vote';
+import { HoodMap } from '@youhood/map/types';
 
 const prepSagas = (hoodMap: HoodMap) => (sag: Object) =>
   Object.values(sag).map((saga) => spawn(saga, hoodMap));

@@ -1,14 +1,14 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 
-import { User, Token, AuthError } from '../../types';
-
-import { actionCreators } from '../../packages/user';
+import { actionCreators } from '@youhood/user';
+import { User } from '@youhood/user/types';
 const { addUsers, setUser, resetUser } = actionCreators;
-import { actionCreators as pointActionCreators } from '../../packages/point';
+import { actionCreators as pointActionCreators } from '@youhood/point';
 const { resetPoints } = pointActionCreators;
 
+import { Token, AuthError, AuthAction } from './types';
 import { SIGN_IN, SIGN_OUT, REGISTER } from './action-types';
-import { AuthAction, setToken, authError, resetToken } from './action-creators';
+import { setToken, authError, resetToken } from './action-creators';
 
 interface SuccessJSON {
   user: User;

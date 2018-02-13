@@ -2,7 +2,7 @@ import * as h from 'react-hyperscript';
 import { connect } from 'react-redux';
 
 import { State } from '../../types';
-import { selectors } from '../../packages/point';
+import { selectors } from '@youhood/point';
 const { getTotalPoints } = selectors;
 
 interface Props {

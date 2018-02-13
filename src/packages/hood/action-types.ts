@@ -1,4 +1,4 @@
-import { typeCreator } from '../shared';
+import { typeCreator } from '@youhood/shared';
 
 export const {
   CLEAR_HOODS_ON_POINT,

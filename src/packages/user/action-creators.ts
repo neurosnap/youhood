@@ -1,6 +1,6 @@
-import { UserId, Users } from '../../types';
+import { UserId, Users } from '@youhood/user/types';
 
-import { creator } from '../shared';
+import { creator } from '@youhood/shared';
 
 import * as types from './action-types';
 

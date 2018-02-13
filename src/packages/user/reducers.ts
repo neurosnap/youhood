@@ -1,4 +1,5 @@
-import { UserId, UserHash } from '../../types';
+import { UserId, UserHash } from '@youhood/user/types';
+
 import { SetUserAction, AddUsersAction } from './action-creators';
 import { ADD_USERS, SET_USER, RESET_USER } from './action-types';
 import * as selectors from './selectors';

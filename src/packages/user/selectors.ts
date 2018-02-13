@@ -1,5 +1,6 @@
-import { State, User, UserId, UserHash } from '../../types';
+import { User, UserId, UserHash } from '@youhood/user/types';
 
+type State = any;
 export const currentUser = 'currentUser';
 export const users = 'users';
 

@@ -1,5 +1,6 @@
-import { Hoods, HoodIds, HoodId } from '../../types';
-import { creator } from '../shared';
+import { creator } from '@youhood/shared';
+
+import { Hoods, HoodIds, HoodId } from './types';
 import * as types from './action-types';
 
 type ActionType = string;

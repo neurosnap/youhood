@@ -1,6 +1,7 @@
 import { put, select } from 'redux-saga/effects';
 
-import { PolygonLeaflet, HoodMap } from '../../types';
+import { HoodMap } from '@youhood/map/types';
+import { PolygonLeaflet } from '@youhood/hood/types';
 
 import {
   SaveHoodAction,
