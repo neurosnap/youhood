@@ -9,8 +9,8 @@ import { selectors } from '@youhood/user';
 const { getCurrentUserId, getCurrentUser } = selectors;
 import { AuthPayload, AuthError } from '@youhood/auth/types';
 import { UserId, User } from '@youhood/user/types';
-import { State } from '../../types';
 
+import { State } from '../types';
 import Profile from './profile';
 
 interface Props {

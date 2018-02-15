@@ -1,9 +1,10 @@
 import * as h from 'react-hyperscript';
 import { connect } from 'react-redux';
 
-import { State } from '../../types';
 import { selectors } from '@youhood/point';
 const { getTotalPoints } = selectors;
+
+import { State } from '../types';
 
 interface Props {
   points: number;

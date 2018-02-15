@@ -4,7 +4,6 @@ import * as h from 'react-hyperscript';
 
 import { HoodId, Hood } from '@youhood/hood/types';
 import { User, UserId } from '@youhood/user/types';
-import { State } from '../../types';
 import {
   utils,
   actionCreators,
@@ -34,6 +33,8 @@ const { getVoteCountByHood, didUserVoteOnHood } = voteSelectors;
 const { vote, unvote } = voteActionCreators;
 import { selectors as authSelectors } from '@youhood/auth';
 const { isUserAuthenticated } = authSelectors;
+
+import { State } from '../types';
 
 interface HoodProps {
   hood: Hood;

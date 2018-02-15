@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import * as h from 'react-hyperscript';
 
 import { selectors } from '@youhood/menu';
-import { State } from '../../types';
 
+import { State } from '../types';
 import HoodView from './hood';
 import HoodSelection from './hood-selection';
 

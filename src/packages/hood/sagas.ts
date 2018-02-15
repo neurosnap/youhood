@@ -1,7 +1,6 @@
 import * as L from 'leaflet';
 import 'leaflet-draw';
-import { takeEvery } from 'redux-saga';
-import { put, call, select } from 'redux-saga/effects';
+import { put, call, select, takeEvery } from 'redux-saga/effects';
 
 import { HoodMap } from '@youhood/map/types';
 import { PolygonLeaflet, HoodId } from './types';
