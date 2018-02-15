@@ -13,7 +13,7 @@ prod:
 	$(BIN)/webpack
 
 lint:
-	$(BIN)/tslint ./packages ./web
+	$(BIN)/tslint './packages/**/*.ts' './web/**/*.ts'
 
 tsc:
 	$(BIN)/tsc --noEmit
