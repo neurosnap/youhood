@@ -2,7 +2,7 @@ PORT="5432"
 PGHOST="localhost"
 PGUSER="postgres"
 PGDATABASE="postgres"
-BIN="./node_modules/.bin"
+BIN=./node_modules/.bin
 
 .PHONY: server dev prod lint circular tsc test open
 
@@ -13,15 +13,12 @@ prod:
 	$(BIN)/webpack
 
 lint:
-	$(BIN)/tslint ./src
-
-circular:
-	$(BIN)/madge --circular src/delivery/web/index.ts
+	$(BIN)/tslint ./packages ./web
 
 tsc:
 	$(BIN)/tsc --noEmit
 
-test: tsc circular lint
+test: tsc lint
 
 open:
 	open http://localhost:8080/index
