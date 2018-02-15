@@ -3,23 +3,20 @@
   "version": "1.0.0",
   "description": "Crowd sourced neighborhood map",
   "main": "index.js",
+  "private": true,
+  "npmClient": "yarn",
+  "scripts": {
+    "test": "make test"
+  },
   "repository": {
     "type": "git",
     "url": "github.com:neurosnap/youhood.git"
-  },
-  "scripts": {
-    "test": "tsc --noEmit && npm run circular && npm run lint",
-    "web": "NODE_ENV=production  browserify src/delivery/web/index.ts -o public/bundle.js -p [ tsify ] -t envify",
-    "dev": "NODE_ENV=development watchify   src/delivery/web/index.ts -o public/bundle.js -p [ tsify ] -t envify ",
-    "lint": "tslint ./src",
-    "start": "open http://localhost:8080/index",
-    "start-server": "node ./src/delivery/server/index.js",
-    "circular": "madge --circular src/delivery/web/index.ts"
   },
   "author": "Eric Bower",
   "license": "MIT",
   "dependencies": {
     "@mapbox/leaflet-pip": "^1.1.0",
+    "@types/debug": "^0.0.30",
     "@types/express": "^4.0.36",
     "@types/leaflet": "^1.0.67",
     "@types/leaflet-draw": "0.4.11",
@@ -31,18 +28,15 @@
     "@types/uuid": "^3.4.0",
     "@types/websocket": "^0.0.34",
     "@types/ws": "^3.0.2",
+    "awesome-typescript-loader": "^3.4.1",
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.0",
-    "browserify": "^14.4.0",
-    "envify": "^4.0.0",
     "express": "^4.15.3",
     "express-promise-router": "^2.0.0",
     "express-session": "^1.15.6",
     "leaflet": "1.2.0",
     "leaflet-draw": "0.4.14",
-    "madge": "^2.2.0",
     "pg": "^7.4.0",
-    "ph": "^0.1.10",
-    "pug": "^2.0.0-rc.4",
     "react": "16.2.0",
     "react-dom": "16.2.0",
     "react-hyperscript": "^3.0.0",
@@ -50,15 +44,13 @@
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.15.4",
-    "tsify": "^3.0.1",
     "tslint": "^5.5.0",
     "tslint-config-airbnb": "^5.2.1",
-    "typescript": "^2.5.2",
+    "tslint-no-circular-imports": "^0.2.1",
+    "typescript": "2.7.1",
     "uuid": "^3.0.1",
-    "watchify": "^3.9.0",
+    "webpack": "^3.11.0",
     "ws": "^3.0.0"
   },
-  "devDependencies": {
-    "bcrypt": "^1.0.3"
-  }
+  "devDependencies": {}
 }

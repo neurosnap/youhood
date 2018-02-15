@@ -2,6 +2,26 @@ PORT="5432"
 PGHOST="localhost"
 PGUSER="postgres"
 PGDATABASE="postgres"
+BIN=./node_modules/.bin
+
+.PHONY: server dev prod lint circular tsc test open
+
+dev:
+	$(BIN)/webpack --watch
+
+prod:
+	$(BIN)/webpack
+
+lint:
+	$(BIN)/tslint './packages/**/*.ts' './web/**/*.ts'
+
+tsc:
+	$(BIN)/tsc --noEmit
+
+test: tsc lint
+
+open:
+	open http://localhost:8080/index
 
 psql-setup:
 	docker network create youhood-network
@@ -56,4 +76,4 @@ server:
 	PGPORT=$(PORT) \
 	GOOGLE_CLIENT_ID="708253278100-r0qmuh32tobh9g282to4c9vnve1bue6p.apps.googleusercontent.com" \
 	GOOGLE_CLIENT_SECRET="4zjGaLMNkn3IEvxZz8Y5A8Ak" \
-	node ./src/delivery/server/index.js
+	node ./server/index.js
