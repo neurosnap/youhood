@@ -5,16 +5,12 @@
   "main": "index.js",
   "private": true,
   "npmClient": "yarn",
+  "scripts": {
+    "test": "make test"
+  },
   "repository": {
     "type": "git",
     "url": "github.com:neurosnap/youhood.git"
-  },
-  "scripts": {
-    "test": "tsc --noEmit && npm run circular && npm run lint",
-    "lint": "tslint ./src",
-    "start": "open http://localhost:8080/index",
-    "start-server": "node ./src/delivery/server/index.js",
-    "circular": "madge --circular src/delivery/web/index.ts"
   },
   "author": "Eric Bower",
   "license": "MIT",
@@ -41,7 +37,6 @@
     "leaflet-draw": "0.4.14",
     "madge": "^2.2.0",
     "pg": "^7.4.0",
-    "ph": "^0.1.10",
     "pug": "^2.0.0-rc.4",
     "react": "16.2.0",
     "react-dom": "16.2.0",

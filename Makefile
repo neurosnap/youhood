@@ -10,6 +10,23 @@ dev:
 prod:
 	$(BIN)/webpack
 
+lint:
+	$(BIN)/tslint ./src
+
+circular:
+	$(BIN)/madge --circular src/delivery/web/index.ts
+
+tsc:
+	$(BIN)/tsc --noEmit
+
+test: tsc circular lint
+
+open:
+	open http://localhost:8080/index
+
+start-server:
+	node ./src/delivery/server/index.js
+
 psql-setup:
 	docker network create youhood-network
 
