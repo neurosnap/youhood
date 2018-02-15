@@ -41,8 +41,8 @@ input, textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
   height: 36px;
+  width: 75%;
 }
 
 .nav-hover {
