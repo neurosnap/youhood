@@ -14,11 +14,12 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-       "@youhood/*": ["src/packages/*"]
+       "@youhood/*": ["packages/*"]
     }
   },
   "include": [
-    "src/**/*"
+    "web/**/*",
+    "packages/**/*"
   ],
   "exclude": [
     "node_modules",

@@ -4,6 +4,8 @@ PGUSER="postgres"
 PGDATABASE="postgres"
 BIN="./node_modules/.bin"
 
+.PHONY: server dev prod lint circular tsc test open
+
 dev:
 	$(BIN)/webpack --watch
 
@@ -23,9 +25,6 @@ test: tsc circular lint
 
 open:
 	open http://localhost:8080/index
-
-start-server:
-	node ./src/delivery/server/index.js
 
 psql-setup:
 	docker network create youhood-network
@@ -80,4 +79,4 @@ server:
 	PGPORT=$(PORT) \
 	GOOGLE_CLIENT_ID="708253278100-r0qmuh32tobh9g282to4c9vnve1bue6p.apps.googleusercontent.com" \
 	GOOGLE_CLIENT_SECRET="4zjGaLMNkn3IEvxZz8Y5A8Ak" \
-	node ./src/delivery/server/index.js
+	node ./server/index.js

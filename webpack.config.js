@@ -4,7 +4,7 @@ const { CheckerPlugin, TsConfigPathsPlugin } = require('awesome-typescript-loade
 
 module.exports = {
   devtool: 'source-map',
-  entry: './src/delivery/web/index.ts',
+  entry: './web/index.ts',
   module: {
     rules: [{
       test: /\.tsx?$/,

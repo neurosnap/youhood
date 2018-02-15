@@ -6,7 +6,7 @@ const db = require('./db');
 
 module.exports = router;
 
-const root = path.join(__dirname, '..', '..', '..');
+const root = path.join(__dirname, '..');
 
 router.get('/index', async (req, res) => {
   const file = path.join(root, 'public', 'index.html');
