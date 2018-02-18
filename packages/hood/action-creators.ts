@@ -1,64 +1,14 @@
 import { creator } from '@youhood/shared';
 
-import { Hoods, HoodIds, HoodId } from './types';
+import { 
+  Hoods, 
+  HoodIds, 
+  HoodId,
+  SetHoodNamePayload,
+  HoverHoodPayload,
+  EditHoodPayload,
+} from './types';
 import * as types from './action-types';
-
-type ActionType = string;
-
-export interface HoodSelectedAction {
-  type: ActionType;
-  payload: HoodId;
-}
-
-export interface HopAction {
-  type: ActionType;
-  payload: HoodIds;
-}
-
-export interface SetHoodNamePayload {
-  hoodId: HoodId;
-  name: string;
-}
-
-export interface SetHoodNameAction {
-  type: ActionType;
-  payload: SetHoodNamePayload;
-}
-
-export interface ToggleHoodSelectedAction {
-  type: ActionType;
-  payload: HoodId;
-}
-
-export interface SetHoodsAction {
-  type: ActionType;
-  payload: Hoods;
-}
-
-export interface HoverHoodPayload {
-  hoodId: HoodId;
-  hover: boolean;
-}
-
-export interface HoverHoodAction {
-  type: ActionType;
-  payload: HoverHoodPayload;
-}
-
-export interface EditHoodPayload {
-  hoodId: HoodId;
-  edit: boolean;
-}
-
-export interface EditHoodAction {
-  type: string;
-  payload: EditHoodPayload;
-}
-
-export interface SaveHoodAction {
-  type: string;
-  payload: HoodId;
-}
 
 export const clearHoodsOnPoint = () => ({ type: types.CLEAR_HOODS_ON_POINT });
 export const deselectHood = () => ({ type: types.DESELECT_HOOD });

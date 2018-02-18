@@ -1,15 +1,14 @@
 import { put, select } from 'redux-saga/effects';
 
 import { HoodMap } from '@youhood/map/types';
-import { PolygonLeaflet } from '@youhood/hood/types';
 
 import {
-  SaveHoodAction,
   addHoods,
   afterSaveHood,
 } from './action-creators';
 import { getHoodById } from './selectors';
 import { getHoodProperties, findHood } from './utils';
+import { SaveHoodAction, PolygonLeaflet } from './types';
 
 export function* onSaveHood(
   { hoodGeoJSON }: HoodMap,

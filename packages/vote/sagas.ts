@@ -4,12 +4,11 @@ import { actionTypes } from '@youhood/hood';
 const { SET_HOODS_ON_POINT } = actionTypes;
 
 import {
-  FetchVotesByHoodAction,
   addVotes,
   removeVotes,
-  VoteAction,
 } from './action-creators';
 import { VOTE, UNVOTE } from './action-types';
+import { FetchVotesByHoodAction, VoteAction } from './types';
 
 function* onFetchVotes(action: FetchVotesByHoodAction) {
   const hoodIds = action.payload;

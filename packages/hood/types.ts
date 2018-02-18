@@ -1,5 +1,6 @@
 import { UserId } from '@youhood/user/types';
 
+type ActionType = string;
 export type HoodId = string;
 export type HoodIds = HoodId[];
 export type HoodHash = { [key: string]: Hood };
@@ -36,4 +37,64 @@ export interface GeoJson {
   };
   properties: HoodProperties;
   type: string;
+}
+
+export interface AddHoodsAction {
+  type: ActionType;
+  payload: Hoods;
+}
+
+export interface HoodSelectedAction {
+  type: ActionType;
+  payload: HoodId;
+}
+
+export interface HopAction {
+  type: ActionType;
+  payload: HoodIds;
+}
+
+export interface SetHoodNamePayload {
+  hoodId: HoodId;
+  name: string;
+}
+
+export interface SetHoodNameAction {
+  type: ActionType;
+  payload: SetHoodNamePayload;
+}
+
+export interface ToggleHoodSelectedAction {
+  type: ActionType;
+  payload: HoodId;
+}
+
+export interface SetHoodsAction {
+  type: ActionType;
+  payload: Hoods;
+}
+
+export interface HoverHoodPayload {
+  hoodId: HoodId;
+  hover: boolean;
+}
+
+export interface HoverHoodAction {
+  type: ActionType;
+  payload: HoverHoodPayload;
+}
+
+export interface EditHoodPayload {
+  hoodId: HoodId;
+  edit: boolean;
+}
+
+export interface EditHoodAction {
+  type: string;
+  payload: EditHoodPayload;
+}
+
+export interface SaveHoodAction {
+  type: string;
+  payload: HoodId;
 }

@@ -23,3 +23,8 @@ export interface AuthErrorAction {
   type: string;
   payload: AuthError;
 }
+
+export interface SignedInAction {
+  type: string;
+  payload: UserId;
+}

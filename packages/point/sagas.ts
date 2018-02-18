@@ -1,18 +1,23 @@
 import { takeEvery, put, call, select, fork } from 'redux-saga/effects';
 
+import { SignedInAction } from '@youhood/auth/types';
+import { actionTypes as authActionTypes } from '@youhood/auth';
+const { SIGNED_IN } = authActionTypes;
 import { HoodId, Hoods } from '@youhood/hood/types';
 import { actionTypes, utils } from '@youhood/hood';
 const { AFTER_SAVE_HOOD } = actionTypes;
 const { getHoodId } = utils;
 import { actionTypes as voteActionTypes } from '@youhood/vote';
 const { VOTE, UNVOTE } = voteActionTypes;
-import { VoteAction } from '@youhood/vote/action-creators';
+import { VoteAction } from '@youhood/vote/types';
 import { selectors } from '@youhood/user';
 const { getCurrentUserId } = selectors;
 import { UserId } from '@youhood/user/types';
 
-import { addPoints } from './action-creators';
+import { FETCH_POINTS_BY_USER } from './action-types';
+import { addPoints, fetchPointsByUser } from './action-creators';
 import pointMap from './point-map';
+import { FetchPointsByUserAction } from './types';
 
 interface SubmitPoints {
   userId: UserId;
@@ -85,4 +90,35 @@ export function* userVotedSaga() {
 
 export function* userUnvotedSaga() {
   yield takeEvery(UNVOTE, userUnvoted);
+}
+
+function* onSignedIn(action: SignedInAction) {
+  const userId = action.payload;
+  yield put(fetchPointsByUser(userId));
+}
+
+export function* signedInSaga() {
+  yield takeEvery(SIGNED_IN, onSignedIn);
+}
+
+interface PointResponsePayload {
+  neighorhood_id: HoodId;
+  created_at: string;
+  reason: string;
+}
+
+function* onFetchPointsByUser(action: FetchPointsByUserAction) {
+  const userId = action.payload;
+  const resp = yield call(fetch, `/point/${userId}`);
+  const body = yield resp.json();
+  const points = body.points.map((point: PointResponsePayload) => ({
+    value: pointMap[point.reason],
+    reason: point.reason,
+  }));
+
+  yield put(addPoints(points));
+}
+
+export function* fetchPointsByUserSaga() {
+  yield takeEvery(FETCH_POINTS_BY_USER, onFetchPointsByUser);
 }

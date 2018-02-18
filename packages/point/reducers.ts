@@ -1,7 +1,7 @@
 import { Points } from '@youhood/point/types';
 
 import { ADD_POINTS, RESET_POINTS } from './action-types';
-import { AddPointsAction } from './action-creators';
+import { AddPointsAction } from './types';
 import * as selectors from './selectors';
 
 const defaultState: Points = [];

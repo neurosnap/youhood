@@ -6,11 +6,11 @@ const { findOrCreateUser } = require('./user');
 module.exports = router;
 
 router.get('/:userId', async (req, res) => {
+  const userId = req.params.userId;
   const sql = `
     SELECT
-      vote_id
-      neighborhood_id
-      reason
+      neighborhood_id,
+      reason,
       created_at
     FROM point
     WHERE hood_user_id=$1

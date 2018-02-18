@@ -51,6 +51,7 @@ const createMapChannel = ({ map, hoodGeoJSON }: HoodMap) => eventChannel((emit) 
   };
 
   const onDrawCreated = (event: L.LayerEvent) => {
+    console.log('HIT');
     const layer = <L.Polygon>event.layer;
     const hood = layer.toGeoJSON();
     hoodGeoJSON.addData(hood);

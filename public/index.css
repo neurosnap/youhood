@@ -145,6 +145,16 @@ input, textarea {
   font-size: 11px;
 }
 
+.points-menu-container {
+  position: absolute;
+  background: #4285f4;
+  top: 46px;
+  right: -2px;
+  z-index: 401;
+  width: 300px;
+  height: 230px;
+}
+
 .signin-menu-container {
   position: absolute;
   background: #4285f4;

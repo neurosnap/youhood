@@ -25,9 +25,7 @@ export default ({ points }: Props) =>
           h('i.fa.fa-search'),
           h('input.search-input', { placeholder: 'Search' }),
         ]),
-        h('div.points-container.nav-hover', [
-          h(Points, { points }),
-        ]),
+        h(Points, { points }),
         h(SignIn),
       ]),
     ]),
