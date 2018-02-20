@@ -1,11 +1,13 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import * as h from 'react-hyperscript';
+import styled from 'styled-components';
 
-import { Hoods, HoodId } from '@youhood/hood/types';
 import { utils, actionCreators, selectors } from '@youhood/hood';
+import { Hoods, HoodId } from '@youhood/hood/types';
 
 import { State } from '../types';
+import { Overlay } from './ui';
 
 const { getHoodsOnPoint } = selectors;
 const {
@@ -13,6 +15,19 @@ const {
   getHoodId,
 } = utils;
 const { toggleHoodSelected, hoverHood } = actionCreators;
+
+const HoodSelectionContainer = Overlay.extend`
+  height: 20%;
+`;
+
+const HoodListItem = styled.div`
+  cursor: pointer;
+  font-size: 11px;
+
+  :hover {
+    background-color: green;
+  }
+`;
 
 interface Props {
   show: boolean;
@@ -50,11 +65,11 @@ export class HoodSelection extends Component {
     const { show, hoods, hover, toggle } = this.props;
     if (!show || hoods.length < 2) return null;
 
-    return h('div.overlay.hood-selection', hoods.map((hood) => {
+    return h(HoodSelectionContainer, hoods.map((hood) => {
       const { name } = getHoodProperties(hood);
       const hoodId = getHoodId(hood);
       return h(
-        'div.hood-list-item', {
+        HoodListItem, {
           key: hoodId,
           onClick: () => toggle(hoodId),
           onMouseEnter: () => hover(hoodId, true),

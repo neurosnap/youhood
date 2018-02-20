@@ -1,6 +1,6 @@
-import { Component } from 'react';
 import { connect } from 'react-redux';
 import * as h from 'react-hyperscript';
+import styled from 'styled-components';
 
 import { selectors } from '@youhood/menu';
 
@@ -10,14 +10,24 @@ import HoodSelection from './hood-selection';
 
 const { isOverlayOpen } = selectors;
 
-export class Overlay extends Component {
-  render() {
-    return h('div.overlay-container', [
-      h(HoodView, this.props),
-      h(HoodSelection, this.props),
-    ]);
-  }
-}
+const OverlayContainer = styled.div`
+  z-index: 314159;
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 10%;
+  width: 15%;
+  height: 100%;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Overlay = (props: any) => 
+  h(OverlayContainer, [
+    h(HoodView, props),
+    h(HoodSelection, props),
+  ]);
 
 export default connect(
   (state: State) => ({

@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import * as h from 'react-hyperscript';
+import styled from 'styled-components';
 
 import { HoodId, Hood, SetHoodNamePayload, EditHoodPayload } from '@youhood/hood/types';
 import { User, UserId } from '@youhood/user/types';
@@ -34,6 +35,38 @@ import { selectors as authSelectors } from '@youhood/auth';
 const { isUserAuthenticated } = authSelectors;
 
 import { State } from '../types';
+import { Overlay } from './ui';
+
+const HoodContainer = Overlay.extend`
+  height: 20%;
+  padding: 10px;
+`;
+
+const OverlayHoodContainer = styled.div`
+  display: flex;
+`;
+
+const Votes = styled.div`
+  margin-right: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const VoteUp = styled.i`
+  cursor: pointer;
+`;
+
+const Voted = VoteUp.extend`
+  color: orange;
+`;
+
+const Actions = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  padding: 10px;
+`;
 
 interface HoodProps {
   hood: Hood;
@@ -165,24 +198,24 @@ export class HoodView extends Component {
       hoodInfo = h('div', name);
     }
 
-    const userVoting = canUserVote ?
-      h(`i.vote-up.fa.fa-angle-up${userVoted ? '.voted' : ''}`, {
-        onClick: () => {
-          if (userVoted) {
-            handleUnvote(hoodId, currentUserId);
-            return;
-          }
+    const VoteState = userVoted ? Voted : VoteUp;
+    const UserVoting = canUserVote ? h(VoteState, {
+      className: 'fa fa-angle-up',
+      onClick: () => {
+        if (userVoted) {
+          handleUnvote(hoodId, currentUserId);
+          return;
+        }
 
-          handleVote(hoodId, currentUserId);
-        },
-      })
-      : null;
+        handleVote(hoodId, currentUserId);
+      },
+    }) : null;
 
-    return h('div.overlay.hood', [
-      h('div.overlayHoodContainer', [
-        h('div.votes', [
-          userVoting,
-          h('div.vote-value', votes),
+    return h(HoodContainer, [
+      h(OverlayHoodContainer, [
+        h(Votes, [
+          UserVoting,
+          h('div', votes),
         ]),
         h('div', [
           hoodInfo,
@@ -192,7 +225,7 @@ export class HoodView extends Component {
           ]),
         ]),
       ]),
-      actions ? h('div.actions', actions) : null,
+      actions ? h(Actions, actions) : null,
     ]);
   }
 }
