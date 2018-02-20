@@ -1,13 +1,12 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import * as h from 'react-hyperscript';
-import styled from 'styled-components';
 
 import { utils, actionCreators, selectors } from '@youhood/hood';
 import { Hoods, HoodId } from '@youhood/hood/types';
 
 import { State } from '../types';
-import { Overlay } from './ui';
+import { HoodSelectionContainer, HoodListItem } from './ui';
 
 const { getHoodsOnPoint } = selectors;
 const {
@@ -15,19 +14,6 @@ const {
   getHoodId,
 } = utils;
 const { toggleHoodSelected, hoverHood } = actionCreators;
-
-const HoodSelectionContainer = Overlay.extend`
-  height: 20%;
-`;
-
-const HoodListItem = styled.div`
-  cursor: pointer;
-  font-size: 11px;
-
-  :hover {
-    background-color: green;
-  }
-`;
 
 interface Props {
   show: boolean;

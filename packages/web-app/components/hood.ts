@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import * as h from 'react-hyperscript';
-import styled from 'styled-components';
 
 import { HoodId, Hood, SetHoodNamePayload, EditHoodPayload } from '@youhood/hood/types';
 import { User, UserId } from '@youhood/user/types';
@@ -35,38 +34,14 @@ import { selectors as authSelectors } from '@youhood/auth';
 const { isUserAuthenticated } = authSelectors;
 
 import { State } from '../types';
-import { Overlay } from './ui';
-
-const HoodContainer = Overlay.extend`
-  height: 20%;
-  padding: 10px;
-`;
-
-const OverlayHoodContainer = styled.div`
-  display: flex;
-`;
-
-const Votes = styled.div`
-  margin-right: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const VoteUp = styled.i`
-  cursor: pointer;
-`;
-
-const Voted = VoteUp.extend`
-  color: orange;
-`;
-
-const Actions = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 50%;
-  padding: 10px;
-`;
+import { 
+  HoodContainer, 
+  OverlayHoodContainer, 
+  Votes, 
+  VoteUp, 
+  Voted, 
+  Actions,
+} from './ui';
 
 interface HoodProps {
   hood: Hood;
