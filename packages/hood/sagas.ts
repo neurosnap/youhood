@@ -3,8 +3,6 @@ import 'leaflet-draw';
 import { put, call, select, takeEvery } from 'redux-saga/effects';
 
 import { HoodMap } from '@youhood/map/types';
-import { PolygonLeaflet, HoodId } from './types';
-
 import { actionCreators } from '@youhood/menu';
 const { showMenu, hideMenu } = actionCreators;
 import { actionCreators as userActionCreators } from '@youhood/user';
@@ -19,19 +17,63 @@ import {
   EDIT_HOOD,
   SAVE_HOOD,
   DRAW_HOOD,
+  ADD_HOODS,
 } from './action-types';
 import {
-  HoodSelectedAction,
-  ToggleHoodSelectedAction,
   selectHood,
   deselectHood,
-  HoverHoodAction,
-  EditHoodAction,
 } from './action-creators';
 import styleFn from './style';
 import { getHoodIdSelected, getHoodSelected } from './selectors';
 import { findHood, getHoodProperties } from './utils';
 import { onSaveHood } from './effects';
+import {
+  HoodSelectedAction,
+  ToggleHoodSelectedAction,
+  HoverHoodAction,
+  EditHoodAction,
+  PolygonLeaflet, 
+  HoodId,
+  Hood,
+  AddHoodsAction,
+} from './types';
+
+export function* addHoodsSaga(hoodMap: HoodMap) {
+  yield takeEvery(ADD_HOODS, onAddHoods, hoodMap);
+}
+
+function onAddHoods({ hoodGeoJSON }: HoodMap, action: AddHoodsAction) {
+  const hoods = action.payload;
+  const hoodIds = hoods.map((hood: Hood) => {
+    const props = getHoodProperties(hood);
+    return props.id;
+  }); 
+
+  hoodGeoJSON.eachLayer((hood: PolygonLeaflet) => {
+    const props = getHoodProperties(hood);
+    const name = props.name;
+    const hoodId = props.id;
+    if (hoodIds.indexOf(hoodId) === -1) {
+      return;
+    }
+
+    hood.setStyle(styleFn());
+
+    hood.bindTooltip(name, { 
+      sticky: true, 
+      offset: [25, 0], 
+      direction: 'right',
+    });
+
+    hood.on('mouseover', () => {
+      hood.setStyle(styleFn({ hover: true }));
+    });
+
+    hood.on('mouseout', () => {
+      hood.setStyle(styleFn());
+    });
+  });
+}
 
 export function* drawHoodSaga(hoodMap: HoodMap) {
   yield takeEvery(DRAW_HOOD, onDrawHood, hoodMap);

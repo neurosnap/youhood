@@ -1,5 +1,3 @@
-import { Hood, Hoods, HoodId, HoodIds } from './types';
-
 import { getHoodId, setHoodName } from './utils';
 import {
   SELECT_HOOD,
@@ -17,7 +15,11 @@ import {
   SetHoodsAction,
   SetHoodNameAction,
   SetHoodNamePayload,
-} from './action-creators';
+  Hood,
+  Hoods,
+  HoodId,
+  HoodIds,
+} from './types';
 import * as selectors from './selectors';
 
 export const hoodSelected = (state: HoodId = null, action: HoodSelectedAction): HoodId => {

@@ -1,7 +1,6 @@
-import { Votes, VoteList } from './types';
+import { Votes, VoteList, AddVotesAction, VoteAction, VotePayload } from './types';
 
 import { ADD_VOTES, VOTE, REMOVE_VOTES } from './action-types';
-import { AddVotesAction, VoteAction, VotePayload } from './action-creators';
 import * as selectors from './selectors';
 
 const votes = (state: Votes = {}, action: AddVotesAction | VoteAction) => {

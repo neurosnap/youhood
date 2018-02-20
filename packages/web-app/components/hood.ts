@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import * as h from 'react-hyperscript';
 
-import { HoodId, Hood } from '@youhood/hood/types';
+import { HoodId, Hood, SetHoodNamePayload, EditHoodPayload } from '@youhood/hood/types';
 import { User, UserId } from '@youhood/user/types';
 import {
   utils,
@@ -20,7 +20,6 @@ const {
   saveHood,
 } = actionCreators;
 const { getHoodSelected } = selectors;
-import { SetHoodNamePayload, EditHoodPayload } from '@youhood/hood/action-creators';
 import { actionCreators as menuActionCreators } from '@youhood/menu';
 const { hideMenu } = menuActionCreators;
 import { selectors as userSelectors } from '@youhood/user';

@@ -8,7 +8,7 @@ const { resetPoints } = pointActionCreators;
 
 import { Token, AuthError, AuthAction } from './types';
 import { SIGN_IN, SIGN_OUT, REGISTER } from './action-types';
-import { setToken, authError, resetToken } from './action-creators';
+import { setToken, authError, resetToken, signedIn, signedOut } from './action-creators';
 
 interface SuccessJSON {
   user: User;
@@ -33,6 +33,7 @@ function* onSignIn(action: AuthAction) {
     yield put(addUsers([result.user]));
     yield put(setUser(result.user.id));
     yield put(setToken(result.token));
+    yield put(signedIn(result.user.id));
     return;
   }
 
@@ -47,6 +48,7 @@ function* onSignOut() {
   yield put(resetUser());
   yield put(resetToken());
   yield put(resetPoints());
+  yield put(signedOut());
 }
 
 function* onRegister(action: AuthAction) {

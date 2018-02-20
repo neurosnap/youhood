@@ -1,6 +1,6 @@
 import { combineReducers, Reducer } from 'redux';
 
-import { use, sagaCreator } from '@youhood/package-loader';
+import { use, sagaCreator } from '@youhood/loader';
 
 import { State } from './types';
 
