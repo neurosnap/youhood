@@ -36,11 +36,12 @@ const { isUserAuthenticated } = authSelectors;
 import { State } from '../types';
 import { 
   HoodContainer, 
-  OverlayHoodContainer, 
   Votes, 
   VoteUp, 
   Voted, 
   Actions,
+  OverlayHeader,
+  OverlayContainer,
 } from './ui';
 
 interface HoodProps {
@@ -144,7 +145,7 @@ export class HoodView extends Component {
       handleUnvote,
       currentUserId,
     } = this.props;
-    if (!show) return null;
+    if (!show || !hoodId) return null;
     const { name, editing } = this.state;
 
     let actions = null;
@@ -186,8 +187,9 @@ export class HoodView extends Component {
       },
     }) : null;
 
-    return h(HoodContainer, [
-      h(OverlayHoodContainer, [
+    return h(OverlayContainer, [
+      h(OverlayHeader, 'Hood View'),
+      h(HoodContainer, [
         h(Votes, [
           UserVoting,
           h('div', votes),
@@ -199,8 +201,8 @@ export class HoodView extends Component {
             h('span', user.isTmp ? 'Anonymous' : user.email),
           ]),
         ]),
+        actions ? h(Actions, actions) : null,
       ]),
-      actions ? h(Actions, actions) : null,
     ]);
   }
 }

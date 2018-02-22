@@ -7,6 +7,7 @@ import {
   SetHoodNamePayload,
   HoverHoodPayload,
   EditHoodPayload,
+  HoodPropsMap,
 } from './types';
 import * as types from './action-types';
 
@@ -24,3 +25,6 @@ export const editHood = creator<EditHoodPayload>(types.EDIT_HOOD);
 export const saveHood = creator<HoodId>(types.SAVE_HOOD);
 export const afterSaveHood = creator<Hoods>(types.AFTER_SAVE_HOOD);
 export const drawHood = () => ({ type: types.DRAW_HOOD });
+export const hideHoods = creator<HoodIds>(types.HIDE_HOODS);
+export const showHoods = creator<HoodIds>(types.SHOW_HOODS);
+export const addHoodProps = creator<HoodPropsMap>(types.ADD_HOOD_PROPS);

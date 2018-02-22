@@ -13,6 +13,11 @@ export interface HoodProperties {
   county: string;
   city: string;
   regionid?: string;
+  visible: boolean;
+}
+
+export interface HoodPropsMap {
+  [key: string]: HoodProperties;
 }
 
 export interface Feature<T extends GeoJSON.GeometryObject> extends GeoJSON.Feature<T> {
@@ -97,4 +102,9 @@ export interface EditHoodAction {
 export interface SaveHoodAction {
   type: string;
   payload: HoodId;
+}
+
+export interface AddHoodPropsMap {
+  type: string;
+  payload: HoodPropsMap;
 }

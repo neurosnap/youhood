@@ -15,4 +15,7 @@ export const {
   SAVE_HOOD,
   AFTER_SAVE_HOOD,
   DRAW_HOOD,
+  HIDE_HOODS,
+  SHOW_HOODS,
+  ADD_HOOD_PROPS,
 } = typeCreator;

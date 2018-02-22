@@ -1,6 +1,6 @@
 import * as L from 'leaflet';
 import 'leaflet-draw';
-import { put, call, select, takeEvery } from 'redux-saga/effects';
+import { put, call, select, takeEvery, take, spawn } from 'redux-saga/effects';
 
 import { HoodMap } from '@youhood/map/types';
 import { actionCreators } from '@youhood/menu';
@@ -17,15 +17,17 @@ import {
   EDIT_HOOD,
   SAVE_HOOD,
   DRAW_HOOD,
-  ADD_HOODS,
+  HIDE_HOODS,
+  SHOW_HOODS,
 } from './action-types';
 import {
   selectHood,
   deselectHood,
+  addHoodProps,
 } from './action-creators';
 import styleFn from './style';
-import { getHoodIdSelected, getHoodSelected } from './selectors';
-import { findHood, getHoodProperties } from './utils';
+import { getHoodIdSelected, getHoodSelected, getHoodsByIds, getHoodPropsByIds } from './selectors';
+import { findHood, getHoodProperties, getHoodId, getHoodPropsMapFromHoods } from './utils';
 import { onSaveHood } from './effects';
 import {
   HoodSelectedAction,
@@ -34,45 +36,144 @@ import {
   EditHoodAction,
   PolygonLeaflet, 
   HoodId,
-  Hood,
-  AddHoodsAction,
+  HoodIds,
 } from './types';
+import { eventChannel } from 'redux-saga';
 
-export function* addHoodsSaga(hoodMap: HoodMap) {
-  yield takeEvery(ADD_HOODS, onAddHoods, hoodMap);
+const HOOD_MOUSE_OVER = 'mouseover';
+const HOOD_MOUSE_OUT = 'mouseout';
+const LAYER_ADD = 'layeradd';
+
+const createLayerChannel = (layerGroup: L.GeoJSON) => eventChannel((emit) => {
+  const onLayerAdd = (layer: L.LeafletEvent) => {
+    emit({ type: LAYER_ADD, payload: layer });
+  };
+
+  layerGroup.on('layeradd', onLayerAdd);
+
+  return () => {
+    layerGroup.off('layeradd', onLayerAdd);
+  };
+});
+
+export function* layerSaga({ hoodGeoJSON }: HoodMap) {
+  const channel = createLayerChannel(hoodGeoJSON);
+
+  while (true) {
+    const event = yield take(channel);
+    const { type, payload } = event;
+    const layer = payload;
+
+    switch (type) {
+      case LAYER_ADD: {
+        console.log(layer);
+        yield spawn(prepareHoods, [layer.layer]);
+      }
+      default:
+        break;
+    }
+  }
 }
 
-function onAddHoods({ hoodGeoJSON }: HoodMap, action: AddHoodsAction) {
-  const hoods = action.payload;
-  const hoodIds = hoods.map((hood: Hood) => {
-    const props = getHoodProperties(hood);
-    return props.id;
-  }); 
+const createHoodChannel = (hood: PolygonLeaflet) => eventChannel((emit) => {
+  const props = getHoodProperties(hood);
+  const name = props.name;
 
-  hoodGeoJSON.eachLayer((hood: PolygonLeaflet) => {
-    const props = getHoodProperties(hood);
-    const name = props.name;
-    const hoodId = props.id;
+  const onMouseOver = () => {
+    emit({ type: HOOD_MOUSE_OVER });
+  };
+
+  const onMouseOut = () => {
+    emit({ type: HOOD_MOUSE_OUT });
+  };
+
+  hood.on('mouseover', onMouseOver);
+  hood.on('mouseout', onMouseOut);
+  hood.bindTooltip(name, { 
+    sticky: true, 
+    offset: [25, 0], 
+    direction: 'right',
+  });
+
+  return () => {
+    hood.off(HOOD_MOUSE_OVER, onMouseOver);
+    hood.off(HOOD_MOUSE_OUT, onMouseOut);
+    hood.unbindTooltip();
+  };
+});
+
+function* startHoodEvents(hood: PolygonLeaflet) {
+  const channel = yield call(createHoodChannel, hood);
+  const hoodId = getHoodId(hood);
+
+  while (true) {
+    const event = yield take(channel);
+    const { type } = event;
+    const hoodIdSelected = yield select(getHoodIdSelected);
+    if (hoodIdSelected === hoodId) {
+      continue;
+    }
+    
+    switch (type) {
+      case HOOD_MOUSE_OVER:
+        hood.setStyle(styleFn({ hover: true }));
+        break;
+      case HOOD_MOUSE_OUT:
+        hood.setStyle(styleFn());
+        break;
+      default:
+        break;
+    }
+  }
+}
+
+interface HoodIdsAction {
+  type: string;
+  payload: HoodIds;
+}
+
+function* onHideHoods({ hoodGeoJSON }: HoodMap, action: HoodIdsAction) {
+  const hoodIds = action.payload;
+  const hoodPropsMap = yield select(getHoodPropsByIds, { ids: hoodIds });
+  Object.keys(hoodPropsMap).forEach((key) => {
+    hoodPropsMap[key].visible = false;
+  });
+  yield put(addHoodProps(hoodPropsMap));
+
+  hoodGeoJSON.eachLayer((hood) => {
+    const hoodId = getHoodId(hood);
+
     if (hoodIds.indexOf(hoodId) === -1) {
       return;
     }
 
-    hood.setStyle(styleFn());
-
-    hood.bindTooltip(name, { 
-      sticky: true, 
-      offset: [25, 0], 
-      direction: 'right',
-    });
-
-    hood.on('mouseover', () => {
-      hood.setStyle(styleFn({ hover: true }));
-    });
-
-    hood.on('mouseout', () => {
-      hood.setStyle(styleFn());
-    });
+    hoodGeoJSON.removeLayer(hood);
   });
+}
+
+function* onShowHoods({ hoodGeoJSON }: HoodMap, action: HoodIdsAction) {
+  const hoodIds = action.payload;
+  const hoods = yield select(getHoodsByIds, { ids: hoodIds });
+  hoodGeoJSON.addData(hoods);
+}
+
+export function* showHoodsSaga(hoodMap: HoodMap) {
+  yield takeEvery(SHOW_HOODS, onShowHoods, hoodMap);
+}
+export function* hideHoodsSaga(hoodMap: HoodMap) {
+  yield takeEvery(HIDE_HOODS, onHideHoods, hoodMap);
+}
+
+function* prepareHoods(layers: PolygonLeaflet[]) {
+  const hoodPropsMap = getHoodPropsMapFromHoods(layers);
+  yield put(addHoodProps(hoodPropsMap));
+
+
+  for (let i = 0; i < layers.length; i += 1) {
+    const hood = <PolygonLeaflet>layers[i];
+    hood.setStyle(styleFn());
+    yield spawn(startHoodEvents, hood);
+  }
 }
 
 export function* drawHoodSaga(hoodMap: HoodMap) {
@@ -80,7 +181,6 @@ export function* drawHoodSaga(hoodMap: HoodMap) {
 }
 
 function onDrawHood({ map, drawControl }: HoodMap) {
-  console.log(drawControl);
   new L.Draw.Polygon(map).enable();
 }
 
@@ -116,7 +216,7 @@ function applyStyle({ hoodMap, hoodId, style }: ApplyStyle) {
   hood.bringToFront();
 }
 
-function  transformUser(rawUser: RawUser): User {
+function transformUser(rawUser: RawUser): User {
   if (!rawUser) return null;
   return {
     id: rawUser.id,
@@ -145,6 +245,10 @@ function* onSelectHood(hoodMap: HoodMap, action: HoodSelectedAction) {
 function* onHoverHood(hoodMap: HoodMap, action: HoverHoodAction) {
   const { hoodId, hover } = action.payload;
   const style = { hover };
+  const hoodIdSelected = yield select(getHoodIdSelected);
+  if (hoodId === hoodIdSelected) {
+    return;
+  }
   yield call(applyStyle, { hoodMap, hoodId, style });
 }
 

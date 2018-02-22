@@ -51,7 +51,6 @@ const createMapChannel = ({ map, hoodGeoJSON }: HoodMap) => eventChannel((emit) 
   };
 
   const onDrawCreated = (event: L.LayerEvent) => {
-    console.log('HIT');
     const layer = <L.Polygon>event.layer;
     const hood = layer.toGeoJSON();
     hoodGeoJSON.addData(hood);
@@ -70,7 +69,6 @@ const createMapChannel = ({ map, hoodGeoJSON }: HoodMap) => eventChannel((emit) 
 export function* mapSaga(hoodMap: HoodMap) {
   const channel = yield call(createMapChannel, hoodMap);
 
-  /* eslint-disable no-constant-condition */
   while (true) {
     const event = yield take(channel);
     const { type, payload } = event;

@@ -36,7 +36,6 @@ export function* socketSaga({ hoodGeoJSON }: HoodMap) {
   const socket = new WebSocket('ws://localhost:8080');
   const channel = yield call(createSocketChannel, socket);
 
-  /* eslint-disable no-constant-condition */
   while (true) {
     const event = yield take(channel);
     const { type, payload } = event;

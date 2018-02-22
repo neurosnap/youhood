@@ -1,23 +1,26 @@
 import styled from 'styled-components';
 
-export const Overlay = styled.div`
-  margin: 20px 0;
-  border-radius: 15px;
+const OverlaySection = styled.div`
+  display: flex;
   background-color: #fff;
-  display: flex;
+  border-radius: 5px;
+  padding: 15px;
+`;
+
+export const HoodContainer = OverlaySection;
+
+export const HoodSelectionContainer = OverlaySection.extend`
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+  margin-bottom: 20px;
 `;
 
-export const HoodContainer = Overlay.extend`
-  height: 20%;
-  padding: 10px;
-`;
-
-export const OverlayHoodContainer = styled.div`
+export const HoodSelectionItem = styled.div`
   display: flex;
+  align-items: center;
+`;
+
+export const HoodVisibility = styled.i`
+  cursor: pointer;
 `;
 
 export const Votes = styled.div`
@@ -42,15 +45,31 @@ export const Actions = styled.div`
   padding: 10px;
 `;
 
-export const HoodSelectionContainer = Overlay.extend`
-  height: 20%;
-`;
-
 export const HoodListItem = styled.div`
   cursor: pointer;
-  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  flex: 1;
 
   :hover {
-    background-color: green;
+    background-color: rgba(46, 139, 87, 0.5);
   }
+`;
+
+export const HoodListItemSelected = styled.div`
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+  flex: 1;
+  background-color: rgb(255, 250, 205);
+`;
+
+export const OverlayHeader = styled.div`
+  font-size: 16px;
+  color: #fff;
+`;
+
+export const OverlayContainer = styled.div`
+  width: 90%;
+  margin-top: 15px;
 `;

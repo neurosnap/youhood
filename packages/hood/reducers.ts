@@ -8,6 +8,7 @@ import {
   SET_HOODS,
   USER_ADD_HOODS,
   SET_HOOD_NAME,
+  ADD_HOOD_PROPS,
 } from './action-types';
 import {
   HoodSelectedAction,
@@ -19,10 +20,12 @@ import {
   Hoods,
   HoodId,
   HoodIds,
+  HoodPropsMap,
+  AddHoodPropsMap,
 } from './types';
 import * as selectors from './selectors';
 
-export const hoodSelected = (state: HoodId = null, action: HoodSelectedAction): HoodId => {
+const hoodSelected = (state: HoodId = null, action: HoodSelectedAction): HoodId => {
   switch (action.type) {
   case SELECT_HOOD:
     return action.payload;
@@ -36,13 +39,25 @@ export const hoodSelected = (state: HoodId = null, action: HoodSelectedAction): 
 };
 
 const defaultHop: HoodIds = [];
-export const hoodsOnPoint = (state: HoodIds = defaultHop, action: HopAction): HoodIds => {
+const hoodsOnPoint = (state: HoodIds = defaultHop, action: HopAction): HoodIds => {
   switch (action.type) {
   case SET_HOODS_ON_POINT:
     return action.payload;
   case CLEAR_HOODS_ON_POINT:
     return defaultHop;
   default:
+    return state;
+  }
+};
+
+const defaultHoodProps = {};
+const hoodProps = (state: HoodPropsMap = defaultHoodProps, action: AddHoodPropsMap): HoodPropsMap => {
+  switch (action.type) {
+  case ADD_HOOD_PROPS: {
+    const propMap = action.payload;
+    return { ...state, ...propMap };
+  }
+  default: 
     return state;
   }
 };
@@ -56,7 +71,7 @@ function arrayToObj(arr: Hoods, init: HoodObj = {}): HoodObj {
   }, init);
 }
 
-export const hoods = (state: HoodObj = {}, action: SetHoodsAction | SetHoodNameAction): HoodObj => {
+const hoods = (state: HoodObj = {}, action: SetHoodsAction | SetHoodNameAction): HoodObj => {
   switch (action.type) {
   case SET_HOODS:
     return arrayToObj(<Hoods>action.payload);
@@ -86,4 +101,5 @@ export default {
   [selectors.hoodSelected]: hoodSelected,
   [selectors.hoodsOnPoint]: hoodsOnPoint,
   [selectors.hoods]: hoods,
+  [selectors.hoodProps]: hoodProps,
 };

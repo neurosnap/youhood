@@ -6,6 +6,7 @@ import {
   Hood,
   HoodProperties,
   HoodId,
+  HoodPropsMap,
 } from './types';
 
 const defaultHood = {};
@@ -16,6 +17,7 @@ export const createHood = (props: { [key: string]: any } = defaultHood): HoodPro
   city: props.city || '',
   county: props.county || '',
   state: props.state || '',
+  visible: props.visible || true,
 });
 
 export function getHoodProperties(polygon: PolygonHood): HoodProperties {
@@ -37,9 +39,8 @@ export function getHoodName(polygon: PolygonHood): string {
 }
 
 export function setHoodName(polygon: PolygonHood, value: string) {
-  /* eslint-disable no-param-reassign */
   getHoodProperties(polygon).name = value;
-  }
+}
 
 export function findHood(layers: L.GeoJSON, hoodId: HoodId): PolygonHood {
   let hood = null;
@@ -51,4 +52,12 @@ export function findHood(layers: L.GeoJSON, hoodId: HoodId): PolygonHood {
   });
 
   return hood;
+}
+
+export function getHoodPropsMapFromHoods(hoods: PolygonHood[]): HoodPropsMap {
+  return hoods.reduce((acc: HoodPropsMap, hood: PolygonHood) => {
+    const props = getHoodProperties(hood);
+    acc[props.id] = props;
+    return { ...acc, [props.id]: createHood(props) };
+  }, {});
 }
