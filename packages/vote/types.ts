@@ -25,3 +25,7 @@ export interface AddVotesAction {
   type: string;
   payload: Votes;
 }
+
+export interface VoteMap {
+  [key: string]: number;
+}

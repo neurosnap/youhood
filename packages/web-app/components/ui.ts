@@ -45,22 +45,21 @@ export const Actions = styled.div`
   padding: 10px;
 `;
 
-export const HoodListItem = styled.div`
+export const HoodBaseItem = styled.div`
   cursor: pointer;
   padding: 5px 10px;
   border-radius: 5px;
   flex: 1;
+  margin-left: 5px;
+`;
 
+export const HoodListItem = HoodBaseItem.extend`
   :hover {
     background-color: rgba(46, 139, 87, 0.5);
   }
 `;
 
-export const HoodListItemSelected = styled.div`
-  cursor: pointer;
-  padding: 5px 10px;
-  border-radius: 5px;
-  flex: 1;
+export const HoodListItemSelected = HoodBaseItem.extend`
   background-color: rgb(255, 250, 205);
 `;
 

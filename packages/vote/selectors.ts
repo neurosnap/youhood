@@ -1,7 +1,9 @@
 import { UserId } from '@youhood/user/types';
-import { HoodId } from '@youhood/hood/types';
+import { HoodId, HoodIds } from '@youhood/hood/types';
 import { selectors } from '@youhood/hood';
 const { getHoodIdsOnPoint } = selectors;
+
+import { VoteMap } from './types';
 
 type State = any;
 export const votes = 'votes';
@@ -27,6 +29,11 @@ export const didUserVoteOnHood = (
 };
 export const getVoteCountByHood = (state: State, { hoodId }: HoodIdInProp) =>
   getVotesByHood(state, { hoodId }).length;
+export const getVoteCountByHoods = (state: State, { hoodIds = [] }: { hoodIds: HoodIds }): VoteMap => 
+  hoodIds.reduce(
+    (acc: VoteMap, hoodId: HoodId) => ({ ...acc, [hoodId]: getVoteCountByHood(state, { hoodId }) }), 
+    {},
+  );
 export const didUserVoteInHoodsOnPoint = (state: State, { userId }: UserIdInProp) => {
   const hoodIdsOnPoint = getHoodIdsOnPoint(state);
   return hoodIdsOnPoint.some((hoodId) => didUserVoteOnHood(state, { hoodId, userId }));

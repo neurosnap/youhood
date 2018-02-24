@@ -10,6 +10,9 @@ const {
 } = utils;
 const { toggleHoodSelected, hoverHood, hideHoods, showHoods } = actionCreators;
 import { Hoods, HoodId, HoodIds } from '@youhood/hood/types';
+import { selectors as voteSelectors } from '@youhood/vote';
+const { getVoteCountByHoods } = voteSelectors;
+import { VoteMap } from '@youhood/vote/types';
 
 import { State } from '../types';
 import { 
@@ -21,7 +24,6 @@ import {
   HoodSelectionItem,
   HoodVisibility,
 } from './ui';
-import {  } from '@youhood/hood/selectors';
 
 interface Hover {
   (hoodId: HoodId, hover: boolean): void;
@@ -44,6 +46,7 @@ interface Props {
   hoodIdSelected: HoodId;
   hideHoods: HoodVisible;
   showHoods: HoodVisible;
+  votesByHood: VoteMap;
 }
 
 interface DefaultProps {
@@ -54,6 +57,7 @@ interface DefaultProps {
   toggle: Toggle;
   hideHoods: HoodVisible;
   showHoods: HoodVisible;
+  votesByHood: VoteMap;
 }
 
 const noop = () => {};
@@ -69,10 +73,21 @@ export class HoodSelection extends Component {
     toggle: noop,
     hideHoods: noop,
     showHoods: noop,
+    votesByHood: {},
   };
 
   render() {
-    const { show, hoods, hover, toggle, hoodIdSelected, showHoods, hideHoods, visibleHoodIds } = this.props;
+    const { 
+      show, 
+      hoods, 
+      hover, 
+      toggle, 
+      hoodIdSelected, 
+      showHoods, 
+      hideHoods, 
+      visibleHoodIds,
+      votesByHood,
+    } = this.props;
     if (!show) return null;
     const hoodIds = hoods.map((hood) => getHoodId(hood));
     const allHoodsAreVisible = hoods.length === visibleHoodIds.length;
@@ -89,6 +104,7 @@ export class HoodSelection extends Component {
           const hoodId = getHoodId(hood);
           const Item = hoodIdSelected === hoodId ? HoodListItemSelected : HoodListItem; 
           const isHoodVisible = visibleHoodIds.indexOf(hoodId) >= 0;
+          const votes = votesByHood[hoodId];
 
           return h(HoodSelectionItem, [
             isHoodVisible ? h(HoodVisibility, { className: 'fa fa-eye', onClick: () => hideHoods([hoodId]) }) :
@@ -98,7 +114,7 @@ export class HoodSelection extends Component {
               onClick: () => toggle(hoodId),
               onMouseEnter: () => hover(hoodId, true),
               onMouseLeave: () => hover(hoodId, false),
-            }, `[${name}]`),
+            }, `${votes} [${name}]`),
           ]);
         }),
       ]),
@@ -107,11 +123,17 @@ export class HoodSelection extends Component {
 }
 
 export default connect(
-  (state: State) => ({
-    hoods: getHoodsOnPoint(state),
-    hoodIdSelected: getHoodIdSelected(state),
-    visibleHoodIds: getVisibleHoodsOnPoint(state),
-  }),
+  (state: State) => {
+    const hoods = getHoodsOnPoint(state);
+    const hoodIds = hoods.map((hood) => getHoodId(hood));
+
+    return {
+      hoods,
+      hoodIdSelected: getHoodIdSelected(state),
+      visibleHoodIds: getVisibleHoodsOnPoint(state),
+      votesByHood: getVoteCountByHoods(state, { hoodIds }),
+    };
+  },
   (dispatch: Function) => ({
     toggle: (hoodId: HoodId) => dispatch(toggleHoodSelected(hoodId)),
     hover: (hoodId: HoodId, hover: boolean) => dispatch(hoverHood({ hoodId, hover })),
