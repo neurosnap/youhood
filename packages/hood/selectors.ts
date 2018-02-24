@@ -38,5 +38,6 @@ export const getHoodPropsByIds = (state: State, { ids = [] }: { ids: HoodIds }):
 export const getVisibleHoodsOnPoint = (state: State) => {
   const hop = getHoodIdsOnPoint(state);
   const hoodProps: HoodPropsMap = getHoodProps(state);
-  return hop.filter((hoodId) => hoodProps[hoodId].visible === true);
+  return hop
+    .filter((hoodId) => hoodProps[hoodId] && hoodProps[hoodId].visible === true);
 };

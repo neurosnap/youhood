@@ -3,27 +3,39 @@ import * as h from 'react-hyperscript';
 import SignIn from './signin';
 import Points from './points';
 import DrawHood from './draw';
+import { 
+  NavHover,
+  Nav,
+  NavContent,
+  NavLeft,
+  NavRight,
+  Menu,
+  Brand,
+  Search,
+  SearchIcon,
+  SearchInput,
+} from './ui';
 
 interface Props {
   points: number;
 }
 
 export default ({ points }: Props) =>
-  h('div.nav', [
-    h('div.nav-content', [
-      h('div.nav-left', [
-        h('.nav-hover.menu', [
+  h(Nav, [
+    h(NavContent, [
+      h(NavLeft, [
+        h(Menu, [
           h('i.fa.fa-bars.fa-lg'),
         ]),
-        h('div.brand', 'YouHood'),
+        h(Brand, 'YouHood'),
       ]),
-      h('div.nav-right', [
-        h('div.nav-hover', [
+      h(NavRight, [
+        h(NavHover, [
           h(DrawHood),
         ]),
-        h('div.search', [
-          h('i.fa.fa-search'),
-          h('input.search-input', { placeholder: 'Search' }),
+        h(Search, [
+          h(SearchIcon, { className: 'fa fa-search' }),
+          h(SearchInput, { placeholder: 'Search' }),
         ]),
         h(Points, { points }),
         h(SignIn),
