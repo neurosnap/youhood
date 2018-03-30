@@ -4,9 +4,8 @@ import * as leafletPip from '@mapbox/leaflet-pip';
 import { eventChannel } from 'redux-saga';
 import { take, put, spawn, call, select } from 'redux-saga/effects';
 
-import { HoodMap } from '@youhood/map/types';
 import {
-  utils, 
+  utils,
   actionCreators,
   selectors as hoodSelectors,
 } from '@youhood/hood';
@@ -16,6 +15,7 @@ const {
   setHoodsOnPoint,
   userAddHoods,
   setEdit,
+  addHoodProps,
 } = actionCreators;
 const { createHood, getHoodId } = utils;
 const { getIsEditing } = hoodSelectors;
@@ -34,6 +34,8 @@ import {
 const { createUser } = userUtils;
 const { addUsers, setUser } = userActionCreators;
 const { getCurrentUser } = userSelectors;
+
+import { HoodMap } from './types';
 
 const MAP_CLICK = 'MAP_CLICK';
 const HOOD_CREATED = 'HOOD_CREATED';
@@ -103,9 +105,11 @@ function* hoodCreated(action: DrawCreatedAction) {
     yield put(setUser(user.id));
   }
 
-  hood.properties = createHood({ userId: user.id });
-  yield put(userAddHoods([hood]));
+  const props = createHood({ userId: user.id });
+  hood.properties = props;
   const hoodId = getHoodId(hood);
+  yield put(addHoodProps({ [hoodId]: props }));
+  yield put(userAddHoods([hood]));
   yield put(selectHood(hoodId));
 }
 
