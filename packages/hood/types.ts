@@ -108,3 +108,8 @@ export interface AddHoodPropsMap {
   type: string;
   payload: HoodPropsMap;
 }
+
+export interface SetEdit {
+  type: string;
+  payload: boolean;
+}

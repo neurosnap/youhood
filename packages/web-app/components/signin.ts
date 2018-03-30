@@ -1,100 +1,40 @@
 import * as h from 'react-hyperscript';
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 
-import { actionCreators, selectors as authSelectors } from '@youhood/auth';
-const { signIn, register } = actionCreators;
-const { getAuthError, isUserAuthenticated } = authSelectors;
+import { selectors as authSelectors } from '@youhood/auth';
+const { isUserAuthenticated } = authSelectors;
 import { selectors } from '@youhood/user';
-const { getCurrentUserId, getCurrentUser } = selectors;
-import { AuthPayload, AuthError } from '@youhood/auth/types';
-import { UserId, User } from '@youhood/user/types';
+const { getCurrentUser } = selectors;
+import { User } from '@youhood/user/types';
 
 import { State } from '../types';
 import Profile from './profile';
-
-interface Props {
-  handleSignIn: Function;
-  handleRegister: Function;
-  currentUserId: UserId;
-  error: AuthError;
-}
-
-class SignInMenu extends Component {
-  props: Props;
-
-  state = {
-    email: '',
-    password: '',
-  };
-
-  handleEmail = (event: React.FormEvent<HTMLInputElement>) => {
-    this.setState({ email: event.currentTarget.value });
-  }
-
-  handlePassword = (event: React.FormEvent<HTMLInputElement>) => {
-    this.setState({ password: event.currentTarget.value });
-  }
-
-  login = () => {
-    const { email, password } = this.state;
-    const { handleSignIn, currentUserId } = this.props;
-    handleSignIn({ email, password, currentUserId });
-  }
-
-  register = () => {
-    const { email, password } = this.state;
-    const { handleRegister, currentUserId } = this.props;
-    handleRegister({ email, password, currentUserId });
-  }
-
-  render() {
-    const { email, password } = this.state;
-    const { error } = this.props;
-
-    return h('div.signin-menu-container', [
-      h('div.signin-menu', [
-        h('input.input', {
-          type: 'text',
-          placeholder: 'email address',
-          value: email,
-          onChange: this.handleEmail,
-        }),
-        h('input.input', {
-          type: 'password',
-          placeholder: 'password',
-          value: password,
-          onChange: this.handlePassword,
-        }),
-        h('div.error', error || '-'),
-        h('div.buttons', [
-          h('div.nav-hover.button', { onClick: this.login }, [
-            h('div', 'Sign In'),
-          ]),
-          h('div.nav-hover.button', { onClick: this.register }, [
-            h('div', 'Register'),
-          ]),
-        ]),
-      ]),
-    ]);
-  }
-}
-
-const SignInMenuConn = connect(
-  (state: State) => ({
-    currentUserId: getCurrentUserId(state),
-    error: getAuthError(state),
-  }),
-  (dispatch: Function) => ({
-    handleSignIn: (payload: AuthPayload) => dispatch(signIn(payload)),
-    handleRegister: (payload: AuthPayload) => dispatch(register(payload)),
-  }),
-)(SignInMenu as any);
+import SignInMenu from './signin-menu';
+import { NavHover } from './ui';
 
 interface SignInProps {
   authenticated: boolean;
   user: User;
 }
+
+
+const SignInContainer = styled.div`
+  margin-left: 0;
+  position: relative;
+  height: 100%;
+`;
+
+const SignInEl = styled.div`
+  text-decoration: none;
+  color: #fff;
+
+  a {
+    text-decoration: none;
+    color: #fff;
+  }
+`;
 
 export class SignIn extends Component {
   props: SignInProps;
@@ -134,13 +74,13 @@ export class SignIn extends Component {
       if (authenticated) {
         menu = h(Profile);
       } else {
-        menu = h(SignInMenuConn);
+        menu = h(SignInMenu);
       }
     }
 
-    return h('div.signin-container', { style: { position: 'relative' } }, [
-      h('div.nav-hover', signinProps, [
-        h('div.signin', [
+    return h(SignInContainer, { style: { position: 'relative' } }, [
+      h(NavHover, signinProps, [
+        h(SignInEl, [
           authenticated ? h('a', user.email) : h('a', 'Sign In'),
         ]),
       ]),

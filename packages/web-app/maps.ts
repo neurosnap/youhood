@@ -36,9 +36,7 @@ export function setupMap(): HoodMap {
       polyline: false,
       circle: false,
       circlemarker: false,
-      polygon: {
-        showArea: true,
-      },
+      polygon: false,
     },
   });
 

@@ -13,8 +13,7 @@
       "ter-indent": [2, true],
       "align": [false],
       "variable-name": [false],
-      "ter-arrow-parens": [true, "always"],
-      "no-unused-variable": true
+      "ter-arrow-parens": [true, "always"]
     },
     "rulesDirectory": []
 }
