@@ -59,7 +59,7 @@ const hoodProps = (state: HoodPropsMap = defaultHoodProps, action: AddHoodPropsM
     const propMap = action.payload;
     return { ...state, ...propMap };
   }
-  default: 
+  default:
     return state;
   }
 };

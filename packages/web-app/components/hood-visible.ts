@@ -24,8 +24,8 @@ interface Props {
 }
 
 const HoodVisible = ({ showAll, hideAll }: Props) => h(Visible, [
-  h(NavHover, { onClick: showAll }, 'show hoods'),
-  h(NavHover, { onClick: hideAll }, 'hide hoods'),
+  h(NavHover, { onClick: showAll }, 'Show Hoods'),
+  h(NavHover, { onClick: hideAll }, 'Hide Hoods'),
 ]);
 
 export default connect(null, (dispatch) => ({

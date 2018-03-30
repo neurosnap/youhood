@@ -25,8 +25,8 @@ const DropMenu = ({ open = false, items = [] }: { open: boolean, items: any[] })
     return null;
   }
 
-  const HistoryItems = items.map((item) => {
-    return h('div', `${item.value} -- ${item.reason}`);
+  const HistoryItems = items.map((item, i) => {
+    return h('div', { key: i }, `${item.value} -- ${item.reason}`);
   });
 
   return h(PointsMenuContainer, [
@@ -87,7 +87,7 @@ class PointsView extends Component {
       h(DropMenu, { open, items: pointHistory }),
     ]);
   }
-} 
+}
 
 export default connect(
   (state: State) => ({

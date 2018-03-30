@@ -5,7 +5,7 @@ import { actionCreators } from '@youhood/hood';
 const { drawHood } = actionCreators;
 
 const DrawHood = ({ handleDrawHood }: { handleDrawHood: Function }) =>
-  h('i.fa.fa-plus.fa-lg', { onClick: handleDrawHood });
+  h('div', { onClick: handleDrawHood }, 'Create');
 
 export default connect(
   null,

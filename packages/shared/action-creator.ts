@@ -6,7 +6,7 @@ type ActionType = string;
 
 export default <P>(type: ActionType) =>
   (payload: P): Action<ActionType, P> => {
-    if (!payload) return { type };
+    if (typeof payload === 'undefined') return { type };
 
     return {
       type,
