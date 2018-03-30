@@ -3,7 +3,8 @@ import * as h from 'react-hyperscript';
 import SignIn from './signin';
 import Points from './points';
 import DrawHood from './draw';
-import { 
+import HoodVisible from './hood-visible';
+import {
   NavHover,
   Nav,
   NavContent,
@@ -39,6 +40,7 @@ export default ({ points }: Props) =>
         ]),
         h(Points, { points }),
         h(SignIn),
+        h(HoodVisible),
       ]),
     ]),
   ]);

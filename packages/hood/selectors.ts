@@ -4,6 +4,7 @@ export const hoodSelected = 'selected';
 export const hoodsOnPoint = 'hoodsOnPoint';
 export const hoods = 'hoods';
 export const hoodProps = 'hoodProps';
+export const editing = 'editing';
 
 type State = any;
 export const getHoods = (state: State): HoodHash => state[hoods];
@@ -41,3 +42,4 @@ export const getVisibleHoodsOnPoint = (state: State) => {
   return hop
     .filter((hoodId) => hoodProps[hoodId] && hoodProps[hoodId].visible === true);
 };
+export const getIsEditing = (state: State) => state[editing];

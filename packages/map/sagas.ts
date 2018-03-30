@@ -8,18 +8,22 @@ import { HoodMap } from '@youhood/map/types';
 import {
   utils, 
   actionCreators,
+  selectors as hoodSelectors,
 } from '@youhood/hood';
-import {
-  Hood,
-  Hoods,
-} from '@youhood/hood/types';
 const {
   selectHood,
   toggleHoodSelected,
   setHoodsOnPoint,
   userAddHoods,
+  setEdit,
 } = actionCreators;
 const { createHood, getHoodId } = utils;
+const { getIsEditing } = hoodSelectors;
+import {
+  Hood,
+  Hoods,
+} from '@youhood/hood/types';
+
 import { actionCreators as menuActionCreators } from '@youhood/menu';
 const { showMenu } = menuActionCreators;
 import {
@@ -90,6 +94,8 @@ export function* mapSaga(hoodMap: HoodMap) {
 function* hoodCreated(action: DrawCreatedAction) {
   const hood = action.payload;
 
+  yield put(setEdit(false));
+
   let user = yield select(getCurrentUser);
   if (!user) {
     user = createUser();
@@ -107,6 +113,11 @@ function* mapClick(action: MapClickAction) {
   const polygons = action.payload;
 
   if (polygons.length === 0) {
+    return;
+  }
+
+  const isEditing = yield select(getIsEditing);
+  if (isEditing) {
     return;
   }
 

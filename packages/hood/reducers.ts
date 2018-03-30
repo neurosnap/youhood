@@ -9,6 +9,7 @@ import {
   USER_ADD_HOODS,
   SET_HOOD_NAME,
   ADD_HOOD_PROPS,
+  SET_EDIT,
 } from './action-types';
 import {
   HoodSelectedAction,
@@ -22,6 +23,7 @@ import {
   HoodIds,
   HoodPropsMap,
   AddHoodPropsMap,
+  SetEdit,
 } from './types';
 import * as selectors from './selectors';
 
@@ -97,9 +99,19 @@ const hoods = (state: HoodObj = {}, action: SetHoodsAction | SetHoodNameAction):
   }
 };
 
+const editing = (state: boolean = false, action: SetEdit): boolean => {
+  switch (action.type) {
+  case SET_EDIT:
+    return action.payload;
+  default:
+    return state;
+  }
+};
+
 export default {
   [selectors.hoodSelected]: hoodSelected,
   [selectors.hoodsOnPoint]: hoodsOnPoint,
   [selectors.hoods]: hoods,
   [selectors.hoodProps]: hoodProps,
+  [selectors.editing]: editing,
 };

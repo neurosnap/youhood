@@ -19,14 +19,24 @@ import {
   DRAW_HOOD,
   HIDE_HOODS,
   SHOW_HOODS,
+  HIDE_ALL_HOODS,
+  SHOW_ALL_HOODS,
 } from './action-types';
 import {
   selectHood,
   deselectHood,
   addHoodProps,
+  setEdit,
 } from './action-creators';
 import styleFn from './style';
-import { getHoodIdSelected, getHoodSelected, getHoodsByIds, getHoodPropsByIds } from './selectors';
+import {
+  getHoodIdSelected,
+  getHoodSelected,
+  getHoodsByIds,
+  getHoodPropsByIds,
+  getHoodProps,
+  getHoods,
+} from './selectors';
 import { findHood, getHoodProperties, getHoodId, getHoodPropsMapFromHoods } from './utils';
 import { onSaveHood } from './effects';
 import {
@@ -34,9 +44,10 @@ import {
   ToggleHoodSelectedAction,
   HoverHoodAction,
   EditHoodAction,
-  PolygonLeaflet, 
+  PolygonLeaflet,
   HoodId,
   HoodIds,
+  Hood,
 } from './types';
 import { eventChannel } from 'redux-saga';
 
@@ -66,7 +77,7 @@ export function* layerSaga({ hoodGeoJSON }: HoodMap) {
 
     switch (type) {
       case LAYER_ADD: {
-        console.log(layer);
+        console.log('LAYER ADDED: ', layer);
         yield spawn(prepareHoods, [layer.layer]);
       }
       default:
@@ -89,9 +100,9 @@ const createHoodChannel = (hood: PolygonLeaflet) => eventChannel((emit) => {
 
   hood.on('mouseover', onMouseOver);
   hood.on('mouseout', onMouseOut);
-  hood.bindTooltip(name, { 
-    sticky: true, 
-    offset: [25, 0], 
+  hood.bindTooltip(name, {
+    sticky: true,
+    offset: [25, 0],
     direction: 'right',
   });
 
@@ -113,7 +124,7 @@ function* startHoodEvents(hood: PolygonLeaflet) {
     if (hoodIdSelected === hoodId) {
       continue;
     }
-    
+
     switch (type) {
       case HOOD_MOUSE_OVER:
         hood.setStyle(styleFn({ hover: true }));
@@ -130,6 +141,38 @@ function* startHoodEvents(hood: PolygonLeaflet) {
 interface HoodIdsAction {
   type: string;
   payload: HoodIds;
+}
+
+function* onHideAllHoods({ hoodGeoJSON }: HoodMap) {
+  const hoodPropsMap = yield select(getHoodProps);
+  Object.keys(hoodPropsMap).forEach((key) => {
+    hoodPropsMap[key].visible = false;
+  });
+  yield put(addHoodProps(hoodPropsMap));
+
+  hoodGeoJSON.eachLayer((hood) => {
+    hoodGeoJSON.removeLayer(hood);
+  });
+}
+
+function* onShowAllHoods({ hoodGeoJSON }: HoodMap) {
+  const hoods = yield select(getHoods);
+
+  const hoodsToAdd: any = Object
+    .values(hoods)
+    .filter((hood: Hood) => {
+      let found = false;
+
+      hoodGeoJSON.eachLayer((hoodGeo) => {
+        if (getHoodId(hood) === getHoodId(hoodGeo)) {
+          found = true;
+        }
+      });
+
+      return !found;
+    });
+
+  hoodGeoJSON.addData(hoodsToAdd);
 }
 
 function* onHideHoods({ hoodGeoJSON }: HoodMap, action: HoodIdsAction) {
@@ -154,12 +197,34 @@ function* onHideHoods({ hoodGeoJSON }: HoodMap, action: HoodIdsAction) {
 function* onShowHoods({ hoodGeoJSON }: HoodMap, action: HoodIdsAction) {
   const hoodIds = action.payload;
   const hoods = yield select(getHoodsByIds, { ids: hoodIds });
-  hoodGeoJSON.addData(hoods);
+
+  const hoodsToAdd = hoods.filter((hood: Hood) => {
+    let found = false;
+
+    hoodGeoJSON.eachLayer((hoodGeo) => {
+      if (getHoodId(hood) === getHoodId(hoodGeo)) {
+        found = true;
+      }
+    });
+
+    return !found;
+  });
+
+  hoodGeoJSON.addData(hoodsToAdd);
+}
+
+export function* showAllHoodsSaga(hoodMap: HoodMap) {
+  yield takeEvery(SHOW_ALL_HOODS, onShowAllHoods, hoodMap);
+}
+
+export function* hideAllHoodsSaga(hoodMap: HoodMap) {
+  yield takeEvery(HIDE_ALL_HOODS, onHideAllHoods, hoodMap);
 }
 
 export function* showHoodsSaga(hoodMap: HoodMap) {
   yield takeEvery(SHOW_HOODS, onShowHoods, hoodMap);
 }
+
 export function* hideHoodsSaga(hoodMap: HoodMap) {
   yield takeEvery(HIDE_HOODS, onHideHoods, hoodMap);
 }
@@ -180,7 +245,8 @@ export function* drawHoodSaga(hoodMap: HoodMap) {
   yield takeEvery(DRAW_HOOD, onDrawHood, hoodMap);
 }
 
-function onDrawHood({ map, drawControl }: HoodMap) {
+function* onDrawHood({ map, drawControl }: HoodMap) {
+  yield put(setEdit(true));
   new L.Draw.Polygon(map).enable();
 }
 
@@ -274,14 +340,16 @@ function* toggleHoodSelected(hoodMap: HoodMap, action: ToggleHoodSelectedAction)
   yield put(selectHood(hoodId));
 }
 
-function onEditHood({ hoodGeoJSON }: HoodMap, action: EditHoodAction) {
+function* onEditHood({ hoodGeoJSON }: HoodMap, action: EditHoodAction) {
   const { hoodId, edit } = action.payload;
   const hood = <any>findHood(hoodGeoJSON, hoodId);
   if (!hood) return;
 
   if (edit) {
+    yield put(setEdit(true));
     hood.editing.enable();
   } else {
+    yield put(setEdit(false));
     hood.editing.disable();
   }
 }

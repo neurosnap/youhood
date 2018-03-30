@@ -15,11 +15,11 @@ const { getVoteCountByHoods } = voteSelectors;
 import { VoteMap } from '@youhood/vote/types';
 
 import { State } from '../types';
-import { 
-  HoodListItem, 
-  HoodSelectionContainer, 
-  OverlayHeader, 
-  OverlayContainer, 
+import {
+  HoodListItem,
+  HoodSelectionContainer,
+  OverlayHeader,
+  OverlayContainer,
   HoodListItemSelected,
   HoodSelectionItem,
   HoodVisibility,
@@ -77,14 +77,14 @@ export class HoodSelection extends Component {
   };
 
   render() {
-    const { 
-      show, 
-      hoods, 
-      hover, 
-      toggle, 
-      hoodIdSelected, 
-      showHoods, 
-      hideHoods, 
+    const {
+      show,
+      hoods,
+      hover,
+      toggle,
+      hoodIdSelected,
+      showHoods,
+      hideHoods,
       visibleHoodIds,
       votesByHood,
     } = this.props;
@@ -96,13 +96,13 @@ export class HoodSelection extends Component {
       h(OverlayHeader, 'Hoods on Point'),
       h(HoodSelectionContainer, [
         h('div', [
-          allHoodsAreVisible ? h(HoodVisibility, { className: 'fa fa-eye', onClick: () => hideHoods(hoodIds) }) : 
+          allHoodsAreVisible ? h(HoodVisibility, { className: 'fa fa-eye', onClick: () => hideHoods(hoodIds) }) :
             h(HoodVisibility, { className: 'fa fa-eye-slash', onClick: () => showHoods(hoodIds) }),
         ]),
         ...hoods.map((hood) => {
           const { name } = getHoodProperties(hood);
           const hoodId = getHoodId(hood);
-          const Item = hoodIdSelected === hoodId ? HoodListItemSelected : HoodListItem; 
+          const Item = hoodIdSelected === hoodId ? HoodListItemSelected : HoodListItem;
           const isHoodVisible = visibleHoodIds.indexOf(hoodId) >= 0;
           const votes = votesByHood[hoodId];
 
