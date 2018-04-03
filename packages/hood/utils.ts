@@ -30,7 +30,8 @@ export function getHoodProperties(polygon: PolygonHood): HoodProperties {
 
 export function getHoodId(polygon: PolygonHood): HoodId {
   if (!polygon) return '';
-  return getHoodProperties(polygon).id;
+  const props = getHoodProperties(polygon);
+  return props ? props.id : '';
 }
 
 export function getHoodName(polygon: PolygonHood): string {
@@ -55,9 +56,18 @@ export function findHood(layers: L.GeoJSON, hoodId: HoodId): PolygonHood {
 }
 
 export function getHoodPropsMapFromHoods(hoods: PolygonHood[]): HoodPropsMap {
-  return hoods.reduce((acc: HoodPropsMap, hood: PolygonHood) => {
+  return hoods.reduce((acc: HoodPropsMap, hood: any) => {
     const props = getHoodProperties(hood);
-    acc[props.id] = props;
-    return { ...acc, [props.id]: createHood(props) };
+    const hoodId = getHoodId(hood);
+    acc[hoodId] = props;
+    return { ...acc, [hoodId]: createHood(props) };
   }, {});
+}
+
+export function bindTooltip(hood: PolygonLeaflet, name: string) {
+  hood.bindTooltip(name, {
+    sticky: true,
+    offset: [25, 0],
+    direction: 'right',
+  });
 }

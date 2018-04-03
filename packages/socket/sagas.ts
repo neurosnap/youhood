@@ -2,9 +2,10 @@ import { eventChannel } from 'redux-saga';
 import { take, call, spawn, put } from 'redux-saga/effects';
 
 import { HoodMap, HoodGeoJSON } from '@youhood/map/types';
-import { Hoods, GeoJsonFeatures } from '@youhood/hood/types';
-import { actionCreators } from '@youhood/hood';
+import { Hoods, GeoJsonFeatures, PolygonHood } from '@youhood/hood/types';
+import { actionCreators, utils } from '@youhood/hood';
 const { addHoods } = actionCreators;
+const { getHoodId } = utils;
 import { actionCreators as userActionCreators } from '@youhood/user';
 const { addUsers } = userActionCreators;
 import { Users } from '@youhood/user/types';
@@ -54,9 +55,25 @@ export function* socketSaga({ hoodGeoJSON }: HoodMap) {
 }
 
 function* gotHoods(data: GeoJsonFeatures, hoodGeoJSON: HoodGeoJSON) {
-  if (data.features.length === 0) return;
-  hoodGeoJSON.addData(data);
+  if (data.features.length === 0) {
+    return;
+  }
+
   yield put(addHoods(<Hoods>data.features));
+
+  const features = data.features.filter((feature) => {
+    let foundHood = false;
+    hoodGeoJSON.eachLayer((layer) => {
+      if (getHoodId(layer) === getHoodId(<PolygonHood>feature)) {
+        foundHood = true;
+      }
+    });
+
+    return !foundHood;
+  });
+
+  data.features = features;
+  hoodGeoJSON.addData(data);
 }
 
 function* gotUsers(users: Users) {

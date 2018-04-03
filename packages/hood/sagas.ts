@@ -1,6 +1,7 @@
 import * as L from 'leaflet';
 import 'leaflet-draw';
-import { put, call, select, takeEvery, take, spawn } from 'redux-saga/effects';
+import { put, call, select, takeEvery, spawn, take } from 'redux-saga/effects';
+import { eventChannel } from 'redux-saga';
 
 import { HoodMap } from '@youhood/map/types';
 import { actionCreators } from '@youhood/menu';
@@ -37,8 +38,12 @@ import {
   getHoodProps,
   getHoods,
 } from './selectors';
-import { findHood, getHoodProperties, getHoodId, getHoodPropsMapFromHoods } from './utils';
-import { onSaveHood } from './effects';
+import {
+  findHood,
+  getHoodProperties,
+  getHoodId,
+} from './utils';
+import { onSaveHood, prepareHoods } from './effects';
 import {
   HoodSelectedAction,
   ToggleHoodSelectedAction,
@@ -49,13 +54,10 @@ import {
   HoodIds,
   Hood,
 } from './types';
-import { eventChannel } from 'redux-saga';
 
-const HOOD_MOUSE_OVER = 'mouseover';
-const HOOD_MOUSE_OUT = 'mouseout';
 const LAYER_ADD = 'layeradd';
 
-const createLayerChannel = (layerGroup: L.GeoJSON) => eventChannel((emit) => {
+const createLayerChannel = (layerGroup: L.GeoJSON) => eventChannel((emit: any) => {
   const onLayerAdd = (layer: L.LeafletEvent) => {
     emit({ type: LAYER_ADD, payload: layer });
   };
@@ -80,58 +82,7 @@ export function* layerSaga({ hoodGeoJSON }: HoodMap) {
         console.log('LAYER ADDED: ', layer);
         yield spawn(prepareHoods, [layer.layer]);
       }
-      default:
-        break;
-    }
-  }
-}
 
-const createHoodChannel = (hood: PolygonLeaflet) => eventChannel((emit) => {
-  const props = getHoodProperties(hood);
-  const name = props.name;
-
-  const onMouseOver = () => {
-    emit({ type: HOOD_MOUSE_OVER });
-  };
-
-  const onMouseOut = () => {
-    emit({ type: HOOD_MOUSE_OUT });
-  };
-
-  hood.on('mouseover', onMouseOver);
-  hood.on('mouseout', onMouseOut);
-  hood.bindTooltip(name, {
-    sticky: true,
-    offset: [25, 0],
-    direction: 'right',
-  });
-
-  return () => {
-    hood.off(HOOD_MOUSE_OVER, onMouseOver);
-    hood.off(HOOD_MOUSE_OUT, onMouseOut);
-    hood.unbindTooltip();
-  };
-});
-
-function* startHoodEvents(hood: PolygonLeaflet) {
-  const channel = yield call(createHoodChannel, hood);
-  const hoodId = getHoodId(hood);
-
-  while (true) {
-    const event = yield take(channel);
-    const { type } = event;
-    const hoodIdSelected = yield select(getHoodIdSelected);
-    if (hoodIdSelected === hoodId) {
-      continue;
-    }
-
-    switch (type) {
-      case HOOD_MOUSE_OVER:
-        hood.setStyle(styleFn({ hover: true }));
-        break;
-      case HOOD_MOUSE_OUT:
-        hood.setStyle(styleFn());
-        break;
       default:
         break;
     }
@@ -227,18 +178,6 @@ export function* showHoodsSaga(hoodMap: HoodMap) {
 
 export function* hideHoodsSaga(hoodMap: HoodMap) {
   yield takeEvery(HIDE_HOODS, onHideHoods, hoodMap);
-}
-
-function* prepareHoods(layers: PolygonLeaflet[]) {
-  const hoodPropsMap = getHoodPropsMapFromHoods(layers);
-  yield put(addHoodProps(hoodPropsMap));
-
-
-  for (let i = 0; i < layers.length; i += 1) {
-    const hood = <PolygonLeaflet>layers[i];
-    hood.setStyle(styleFn());
-    yield spawn(startHoodEvents, hood);
-  }
 }
 
 export function* drawHoodSaga(hoodMap: HoodMap) {
