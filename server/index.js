@@ -28,4 +28,4 @@ const server = app.listen(8080, () => {
   console.log('Listening on %d', server.address().port);
 });
 
-socket(server);
+socket(server, app);

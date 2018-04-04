@@ -22,6 +22,7 @@ const { getIsEditing } = hoodSelectors;
 import {
   Hood,
   Hoods,
+  PolygonLeaflet,
 } from '@youhood/hood/types';
 
 import { actionCreators as menuActionCreators } from '@youhood/menu';
@@ -47,7 +48,7 @@ interface MapClickAction {
 
 interface DrawCreatedAction {
   type: string;
-  payload: Hood;
+  payload: PolygonLeaflet;
 }
 
 const createMapChannel = ({ map, hoodGeoJSON }: HoodMap) => eventChannel((emit) => {
@@ -58,9 +59,7 @@ const createMapChannel = ({ map, hoodGeoJSON }: HoodMap) => eventChannel((emit) 
 
   const onDrawCreated = (event: L.LayerEvent) => {
     const layer = <L.Polygon>event.layer;
-    const hood = layer.toGeoJSON();
-    hoodGeoJSON.addData(hood);
-    emit({ type: HOOD_CREATED, payload: hood });
+    emit({ type: HOOD_CREATED, payload: layer });
   };
 
   map.on('click', onMapClick);
@@ -85,7 +84,7 @@ export function* mapSaga(hoodMap: HoodMap) {
         yield spawn(mapClick, event);
         break;
       case HOOD_CREATED:
-        yield spawn(hoodCreated, event);
+        yield spawn(hoodCreated, hoodMap, event);
         break;
       default:
         break;
@@ -93,8 +92,9 @@ export function* mapSaga(hoodMap: HoodMap) {
   }
 }
 
-function* hoodCreated(action: DrawCreatedAction) {
-  const hood = action.payload;
+function* hoodCreated({ hoodGeoJSON }: HoodMap, action: DrawCreatedAction) {
+  const layer = action.payload;
+  const hood = layer.toGeoJSON();
 
   yield put(setEdit(false));
 
@@ -107,6 +107,7 @@ function* hoodCreated(action: DrawCreatedAction) {
 
   const props = createHood({ userId: user.id });
   hood.properties = props;
+  hoodGeoJSON.addData(hood);
   const hoodId = getHoodId(hood);
   yield put(addHoodProps({ [hoodId]: props }));
   yield put(userAddHoods([hood]));

@@ -3,7 +3,6 @@ const debug = require('debug');
 
 const db = require('./db');
 const { findOrCreateUser } = require('./user');
-console.log(findOrCreateUser);
 
 const log = debug('router:hood');
 
@@ -17,8 +16,9 @@ router.get('/:hoodId', async (req, res) => {
   return res.json(hood);
 });
 
-router.post('/save', async (req, res) => {
+router.post('/save', async (req, res, next) => {
   log(req.body);
+  const connections = req.app.get('connections');
 
   const data = transformHood(req.body);
   const results = await Promise.all(
@@ -26,12 +26,27 @@ router.post('/save', async (req, res) => {
       (preparedHood) => createOrUpdateHood(preparedHood),
     )
   );
-  const hoods = results
-    .filter((res) => res.hood)
-    .map((res) => ({ properties: { id: res.hood.id } }));
 
+  const successHoods = results
+    .filter((res) => res.hood);
+   
+  if (connections) {
+    const geojson = transformSQLToGeoJson(
+      successHoods.map((res) => res.hood)
+    );
+    sendAll(Object.values(connections), { type: 'got-hoods', data: geojson });
+  }
+
+  const hoods = successHoods.map((res) => ({ properties: { id: res.hood.id } }));
   res.json({ hoods });
 });
+
+function sendAll(connections, msg) {
+  for (let i = 0; i < connections.length; i++) {
+    const user = connections[i];
+    user.send(JSON.stringify(msg));
+  }
+}
 
 async function updateHood(preparedHood) {
   sql = `
@@ -42,9 +57,9 @@ async function updateHood(preparedHood) {
       state=$3,
       city=$4,
       name=$5,
-      geom=ST_Multi(ST_GeomFromGeoJSON($6)))
+      geom=ST_Multi(ST_GeomFromGeoJSON($6))
     WHERE id=$1
-    RETURNING id;
+    RETURNING id, hood_user_id, state, city, name, ST_AsGeoJSON(geom) as geom;
   `;
 
   try {
@@ -64,7 +79,7 @@ async function createHood(preparedHood) {
     INSERT INTO
       neighborhood (id, hood_user_id, state, city, name, geom)
     VALUES ($1, $2, $3, $4, $5, ST_Multi(ST_GeomFromGeoJSON($6)))
-    RETURNING id;
+    RETURNING id, hood_user_id, state, city, name, ST_AsGeoJSON(geom) as geom;
   `;
 
   try {
@@ -91,7 +106,8 @@ async function createOrUpdateHood(preparedHood) {
     return hood;
   }
 
-  hood = await updateHood(preparedHood);
+  await updateHood(preparedHood);
+  hood = await findHood(hoodId);
   return hood;
 }
 
@@ -162,7 +178,6 @@ async function getHoods(socket) {
   try {
     const result = await db.query(sql);
     data = result.rows;
-    log(data);
     if (data.length === 0) {
       return;
     }
