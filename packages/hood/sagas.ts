@@ -3,7 +3,7 @@ import 'leaflet-draw';
 import { put, call, select, takeEvery, spawn, take } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
 
-import { HoodMap } from '@youhood/map/types';
+import { HoodMap, HoodGeoJSON } from '@youhood/map/types';
 import { actionCreators } from '@youhood/menu';
 const { showMenu, hideMenu } = actionCreators;
 import { actionCreators as userActionCreators } from '@youhood/user';
@@ -26,21 +26,17 @@ import {
 import {
   selectHood,
   deselectHood,
-  addHoodProps,
   setEdit,
+  setHoodUIProps,
 } from './action-creators';
 import styleFn from './style';
 import {
   getHoodIdSelected,
   getHoodSelected,
-  getHoodsByIds,
-  getHoodPropsByIds,
-  getHoodProps,
-  getHoods,
+  getHoodUIPropsAsIds,
 } from './selectors';
 import {
   findHood,
-  getHoodProperties,
   getHoodId,
 } from './utils';
 import { onSaveHood, prepareHoods } from './effects';
@@ -52,12 +48,11 @@ import {
   PolygonLeaflet,
   HoodId,
   HoodIds,
-  Hood,
 } from './types';
 
 const LAYER_ADD = 'layeradd';
 
-const createLayerChannel = (layerGroup: L.GeoJSON) => eventChannel((emit: any) => {
+const createLayerChannel = (layerGroup: HoodGeoJSON) => eventChannel((emit: any) => {
   const onLayerAdd = (layer: L.LeafletEvent) => {
     emit({ type: LAYER_ADD, payload: layer });
   };
@@ -95,73 +90,57 @@ interface HoodIdsAction {
 }
 
 function* onHideAllHoods({ hoodGeoJSON }: HoodMap) {
-  const hoodPropsMap = yield select(getHoodProps);
-  Object.keys(hoodPropsMap).forEach((key) => {
-    hoodPropsMap[key].visible = false;
-  });
-  yield put(addHoodProps(hoodPropsMap));
-
-  hoodGeoJSON.eachLayer((hood) => {
-    hoodGeoJSON.removeLayer(hood);
-  });
+  const hoodIds = yield select(getHoodUIPropsAsIds);
+  const hoodUIProps = setHoodUIVisibility(hoodIds, false);
+  yield put(setHoodUIProps(hoodUIProps));
+  setHoodDisplay({ hoodGeoJSON, hoodIds, display: 'none' });
 }
 
 function* onShowAllHoods({ hoodGeoJSON }: HoodMap) {
-  const hoods = yield select(getHoods);
-
-  const hoodsToAdd: any = Object
-    .values(hoods)
-    .filter((hood: Hood) => {
-      let found = false;
-
-      hoodGeoJSON.eachLayer((hoodGeo) => {
-        if (getHoodId(hood) === getHoodId(hoodGeo)) {
-          found = true;
-        }
-      });
-
-      return !found;
-    });
-
-  hoodGeoJSON.addData(hoodsToAdd);
+  const hoodIds = yield select(getHoodUIPropsAsIds);
+  const hoodUIProps = setHoodUIVisibility(hoodIds, true);
+  yield put(setHoodUIProps(hoodUIProps));
+  setHoodDisplay({ hoodGeoJSON, hoodIds, display: 'block' });
 }
 
 function* onHideHoods({ hoodGeoJSON }: HoodMap, action: HoodIdsAction) {
   const hoodIds = action.payload;
-  const hoodPropsMap = yield select(getHoodPropsByIds, { ids: hoodIds });
-  Object.keys(hoodPropsMap).forEach((key) => {
-    hoodPropsMap[key].visible = false;
-  });
-  yield put(addHoodProps(hoodPropsMap));
+  const hoodUIProps = setHoodUIVisibility(hoodIds, false);
+  yield put(setHoodUIProps(hoodUIProps));
+  setHoodDisplay({ hoodGeoJSON, hoodIds, display: 'none' });
+}
 
-  hoodGeoJSON.eachLayer((hood) => {
+function* onShowHoods({ hoodGeoJSON }: HoodMap, action: HoodIdsAction) {
+  const hoodIds = action.payload;
+  const hoodUIProps = setHoodUIVisibility(hoodIds, true);
+  yield put(setHoodUIProps(hoodUIProps));
+  setHoodDisplay({ hoodGeoJSON, hoodIds, display: 'block' });
+}
+
+function setHoodUIVisibility(hoodIds: HoodIds, visible: boolean) {
+  const init = {};
+  return hoodIds.reduce(
+    (acc: Object, hoodId: HoodId) => ({ ...acc, [hoodId]: { visible } }), 
+    init,
+  );
+}
+
+interface SetHoodDisplay {
+  hoodGeoJSON: HoodGeoJSON; 
+  hoodIds: HoodIds; 
+  display: string;
+}
+
+function setHoodDisplay({ hoodGeoJSON, hoodIds, display }: SetHoodDisplay) {
+  hoodGeoJSON.eachLayer((hood: PolygonLeaflet) => {
     const hoodId = getHoodId(hood);
 
     if (hoodIds.indexOf(hoodId) === -1) {
       return;
     }
 
-    hoodGeoJSON.removeLayer(hood);
+    (<HTMLElement>hood.getElement()).style.display = display;
   });
-}
-
-function* onShowHoods({ hoodGeoJSON }: HoodMap, action: HoodIdsAction) {
-  const hoodIds = action.payload;
-  const hoods = yield select(getHoodsByIds, { ids: hoodIds });
-
-  const hoodsToAdd = hoods.filter((hood: Hood) => {
-    let found = false;
-
-    hoodGeoJSON.eachLayer((hoodGeo) => {
-      if (getHoodId(hood) === getHoodId(hoodGeo)) {
-        found = true;
-      }
-    });
-
-    return !found;
-  });
-
-  hoodGeoJSON.addData(hoodsToAdd);
 }
 
 export function* showAllHoodsSaga(hoodMap: HoodMap) {
@@ -239,7 +218,7 @@ function* onSelectHood(hoodMap: HoodMap, action: HoodSelectedAction) {
   yield put(showMenu('overlay'));
 
   const hood = yield select(getHoodSelected);
-  const userId = getHoodProperties(hood).userId;
+  const userId = hood.userId;
   const userResp = yield call(fetch, `/user/${userId}`);
   const rawUser = yield userResp.json();
   const user = transformUser(rawUser.user);

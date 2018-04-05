@@ -2,14 +2,10 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import * as h from 'react-hyperscript';
 
-import { utils, actionCreators, selectors } from '@youhood/hood';
+import { actionCreators, selectors } from '@youhood/hood';
 const { getHoodsOnPoint, getHoodIdSelected, getVisibleHoodsOnPoint } = selectors;
-const {
-  getHoodProperties,
-  getHoodId,
-} = utils;
 const { toggleHoodSelected, hoverHood, hideHoods, showHoods } = actionCreators;
-import { Hoods, HoodId, HoodIds } from '@youhood/hood/types';
+import { HoodId, HoodIds, HoodPropsList } from '@youhood/hood/types';
 import { selectors as voteSelectors } from '@youhood/vote';
 const { getVoteCountByHoods } = voteSelectors;
 import { VoteMap } from '@youhood/vote/types';
@@ -40,7 +36,7 @@ interface HoodVisible {
 interface Props {
   show: boolean;
   toggle: Toggle;
-  hoods: Hoods;
+  hoods: HoodPropsList;
   visibleHoodIds: HoodIds;
   hover: Hover;
   hoodIdSelected: HoodId;
@@ -52,7 +48,7 @@ interface Props {
 interface DefaultProps {
   show: boolean;
   visibleHoodIds: HoodIds;
-  hoods: Hoods;
+  hoods: HoodPropsList;
   hover: Hover;
   toggle: Toggle;
   hideHoods: HoodVisible;
@@ -89,7 +85,7 @@ export class HoodSelection extends Component {
       votesByHood,
     } = this.props;
     if (!show) return null;
-    const hoodIds = hoods.map((hood) => getHoodId(hood));
+    const hoodIds = hoods.map((hood) => hood.id);
     const allHoodsAreVisible = hoods.length === visibleHoodIds.length;
 
     return h(OverlayContainer, [
@@ -100,8 +96,8 @@ export class HoodSelection extends Component {
             h(HoodVisibility, { className: 'fa fa-eye-slash', onClick: () => showHoods(hoodIds) }),
         ]),
         ...hoods.map((hood) => {
-          const { name } = getHoodProperties(hood);
-          const hoodId = getHoodId(hood);
+          const { name } = hood;
+          const hoodId = hood.id;
           const Item = hoodIdSelected === hoodId ? HoodListItemSelected : HoodListItem;
           const isHoodVisible = visibleHoodIds.indexOf(hoodId) >= 0;
           const votes = votesByHood[hoodId];
@@ -125,7 +121,7 @@ export class HoodSelection extends Component {
 export default connect(
   (state: State) => {
     const hoods = getHoodsOnPoint(state);
-    const hoodIds = hoods.map((hood) => getHoodId(hood));
+    const hoodIds = hoods.map((hood) => hood.id);
 
     return {
       hoods,

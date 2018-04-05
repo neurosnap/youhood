@@ -1,8 +1,10 @@
 import { UserId } from '@youhood/user/types';
+import { HoodId } from '@youhood/hood/types';
 
 export interface Point {
   value: number;
   reason: string;
+  hoodId: HoodId;
 }
 export type Points = Point[];
 

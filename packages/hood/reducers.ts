@@ -1,15 +1,16 @@
-import { getHoodId, setHoodName } from './utils';
+import { getHoodId, getHoodProps } from './utils';
 import {
   SELECT_HOOD,
   DESELECT_HOOD,
   SET_HOODS_ON_POINT,
   CLEAR_HOODS_ON_POINT,
   ADD_HOODS,
-  SET_HOODS,
   USER_ADD_HOODS,
+  ADD_HOOD_UI_PROPS,
+  SET_EDIT,
   SET_HOOD_NAME,
   ADD_HOOD_PROPS,
-  SET_EDIT,
+  SET_HOOD_UI_PROPS,
 } from './action-types';
 import {
   HoodSelectedAction,
@@ -17,13 +18,15 @@ import {
   SetHoodsAction,
   SetHoodNameAction,
   SetHoodNamePayload,
+  HoodPropsMap,
   Hood,
   Hoods,
   HoodId,
   HoodIds,
-  HoodPropsMap,
-  AddHoodPropsMap,
+  HoodUIPropsMap,
+  AddHoodUIPropsAction,
   SetEdit,
+  AddHoodPropsAction,
 } from './types';
 import * as selectors from './selectors';
 
@@ -53,44 +56,63 @@ const hoodsOnPoint = (state: HoodIds = defaultHop, action: HopAction): HoodIds =
 };
 
 const defaultHoodProps = {};
-const hoodProps = (state: HoodPropsMap = defaultHoodProps, action: AddHoodPropsMap): HoodPropsMap => {
+const hoodUIProps = (state: HoodUIPropsMap = defaultHoodProps, action: AddHoodUIPropsAction): HoodUIPropsMap => {
   switch (action.type) {
-  case ADD_HOOD_PROPS: {
+  case ADD_HOOD_UI_PROPS: {
     const propMap = action.payload;
     return { ...state, ...propMap };
+  }
+  case SET_HOOD_UI_PROPS: {
+    const props = action.payload;
+    if (Object.keys(props).length === 0) {
+      return state;
+    }
+
+    const newState = { ...state };
+    Object.keys(newState).forEach(
+      (hoodId) => {
+        newState[hoodId] = { ...newState[hoodId], ...props[hoodId] };
+      },
+    );
+
+    return newState;
   }
   default:
     return state;
   }
 };
 
-type HoodObj = { [key: string]: Hood };
+type HoodObj = HoodPropsMap;
 
 function arrayToObj(arr: Hoods, init: HoodObj = {}): HoodObj {
   return arr.reduce((acc: HoodObj, hood: Hood) => {
     const hoodId = getHoodId(hood);
-    return { ...acc, [hoodId]: hood };
+    const props = getHoodProps(hood);
+    return { ...acc, [hoodId]: props };
   }, init);
 }
 
-const hoods = (state: HoodObj = {}, action: SetHoodsAction | SetHoodNameAction): HoodObj => {
+const hoodProps = (state: HoodObj = {}, action: AddHoodPropsAction | SetHoodsAction | SetHoodNameAction): HoodObj => {
   switch (action.type) {
-  case SET_HOODS:
-    return arrayToObj(<Hoods>action.payload);
+  case ADD_HOOD_PROPS: {
+    const propMap = <HoodObj>action.payload;
+    return { ...state, ...propMap };
+  }
 
   case USER_ADD_HOODS:
   case ADD_HOODS: {
     const hoodPayload = <Hoods>action.payload;
-    if (!hoodPayload || hoodPayload.length === 0) return state;
+    if (!hoodPayload || hoodPayload.length === 0) {
+      return state;
+    }
     return arrayToObj(hoodPayload, state);
   }
 
   case SET_HOOD_NAME: {
     const { hoodId, name } = <SetHoodNamePayload>action.payload;
-
     const nextState = { ...state };
     nextState[hoodId] = { ...nextState[hoodId] };
-    setHoodName(nextState[hoodId], name);
+    nextState[hoodId].name = name;
     return nextState;
   }
 
@@ -111,7 +133,7 @@ const editing = (state: boolean = false, action: SetEdit): boolean => {
 export default {
   [selectors.hoodSelected]: hoodSelected,
   [selectors.hoodsOnPoint]: hoodsOnPoint,
-  [selectors.hoods]: hoods,
   [selectors.hoodProps]: hoodProps,
+  [selectors.hoodUIProps]: hoodUIProps,
   [selectors.editing]: editing,
 };

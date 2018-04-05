@@ -1,26 +1,33 @@
 import * as createUuid from 'uuid/v4';
 
+import { HoodGeoJSON } from '@youhood/map/types';
+
 import {
   PolygonHood,
   PolygonLeaflet,
   Hood,
-  HoodProperties,
+  HoodProps,
   HoodId,
   HoodPropsMap,
+  HoodUIPropsMap,
 } from './types';
 
 const defaultHood = {};
-export const createHood = (props: { [key: string]: any } = defaultHood): HoodProperties => ({
+export const createHood = (props: { [key: string]: any } = defaultHood): HoodProps => ({
   id: props.id || createUuid(),
   userId: props.userId || '',
   name: props.name || '',
   city: props.city || '',
   county: props.county || '',
   state: props.state || '',
+});
+
+export const createHoodUI = (props: { [key: string]: any } = defaultHood) => ({
+  id: props.id,
   visible: props.visible || true,
 });
 
-export function getHoodProperties(polygon: PolygonHood): HoodProperties {
+export function getHoodProps(polygon: PolygonHood): HoodProps {
   if (polygon.hasOwnProperty('feature')) {
     return (<PolygonLeaflet>polygon).feature.properties;
   }
@@ -30,20 +37,11 @@ export function getHoodProperties(polygon: PolygonHood): HoodProperties {
 
 export function getHoodId(polygon: PolygonHood): HoodId {
   if (!polygon) return '';
-  const props = getHoodProperties(polygon);
+  const props = getHoodProps(polygon);
   return props ? props.id : '';
 }
 
-export function getHoodName(polygon: PolygonHood): string {
-  if (!polygon) return '';
-  return getHoodProperties(polygon).name;
-}
-
-export function setHoodName(polygon: PolygonHood, value: string) {
-  getHoodProperties(polygon).name = value;
-}
-
-export function findHood(layers: L.GeoJSON, hoodId: HoodId): PolygonHood {
+export function findHood(layers: HoodGeoJSON, hoodId: HoodId): PolygonHood {
   let hood = null;
 
   layers.eachLayer((layer) => {
@@ -57,10 +55,17 @@ export function findHood(layers: L.GeoJSON, hoodId: HoodId): PolygonHood {
 
 export function getHoodPropsMapFromHoods(hoods: PolygonHood[]): HoodPropsMap {
   return hoods.reduce((acc: HoodPropsMap, hood: any) => {
-    const props = getHoodProperties(hood);
+    const props = getHoodProps(hood);
     const hoodId = getHoodId(hood);
-    acc[hoodId] = props;
     return { ...acc, [hoodId]: createHood(props) };
+  }, {});
+}
+
+export function getHoodUIPropsMapFromHoods(hoods: PolygonHood[]): HoodUIPropsMap {
+  return hoods.reduce((acc: HoodUIPropsMap, hood: any) => {
+    const props = getHoodProps(hood);
+    const hoodId = getHoodId(hood);
+    return { ...acc, [hoodId]: createHoodUI(props) };
   }, {});
 }
 

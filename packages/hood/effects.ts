@@ -1,23 +1,22 @@
 import { put, select, take, call, spawn } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
+import debug from 'debug';
 
 import { HoodMap } from '@youhood/map/types';
 
+const log = debug('hood:effects');
+
 import {
-  addHoods,
   afterSaveHood,
-  addHoodProps,
 } from './action-creators';
 import {
-  getHoodById,
+  getHoodPropsById,
   getHoodIdSelected,
 } from './selectors';
 import {
   getHoodId,
-  getHoodProperties,
   findHood,
   bindTooltip,
-  getHoodPropsMapFromHoods,
 } from './utils';
 import { SaveHoodAction, PolygonLeaflet, HoodId } from './types';
 import styleFn from './style';
@@ -33,16 +32,17 @@ export function* onSaveHood(
   const hood = <PolygonLeaflet>findHood(hoodGeoJSON, hoodId);
   if (!hood) return;
 
-  const name = getHoodProperties(hood).name;
+  const props = yield select(getHoodPropsById, { id: hoodId });
+  if (!props) {
+    log(`Could not find props for ${hoodId}`);
+    return;
+  }
+  const name = props.name;
 
   bindTooltip(hood, name);
 
   const hoodGeo = hood.toGeoJSON();
-  const curHood = yield select(getHoodById, { id: hoodId });
-  const hoodProperties = getHoodProperties(curHood);
-
-  hoodGeo.properties = hoodProperties;
-  yield put(addHoods([hoodGeo]));
+  hoodGeo.properties = props;
 
   const res = yield fetch('/hood/save', {
     method: 'POST',
@@ -57,9 +57,6 @@ export function* onSaveHood(
 }
 
 export function* prepareHoods(layers: PolygonLeaflet[]) {
-  const hoodPropsMap = getHoodPropsMapFromHoods(layers);
-  yield put(addHoodProps(hoodPropsMap));
-
   for (let i = 0; i < layers.length; i += 1) {
     const hood = <PolygonLeaflet>layers[i];
     yield spawn(startHoodEvents, hood);
@@ -68,8 +65,14 @@ export function* prepareHoods(layers: PolygonLeaflet[]) {
 
 export function* startHoodEvents(hood: PolygonLeaflet, id: HoodId = '') {
   hood.setStyle(styleFn());
-  const channel = yield call(createHoodChannel, hood);
   const hoodId = getHoodId(hood) || id;
+  const props = yield select(getHoodPropsById, { id: hoodId });
+  if (!props) {
+    log(`Could not find props for ${hoodId}`);
+    return;
+  }
+  const name = props.name || '{NEW HOOD}';
+  const channel = yield call(createHoodChannel, hood, name);
 
   while (true) {
     const event = yield take(channel);
@@ -92,10 +95,7 @@ export function* startHoodEvents(hood: PolygonLeaflet, id: HoodId = '') {
   }
 }
 
-const createHoodChannel = (hood: PolygonLeaflet) => eventChannel((emit) => {
-  const props = getHoodProperties(hood);
-  const name = props ? props.name : '{NEW HOOD}';
-
+const createHoodChannel = (hood: PolygonLeaflet, name: string = '') => eventChannel((emit) => {
   const onMouseOver = () => {
     emit({ type: HOOD_MOUSE_OVER });
   };

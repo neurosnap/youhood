@@ -18,6 +18,7 @@ import { FETCH_POINTS_BY_USER } from './action-types';
 import { addPoints, fetchPointsByUser } from './action-creators';
 import pointMap from './point-map';
 import { FetchPointsByUserAction } from './types';
+import { findDuplicatePoint } from './selectors';
 
 interface SubmitPoints {
   userId: UserId;
@@ -51,7 +52,13 @@ function* hoodCreated(action: HoodsAction) {
   const point = {
     value: pointMap[AFTER_SAVE_HOOD],
     reason: AFTER_SAVE_HOOD,
+    hoodId,
   };
+
+  const foundDuplicatePoint = yield select(findDuplicatePoint, { hoodId, reason: point.reason });
+  if (foundDuplicatePoint >= 0) {
+    return;
+  }
 
   const userId = yield select(getCurrentUserId);
   yield fork(submitPoints, { userId, hoodId, reason: point.reason });
@@ -67,7 +74,13 @@ function* userVoted(action: VoteAction) {
   const point = {
     value: pointMap[VOTE],
     reason: VOTE,
+    hoodId,
   };
+
+  const foundDuplicatePoint = yield select(findDuplicatePoint, { hoodId, reason: point.reason });
+  if (foundDuplicatePoint >= 0) {
+    return;
+  }
 
   yield fork(submitPoints, { userId, hoodId, reason: point.reason });
   yield put(addPoints([point]));
@@ -78,7 +91,13 @@ function* userUnvoted(action: VoteAction) {
   const point = {
     value: pointMap[UNVOTE],
     reason: UNVOTE,
+    hoodId,
   };
+
+  const foundDuplicatePoint = yield select(findDuplicatePoint, { hoodId, reason: point.reason });
+  if (foundDuplicatePoint >= 0) {
+    return;
+  }
 
   yield fork(submitPoints, { userId, hoodId, reason: point.reason });
   yield put(addPoints([point]));

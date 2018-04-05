@@ -1,11 +1,11 @@
 import { eventChannel } from 'redux-saga';
 import { take, call, spawn, put } from 'redux-saga/effects';
 
-import { HoodMap, HoodGeoJSON } from '@youhood/map/types';
+import { HoodMap } from '@youhood/map/types';
 import { Hoods, GeoJsonFeatures, PolygonHood } from '@youhood/hood/types';
 import { actionCreators, utils } from '@youhood/hood';
-const { addHoods } = actionCreators;
-const { getHoodId } = utils;
+const { addHoods, addHoodUIProps } = actionCreators;
+const { getHoodId, getHoodUIPropsMapFromHoods } = utils;
 import { actionCreators as userActionCreators } from '@youhood/user';
 const { addUsers } = userActionCreators;
 import { Users } from '@youhood/user/types';
@@ -33,7 +33,7 @@ const createSocketChannel = (socket: WebSocket) => eventChannel((emit) => {
   };
 });
 
-export function* socketSaga({ hoodGeoJSON }: HoodMap) {
+export function* socketSaga(hoodMap: HoodMap) {
   const socket = new WebSocket('ws://localhost:8080');
   const channel = yield call(createSocketChannel, socket);
 
@@ -44,7 +44,7 @@ export function* socketSaga({ hoodGeoJSON }: HoodMap) {
 
     switch (type) {
       case GOT_HOODS:
-        yield spawn(gotHoods, payload, hoodGeoJSON);
+        yield spawn(gotHoods, payload, hoodMap);
         break;
       case GOT_USERS:
         yield spawn(gotUsers, payload);
@@ -54,12 +54,15 @@ export function* socketSaga({ hoodGeoJSON }: HoodMap) {
   }
 }
 
-function* gotHoods(data: GeoJsonFeatures, hoodGeoJSON: HoodGeoJSON) {
+function* gotHoods(data: GeoJsonFeatures, { hoodGeoJSON }: HoodMap) {
   if (data.features.length === 0) {
     return;
   }
 
-  yield put(addHoods(<Hoods>data.features));
+  const layers = <Hoods>data.features;
+  yield put(addHoods(layers));
+  const hoodUIPropsMap = getHoodUIPropsMapFromHoods(layers);
+  yield put(addHoodUIProps(hoodUIPropsMap));
 
   const features = data.features.filter((feature) => {
     let foundHood = false;
