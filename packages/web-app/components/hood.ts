@@ -2,17 +2,12 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import * as h from 'react-hyperscript';
 
-import { HoodId, Hood, SetHoodNamePayload, EditHoodPayload } from '@youhood/hood/types';
+import { HoodProps, HoodId, SetHoodNamePayload, EditHoodPayload } from '@youhood/hood/types';
 import { User, UserId } from '@youhood/user/types';
 import {
-  utils,
   actionCreators,
   selectors,
 } from '@youhood/hood';
-const {
-  getHoodName,
-  getHoodId,
-} = utils;
 const {
   deselectHood,
   setHoodName,
@@ -44,8 +39,8 @@ import {
   OverlayContainer,
 } from './ui';
 
-interface HoodProps {
-  hood: Hood;
+interface Props {
+  hood: HoodProps;
   hoodId: HoodId;
   user: User;
   show: boolean;
@@ -65,14 +60,24 @@ interface HoodProps {
 
 interface DefaultProps {
   show: boolean;
-  hood: Hood;
+  hood: HoodProps;
   user: User;
   canEdit: boolean;
   edit: boolean;
 }
 
+function getHoodId(hood: HoodProps): HoodId {
+  if (!hood) return '';
+  return hood.id;
+}
+
+function getHoodName(hood: HoodProps): string {
+  if (!hood) return '';
+  return hood.name;
+}
+
 export class HoodView extends Component {
-  props: HoodProps;
+  props: Props;
 
   static defaultProps: DefaultProps = {
     show: false,
@@ -93,10 +98,11 @@ export class HoodView extends Component {
   };
 
   componentWillMount() {
-    this.setState({ name: getHoodName(this.props.hood) });
+    const name = getHoodName(this.props.hood);
+    this.setState({ name });
   }
 
-  componentWillReceiveProps(nextProps: HoodProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (getHoodId(nextProps.hood) !== getHoodId(this.props.hood)) {
       this.setState({ name: getHoodName(nextProps.hood) });
     }
@@ -105,20 +111,21 @@ export class HoodView extends Component {
   handleSave = () => {
     const { hood, updateHoodName, edit, save } = this.props;
     const { name } = this.state;
-    updateHoodName({ hoodId: getHoodId(hood), name });
+    const hoodId = hood.id;
+    updateHoodName({ hoodId, name });
     this.setState({ editing: false });
-    const hoodId = getHoodId(hood);
     edit({ hoodId, edit: false });
     save(hoodId);
   }
 
   handleCancel = () => {
     const { edit, hood } = this.props;
+    const { name, id } = hood;
     this.setState({
       editing: false,
-      name: getHoodName(this.props.hood),
+      name,
     });
-    edit({ hoodId: getHoodId(hood), edit: false });
+    edit({ hoodId: id, edit: false });
   }
 
   handleInput = (event: Event) => {
@@ -129,7 +136,7 @@ export class HoodView extends Component {
   handleEdit = () => {
     const { edit, hood } = this.props;
     this.setState({ editing: true });
-    edit({ hoodId: getHoodId(hood), edit: true });
+    edit({ hoodId: hood.id, edit: true });
   }
 
   render() {
@@ -210,12 +217,14 @@ export class HoodView extends Component {
 export default connect(
   (state: State) => {
     const hood = getHoodSelected(state);
-    if (!hood) return <DefaultProps>{ hood: null };
-    const userId = hood.properties.userId;
-    const user = getUserById(state, { id: hood.properties.userId });
+    if (!hood) {
+      return <DefaultProps>{ hood: null };
+    }
+    const userId = hood.userId;
+    const user = getUserById(state, { id: hood.userId });
     const currentUserId = getCurrentUserId(state);
     const didUserCreateHood = user && user.id === currentUserId;
-    const hoodId = getHoodId(hood);
+    const hoodId = hood.id;
     const userIsAuthenticated = isUserAuthenticated(state);
     const canUserVote = userIsAuthenticated;
 
@@ -232,7 +241,7 @@ export default connect(
   },
   (dispatch: Function) => ({
     updateHoodName: (payload: SetHoodNamePayload) => dispatch(setHoodName(payload)),
-    handleDeselectHood: (hood: Hood) => dispatch(deselectHood()),
+    handleDeselectHood: () => dispatch(deselectHood()),
     hideHoodOverlay: () => dispatch(hideMenu('overlay')),
     edit: (opts: EditHoodPayload) => dispatch(editHood(opts)),
     save: (hoodId: HoodId) => dispatch(saveHood(hoodId)),

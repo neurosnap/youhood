@@ -15,9 +15,9 @@ const {
   setHoodsOnPoint,
   userAddHoods,
   setEdit,
-  addHoodProps,
+  addHoodUIProps,
 } = actionCreators;
-const { createHood, getHoodId } = utils;
+const { createHood, createHoodUI, getHoodId } = utils;
 const { getIsEditing } = hoodSelectors;
 import {
   Hood,
@@ -106,10 +106,11 @@ function* hoodCreated({ hoodGeoJSON }: HoodMap, action: DrawCreatedAction) {
   }
 
   const props = createHood({ userId: user.id });
-  hood.properties = props;
   hoodGeoJSON.addData(hood);
+  hood.properties = props;
   const hoodId = getHoodId(hood);
-  yield put(addHoodProps({ [hoodId]: props }));
+  const uiProps = createHoodUI({ id: hoodId });
+  yield put(addHoodUIProps({ [hoodId]: uiProps }));
   yield put(userAddHoods([hood]));
   yield put(selectHood(hoodId));
 }

@@ -20,14 +20,7 @@ export function setupMap(): HoodMap {
   L.tileLayer(tileMapUrl, { attribution })
    .addTo(map);
 
-  const hoodGeoJSON: HoodGeoJSON = L.geoJSON().addTo(map);
-
-  L.control.layers(null, {
-    Neighborhoods: hoodGeoJSON,
-  }, {
-    position: 'topleft',
-    collapsed: false,
-  }).addTo(map);
+  const hoodGeoJSON: HoodGeoJSON = L.geoJSON(null).addTo(map);
 
   const drawControl = new L.Control.Draw({
     draw: {

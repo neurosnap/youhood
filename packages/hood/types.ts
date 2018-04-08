@@ -5,7 +5,7 @@ export type HoodId = string;
 export type HoodIds = HoodId[];
 export type HoodHash = { [key: string]: Hood };
 
-export interface HoodProperties {
+export interface HoodProps {
   id: HoodId;
   userId: UserId;
   name: string;
@@ -13,15 +13,25 @@ export interface HoodProperties {
   county: string;
   city: string;
   regionid?: string;
+}
+export type HoodPropsList = HoodProps[];
+
+export interface HoodUIProps {
+  id: HoodId;
   visible: boolean;
+}
+export type HoodUIPropsList = HoodUIProps[];
+
+export interface HoodUIPropsMap {
+  [key: string]: HoodUIProps;
 }
 
 export interface HoodPropsMap {
-  [key: string]: HoodProperties;
+  [key: string]: HoodProps;
 }
 
 export interface Feature<T extends GeoJSON.GeometryObject> extends GeoJSON.Feature<T> {
-  properties: HoodProperties;
+  properties: HoodProps;
 }
 
 export interface Polygon<T extends GeoJSON.Polygon | GeoJSON.MultiPolygon> extends L.Polygon {
@@ -40,7 +50,7 @@ export interface GeoJson {
   geometry: {
     coordinates: any;
   };
-  properties: HoodProperties;
+  properties: HoodProps;
   type: string;
 }
 
@@ -104,7 +114,12 @@ export interface SaveHoodAction {
   payload: HoodId;
 }
 
-export interface AddHoodPropsMap {
+export interface AddHoodUIPropsAction {
+  type: string;
+  payload: HoodUIPropsMap;
+}
+
+export interface AddHoodPropsAction {
   type: string;
   payload: HoodPropsMap;
 }
@@ -112,4 +127,8 @@ export interface AddHoodPropsMap {
 export interface SetEdit {
   type: string;
   payload: boolean;
+}
+
+export interface SetHoodUIPropsMap {
+  [key: string]: any;
 }

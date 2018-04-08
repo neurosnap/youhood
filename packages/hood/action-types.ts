@@ -20,5 +20,7 @@ export const {
   HIDE_ALL_HOODS,
   SHOW_ALL_HOODS,
   ADD_HOOD_PROPS,
+  ADD_HOOD_UI_PROPS,
   SET_EDIT,
+  SET_HOOD_UI_PROPS,
 } = typeCreator;

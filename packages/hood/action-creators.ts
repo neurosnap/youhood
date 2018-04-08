@@ -7,7 +7,9 @@ import {
   SetHoodNamePayload,
   HoverHoodPayload,
   EditHoodPayload,
+  HoodUIPropsMap,
   HoodPropsMap,
+  SetHoodUIPropsMap,
 } from './types';
 import * as types from './action-types';
 
@@ -29,5 +31,7 @@ export const showAllHoods = () => ({ type: types.SHOW_ALL_HOODS });
 export const hideAllHoods = () => ({ type: types.HIDE_ALL_HOODS });
 export const hideHoods = creator<HoodIds>(types.HIDE_HOODS);
 export const showHoods = creator<HoodIds>(types.SHOW_HOODS);
+export const addHoodUIProps = creator<HoodUIPropsMap>(types.ADD_HOOD_UI_PROPS);
+export const setHoodUIProps = creator<SetHoodUIPropsMap>(types.ADD_HOOD_UI_PROPS);
 export const addHoodProps = creator<HoodPropsMap>(types.ADD_HOOD_PROPS);
 export const setEdit = creator<boolean>(types.SET_EDIT);

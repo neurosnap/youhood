@@ -1,17 +1,21 @@
 interface Style {
   color: string;
+  weight: number;
 }
 
 const hoodStyle = () => ({
   color: 'blue',
+  weight: 1,
 });
 
 const hoodStyleSelected = () => ({
   color: 'yellow',
+  weight: 1,
 });
 
 const hoodStyleHover = () => ({
   color: 'green',
+  weight: 1,
 });
 
 interface StyleProps {
