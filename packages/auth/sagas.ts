@@ -59,8 +59,21 @@ function* onRegister(action: AuthAction) {
     },
     body: JSON.stringify(action.payload),
   });
-  const body = yield resp.json();
-  console.log(body);
+
+  if (resp.status >= 200 && resp.status < 300) {
+    const result: SuccessJSON = yield resp.json();
+    yield put(addUsers([result.user]));
+    yield put(setUser(result.user.id));
+    yield put(setToken(result.token));
+    yield put(signedIn(result.user.id));
+    return;
+  }
+
+  if (resp.status >= 400) {
+    const result: FailureJSON = yield resp.json();
+    yield put(authError(result.error));
+    return;
+  }
 }
 
 export function* registerSaga() {

@@ -189,6 +189,39 @@ async function getHoods(socket) {
   socket.send(JSON.stringify({ type: 'got-hoods', data: geojson }));
 }
 
+async function getHoodsByUserId(userId) {
+  const sql = `
+    SELECT
+      id,
+      hood_user_id,
+      state,
+      county,
+      city,
+      name,
+      created_at,
+      updated_at,
+      ST_AsGeoJSON(geom) as geom
+    FROM
+      neighborhood
+    WHERE
+      hood_user_id=$1;
+  `;
+
+  let data;
+  try {
+    const result = await db.query(sql, [userId]);
+    data = result.rows;
+    if (data.length === 0) {
+      return;
+    }
+  } catch (err) {
+    log(err);
+  }
+
+  const geojson = transformSQLToGeoJson(data);
+  return geojson;
+}
+
 function transformSQLToGeoJson(sqlResults) {
   const features = sqlResults.map(transformFeaturesToJson);
   return {
@@ -215,6 +248,8 @@ function transformFeaturesToJson(hood) {
 }
 
 module.exports = {
+  sendAll,
   getHoods,
+  getHoodsByUserId,
   router,
 };

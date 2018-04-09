@@ -113,9 +113,19 @@ export const Input = InputBase.extend`
   }
 `;
 
-export const ErrorText = styled.div`
-  color: tomato;
+export const SigninMsgBase = styled.div`
+  height: 30px;
+`;
+
+export const ErrorText = SigninMsgBase.extend`
+  color: #721c24;
+  background-color: #f8d7da;
   font-size: 11px;
+  padding: 0 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Buttons = styled.div`
@@ -201,4 +211,18 @@ export const SignInMenuEl = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+`;
+
+export const DropdownMenuContainer = styled.div`
+  position: absolute;
+  background: #4285f4;
+  top: 46px;
+  right: 9px;
+  z-index: 401;
+  width: 300px;
+  height: 230px;
+`;
+
+export const DropdownMenuButton = NavHover.extend`
+  height: 36px;
 `;

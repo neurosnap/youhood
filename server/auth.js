@@ -3,6 +3,7 @@ const router = require('express-promise-router')();
 const uuid = require('uuid/v4');
 
 const db = require('./db');
+const { getHoodsByUserId, sendAll } = require('./hood');
 
 const saltRounds = 10;
 
@@ -25,6 +26,18 @@ const compare = (password, hash) => new Promise((resolve, reject) => {
 router.post('/signin', async (req, res) => {
   const { email, password } = req.body;
   console.log(email, password);
+
+  if (!email) {
+    return res
+      .status(400)
+      .json({ error: 'must provide valid email address' });
+  }
+
+  if (!password) {
+    return res
+      .status(400)
+      .json({ error: 'password must not be empty' });
+  }
 
   const sql = "SELECT * FROM hood_user WHERE email=$1";
 
@@ -58,7 +71,8 @@ router.post('/signin', async (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-  const { email, password } = req.body;
+  const { currentUserId, email, password } = req.body;
+  const connections = req.app.get('connections');
   console.log(email, password);
 
   let passhash;
@@ -84,10 +98,45 @@ router.post('/register', async (req, res) => {
     console.log(err);
     return res
       .status(400)
-      .json({ error: 'Could not add user to database' });
+      .json({ error: `Could not add user to database: ${err.detail}` });
   }
 
   console.log(newUser);
+  if (currentUserId) {
+    await updateHoodUserId(currentUserId, newUser.id);
+    await updatePointUserId(currentUserId, newUser.id);
+    const geojson = await getHoodsByUserId(newUser.id);
+    if (connections) {
+      sendAll(Object.values(connections), { type: 'got-hoods', data: geojson });
+    }
+  }
+
   const user = { id: newUser.id, email: newUser.email };
   return res.json({ user, token: uuid() });
 });
+
+async function updateHoodUserId(prevUserId, userId) {
+  const sql = `UPDATE neighborhood SET hood_user_id=$1
+  WHERE hood_user_id=$2`;
+
+  try {
+    const result = await db.query(sql, [userId, prevUserId]);
+    return {};
+  } catch (err) {
+    console.log(err);
+    return { error: err.detail };
+  }
+}
+
+async function updatePointUserId(prevUserId, userId) {
+  const sql = `UPDATE point SET hood_user_id=$1 
+  WHERE hood_user_id=$2`;
+
+  try {
+    const result = await db.query(sql, [userId, prevUserId]);
+    return {};
+  } catch (err) {
+    console.log(err);
+    return { error: err.detail };
+  }
+}

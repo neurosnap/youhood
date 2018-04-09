@@ -1,7 +1,6 @@
 import * as h from 'react-hyperscript';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 
 import { actionCreators, selectors as authSelectors } from '@youhood/auth';
 const { signIn, register } = actionCreators;
@@ -12,21 +11,15 @@ import { AuthPayload, AuthError } from '@youhood/auth/types';
 import { UserId } from '@youhood/user/types';
 
 import { State } from '../types';
-import { NavHover, ErrorText, Input, Buttons, SignInMenuEl } from './ui';
-
-const SignInButton = NavHover.extend`
-  height: 36px;
-`;
-
-const SignInMenuContainer = styled.div`
-  position: absolute;
-  background: #4285f4;
-  top: 46px;
-  right: 9px;
-  z-index: 401;
-  width: 300px;
-  height: 230px;
-`;
+import { 
+  DropdownMenuButton,
+  ErrorText, 
+  Input, 
+  Buttons, 
+  SignInMenuEl,
+  DropdownMenuContainer,
+  SigninMsgBase,
+} from './ui';
 
 interface Props {
   handleSignIn: Function;
@@ -67,7 +60,7 @@ class SignInMenu extends Component {
     const { email, password } = this.state;
     const { error } = this.props;
 
-    return h(SignInMenuContainer, [
+    return h(DropdownMenuContainer, [
       h(SignInMenuEl, [
         h(Input, {
           type: 'text',
@@ -81,12 +74,12 @@ class SignInMenu extends Component {
           value: password,
           onChange: this.handlePassword,
         }),
-        h(ErrorText, error || '-'),
+        error ? h(ErrorText, error) : h(SigninMsgBase),
         h(Buttons, [
-          h(SignInButton, { onClick: this.login }, [
+          h(DropdownMenuButton, { onClick: this.login }, [
             h('div', 'Sign In'),
           ]),
-          h(SignInButton, { onClick: this.register }, [
+          h(DropdownMenuButton, { onClick: this.register }, [
             h('div', 'Register'),
           ]),
         ]),

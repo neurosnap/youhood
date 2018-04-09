@@ -4,15 +4,22 @@ import { connect } from 'react-redux';
 import { actionCreators } from '@youhood/auth';
 const { signOut } = actionCreators;
 
+import { 
+  DropdownMenuContainer, 
+  SignInMenuEl,
+  Buttons,
+  DropdownMenuButton,
+} from './ui';
+
 interface Props {
   handleSignOut: Function;
 }
 
 const Profile = ({ handleSignOut }: Props) => {
-  return h('div.signin-menu-container', [
-    h('div.signin-menu', [
-      h('div.buttons', [
-        h('div.nav-hover.button', { onClick: handleSignOut }, [
+  return h(DropdownMenuContainer, [
+    h(SignInMenuEl, [
+      h(Buttons, [
+        h(DropdownMenuButton, { onClick: handleSignOut }, [
           h('div', 'Sign Out'),
         ]),
       ]),

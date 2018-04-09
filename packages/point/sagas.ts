@@ -15,7 +15,11 @@ const { getCurrentUserId } = selectors;
 import { UserId } from '@youhood/user/types';
 
 import { FETCH_POINTS_BY_USER } from './action-types';
-import { addPoints, fetchPointsByUser } from './action-creators';
+import { 
+  addPoints, 
+  fetchPointsByUser, 
+  resetPoints,
+} from './action-creators';
 import pointMap from './point-map';
 import { FetchPointsByUserAction } from './types';
 import { findDuplicatePoint } from './selectors';
@@ -135,6 +139,7 @@ function* onFetchPointsByUser(action: FetchPointsByUserAction) {
     reason: point.reason,
   }));
 
+  yield put(resetPoints());
   yield put(addPoints(points));
 }
 
