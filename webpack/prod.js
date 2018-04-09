@@ -1,6 +1,9 @@
 const webpack = require('webpack');
+const merge = require('webpack-merge');
 
-module.exports = {
+const common = require('./common');
+
+module.exports = merge(common, {
   devtool: 'source-map',
   plugins: [
     new webpack.LoaderOptionsPlugin({
@@ -20,4 +23,4 @@ module.exports = {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({ sourceMap: true, minimize: true }),
   ],
-};
+});

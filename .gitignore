@@ -6,3 +6,4 @@ public/bundle.js*
 data/user.json
 dist/
 env.sh
+data/

@@ -1,5 +1,5 @@
 PORT="5432"
-PGHOST="localhost"
+PGHOST="db"
 PGUSER="postgres"
 PGDATABASE="postgres"
 BIN=./node_modules/.bin
@@ -7,10 +7,10 @@ BIN=./node_modules/.bin
 .PHONY: server dev prod lint circular tsc test open
 
 dev:
-	$(BIN)/webpack --watch
+	$(BIN)/webpack --config "webpack/dev.js" --watch
 
 prod:
-	$(BIN)/webpack
+	$(BIN)/webpack --config "webpack/prod.js"
 
 lint:
 	$(BIN)/tslint './packages/**/*.ts' './web/**/*.ts'
@@ -31,7 +31,7 @@ psql-build:
 
 psql-run:
 	docker run --name youhood -p $(PORT):$(PORT) -e POSTGRES_PASSWORD=$(PGPASSWORD) \
-		--network youhood-network -d neurosnap/youhood
+		--network youhood-network -d mdillon/postgis:10
 
 psql-provision:
 	docker run \
@@ -40,7 +40,7 @@ psql-provision:
 		--rm \
 		-v $(shell pwd)/sql:/opt \
 		-e PGPASSWORD=$(PGPASSWORD) \
-		neurosnap/youhood \
+		mdillon/postgis:10 \
 		bash -c 'psql -h 172.18.0.2 -d $(PGDATABASE) -U $(PGUSER) < /opt/setup.sql'
 
 psql-destroy:
@@ -50,7 +50,7 @@ psql-destroy:
 		--network youhood-network \
 		-v $(shell pwd)/sql:/opt \
 		-e PGPASSWORD=$(PGPASSWORD) \
-		neurosnap/youhood \
+		mdillon/postgis:10 \
 		bash -c 'psql -h 172.18.0.2 -d $(PGDATABASE) -U $(PGUSER) < /opt/teardown.sql'
 
 psql:
@@ -60,7 +60,7 @@ psql:
 		--network youhood-network \
 		-v $(shell pwd)/sql:/opt \
 		-e PGPASSWORD=$(PGPASSWORD) \
-		neurosnap/youhood \
+		mdillon/postgis:10 \
 		bash -c 'psql -h 172.18.0.2 -d $(PGDATABASE) -U $(PGUSER)'
 
 psql-rm:
@@ -74,6 +74,4 @@ server:
 	PGDATABASE=$(PGDATABASE) \
 	PGPASSWORD="$(PGPASSWORD)" \
 	PGPORT=$(PORT) \
-	GOOGLE_CLIENT_ID="708253278100-r0qmuh32tobh9g282to4c9vnve1bue6p.apps.googleusercontent.com" \
-	GOOGLE_CLIENT_SECRET="4zjGaLMNkn3IEvxZz8Y5A8Ak" \
 	node ./server/index.js
