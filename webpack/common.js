@@ -1,10 +1,10 @@
 const path = require('path');
-const webpack = require('webpack');
 const { CheckerPlugin, TsConfigPathsPlugin } = require('awesome-typescript-loader');
 
+const ROOT = path.resolve(__dirname, '..');
+
 module.exports = {
-  devtool: 'source-map',
-  entry: './web/index.ts',
+  entry: path.join(ROOT, 'web', 'index.ts'),
   module: {
     rules: [{
       test: /\.tsx?$/,
@@ -20,15 +20,9 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'public')
+    path: path.join(ROOT, 'public')
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
-      },
-    }),
     new CheckerPlugin(),
-    new webpack.optimize.OccurrenceOrderPlugin(true),
   ]
 };
