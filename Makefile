@@ -3,6 +3,7 @@ PGHOST="db"
 PGUSER="postgres"
 PGDATABASE="postgres"
 BIN=./node_modules/.bin
+BRANCH?="master"
 
 .PHONY: server dev prod lint circular tsc test open
 
@@ -75,3 +76,6 @@ server:
 	PGPASSWORD="$(PGPASSWORD)" \
 	PGPORT=$(PORT) \
 	node ./server/index.js
+
+deploy:
+	ssh ubuntu@youhood.io 'BRANCH=$(BRANCH) PGPASSWORD=$(PGPASSWORD) bash -s' < ./deploy.sh 
