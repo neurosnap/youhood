@@ -34,7 +34,8 @@ const createSocketChannel = (socket: WebSocket) => eventChannel((emit) => {
 });
 
 export function* socketSaga(hoodMap: HoodMap) {
-  const socket = new WebSocket('ws://localhost:8080');
+  const domain = window.location.hostname;
+  const socket = new WebSocket(`ws://${domain}`);
   const channel = yield call(createSocketChannel, socket);
 
   while (true) {
