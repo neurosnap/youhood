@@ -1,5 +1,5 @@
 PORT="5432"
-PGHOST="db"
+PGHOST?="db"
 PGUSER="postgres"
 PGDATABASE="postgres"
 BIN=./node_modules/.bin
@@ -24,50 +24,6 @@ test: tsc lint
 open:
 	open http://localhost:8080/index
 
-psql-setup:
-	docker network create youhood-network
-
-psql-build:
-	docker build -t neurosnap/youhood .
-
-psql-run:
-	docker run --name youhood -p $(PORT):$(PORT) -e POSTGRES_PASSWORD=$(PGPASSWORD) \
-		--network youhood-network -d mdillon/postgis:10
-
-psql-provision:
-	docker run \
-		-it \
-		--network youhood-network \
-		--rm \
-		-v $(shell pwd)/sql:/opt \
-		-e PGPASSWORD=$(PGPASSWORD) \
-		mdillon/postgis:10 \
-		bash -c 'psql -h 172.18.0.2 -d $(PGDATABASE) -U $(PGUSER) < /opt/setup.sql'
-
-psql-destroy:
-	docker run \
-		-it \
-		--rm \
-		--network youhood-network \
-		-v $(shell pwd)/sql:/opt \
-		-e PGPASSWORD=$(PGPASSWORD) \
-		mdillon/postgis:10 \
-		bash -c 'psql -h 172.18.0.2 -d $(PGDATABASE) -U $(PGUSER) < /opt/teardown.sql'
-
-psql:
-	docker run \
-		-it \
-		--rm \
-		--network youhood-network \
-		-v $(shell pwd)/sql:/opt \
-		-e PGPASSWORD=$(PGPASSWORD) \
-		mdillon/postgis:10 \
-		bash -c 'psql -h 172.18.0.2 -d $(PGDATABASE) -U $(PGUSER)'
-
-psql-rm:
-	docker stop youhood
-	docker rm youhood
-
 server:
 	DEBUG="*" \
 	PGHOST=$(PGHOST) \
@@ -78,4 +34,7 @@ server:
 	node ./server/index.js
 
 deploy:
-	ssh ubuntu@youhood.io 'BRANCH=$(BRANCH) PGPASSWORD=$(PGPASSWORD) bash -s' < ./deploy.sh 
+	ssh ubuntu@youhood.io 'BRANCH=$(BRANCH) PGPASSWORD=$(PGPASSWORD) bash -s' < ./deploy.sh
+
+psql:
+	docker exec -it youhood_db_1 psql -U $(PGUSER)

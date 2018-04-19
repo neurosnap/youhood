@@ -9,6 +9,6 @@ git remote update
 git reset --hard origin/$BRANCH
 mkdir -p data
 
-docker-compose pull --ignore-pull-failures
-docker-compose build
-docker-compose up -d
+docker-compose pull -f production.yml --ignore-pull-failures
+docker-compose build -f production.yml
+docker-compose up -d -f production.yml

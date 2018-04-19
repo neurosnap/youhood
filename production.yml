@@ -1,0 +1,30 @@
+version: "3"
+services:
+  nginx:
+    build: ./nginx
+    links:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+  db:
+    build: ./sql
+    environment:
+      - POSTGRES_PASSWORD=${PGPASSWORD}
+    restart: always
+    volumes:
+      - data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    links:
+      - db
+    environment:
+      - PGPASSWORD
+    restart: always
+volumes:
+  data:
