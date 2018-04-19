@@ -86,6 +86,10 @@ export const NavHover = styled.div`
   }
 `;
 
+export const HoodBarButton = NavHover.extend`
+  font-size: 12px;
+`;
+
 export const InputBase = styled.input`
   margin: 0;
   outline: none;

@@ -1,13 +1,15 @@
 import * as L from 'leaflet';
 import 'leaflet-draw';
-import { put, call, select, takeEvery, spawn, take } from 'redux-saga/effects';
+import { race, put, call, select, takeEvery, spawn, take } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
 
 import { HoodMap, HoodGeoJSON } from '@youhood/map/types';
 import { actionCreators } from '@youhood/menu';
 const { showMenu, hideMenu } = actionCreators;
-import { actionCreators as userActionCreators } from '@youhood/user';
-const { addUsers } = userActionCreators;
+import { actionCreators as userActionCreators, utils as userUtils, selectors } from '@youhood/user';
+const { addUsers, setUser } = userActionCreators;
+const { createUser } = userUtils;
+const { getCurrentUser } = selectors;
 import { User, RawUser } from '@youhood/user/types';
 
 import {
@@ -18,6 +20,8 @@ import {
   EDIT_HOOD,
   SAVE_HOOD,
   DRAW_HOOD,
+  HOOD_CREATED,
+  CANCEL_DRAW_HOOD,
   HIDE_HOODS,
   SHOW_HOODS,
   HIDE_ALL_HOODS,
@@ -28,6 +32,8 @@ import {
   deselectHood,
   setEdit,
   setHoodUIProps,
+  userAddHoods,
+  addHoodUIProps,
 } from './action-creators';
 import styleFn from './style';
 import {
@@ -38,6 +44,8 @@ import {
 import {
   findHood,
   getHoodId,
+  createHood,
+  createHoodUI,
 } from './utils';
 import { onSaveHood, prepareHoods } from './effects';
 import {
@@ -48,6 +56,7 @@ import {
   PolygonLeaflet,
   HoodId,
   HoodIds,
+  DrawCreatedAction,
 } from './types';
 
 const LAYER_ADD = 'layeradd';
@@ -163,9 +172,20 @@ export function* drawHoodSaga(hoodMap: HoodMap) {
   yield takeEvery(DRAW_HOOD, onDrawHood, hoodMap);
 }
 
-function* onDrawHood({ map, drawControl }: HoodMap) {
+function* onDrawHood({ map }: HoodMap) {
   yield put(setEdit(true));
-  new L.Draw.Polygon(map).enable();
+  const poly = new L.Draw.Polygon(map);
+  poly.enable();
+
+  const winner = yield race({
+    cancel: take(CANCEL_DRAW_HOOD),
+    create: take(HOOD_CREATED),
+  });
+
+  if (winner.cancel) {
+    poly.disable();
+    yield put(setEdit(false));
+  }
 }
 
 export function* saveHoodSaga(hoodMap: HoodMap) {
@@ -274,4 +294,31 @@ function* onEditHood({ hoodGeoJSON }: HoodMap, action: EditHoodAction) {
 
 export function* editHoodSaga(hoodMap: HoodMap) {
   yield takeEvery(EDIT_HOOD, onEditHood, hoodMap);
+}
+
+function* onHoodCreated({ hoodGeoJSON }: HoodMap, action: DrawCreatedAction) {
+  const layer = action.payload;
+  const hood = layer.toGeoJSON();
+
+  yield put(setEdit(false));
+
+  let user = yield select(getCurrentUser);
+  if (!user) {
+    user = createUser();
+    yield put(addUsers([user]));
+    yield put(setUser(user.id));
+  }
+
+  const props = createHood({ userId: user.id });
+  hoodGeoJSON.addData(hood);
+  hood.properties = props;
+  const hoodId = getHoodId(hood);
+  const uiProps = createHoodUI({ id: hoodId });
+  yield put(addHoodUIProps({ [hoodId]: uiProps }));
+  yield put(userAddHoods([hood]));
+  yield put(selectHood(hoodId));
+}
+
+export function* hoodCreatedSaga(hoodMap: HoodMap) {
+  yield takeEvery(HOOD_CREATED, onHoodCreated, hoodMap);
 }

@@ -10,31 +10,19 @@ import {
   selectors as hoodSelectors,
 } from '@youhood/hood';
 const {
-  selectHood,
   toggleHoodSelected,
   setHoodsOnPoint,
-  userAddHoods,
-  setEdit,
-  addHoodUIProps,
+  hoodCreated,
 } = actionCreators;
-const { createHood, createHoodUI, getHoodId } = utils;
+const { getHoodId } = utils;
 const { getIsEditing } = hoodSelectors;
 import {
   Hood,
   Hoods,
-  PolygonLeaflet,
 } from '@youhood/hood/types';
 
 import { actionCreators as menuActionCreators } from '@youhood/menu';
 const { showMenu } = menuActionCreators;
-import {
-  utils as userUtils,
-  actionCreators as userActionCreators,
-  selectors as userSelectors,
-} from '@youhood/user';
-const { createUser } = userUtils;
-const { addUsers, setUser } = userActionCreators;
-const { getCurrentUser } = userSelectors;
 
 import { HoodMap } from './types';
 
@@ -44,11 +32,6 @@ const HOOD_CREATED = 'HOOD_CREATED';
 interface MapClickAction {
   type: string;
   payload: Hoods;
-}
-
-interface DrawCreatedAction {
-  type: string;
-  payload: PolygonLeaflet;
 }
 
 const createMapChannel = ({ map, hoodGeoJSON }: HoodMap) => eventChannel((emit) => {
@@ -84,35 +67,12 @@ export function* mapSaga(hoodMap: HoodMap) {
         yield spawn(mapClick, event);
         break;
       case HOOD_CREATED:
-        yield spawn(hoodCreated, hoodMap, event);
+        yield put(hoodCreated(event.payload));
         break;
       default:
         break;
     }
   }
-}
-
-function* hoodCreated({ hoodGeoJSON }: HoodMap, action: DrawCreatedAction) {
-  const layer = action.payload;
-  const hood = layer.toGeoJSON();
-
-  yield put(setEdit(false));
-
-  let user = yield select(getCurrentUser);
-  if (!user) {
-    user = createUser();
-    yield put(addUsers([user]));
-    yield put(setUser(user.id));
-  }
-
-  const props = createHood({ userId: user.id });
-  hoodGeoJSON.addData(hood);
-  hood.properties = props;
-  const hoodId = getHoodId(hood);
-  const uiProps = createHoodUI({ id: hoodId });
-  yield put(addHoodUIProps({ [hoodId]: uiProps }));
-  yield put(userAddHoods([hood]));
-  yield put(selectHood(hoodId));
 }
 
 function* mapClick(action: MapClickAction) {

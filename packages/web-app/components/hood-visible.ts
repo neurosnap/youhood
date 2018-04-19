@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { actionCreators } from '@youhood/hood';
 const { showAllHoods, hideAllHoods } = actionCreators;
 
-import { NavHover } from './ui';
+import { HoodBarButton } from './ui';
 
 const Visible = styled.div`
   display: flex;
@@ -14,18 +14,18 @@ const Visible = styled.div`
   height: 100%;
 `;
 
-interface Visible {
+interface VisibleProp {
   (): void;
 }
 
 interface Props {
-  showAll: Visible;
-  hideAll: Visible;
+  showAll: VisibleProp;
+  hideAll: VisibleProp;
 }
 
 const HoodVisible = ({ showAll, hideAll }: Props) => h(Visible, [
-  h(NavHover, { onClick: showAll }, 'Show Hoods'),
-  h(NavHover, { onClick: hideAll }, 'Hide Hoods'),
+  h(HoodBarButton, { onClick: showAll }, 'Show Hoods'),
+  h(HoodBarButton, { onClick: hideAll }, 'Hide Hoods'),
 ]);
 
 export default connect(null, (dispatch) => ({
