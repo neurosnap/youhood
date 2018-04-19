@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const router = require('express-promise-router')();
 const uuid = require('uuid/v4');
+const isemail = require('isemail');
 
 const db = require('./db');
 const { getHoodsByUserId, sendAll } = require('./hood');
@@ -27,16 +28,10 @@ router.post('/signin', async (req, res) => {
   const { email, password } = req.body;
   console.log(email, password);
 
-  if (!email) {
+  if (!isemail.validate(email)) {
     return res
       .status(400)
       .json({ error: 'must provide valid email address' });
-  }
-
-  if (!password) {
-    return res
-      .status(400)
-      .json({ error: 'password must not be empty' });
   }
 
   const sql = "SELECT * FROM hood_user WHERE email=$1";
@@ -49,19 +44,19 @@ router.post('/signin', async (req, res) => {
     console.log(err);
     return res
       .status(401)
-      .json({ error: 'Could not find email' });
+      .json({ error: 'could not find email' });
   }
 
   try {
     const result = await compare(password, user.passhash);
     if (!result) {
-      throw new Error('Invalid password');
+      throw new Error('invalid password');
     }
   } catch (err) {
     console.log(err);
     return res
       .status(401)
-      .json({ error: 'Invalid password' });
+      .json({ error: 'invalid password' });
   }
 
   delete user.passhash;
@@ -75,6 +70,18 @@ router.post('/register', async (req, res) => {
   const connections = req.app.get('connections');
   console.log(email, password);
 
+  if (!isemail.validate(email)) {
+    return res
+      .status(400)
+      .json({ error: 'invalid email address' });
+  }
+
+  if (!password) {
+    return res
+      .status(400)
+      .json({ error: 'password must not be empty' });
+  }
+
   let passhash;
   try {
     passhash = await hashFn(password, saltRounds);
@@ -83,7 +90,7 @@ router.post('/register', async (req, res) => {
     console.log(err);
     return res
       .status(400)
-      .json({ error: 'Could not hash password' });
+      .json({ error: 'could not hash password' });
   }
 
   const sql = `INSERT INTO hood_user(id, email, passhash)
@@ -98,7 +105,7 @@ router.post('/register', async (req, res) => {
     console.log(err);
     return res
       .status(400)
-      .json({ error: `Could not add user to database: ${err.detail}` });
+      .json({ error: `could not add user to database: ${err.detail}` });
   }
 
   console.log(newUser);
