@@ -2,10 +2,7 @@ import * as h from 'react-hyperscript';
 
 import SignIn from './signin';
 import Points from './points';
-import DrawHood from './draw';
-import HoodVisible from './hood-visible';
 import {
-  NavHover,
   Nav,
   NavContent,
   NavLeft,
@@ -31,16 +28,12 @@ export default ({ points }: Props) =>
         h(Brand, 'YouHood'),
       ]),
       h(NavRight, [
-        h(NavHover, [
-          h(DrawHood),
-        ]),
         h(Search, [
           h(SearchIcon, { className: 'fa fa-search' }),
           h(SearchInput, { placeholder: 'Search' }),
         ]),
         h(Points, { points }),
         h(SignIn),
-        h(HoodVisible),
       ]),
     ]),
   ]);

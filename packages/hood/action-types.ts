@@ -23,4 +23,6 @@ export const {
   ADD_HOOD_UI_PROPS,
   SET_EDIT,
   SET_HOOD_UI_PROPS,
+  CANCEL_DRAW_HOOD,
+  HOOD_CREATED,
 } = typeCreator;

@@ -132,3 +132,8 @@ export interface SetEdit {
 export interface SetHoodUIPropsMap {
   [key: string]: any;
 }
+
+export interface DrawCreatedAction {
+  type: string;
+  payload: PolygonLeaflet;
+}

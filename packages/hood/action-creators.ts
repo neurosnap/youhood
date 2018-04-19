@@ -10,6 +10,7 @@ import {
   HoodUIPropsMap,
   HoodPropsMap,
   SetHoodUIPropsMap,
+  PolygonLeaflet,
 } from './types';
 import * as types from './action-types';
 
@@ -27,6 +28,7 @@ export const editHood = creator<EditHoodPayload>(types.EDIT_HOOD);
 export const saveHood = creator<HoodId>(types.SAVE_HOOD);
 export const afterSaveHood = creator<Hoods>(types.AFTER_SAVE_HOOD);
 export const drawHood = () => ({ type: types.DRAW_HOOD });
+export const cancelDrawHood = () => ({ type: types.CANCEL_DRAW_HOOD });
 export const showAllHoods = () => ({ type: types.SHOW_ALL_HOODS });
 export const hideAllHoods = () => ({ type: types.HIDE_ALL_HOODS });
 export const hideHoods = creator<HoodIds>(types.HIDE_HOODS);
@@ -35,3 +37,4 @@ export const addHoodUIProps = creator<HoodUIPropsMap>(types.ADD_HOOD_UI_PROPS);
 export const setHoodUIProps = creator<SetHoodUIPropsMap>(types.ADD_HOOD_UI_PROPS);
 export const addHoodProps = creator<HoodPropsMap>(types.ADD_HOOD_PROPS);
 export const setEdit = creator<boolean>(types.SET_EDIT);
+export const hoodCreated = creator<PolygonLeaflet>(types.HOOD_CREATED);

@@ -15,6 +15,6 @@ body {
 }
 
 .map {
-  height: calc(100vh - 56px);
+  height: calc(100vh - 84px);
   width: 100vw;
 }
