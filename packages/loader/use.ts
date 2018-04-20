@@ -46,8 +46,9 @@ export function combine(modules: Modules = [], name: string = '') {
     });
   });
 
-  if (['sagas', 'reducers'].includes(name) || !window.hasOwnProperty('Proxy'))
+  if (['sagas', 'reducers'].includes(name) || !window.hasOwnProperty('Proxy')) {
     return merged;
+  }
 
   const errorAlreadySent: { [key: string]: boolean } = {};
   return new Proxy(merged, {

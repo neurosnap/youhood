@@ -23,7 +23,7 @@ export default function createState({ initState, hoodMap, rootReducer, rootSaga 
     );
   }
 
-  const store = createStore<State>(
+  const store = createStore(
     rootReducer,
     initState,
     applyMiddleware(...middleware),
