@@ -39,7 +39,7 @@ const Cancel = ({ cancelDraw }: { cancelDraw: Function }) =>
   ]);
 
 const DrawHood = ({ handleDrawHood, handleCancelDrawHood, isEditing }: Props) => isEditing ?
-  h(Cancel, { handleCancelDrawHood }) :
+  h(Cancel, { cancelDraw: handleCancelDrawHood }) :
   h(Button, { onClick: handleDrawHood }, 'Create Hood');
 
 export default connect(
