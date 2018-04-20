@@ -1,0 +1,214 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HoodView should render null 1`] = `
+<HoodView
+  canEdit={false}
+  canUserVote={false}
+  edit={[Function]}
+  hood={null}
+  save={[Function]}
+  show={false}
+  user={
+    Object {
+      "createdAt": "",
+      "email": "Unknown",
+      "id": "",
+      "isTmp": true,
+    }
+  }
+  userVoted={false}
+  votes={0}
+/>
+`;
+
+exports[`HoodView when the user has registered should render the email as user 1`] = `
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.c3 {
+  margin-right: 15px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c1 {
+  font-size: 16px;
+  color: #fff;
+}
+
+.c0 {
+  width: 90%;
+  margin-top: 15px;
+}
+
+<HoodView
+  canEdit={false}
+  canUserVote={false}
+  edit={[Function]}
+  hood={null}
+  hoodId="321"
+  save={[Function]}
+  show={true}
+  user={
+    Object {
+      "email": "eric@cool.com",
+      "id": "123",
+      "isTmp": false,
+    }
+  }
+  userVoted={false}
+  votes={0}
+>
+  <styled.div>
+    <div
+      className="c0"
+    >
+      <styled.div>
+        <div
+          className="c1"
+        >
+          Hood View
+        </div>
+      </styled.div>
+      <styled.div>
+        <div
+          className="c2"
+        >
+          <styled.div>
+            <div
+              className="c3"
+            >
+              <div>
+                0
+              </div>
+            </div>
+          </styled.div>
+          <div>
+            <div />
+            <div>
+              <span>
+                User: 
+              </span>
+              <span>
+                eric@cool.com
+              </span>
+            </div>
+          </div>
+        </div>
+      </styled.div>
+    </div>
+  </styled.div>
+</HoodView>
+`;
+
+exports[`HoodView when the user is temporary should render \`Anonymous\` user name 1`] = `
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.c3 {
+  margin-right: 15px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c1 {
+  font-size: 16px;
+  color: #fff;
+}
+
+.c0 {
+  width: 90%;
+  margin-top: 15px;
+}
+
+<HoodView
+  canEdit={false}
+  canUserVote={false}
+  edit={[Function]}
+  hood={null}
+  hoodId="321"
+  save={[Function]}
+  show={true}
+  user={
+    Object {
+      "email": "123",
+      "id": "123",
+      "isTmp": true,
+    }
+  }
+  userVoted={false}
+  votes={0}
+>
+  <styled.div>
+    <div
+      className="c0"
+    >
+      <styled.div>
+        <div
+          className="c1"
+        >
+          Hood View
+        </div>
+      </styled.div>
+      <styled.div>
+        <div
+          className="c2"
+        >
+          <styled.div>
+            <div
+              className="c3"
+            >
+              <div>
+                0
+              </div>
+            </div>
+          </styled.div>
+          <div>
+            <div />
+            <div>
+              <span>
+                User: 
+              </span>
+              <span>
+                Anonymous
+              </span>
+            </div>
+          </div>
+        </div>
+      </styled.div>
+    </div>
+  </styled.div>
+</HoodView>
+`;

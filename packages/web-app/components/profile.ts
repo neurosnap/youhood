@@ -15,7 +15,7 @@ interface Props {
   handleSignOut: Function;
 }
 
-const Profile = ({ handleSignOut }: Props) => {
+export const Profile = ({ handleSignOut }: Props) => {
   return h(DropdownMenuContainer, [
     h(SignInMenuEl, [
       h(Buttons, [

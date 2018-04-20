@@ -11,11 +11,11 @@ import { AuthPayload, AuthError } from '@youhood/auth/types';
 import { UserId } from '@youhood/user/types';
 
 import { State } from '../types';
-import { 
+import {
   DropdownMenuButton,
-  ErrorText, 
-  Input, 
-  Buttons, 
+  ErrorText,
+  Input,
+  Buttons,
   SignInMenuEl,
   DropdownMenuContainer,
   SigninMsgBase,
@@ -28,7 +28,7 @@ interface Props {
   error: AuthError;
 }
 
-class SignInMenu extends Component {
+export class SignInMenu extends Component {
   props: Props;
 
   state = {
@@ -63,12 +63,14 @@ class SignInMenu extends Component {
     return h(DropdownMenuContainer, [
       h(SignInMenuEl, [
         h(Input, {
+          className: 'signin-email',
           type: 'text',
           placeholder: 'email address',
           value: email,
           onChange: this.handleEmail,
         }),
         h(Input, {
+          className: 'signin-pass',
           type: 'password',
           placeholder: 'password',
           value: password,
@@ -76,10 +78,16 @@ class SignInMenu extends Component {
         }),
         error ? h(ErrorText, error) : h(SigninMsgBase),
         h(Buttons, [
-          h(DropdownMenuButton, { onClick: this.login }, [
+          h(DropdownMenuButton, {
+            className: 'signin-btn',
+            onClick: this.login,
+          }, [
             h('div', 'Sign In'),
           ]),
-          h(DropdownMenuButton, { onClick: this.register }, [
+          h(DropdownMenuButton, {
+            className: 'register-btn',
+            onClick: this.register,
+          }, [
             h('div', 'Register'),
           ]),
         ]),

@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Menu should render menu 1`] = `
+<div>
+  <styled.div
+    onClick={[Function]}
+  >
+    <i
+      className="fa fa-bars fa-lg"
+    />
+  </styled.div>
+  <styled.div
+    show={false}
+  >
+    <styled.div>
+      <styled.a
+        href="#"
+      >
+        About
+      </styled.a>
+      <styled.a
+        href="#"
+      >
+        FAQ
+      </styled.a>
+      <styled.a
+        href="https://github.com/neurosnap/youhood/issues"
+        target="_blank"
+      >
+        Submit Feedback
+      </styled.a>
+      <styled.a
+        href="https://github.com/neurosnap/youhood"
+        target="_blank"
+      >
+        Source Code
+      </styled.a>
+    </styled.div>
+  </styled.div>
+</div>
+`;

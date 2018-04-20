@@ -30,7 +30,7 @@ const Overlay = styled.div`
   cursor: pointer;
 `;
 
-const Cancel = ({ cancelDraw }: { cancelDraw: Function }) =>
+export const Cancel = ({ cancelDraw }: { cancelDraw: Function }) =>
   h('div', [
     h(Button, { onClick: cancelDraw }, [
       h('div', 'Cancel'),
@@ -38,7 +38,7 @@ const Cancel = ({ cancelDraw }: { cancelDraw: Function }) =>
     h(Overlay, { onClick: cancelDraw }),
   ]);
 
-const DrawHood = ({ handleDrawHood, handleCancelDrawHood, isEditing }: Props) => isEditing ?
+export const DrawHood = ({ handleDrawHood, handleCancelDrawHood, isEditing }: Props) => isEditing ?
   h(Cancel, { cancelDraw: handleCancelDrawHood }) :
   h(Button, { onClick: handleDrawHood }, 'Create Hood');
 

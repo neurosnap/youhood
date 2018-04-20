@@ -230,3 +230,11 @@ export const DropdownMenuContainer = styled.div`
 export const DropdownMenuButton = NavHover.extend`
   height: 36px;
 `;
+
+export const Points = styled.div`
+  color: #fff;
+  background-color: limegreen;
+  border-radius: 5px;
+  padding: 2px 5px;
+  font-size: 12px;
+`;

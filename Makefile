@@ -19,7 +19,13 @@ lint:
 tsc:
 	$(BIN)/tsc --noEmit
 
-test: tsc lint
+jest:
+	$(BIN)/jest
+
+jest-update:
+	$(BIN)/jest -u
+
+test: tsc lint jest
 
 open:
 	open http://localhost:8080/index
