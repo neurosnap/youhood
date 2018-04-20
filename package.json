@@ -40,7 +40,7 @@
     "pg": "^7.4.0",
     "react": "16.2.0",
     "react-dom": "16.2.0",
-    "react-hyperscript": "^3.0.0",
+    "react-hyperscript": "3.2.0",
     "react-redux": "^5.0.5",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
