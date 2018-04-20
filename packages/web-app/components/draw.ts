@@ -1,10 +1,11 @@
 import * as h from 'react-hyperscript';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 
 import { actionCreators, selectors } from '@youhood/hood';
 const { drawHood, cancelDrawHood } = actionCreators;
 const { getIsEditing } = selectors;
+
+import { HoodBarButton } from './ui';
 
 interface Props {
   isEditing: boolean;
@@ -12,13 +13,16 @@ interface Props {
   handleDrawHood: Function;
 }
 
-const Button = styled.div`
-  width: 71px;
-  text-align: center;
+const Button = HoodBarButton.extend`
+  width: 91px;
+  display: flex;
+  justify-content: center;
 `;
 
 const DrawHood = ({ handleDrawHood, handleCancelDrawHood, isEditing }: Props) => isEditing ?
-  h(Button, { onClick: handleCancelDrawHood }, 'Cancel') :
+  h(Button, { onClick: handleCancelDrawHood }, [
+    h('div', 'Cancel'),
+  ]) :
   h(Button, { onClick: handleDrawHood }, 'Create Hood');
 
 export default connect(
