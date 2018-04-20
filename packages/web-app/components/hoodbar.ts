@@ -3,7 +3,6 @@ import * as h from 'react-hyperscript';
 
 import HoodVisible from './hood-visible';
 import DrawHood from './draw';
-import { HoodBarButton } from './ui';
 
 const HoodBar = styled.div`
   background-color: #e8e8e8;
@@ -14,8 +13,6 @@ const HoodBar = styled.div`
 `;
 
 export default () => h(HoodBar, [
-  h(HoodBarButton, [
-    h(DrawHood),
-  ]),
+  h(DrawHood),
   h(HoodVisible),
 ]);
