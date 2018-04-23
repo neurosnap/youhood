@@ -1,59 +1,57 @@
-import { put, select, take, call, spawn } from 'redux-saga/effects';
+import { select, take, call, spawn } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
 import debug from 'debug';
 
-import { HoodMap } from '@youhood/map/types';
+import { HoodGeoJSON } from '@youhood/map/types';
 
 const log = debug('hood:effects');
 
 import {
-  afterSaveHood,
-} from './action-creators';
-import {
   getHoodPropsById,
   getHoodIdSelected,
-} from './selectors';
+} from '../selectors';
 import {
   getHoodId,
-  findHood,
   bindTooltip,
-} from './utils';
-import { SaveHoodAction, PolygonLeaflet, HoodId } from './types';
-import styleFn from './style';
+} from '../utils';
+import { PolygonLeaflet, HoodId } from '../types';
+import styleFn from '../style';
 
 const HOOD_MOUSE_OVER = 'mouseover';
 const HOOD_MOUSE_OUT = 'mouseout';
 
-export function* onSaveHood(
-  { hoodGeoJSON }: HoodMap,
-  action: SaveHoodAction,
-) {
-  const hoodId = action.payload;
-  const hood = <PolygonLeaflet>findHood(hoodGeoJSON, hoodId);
-  if (!hood) return;
+export const LAYER_ADD = 'layeradd';
 
-  const props = yield select(getHoodPropsById, { id: hoodId });
-  if (!props) {
-    log(`Could not find props for ${hoodId}`);
-    return;
+/* interface LayerEvent {
+  type: string;
+  payload: L.LeafletEvent;
+} */
+
+export const createLayerChannel = (layerGroup: HoodGeoJSON) => eventChannel((emit: any) => {
+  const onLayerAdd = (layer: L.LeafletEvent) => {
+    emit({ type: LAYER_ADD, payload: layer });
+  };
+
+  layerGroup.on('layeradd', onLayerAdd);
+
+  return () => {
+    layerGroup.off('layeradd', onLayerAdd);
+  };
+});
+
+export function* onLayerEvent(event: any) {
+  const { type, payload } = event;
+  const layer = payload;
+
+  switch (type) {
+    case LAYER_ADD: {
+      console.log('LAYER ADDED: ', layer);
+      yield spawn(prepareHoods, [layer.layer]);
+    }
+
+    default:
+      break;
   }
-  const name = props.name;
-
-  bindTooltip(hood, name);
-
-  const hoodGeo = hood.toGeoJSON();
-  hoodGeo.properties = props;
-
-  const res = yield fetch('/hood/save', {
-    method: 'POST',
-    body: JSON.stringify([hoodGeo]),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-  const data = yield res.json();
-  yield put(afterSaveHood(data.hoods));
 }
 
 export function* prepareHoods(layers: PolygonLeaflet[]) {

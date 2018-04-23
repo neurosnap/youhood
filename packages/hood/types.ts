@@ -1,4 +1,5 @@
 import { UserId } from '@youhood/user/types';
+import { HoodMap } from '@youhood/map/types';
 
 type ActionType = string;
 export type HoodId = string;
@@ -136,4 +137,10 @@ export interface SetHoodUIPropsMap {
 export interface DrawCreatedAction {
   type: string;
   payload: PolygonLeaflet;
+}
+
+export interface ApplyStyle {
+  hoodMap: HoodMap;
+  hoodId: HoodId;
+  style: Object;
 }

@@ -10,7 +10,9 @@ import {
   HoodId,
   HoodPropsMap,
   HoodUIPropsMap,
+  ApplyStyle,
 } from './types';
+import styleFn from './style';
 
 const defaultHood = {};
 export const createHood = (props: { [key: string]: any } = defaultHood): HoodProps => ({
@@ -75,4 +77,12 @@ export function bindTooltip(hood: PolygonLeaflet, name: string) {
     offset: [25, 0],
     direction: 'right',
   });
+}
+
+export function applyStyle({ hoodMap, hoodId, style }: ApplyStyle) {
+  const hood = <PolygonLeaflet>findHood(hoodMap.hoodGeoJSON, hoodId);
+  if (!hood) return;
+
+  hood.setStyle(styleFn(style));
+  hood.bringToFront();
 }

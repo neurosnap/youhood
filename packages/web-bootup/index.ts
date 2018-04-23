@@ -24,6 +24,10 @@ function* onBootup() {
   yield put(webBootupComplete());
 }
 
+const effects = {
+  onBootup,
+};
+
 // sagas
 function* bootupSaga() {
   yield takeEvery(WEB_BOOTUP, onBootup);
@@ -37,4 +41,5 @@ export {
   actionTypes,
   actionCreators,
   sagas,
+  effects,
 };

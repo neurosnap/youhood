@@ -20,7 +20,7 @@ tsc:
 	$(BIN)/tsc --noEmit
 
 jest:
-	$(BIN)/jest
+	$(BIN)/jest $(JEST_FILES)
 
 jest-update:
 	$(BIN)/jest -u
