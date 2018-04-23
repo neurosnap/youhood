@@ -19,14 +19,13 @@ interface SignInProps {
   user: User;
 }
 
-
 const SignInContainer = styled.div`
   margin-left: 0;
   position: relative;
   height: 100%;
 `;
 
-const SignInEl = styled.div`
+export const SignInEl = styled.div`
   text-decoration: none;
   color: #fff;
 

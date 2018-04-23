@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HoodVisible should render the buttons 1`] = `
+.c1 {
+  cursor: pointer;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0 10px;
+  margin: 0 10px;
+  font-size: 12px;
+}
+
+.c1:hover {
+  background-color: rgba(255,255,255,0.25);
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: 0;
+  position: relative;
+  height: 100%;
+}
+
+<Component>
+  <styled.div>
+    <div
+      className="c0"
+    >
+      <styled.div>
+        <div
+          className="c1"
+        >
+          Show Hoods
+        </div>
+      </styled.div>
+      <styled.div>
+        <div
+          className="c1"
+        >
+          Hide Hoods
+        </div>
+      </styled.div>
+    </div>
+  </styled.div>
+</Component>
+`;

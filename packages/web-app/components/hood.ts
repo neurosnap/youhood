@@ -29,15 +29,17 @@ import { selectors as authSelectors } from '@youhood/auth';
 const { isUserAuthenticated } = authSelectors;
 
 import { State } from '../types';
-import { 
-  HoodContainer, 
-  Votes, 
-  VoteUp, 
-  Voted, 
+import {
+  HoodContainer,
+  Votes,
+  VoteUp,
+  Voted,
   Actions,
   OverlayHeader,
   OverlayContainer,
 } from './ui';
+
+const noop = () => {};
 
 interface Props {
   hood: HoodProps;
@@ -63,7 +65,11 @@ interface DefaultProps {
   hood: HoodProps;
   user: User;
   canEdit: boolean;
-  edit: boolean;
+  userVoted: boolean;
+  canUserVote: boolean;
+  votes: number;
+  edit: Function;
+  save: Function;
 }
 
 function getHoodId(hood: HoodProps): HoodId {
@@ -89,7 +95,11 @@ export class HoodView extends Component {
       isTmp: true,
     },
     canEdit: false,
-    edit: false,
+    userVoted: false,
+    canUserVote: false,
+    votes: 0,
+    edit: noop,
+    save: noop,
   };
 
   state = {
@@ -158,12 +168,12 @@ export class HoodView extends Component {
     let actions = null;
     if (editing) {
       actions = [
-        h('button', { onClick: this.handleSave }, 'Save'),
-        h('button', { onClick: this.handleCancel }, 'Cancel'),
+        h('button', { className: 'save', onClick: this.handleSave }, 'Save'),
+        h('button', { className: 'cancel', onClick: this.handleCancel }, 'Cancel'),
       ];
     } else if (canEdit) {
       actions = [
-        h('button', { onClick: this.handleEdit }, 'Edit'),
+        h('button', { className: 'edit', onClick: this.handleEdit }, 'Edit'),
       ];
     }
 
@@ -172,6 +182,7 @@ export class HoodView extends Component {
       hoodInfo = h('div', [
         h('label', { htmlFor: 'hood-name' }, 'Hood'),
         h('input', {
+          className: 'name-input',
           type: 'input',
           value: name,
           onChange: this.handleInput,

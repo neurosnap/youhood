@@ -5,10 +5,10 @@ import styled from 'styled-components';
 
 import { selectors } from '@youhood/point';
 const { getTotalPoints, getPoints } = selectors;
-import { Points } from '@youhood/point/types';
+import { Points as PointsType } from '@youhood/point/types';
 
 import { State } from '../types';
-import { NavHover, SignInMenuEl } from './ui';
+import { NavHover, SignInMenuEl, Points } from './ui';
 
 const PointsMenuContainer = styled.div`
   position: absolute;
@@ -20,7 +20,7 @@ const PointsMenuContainer = styled.div`
   height: 230px;
 `;
 
-const DropMenu = ({ open = false, items = [] }: { open: boolean, items: any[] }) => {
+export const DropMenu = ({ open = false, items = [] }: { open: boolean, items: any[] }) => {
   if (!open) {
     return null;
   }
@@ -36,24 +36,16 @@ const DropMenu = ({ open = false, items = [] }: { open: boolean, items: any[] })
   ]);
 };
 
-const Points = styled.div`
-  color: #fff;
-  background-color: limegreen;
-  border-radius: 5px;
-  padding: 2px 5px;
-  font-size: 12px;
-`;
-
 const PointsContainer = styled.div`
   margin-right: 0;
 `;
 
 interface Props {
   points: number;
-  pointHistory: Points;
+  pointHistory: PointsType;
 }
 
-class PointsView extends Component {
+export class PointsView extends Component {
   props: Props;
 
   static defaultProps: Props = {

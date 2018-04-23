@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DrawHood when \`isEditing\` is false should render the create button 1`] = `
+.c0 {
+  cursor: pointer;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0 10px;
+  margin: 0 10px;
+  font-size: 12px;
+  width: 91px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c0:hover {
+  background-color: rgba(255,255,255,0.25);
+}
+
+<Component
+  isEditing={false}
+>
+  <styled.div>
+    <div
+      className="c0"
+    >
+      Create Hood
+    </div>
+  </styled.div>
+</Component>
+`;
+
+exports[`DrawHood when \`isEditing\` is true should render the cancel button 1`] = `
+.c0 {
+  cursor: pointer;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0 10px;
+  margin: 0 10px;
+  font-size: 12px;
+  width: 91px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c0:hover {
+  background-color: rgba(255,255,255,0.25);
+}
+
+.c1 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 56px;
+  background-color: rgba(0,0,0,0);
+  cursor: pointer;
+}
+
+<Component
+  isEditing={true}
+>
+  <Component>
+    <div>
+      <styled.div>
+        <div
+          className="c0"
+        >
+          <div>
+            Cancel
+          </div>
+        </div>
+      </styled.div>
+      <styled.div>
+        <div
+          className="c1"
+        />
+      </styled.div>
+    </div>
+  </Component>
+</Component>
+`;

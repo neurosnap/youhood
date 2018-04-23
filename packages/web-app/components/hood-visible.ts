@@ -23,7 +23,7 @@ interface Props {
   hideAll: VisibleProp;
 }
 
-const HoodVisible = ({ showAll, hideAll }: Props) => h(Visible, [
+export const HoodVisible = ({ showAll, hideAll }: Props) => h(Visible, [
   h(HoodBarButton, { onClick: showAll }, 'Show Hoods'),
   h(HoodBarButton, { onClick: hideAll }, 'Hide Hoods'),
 ]);
