@@ -42,6 +42,10 @@ jest:
 	$(BIN)/jest $(JEST_FILES)
 .PHONY: jest
 
+jest-watch:
+	$(BIN)/jest --watch $(JEST_FILES)
+.PHONY: jest-watch
+
 jest-update:
 	$(BIN)/jest -u
 .PHONY: jest-update

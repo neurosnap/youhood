@@ -209,7 +209,7 @@ export const Brand = styled.div`
 `;
 
 export const SignInMenuEl = styled.div`
-  height: 100%;
+  height: 80%;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -223,8 +223,8 @@ export const DropdownMenuContainer = styled.div`
   top: 46px;
   right: 9px;
   z-index: 401;
-  width: 300px;
-  height: 230px;
+  width: 310px;
+  height: 260px;
 `;
 
 export const DropdownMenuButton = NavHover.extend`
@@ -237,4 +237,20 @@ export const Points = styled.div`
   border-radius: 5px;
   padding: 2px 5px;
   font-size: 12px;
+`;
+
+export const SignInContainer = styled.div`
+  margin-left: 0;
+  position: relative;
+  height: 100%;
+`;
+
+export const SignInEl = styled.div`
+  text-decoration: none;
+  color: #fff;
+
+  a {
+    text-decoration: none;
+    color: #fff;
+  }
 `;

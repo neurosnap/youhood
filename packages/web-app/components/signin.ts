@@ -1,7 +1,6 @@
 import * as h from 'react-hyperscript';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 
 import { selectors as authSelectors } from '@youhood/auth';
 const { isUserAuthenticated } = authSelectors;
@@ -11,29 +10,13 @@ import { User } from '@youhood/user/types';
 
 import { State } from '../types';
 import Profile from './profile';
-import SignInMenu from './signin-menu';
-import { NavHover } from './ui';
+import AuthMenu from './auth';
+import { NavHover, SignInContainer, SignInEl } from './ui';
 
 interface SignInProps {
   authenticated: boolean;
   user: User;
 }
-
-const SignInContainer = styled.div`
-  margin-left: 0;
-  position: relative;
-  height: 100%;
-`;
-
-export const SignInEl = styled.div`
-  text-decoration: none;
-  color: #fff;
-
-  a {
-    text-decoration: none;
-    color: #fff;
-  }
-`;
 
 export class SignIn extends Component {
   props: SignInProps;
@@ -73,7 +56,7 @@ export class SignIn extends Component {
       if (authenticated) {
         menu = h(Profile);
       } else {
-        menu = h(SignInMenu);
+        menu = h(AuthMenu);
       }
     }
 
