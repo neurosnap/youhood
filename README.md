@@ -10,37 +10,47 @@ Crowd sourced neighborhood boundary site
 
 ## Dev
 
+### Required Environment Variables
+
+* `PGPASSWORD` # password for postgresql
+
 ```bash
 yarn
-PGPASSWORD="<password>" docker-compose up
+docker-compose up
 docker logs # terminal 1
 make dev # terminal 2
-PGPASSWORD="<password>" make server #  terminal 3
-PGPASSWORD="<password>" make psql # terminal 4
+make server #  terminal 3
+make psql # terminal 4
 ```
 
 ## Deploy
 
 * Create EC2 instance
 
+### Required Environment Variables
+
+* `SERVER` # server address
+* `EC2_USER` # name of the user
+* `PROD_DIR` # production directory
+
 ```bash
-SERVER=<ip_address> make setup
+make setup
 ```
 
 Once changes have been made and we want to publish changes
 
 ```bash
-SERVER=<ip_address> make deploy
+make deploy
 ```
 
 Production logs
 
 ```bash
-SERVER=<ip_address> make logs
+make logs
 ```
 
 SSH into instance
 
 ```bash
-SERVER=<ip_address> make ssh
+make ssh
 ```

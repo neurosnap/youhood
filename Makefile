@@ -5,7 +5,6 @@ PGHOST?="db"
 PGUSER?="postgres"
 PORT?="5432"
 # PROD
-BRANCH?="master"
 PROD_DIR?=/srv/youhood
 SERVER?=youhood.io
 
@@ -66,11 +65,11 @@ copy:
 .PHONY: copy
 
 provision:
-	ssh $(EC2_USER)@$(SERVER) 'bash -s' < provision.sh
+	ssh $(EC2_USER)@$(SERVER) 'cd $(PROD_DIR) && bash -s' < provision.sh
 .PHONY: provision
 
 start:
-	ssh $(EC2_USER)@$(SERVER) 'BRANCH=$(BRANCH) PGPASSWORD=$(PGPASSWORD) bash -s' < ./deploy.sh
+	ssh $(EC2_USER)@$(SERVER) 'cd $(PROD_DIR) && PGPASSWORD=$(PGPASSWORD) bash -s' < ./deploy.sh
 .PHONY: start
 
 deploy: copy start
