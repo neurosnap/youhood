@@ -4,7 +4,7 @@ import * as h from 'react-hyperscript';
 import { SignIn } from './signin';
 import { NavHover } from './ui';
 import Profile from './profile';
-import SignInMenu from './signin-menu';
+import AuthMenu from './auth';
 
 describe('SignIn', () => {
   describe('when user is not authenticated', () => {
@@ -47,7 +47,7 @@ describe('SignIn', () => {
 
         tree.find(NavHover).simulate('click');
 
-        expect(tree.find(SignInMenu).length).toEqual(1);
+        expect(tree.find(AuthMenu).length).toEqual(1);
       });
     });
   });
