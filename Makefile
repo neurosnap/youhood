@@ -16,6 +16,20 @@ prod:
 	$(BIN)/webpack --config "webpack/prod.js"
 .PHONY: prod
 
+server:
+	DEBUG="*" \
+	PGHOST=$(PGHOST) \
+	PGUSER=$(PGUSER) \
+	PGDATABASE=$(PGDATABASE) \
+	PGPASSWORD="$(PGPASSWORD)" \
+	PGPORT=$(PORT) \
+	node ./server/index.js
+.PHONY: server
+
+psql:
+	docker exec -it youhood_db_1 psql -U $(PGUSER)
+.PHONY: psql
+
 lint:
 	$(BIN)/tslint './packages/**/*.ts' './web/**/*.ts'
 .PHONY: lint
@@ -38,20 +52,6 @@ test: tsc lint jest
 open:
 	open http://localhost:8080/index
 .PHONY: open
-
-server:
-	DEBUG="*" \
-	PGHOST=$(PGHOST) \
-	PGUSER=$(PGUSER) \
-	PGDATABASE=$(PGDATABASE) \
-	PGPASSWORD="$(PGPASSWORD)" \
-	PGPORT=$(PORT) \
-	node ./server/index.js
-.PHONY: server
-
-psql:
-	docker exec -it youhood_db_1 psql -U $(PGUSER)
-.PHONY: psql
 
 setup: permissions copy provision start
 .PHONY: setup
