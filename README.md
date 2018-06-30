@@ -2,3 +2,13 @@ YouHood [![Build Status](https://travis-ci.org/neurosnap/youhood.svg?branch=mast
 =======
 
 Crowd sourced neighborhood boundary site
+
+## Requirements
+
+* node
+* docker
+
+## Setup
+
+yarn
+
