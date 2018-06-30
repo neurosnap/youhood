@@ -1,12 +1,13 @@
-PORT="5432"
-PGHOST?="db"
-PGUSER="postgres"
-PGDATABASE="postgres"
+# DEV
 BIN=./node_modules/.bin
+PGDATABASE?="postgres"
+PGHOST?="db"
+PGUSER?="postgres"
+PORT?="5432"
+# PROD
 BRANCH?="master"
-EC2_USER?=ubuntu
-SERVER?=youhood.io
 PROD_DIR?=/srv/youhood
+SERVER?=youhood.io
 
 dev:
 	$(BIN)/webpack --config "webpack/dev.js" --watch

@@ -7,3 +7,4 @@ data/user.json
 dist/
 env.sh
 data/
+.envrc
