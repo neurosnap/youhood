@@ -2,13 +2,13 @@
 
 exports[`Menu should render menu 1`] = `
 <div>
-  <styled.div
+  <styled.button
     onClick={[Function]}
   >
     <i
       className="fa fa-bars fa-lg"
     />
-  </styled.div>
+  </styled.button>
   <styled.div
     show={false}
   >

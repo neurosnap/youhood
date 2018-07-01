@@ -73,16 +73,26 @@ export const OverlayContainer = styled.div`
   margin-top: 15px;
 `;
 
-export const NavHover = styled.div`
+export const NavHover = styled.button`
   cursor: pointer;
   height: 100%;
   display: flex;
   align-items: center;
   padding: 0 10px;
   margin: 0 10px;
+  background: inherit;
+  color: inherit;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
 
-  :hover {
+  :hover:enabled {
     background-color: rgba(255, 255, 255, 0.25);
+  }
+
+  :disabled {
+    color: #ccc;
   }
 `;
 

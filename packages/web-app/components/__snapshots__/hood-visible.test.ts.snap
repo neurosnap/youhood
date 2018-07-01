@@ -14,11 +14,21 @@ exports[`HoodVisible should render the buttons 1`] = `
   align-items: center;
   padding: 0 10px;
   margin: 0 10px;
+  background: inherit;
+  color: inherit;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
   font-size: 12px;
 }
 
-.c1:hover {
+.c1:hover:enabled {
   background-color: rgba(255,255,255,0.25);
+}
+
+.c1:disabled {
+  color: #ccc;
 }
 
 .c0 {
@@ -36,20 +46,20 @@ exports[`HoodVisible should render the buttons 1`] = `
     <div
       className="c0"
     >
-      <styled.div>
-        <div
+      <styled.button>
+        <button
           className="c1"
         >
           Show Hoods
-        </div>
-      </styled.div>
-      <styled.div>
-        <div
+        </button>
+      </styled.button>
+      <styled.button>
+        <button
           className="c1"
         >
           Hide Hoods
-        </div>
-      </styled.div>
+        </button>
+      </styled.button>
     </div>
   </styled.div>
 </Component>

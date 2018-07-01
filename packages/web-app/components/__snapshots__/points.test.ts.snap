@@ -30,7 +30,7 @@ exports[`DropMenu when it is open when there is no point history should render h
 `;
 
 exports[`PointsView when there are points when rendering should render the points 1`] = `
-<styled.div
+<styled.button
   style={
     Object {
       "position": "relative",
@@ -48,5 +48,5 @@ exports[`PointsView when there are points when rendering should render the point
     items={Array []}
     open={false}
   />
-</styled.div>
+</styled.button>
 `;

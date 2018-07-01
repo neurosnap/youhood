@@ -1,5 +1,5 @@
 import * as h from 'react-hyperscript';
-import { Component, Children, cloneElement } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -24,10 +24,11 @@ import {
 
 type OnClick = (props: AuthPayload) => void;
 interface IAuth {
-  onClick: OnClick;
-  currentUserId: UserId;
   error: AuthError;
   children?: any;
+  onClick: OnClick;
+  currentUserId: UserId;
+  buttonText: string;
 }
 
 interface IAuthState {
@@ -36,6 +37,13 @@ interface IAuthState {
 }
 
 export class Auth extends Component<IAuth, IAuthState> {
+  static defaultProps = {
+    buttonText: '',
+    onClick: () => {},
+    currentUserId: '',
+    error: '',
+  };
+
   state = {
     email: '',
     password: '',
@@ -53,14 +61,13 @@ export class Auth extends Component<IAuth, IAuthState> {
     const { email, password } = this.state;
     const { onClick, currentUserId } = this.props;
     onClick({ email, password, currentUserId });
-  }
+  };
 
   render() {
     const { email, password } = this.state;
-    const { error, children } = this.props;
+    const { error, buttonText } = this.props;
+    const shouldDisableButton = (!email || !password);
 
-    const buttonsMap = (child: any, index: number) =>
-      cloneElement(child, { onClick: this.handleClick, key: index });
     return h(SignInMenuEl, [
       h(Input, {
         className: 'signin-email',
@@ -77,30 +84,29 @@ export class Auth extends Component<IAuth, IAuthState> {
         onChange: this.handlePassword,
       }),
       error ? h(ErrorText, error) : h(SigninMsgBase),
-      h(Buttons, Children.map(children, buttonsMap)),
+      h(Buttons, [
+        h(DropdownMenuButton, {
+          className: 'signin-btn',
+          onClick: this.handleClick,
+          disabled: shouldDisableButton,
+        }, buttonText),
+      ]),
     ]);
   }
 }
 
-export const SignInMenu = ({ onClick, currentUserId, error }: IAuth) =>
-  h(Auth, { onClick, currentUserId, error }, [
-    h('div', [
-      h(DropdownMenuButton, {
-        className: 'signin-btn',
-      }, [
-        h('div', 'Sign In'),
-      ]),
-    ]),
-  ]);
+interface IAuthMenu {
+  error: AuthError;
+  onClick: OnClick;
+  currentUserId: UserId;
+}
 
-export const RegisterMenu = ({ onClick, currentUserId, error }: IAuth) =>
-  h(Auth, { onClick, currentUserId, error }, [
-    h(DropdownMenuButton, {
-      className: 'register-btn',
-    }, [
-      h('div', 'Register'),
-    ]),
-  ]);
+export const createAuthMenu = (buttonText: string) =>
+  ({ onClick, currentUserId, error }: IAuthMenu) =>
+    h(Auth, { onClick, currentUserId, error, buttonText });
+
+export const SignInMenu = createAuthMenu('Sign In');
+export const RegisterMenu = createAuthMenu('Register');
 
 const mapStateToProps = (state: State) => ({
   currentUserId: getCurrentUserId(state),
