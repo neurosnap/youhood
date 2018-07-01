@@ -7,6 +7,7 @@ PORT?="5432"
 # PROD
 PROD_DIR?=/srv/youhood
 SERVER?=youhood.io
+BRANCH?=master
 
 dev:
 	$(BIN)/webpack --config "webpack/dev.js" --watch
@@ -57,26 +58,22 @@ open:
 	open http://localhost:8080/index
 .PHONY: open
 
-setup: permissions copy provision start
+setup: permissions provision start
 .PHONY: setup
 
 permissions:
 	ssh $(EC2_USER)@$(SERVER) 'sudo chown $(EC2_USER):ubuntu $(PROD_DIR)'
 .PHONY: permissions
 
-copy:
-	rsync -rav -e ssh --exclude='.git/' --exclude='node_modules/' . $(EC2_USER)@$(SERVER):$(PROD_DIR)
-.PHONY: copy
-
 provision:
 	ssh $(EC2_USER)@$(SERVER) 'cd $(PROD_DIR) && bash -s' < provision.sh
 .PHONY: provision
 
 start:
-	ssh $(EC2_USER)@$(SERVER) 'cd $(PROD_DIR) && PGPASSWORD=$(PGPASSWORD) bash -s' < ./deploy.sh
+	ssh $(EC2_USER)@$(SERVER) 'cd $(PROD_DIR) && BRANCH=$(BRANCH) PGPASSWORD=$(PGPASSWORD) bash -s' < ./deploy.sh
 .PHONY: start
 
-deploy: copy start
+deploy: start
 .PHONY: deploy
 
 logs:
