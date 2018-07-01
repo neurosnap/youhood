@@ -61,7 +61,7 @@ export class Auth extends Component<IAuth, IAuthState> {
     const { email, password } = this.state;
     const { onClick, currentUserId } = this.props;
     onClick({ email, password, currentUserId });
-  };
+  }
 
   render() {
     const { email, password } = this.state;
