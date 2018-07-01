@@ -65,7 +65,7 @@ permissions:
 .PHONY: permissions
 
 copy:
-	rsync -rav -e ssh --exclude='.git/' . $(EC2_USER)@$(SERVER):$(PROD_DIR)
+	rsync -rav -e ssh --exclude='.git/' --exclude='node_modules/' . $(EC2_USER)@$(SERVER):$(PROD_DIR)
 .PHONY: copy
 
 provision:
