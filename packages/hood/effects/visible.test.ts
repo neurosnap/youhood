@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects';
 
-import * as expectGen from 'expect-gen';
+import { genTester, skip } from 'gen-tester';
 
 import {
   setHoodDisplay,
@@ -18,19 +18,23 @@ describe('onHideAllHoods', () => {
   it('should run all tasks', () => {
     const hoodIds = ['1', '2'];
 
-    expectGen(onHideAllHoods, hoodMap)
-      .next(hoodIds) // getHoodUIPropsAsIds
-      .yields(put(setHoodUIProps({
-        1: { visible: false },
-        2: { visible: false },
-      })))
-      .yields(call(setHoodDisplay, {
+    const tester = genTester(onHideAllHoods, hoodMap);
+    const { actual, expected } = tester(
+      skip(hoodIds),
+      put(
+        setHoodUIProps({
+          1: { visible: false },
+          2: { visible: false },
+        }),
+      ),
+      call(setHoodDisplay, {
         hoodGeoJSON: hoodMap.hoodGeoJSON,
         hoodIds,
         display: 'none',
-      }))
-      .finishes()
-      .run();
+      }),
+    );
+
+    expect(actual).toEqual(expected);
   });
 });
 
@@ -38,19 +42,21 @@ describe('onShowAllHoods', () => {
   it('should run all tasks', () => {
     const hoodIds = ['1', '2'];
 
-    expectGen(onShowAllHoods, hoodMap)
-      .next(hoodIds) // getHoodUIPropsAsIds
-      .yields(put(setHoodUIProps({
+    const tester = genTester(onShowAllHoods, hoodMap);
+    const { actual, expected } = tester(
+      skip(hoodIds),
+      put(setHoodUIProps({
         1: { visible: true },
         2: { visible: true },
-      })))
-      .yields(call(setHoodDisplay, {
+      })),
+      call(setHoodDisplay, {
         hoodGeoJSON: hoodMap.hoodGeoJSON,
         hoodIds,
         display: 'block',
-      }))
-      .finishes()
-      .run();
+      }),
+    );
+
+    expect(actual).toEqual(expected);
   });
 });
 
@@ -58,18 +64,20 @@ describe('onShowHoods', () => {
   it('should run all tasks', () => {
     const hoodIds = ['1', '2'];
 
-    expectGen(onShowHoods, hoodMap, { payload: hoodIds })
-      .yields(put(setHoodUIProps({
+    const tester = genTester(onShowHoods, hoodMap, { payload: hoodIds });
+    const { actual, expected } = tester(
+      put(setHoodUIProps({
         1: { visible: true },
         2: { visible: true },
-      })))
-      .yields(call(setHoodDisplay, {
+      })),
+      call(setHoodDisplay, {
         hoodGeoJSON: hoodMap.hoodGeoJSON,
         hoodIds,
         display: 'block',
-      }))
-      .finishes()
-      .run();
+      }),
+    );
+
+    expect(actual).toEqual(expected);
   });
 });
 
@@ -77,17 +85,19 @@ describe('onHideHoods', () => {
   it('should run all tasks', () => {
     const hoodIds = ['1', '2'];
 
-    expectGen(onHideHoods, hoodMap, { payload: hoodIds })
-      .yields(put(setHoodUIProps({
+    const tester = genTester(onHideHoods, hoodMap, { payload: hoodIds });
+    const { actual, expected } = tester(
+      put(setHoodUIProps({
         1: { visible: false },
         2: { visible: false },
-      })))
-      .yields(call(setHoodDisplay, {
+      })),
+      call(setHoodDisplay, {
         hoodGeoJSON: hoodMap.hoodGeoJSON,
         hoodIds,
         display: 'none',
-      }))
-      .finishes()
-      .run();
+      }),
+    );
+
+    expect(actual).toEqual(expected);
   });
 });

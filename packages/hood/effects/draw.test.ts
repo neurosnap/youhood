@@ -1,4 +1,4 @@
-import * as expectGen from 'expect-gen';
+import { genTester, yields } from 'gen-tester';
 import { call, put, take, race } from 'redux-saga/effects';
 
 import { mockHoodMap, cleanupHoodMap } from '../mock';
@@ -22,21 +22,20 @@ describe('onDrawHood', () => {
     const mock = mockLPolygon();
 
     it('should enable drawing', () => {
-      expectGen(onDrawHood, hoodMap)
-        .yields(put(setEdit(true)))
-        .yields(
-          call(createPolygon, hoodMap),
-          mock,
-        )
-        .yields(
+      const tester = genTester(onDrawHood, hoodMap);
+      const { actual, expected } = tester(
+        put(setEdit(true)),
+        yields(call(createPolygon, hoodMap), mock),
+        yields(
           race({
             cancel: take(CANCEL_DRAW_HOOD),
             create: take(HOOD_CREATED),
           }),
           { create: true },
-        )
-        .finishes()
-        .run();
+        ),
+      );
+
+      expect(actual).toEqual(expected);
     });
 
     it('should call enable', () => {
@@ -48,22 +47,24 @@ describe('onDrawHood', () => {
     const mock = mockLPolygon();
 
     it('should enable drawing', () => {
-      expectGen(onDrawHood, hoodMap)
-        .yields(put(setEdit(true)))
-        .yields(
+      const tester = genTester(onDrawHood, hoodMap);
+      const { actual, expected } = tester(
+        put(setEdit(true)),
+        yields(
           call(createPolygon, hoodMap),
           mock,
-        )
-        .yields(
+        ),
+        yields(
           race({
             cancel: take(CANCEL_DRAW_HOOD),
             create: take(HOOD_CREATED),
           }),
           { cancel: true },
-        )
-        .yields(put(setEdit(false)))
-        .finishes()
-        .run();
+        ),
+        put(setEdit(false)),
+      );
+
+      expect(actual).toEqual(expected);
     });
 
     it('should call enable', () => {

@@ -1,5 +1,5 @@
 import { call, put } from 'redux-saga/effects';
-import * as expectGen from 'expect-gen';
+import { genTester, yields, skip } from 'gen-tester';
 
 import apiFetch from '@youhood/fetch';
 import { actionCreators } from '@youhood/menu';
@@ -50,24 +50,28 @@ describe('toggleHoodSelected', () => {
   describe('when hoodId payload matches hoodIdSelected', () => {
     it('should hide menu', () => {
       const hoodId = '123';
-      expectGen(toggleHoodSelected, hoodMap, { payload: hoodId })
-        .next(hoodId) // getHoodIdSelected
-        .yields(put(deselectHood()))
-        .yields(put(hideMenu('overlay')))
-        .finishes()
-        .run();
+      const tester = genTester(toggleHoodSelected, hoodMap, { payload: hoodId });
+      const { actual, expected } = tester(
+        skip(hoodId),
+        put(deselectHood()),
+        put(hideMenu('overlay')),
+      );
+
+      expect(actual).toEqual(expected);
     });
   });
 
   describe('when hoodId payload does not match hoodIdSelected', () => {
     it('should select hood', () => {
       const hoodId = '123';
-      expectGen(toggleHoodSelected, hoodMap, { payload: hoodId })
-        .next('333') // getHoodIdSelected
-        .yields(put(deselectHood()))
-        .yields(put(selectHood(hoodId)))
-        .finishes()
-        .run();
+      const tester = genTester(toggleHoodSelected, hoodMap, { payload: hoodId });
+      const { actual, expected } = tester(
+        skip('333'),
+        put(deselectHood()),
+        put(selectHood(hoodId)),
+      );
+
+      expect(actual).toEqual(expected);
     });
   });
 });
@@ -83,17 +87,19 @@ describe('onSelectHood', () => {
         userId: '321',
       };
 
-      expectGen(onSelectHood, hoodMap, { payload: hoodId })
-        .yields(call(onDeselectHood, hoodMap))
-        .yields(call(applyStyle, { hoodMap, hoodId, style }))
-        .yields(put(showMenu('overlay')))
-        .next(hood) // getHoodSelected
-        .yields(
+      const tester = genTester(onSelectHood, hoodMap, { payload: hoodId });
+      const { actual, expected } = tester(
+        call(onDeselectHood, hoodMap),
+        call(applyStyle, { hoodMap, hoodId, style }),
+        put(showMenu('overlay')),
+        skip(hood),
+        yields(
           call(apiFetch, `/user/${hood.userId}`),
           { status: 400, body: {} },
-        )
-        .finishes()
-        .run();
+        ),
+      );
+
+      expect(actual).toEqual(expected);
     });
   });
 
@@ -114,18 +120,20 @@ describe('onSelectHood', () => {
       };
       const tUser = transformUser(user);
 
-      expectGen(onSelectHood, hoodMap, { payload: hoodId })
-        .yields(call(onDeselectHood, hoodMap))
-        .yields(call(applyStyle, { hoodMap, hoodId, style }))
-        .yields(put(showMenu('overlay')))
-        .next(hood) // getHoodSelected
-        .yields(
+      const tester = genTester(onSelectHood, hoodMap, { payload: hoodId });
+      const { actual, expected } = tester(
+        call(onDeselectHood, hoodMap),
+        call(applyStyle, { hoodMap, hoodId, style }),
+        put(showMenu('overlay')),
+        skip(hood),
+        yields(
           call(apiFetch, `/user/${hood.userId}`),
           { status: 200, body: { user } },
-        )
-        .yields(put(addUsers([tUser])))
-        .finishes()
-        .run();
+        ),
+        put(addUsers([tUser])),
+      );
+
+      expect(actual).toEqual(expected);
     });
   });
 
@@ -139,17 +147,19 @@ describe('onSelectHood', () => {
         userId: '321',
       };
 
-      expectGen(onSelectHood, hoodMap, { payload: hoodId })
-        .yields(call(onDeselectHood, hoodMap))
-        .yields(call(applyStyle, { hoodMap, hoodId, style }))
-        .yields(put(showMenu('overlay')))
-        .next(hood) // getHoodSelected
-        .yields(
+      const tester = genTester(onSelectHood, hoodMap, { payload: hoodId });
+      const { actual, expected } = tester(
+        call(onDeselectHood, hoodMap),
+        call(applyStyle, { hoodMap, hoodId, style }),
+        put(showMenu('overlay')),
+        skip(hood),
+        yields(
           call(apiFetch, `/user/${hood.userId}`),
           { status: 200, body: {} },
-        )
-        .finishes()
-        .run();
-      });
+        ),
+      );
+
+      expect(actual).toEqual(expected);
+    });
   });
 });

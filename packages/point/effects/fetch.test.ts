@@ -1,5 +1,5 @@
 import { call, put } from 'redux-saga/effects';
-import * as expectGen from 'expect-gen';
+import { genTester, yields } from 'gen-tester';
 
 import apiFetch from '@youhood/fetch';
 import { actionTypes } from '@youhood/hood';
@@ -23,14 +23,16 @@ describe('onFetchPointsByUser', () => {
       { neighborhood_id: '2', reason: AFTER_SAVE_HOOD },
     ];
 
-    expectGen(onFetchPointsByUser, { payload: userId })
-      .yields(
+    const tester = genTester(onFetchPointsByUser, { payload: userId });
+    const { actual, expected } = tester(
+      yields(
         call(apiFetch, `/point/${userId}`),
         { status: 200, body: { points: bodyPoints } },
-      )
-      .yields(put(resetPoints()))
-      .yields(put(addPoints(points)))
-      .finishes()
-      .run();
+      ),
+      put(resetPoints()),
+      put(addPoints(points)),
+    );
+
+    expect(actual).toEqual(expected);
   });
 });

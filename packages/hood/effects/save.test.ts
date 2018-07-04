@@ -1,5 +1,5 @@
 import { put, call } from 'redux-saga/effects';
-import * as expectGen from 'expect-gen';
+import { genTester, yields, skip } from 'gen-tester';
 
 import apiFetch from '@youhood/fetch';
 
@@ -14,20 +14,20 @@ describe('onSaveHood', () => {
 
   describe('when cannot find hood', () => {
     it('should exit early', () => {
-      expectGen(onSaveHood, hoodMap, { payload: '123' })
-        .next(null) // findHood
-        .finishes()
-        .run();
+      const tester = genTester(onSaveHood, hoodMap, { payload: '123' });
+      const { actual, expected } = tester(skip());
+      expect(actual).toEqual(expected);
     });
   });
 
   describe('when cannot find props for hood', () => {
     it('should exit early', () => {
-      expectGen(onSaveHood, hoodMap, { payload: '123' })
-        .next({}) // findHood
-        .next(null) // getHoodPropsById
-        .finishes()
-        .run();
+      const tester = genTester(onSaveHood, hoodMap, { payload: '123' });
+      const { actual, expected } = tester(
+        skip({}),
+        skip(),
+      );
+      expect(actual).toEqual(expected);
     });
   });
 
@@ -42,11 +42,12 @@ describe('onSaveHood', () => {
     };
 
     it('should return early', () => {
-      expectGen(onSaveHood, hoodMap, { payload: '123' })
-        .next(hood) // findHood
-        .next(properties) // getHoodPropsById
-        .next() // bindTooltip
-        .yields(
+      const tester = genTester(onSaveHood, hoodMap, { payload: '123' });
+      const { actual, expected } = tester(
+        skip(hood), // findHood
+        skip(properties), // getHoodPropsById
+        skip(), // bindTooltip
+        yields(
           call(apiFetch, '/hood/save', {
             method: 'POST',
             body: JSON.stringify([hoodGeo]),
@@ -55,9 +56,10 @@ describe('onSaveHood', () => {
             },
           }),
           { status: 400 },
-        )
-        .finishes()
-        .run();
+        ),
+      );
+
+      expect(actual).toEqual(expected);
     });
 
     it('should call `toGeoJSON`', () => {
@@ -81,11 +83,12 @@ describe('onSaveHood', () => {
     }];
 
     it('should return early', () => {
-      expectGen(onSaveHood, hoodMap, { payload: '123' })
-        .next(hood) // findHood
-        .next(properties) // getHoodPropsById
-        .next() // bindTooltip
-        .yields(
+      const tester = genTester(onSaveHood, hoodMap, { payload: '123' });
+      const { actual, expected } = tester(
+        skip(hood), // findHood
+        skip(properties), // getHoodPropsById
+        skip(), // bindTooltip
+        yields(
           call(apiFetch, '/hood/save', {
             method: 'POST',
             body: JSON.stringify([hoodGeo]),
@@ -94,10 +97,11 @@ describe('onSaveHood', () => {
             },
           }),
           { status: 200, body: { hoods } },
-        )
-        .yields(put(afterSaveHood(hoods)))
-        .finishes()
-        .run();
+        ),
+        put(afterSaveHood(hoods)),
+      );
+
+      expect(actual).toEqual(expected);
     });
 
     it('should call `toGeoJSON`', () => {

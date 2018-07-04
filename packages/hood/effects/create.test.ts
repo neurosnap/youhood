@@ -1,9 +1,10 @@
-import * as expectGen from 'expect-gen';
-import { put, call } from 'redux-saga/effects';
+import { genTester, yields, skip } from 'gen-tester';
+import { put, call, select } from 'redux-saga/effects';
 
-import { actionCreators as userActionCreators, utils } from '@youhood/user';
+import { actionCreators as userActionCreators, utils, selectors } from '@youhood/user';
 const { addUsers, setUser } = userActionCreators;
 const { createUser } = utils;
+const { getCurrentUser } = selectors;
 
 import {
   setEdit,
@@ -38,24 +39,30 @@ describe('onHoodCreated', () => {
       const hoodId = hood.properties.id;
       const uiProps = createHoodUI({ id: hoodId });
 
-      expectGen(onHoodCreated, hoodMap, { payload: mockLayer })
-        .yields(put(setEdit(false)))
-        .next(null) // getCurrentUser
-        .yields(
+      const tester = genTester(onHoodCreated, hoodMap, { payload: mockLayer });
+      const yields = (expected: any, returns: any) => ({
+        expected,
+        returns,
+      });
+      const { actual, expected } = tester(
+        put(setEdit(false)),
+        skip(),
+        yields(
           call(createUser),
           user,
-        )
-        .yields(put(addUsers([user])))
-        .yields(put(setUser(user.id)))
-        .yields(
+        ),
+        put(addUsers([user])),
+        put(setUser(user.id)),
+        yields(
           call(createHood, { userId: user.id }),
           hood.properties,
-        )
-        .yields(put(addHoodUIProps({ [hoodId]: uiProps })))
-        .yields(put(userAddHoods([hood])))
-        .yields(put(selectHood(hoodId)))
-        .finishes()
-        .run();
+        ),
+        put(addHoodUIProps({ [hoodId]: uiProps })),
+        put(userAddHoods([hood])),
+        put(selectHood(hoodId)),
+      );
+
+      expect(actual).toEqual(expected);
     });
   });
 
@@ -65,17 +72,16 @@ describe('onHoodCreated', () => {
     const hoodId = hood.properties.id;
     const uiProps = createHoodUI({ id: hoodId });
 
-    expectGen(onHoodCreated, hoodMap, { payload: mockLayer })
-      .yields(put(setEdit(false)))
-      .next(user) // getCurrentUser
-      .yields(
-        call(createHood, { userId: user.id }),
-        hood.properties,
-      )
-      .yields(put(addHoodUIProps({ [hoodId]: uiProps })))
-      .yields(put(userAddHoods([hood])))
-      .yields(put(selectHood(hoodId)))
-      .finishes()
-      .run();
+    const tester = genTester(onHoodCreated, hoodMap, { payload: mockLayer });
+    const { actual, expected } = tester(
+      put(setEdit(false)),
+      yields(select(getCurrentUser), user),
+      yields(call(createHood, { userId: user.id }), hood.properties),
+      put(addHoodUIProps({ [hoodId]: uiProps })),
+      put(userAddHoods([hood])),
+      put(selectHood(hoodId)),
+    );
+
+    expect(actual).toEqual(expected);
   });
 });
