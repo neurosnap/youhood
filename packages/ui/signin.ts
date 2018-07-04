@@ -8,7 +8,7 @@ import { selectors } from '@youhood/user';
 const { getCurrentUser } = selectors;
 import { User } from '@youhood/user/types';
 
-import { State } from '../types';
+import { State } from '@youhood/web-app/types';
 import Profile from './profile';
 import AuthMenu from './auth';
 import { NavHover, SignInContainer, SignInEl } from './ui';

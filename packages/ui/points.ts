@@ -7,7 +7,7 @@ import { selectors } from '@youhood/point';
 const { getTotalPoints, getPoints } = selectors;
 import { Points as PointsType } from '@youhood/point/types';
 
-import { State } from '../types';
+import { State } from '@youhood/web-app/types';
 import { NavHover, SignInMenuEl, Points } from './ui';
 
 const PointsMenuContainer = styled.div`

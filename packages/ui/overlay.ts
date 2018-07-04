@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { selectors } from '@youhood/menu';
 
-import { State } from '../types';
+import { State } from '@youhood/web-app/types';
 import HoodView from './hood';
 import HoodSelection from './hood-selection';
 
@@ -19,7 +19,7 @@ const OverlayOuter = styled.div`
   height: 100%;
   background-color: #4285f4;
   transition: 0.2s linear;
-  transform: ${(props: any) => 
+  transform: ${(props: any) =>
     props.show ? 'translate3d(0, 0, 0)' : 'translate3d(350px, 0, 0)'};
 `;
 
@@ -31,7 +31,7 @@ const OverlayInner = styled.div`
   height: 100%;
 `;
 
-const Overlay = (props: any) => 
+const Overlay = (props: any) =>
   h(OverlayOuter, props, [
     h(OverlayInner, [
       h(HoodSelection, props),

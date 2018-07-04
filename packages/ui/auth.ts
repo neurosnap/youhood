@@ -11,7 +11,7 @@ const { getCurrentUserId } = selectors;
 import { AuthPayload, AuthError } from '@youhood/auth/types';
 import { UserId } from '@youhood/user/types';
 
-import { State } from '../types';
+import { State } from '@youhood/web-app/types';
 import {
   DropdownMenuButton,
   ErrorText,
