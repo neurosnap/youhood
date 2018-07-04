@@ -28,7 +28,7 @@ const { vote, unvote } = voteActionCreators;
 import { selectors as authSelectors } from '@youhood/auth';
 const { isUserAuthenticated } = authSelectors;
 
-import { State } from '../types';
+import { State } from '@youhood/web-app/types';
 import {
   HoodContainer,
   Votes,

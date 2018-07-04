@@ -2,12 +2,12 @@ import * as h from 'react-hyperscript';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
 
-import { actionCreators } from '@youhood/web-bootup';
+import { actionCreators } from '@youhood/bootup';
 const { webBootup } = actionCreators;
 
 import createState from './store';
 import { rootReducer, rootSaga } from './packages';
-import App from './components/app';
+import App from './app';
 import { setupMap } from './maps';
 
 interface WindowInterface extends Window {

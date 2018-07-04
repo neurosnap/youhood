@@ -1,8 +1,7 @@
 import * as h from 'react-hyperscript';
 
-import Overlay from './overlay';
-import Navbar from './navbar';
-import HoodBar from './hoodbar';
+import { smartComponents } from '@youhood/ui';
+const { Overlay, Navbar, HoodBar } = smartComponents;
 
 export default () =>
   h('div', [
