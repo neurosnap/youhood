@@ -1,5 +1,5 @@
 import { put } from 'redux-saga/effects';
-import * as expectGen from 'expect-gen';
+import { genTester, skip } from 'gen-tester';
 
 import { setEdit } from '../action-creators';
 import { mockHoodMap } from '../mock';
@@ -9,10 +9,12 @@ describe('onEditHood', () => {
   const hoodMap = mockHoodMap({ onlyGeoJSON: true });
 
   it('when hood does not exist', () => {
-    expectGen(onEditHood, hoodMap, { payload: { hoodId: '123', edit: false } })
-      .next(null) // findHood
-      .finishes()
-      .run();
+    const tester = genTester(onEditHood, hoodMap, { payload: { hoodId: '123', edit: false } });
+    const { actual, expected } = tester(
+      skip(),
+    );
+
+    expect(actual).toEqual(expected);
   });
 
   describe('when edit is `true`', () => {
@@ -30,11 +32,12 @@ describe('onEditHood', () => {
     };
 
     it('should set edit to `true`', () => {
-      expectGen(onEditHood, hoodMap, action)
-        .next(hood) // findHood
-        .yields(put(setEdit(true)))
-        .finishes()
-        .run();
+      const tester = genTester(onEditHood, hoodMap, action);
+      const { actual, expected } = tester(
+        skip(hood),
+        put(setEdit(true)),
+      );
+      expect(actual).toEqual(expected);
     });
 
     it('should enable editing', () => {
@@ -61,11 +64,13 @@ describe('onEditHood', () => {
     };
 
     it('should set edit to `false`', () => {
-      expectGen(onEditHood, hoodMap, action)
-        .next(hood) // findHood
-        .yields(put(setEdit(false)))
-        .finishes()
-        .run();
+      const tester = genTester(onEditHood, hoodMap, action);
+      const { actual, expected } = tester(
+        skip(hood),
+        put(setEdit(false)),
+      );
+
+      expect(actual).toEqual(expected);
     });
 
     it('should not call enable', () => {
