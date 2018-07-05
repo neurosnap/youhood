@@ -2,7 +2,9 @@
     "defaultSeverity": "error",
     "extends": [
         "tslint-config-airbnb",
-        "tslint-no-circular-imports"
+        "tslint-no-circular-imports",
+        "tslint-config-package",
+        "tslint-config-prettier"
     ],
     "jsRules": {},
     "rules": {
@@ -13,7 +15,8 @@
       "ter-indent": [2, true],
       "align": [false],
       "variable-name": [false],
-      "ter-arrow-parens": [true, "always"]
+      "ter-arrow-parens": [true, "always"],
+      "module-boundary": [true, "@youhood"]
     },
     "rulesDirectory": []
 }
