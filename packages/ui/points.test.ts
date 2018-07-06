@@ -29,8 +29,10 @@ describe('PointsView', () => {
       });
 
       it('should render green color', () => {
-        expect(tree.find(Points))
-          .toHaveStyleRule('background-color', 'limegreen');
+        expect(tree.find(Points)).toHaveStyleRule(
+          'background-color',
+          'limegreen',
+        );
       });
     });
 
@@ -48,22 +50,26 @@ describe('DropMenu', () => {
   describe('when it is open', () => {
     describe('when there is no point history', () => {
       it('should render help text', () => {
-        const tree = shallow(h(DropMenu, {
-          open: true,
-        }));
+        const tree = shallow(
+          h(DropMenu, {
+            open: true,
+          }),
+        );
         expect(tree).toMatchSnapshot();
       });
     });
 
     describe('when there is a point history', () => {
       it('should render point history as a list', () => {
-        const tree = shallow(h(DropMenu, {
-          open: true,
-          items: [
-            { value: '10', reason: 'Something cool' },
-            { value: '20', reason: 'Killin it' },
-          ],
-        }));
+        const tree = shallow(
+          h(DropMenu, {
+            open: true,
+            items: [
+              { value: 10, reason: 'Something cool' },
+              { value: 20, reason: 'Killin it' },
+            ],
+          }),
+        );
         expect(tree).toMatchSnapshot();
       });
     });

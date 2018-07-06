@@ -24,7 +24,7 @@ import {
 
 type OnClick = (props: AuthPayload) => void;
 interface IAuth {
-  error: AuthError;
+  error?: AuthError;
   children?: any;
   onClick: OnClick;
   currentUserId: UserId;
@@ -51,22 +51,22 @@ export class Auth extends Component<IAuth, IAuthState> {
 
   handleEmail = (event: React.FormEvent<HTMLInputElement>) => {
     this.setState({ email: event.currentTarget.value });
-  }
+  };
 
   handlePassword = (event: React.FormEvent<HTMLInputElement>) => {
     this.setState({ password: event.currentTarget.value });
-  }
+  };
 
   handleClick = () => {
     const { email, password } = this.state;
     const { onClick, currentUserId } = this.props;
     onClick({ email, password, currentUserId });
-  }
+  };
 
   render() {
     const { email, password } = this.state;
     const { error, buttonText } = this.props;
-    const shouldDisableButton = (!email || !password);
+    const shouldDisableButton = !email || !password;
 
     return h(SignInMenuEl, [
       h(Input, {
@@ -85,11 +85,15 @@ export class Auth extends Component<IAuth, IAuthState> {
       }),
       error ? h(ErrorText, error) : h(SigninMsgBase),
       h(Buttons, [
-        h(DropdownMenuButton, {
-          className: 'signin-btn',
-          onClick: this.handleClick,
-          disabled: shouldDisableButton,
-        }, buttonText),
+        h(
+          DropdownMenuButton,
+          {
+            className: 'signin-btn',
+            onClick: this.handleClick,
+            disabled: shouldDisableButton,
+          },
+          buttonText,
+        ),
       ]),
     ]);
   }
@@ -101,9 +105,11 @@ interface IAuthMenu {
   currentUserId: UserId;
 }
 
-export const createAuthMenu = (buttonText: string) =>
-  ({ onClick, currentUserId, error }: IAuthMenu) =>
-    h(Auth, { onClick, currentUserId, error, buttonText });
+export const createAuthMenu = (buttonText: string) => ({
+  onClick,
+  currentUserId,
+  error,
+}: IAuthMenu) => h(Auth, { onClick, currentUserId, error, buttonText });
 
 export const SignInMenu = createAuthMenu('Sign In');
 export const RegisterMenu = createAuthMenu('Register');
@@ -156,7 +162,7 @@ export default class AuthMenu extends Component<null, IAuthMenuState> {
     const { tabSelected } = this.state;
     if (tab === tabSelected) return;
     this.setState({ tabSelected: tab });
-  }
+  };
 
   render() {
     const { tabSelected } = this.state;
@@ -168,9 +174,6 @@ export default class AuthMenu extends Component<null, IAuthMenuState> {
     });
     const Menu = tabSelected === 'Sign In' ? SignInMenuConn : RegisterMenuConn;
 
-    return h(DropdownMenuContainer, [
-      h(TabMenu, tabs),
-      h(Menu),
-    ]);
+    return h(DropdownMenuContainer, [h(TabMenu, tabs), h(Menu)]);
   }
 }

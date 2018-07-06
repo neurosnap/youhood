@@ -93,6 +93,10 @@
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-1.0.3.tgz#fbcf7fa5eb6dd108d51385cc6987ec1f24214523"
 
+"@types/geojson@7946.0.4":
+  version "7946.0.4"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.4.tgz#4e049756383c3f055dd8f3d24e63fb543e98eb07"
+
 "@types/jest@^22.2.3":
   version "22.2.3"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-22.2.3.tgz#0157c0316dc3722c43a7b71de3fdf3acbccef10d"
@@ -126,6 +130,12 @@
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.0.5.tgz#a757457662e3819409229e8f86795ff37b371f96"
   dependencies:
     "@types/node" "*"
+    "@types/react" "*"
+
+"@types/react-hyperscript@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@types/react-hyperscript/-/react-hyperscript-3.0.2.tgz#8235933b25b7bda4a3d110ec4036fdb94db8deb5"
+  dependencies:
     "@types/react" "*"
 
 "@types/react-redux@^5.0.16":
@@ -1959,7 +1969,7 @@ data-urls@^1.0.0:
     whatwg-mimetype "^2.0.0"
     whatwg-url "^6.4.0"
 
-date-fns@^1.27.2:
+date-fns@^1.27.2, date-fns@^1.29.0:
   version "1.29.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.29.0.tgz#12e609cdcb935127311d04d33334e2960a2a54e6"
 
@@ -4311,9 +4321,9 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
-leaflet-draw@0.4.9:
-  version "0.4.9"
-  resolved "https://registry.yarnpkg.com/leaflet-draw/-/leaflet-draw-0.4.9.tgz#44105088310f47e4856d5ede37d47ecfad0cf2d5"
+leaflet-draw@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/leaflet-draw/-/leaflet-draw-1.0.2.tgz#212d1d958a53b849bec19a2135d39c13ed012559"
 
 leaflet@1.2.0:
   version "1.2.0"

@@ -13,7 +13,7 @@ const OverlayOuter = styled.div`
   height: 100%;
   background-color: #4285f4;
   transition: 0.2s linear;
-  transform: ${(props: any) => 
+  transform: ${(props: any) =>
     props.show ? 'translate3d(0, 0, 0)' : 'translate3d(-350px, 0, 0)'};
 `;
 
@@ -47,19 +47,28 @@ class MenuDrawer extends Component {
 
   toggle = () => {
     this.setState({ show: !this.state.show });
-  }
+  };
 
   render() {
     return h('div', [
-      h(Menu, { onClick: this.toggle }, [
-        h('i.fa.fa-bars.fa-lg'),
-      ]),
-      h(OverlayOuter, { show: this.state.show }, [
+      h(Menu, { onClick: this.toggle }, [h('i.fa.fa-bars.fa-lg')]),
+      h(OverlayOuter, <any>{ show: this.state.show }, [
         h(OverlayInner, [
           h(Link, { href: '#' }, 'About'),
           h(Link, { href: '#' }, 'FAQ'),
-          h(Link, { href: 'https://github.com/neurosnap/youhood/issues', target: '_blank' }, 'Submit Feedback'),
-          h(Link, { href: 'https://github.com/neurosnap/youhood', target: '_blank' }, 'Source Code'),
+          h(
+            Link,
+            {
+              href: 'https://github.com/neurosnap/youhood/issues',
+              target: '_blank',
+            },
+            'Submit Feedback',
+          ),
+          h(
+            Link,
+            { href: 'https://github.com/neurosnap/youhood', target: '_blank' },
+            'Source Code',
+          ),
         ]),
       ]),
     ]);

@@ -8,10 +8,11 @@ const { getIsEditing } = selectors;
 
 import { HoodBarButton } from './ui';
 
+type CancelFn = (event: React.MouseEvent<HTMLElement>) => void;
 interface Props {
   isEditing: boolean;
-  handleCancelDrawHood: Function;
-  handleDrawHood: Function;
+  handleCancelDrawHood: CancelFn;
+  handleDrawHood: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const Button = HoodBarButton.extend`
@@ -30,17 +31,20 @@ const Overlay = styled.div`
   cursor: pointer;
 `;
 
-export const Cancel = ({ cancelDraw }: { cancelDraw: Function }) =>
+export const Cancel = ({ cancelDraw }: { cancelDraw: CancelFn }) =>
   h('div', [
-    h(Button, { onClick: cancelDraw }, [
-      h('div', 'Cancel'),
-    ]),
+    h(Button, { onClick: cancelDraw }, [h('div', 'Cancel')]),
     h(Overlay, { onClick: cancelDraw }),
   ]);
 
-export const DrawHood = ({ handleDrawHood, handleCancelDrawHood, isEditing }: Props) => isEditing ?
-  h(Cancel, { cancelDraw: handleCancelDrawHood }) :
-  h(Button, { onClick: handleDrawHood }, 'Create Hood');
+export const DrawHood = ({
+  handleDrawHood,
+  handleCancelDrawHood,
+  isEditing,
+}: Props) =>
+  isEditing
+    ? h(Cancel, { cancelDraw: handleCancelDrawHood })
+    : h(Button, { onClick: handleDrawHood }, 'Create Hood');
 
 export default connect(
   (state) => ({

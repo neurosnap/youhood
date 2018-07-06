@@ -14,6 +14,8 @@ export interface HoodProps {
   county: string;
   city: string;
   regionid?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 export type HoodPropsList = HoodProps[];
 
@@ -31,16 +33,20 @@ export interface HoodPropsMap {
   [key: string]: HoodProps;
 }
 
-export interface Feature<T extends GeoJSON.GeometryObject> extends GeoJSON.Feature<T> {
+export interface Feature<T extends GeoJSON.GeometryObject>
+  extends GeoJSON.Feature<T> {
   properties: HoodProps;
 }
 
-export interface Polygon<T extends GeoJSON.Polygon | GeoJSON.MultiPolygon> extends L.Polygon {
+export interface Polygon<T extends GeoJSON.Polygon | GeoJSON.MultiPolygon>
+  extends L.Polygon {
   toGeoJSON(): Feature<T>;
   feature?: Feature<T>;
 }
 
-export type GeoJsonFeatures = GeoJSON.FeatureCollection<GeoJSON.Polygon>;
+export type GeoJsonFeatures = GeoJSON.FeatureCollection<
+  GeoJSON.MultiPolygon | GeoJSON.Polygon
+>;
 
 export type PolygonLeaflet = Polygon<GeoJSON.Polygon>;
 export type Hood = Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>;

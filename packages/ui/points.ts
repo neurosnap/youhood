@@ -20,7 +20,17 @@ const PointsMenuContainer = styled.div`
   height: 230px;
 `;
 
-export const DropMenu = ({ open = false, items = [] }: { open: boolean, items: any[] }) => {
+interface PointItem {
+  value: number;
+  reason: string;
+}
+
+interface IProps {
+  open: boolean;
+  items: PointItem[];
+}
+
+export const DropMenu: React.SFC<IProps> = ({ open, items }) => {
   if (!open) {
     return null;
   }
@@ -29,11 +39,15 @@ export const DropMenu = ({ open = false, items = [] }: { open: boolean, items: a
     return h('div', { key: i }, `${item.value} -- ${item.reason}`);
   });
 
-  return h(PointsMenuContainer, [
-    h(SignInMenuEl, [
-      items.length === 0 ? h('div', 'Start getting points!') : HistoryItems,
-    ]),
-  ]);
+  const points =
+    items.length === 0 ? [h('div', 'Start getting points!')] : HistoryItems;
+
+  return h(PointsMenuContainer, [h(SignInMenuEl, points)]);
+};
+
+DropMenu.defaultProps = {
+  open: false,
+  items: [],
 };
 
 const PointsContainer = styled.div`
@@ -61,7 +75,7 @@ export class PointsView extends Component {
     this.setState({
       open: !this.state.open,
     });
-  }
+  };
 
   render() {
     const { points, pointHistory } = this.props;
@@ -73,17 +87,13 @@ export class PointsView extends Component {
     }
 
     return h(NavHover, { style: { position: 'relative' } }, [
-      h(PointsContainer, [
-        Icon,
-      ]),
+      h(PointsContainer, [Icon]),
       h(DropMenu, { open, items: pointHistory }),
     ]);
   }
 }
 
-export default connect(
-  (state: State) => ({
-    points: getTotalPoints(state),
-    pointHistory: getPoints(state),
-  }),
-)(PointsView as any);
+export default connect((state: State) => ({
+  points: getTotalPoints(state),
+  pointHistory: getPoints(state),
+}))(PointsView as any);

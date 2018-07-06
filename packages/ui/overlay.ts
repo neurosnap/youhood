@@ -3,10 +3,13 @@ import * as h from 'react-hyperscript';
 import styled from 'styled-components';
 
 import { selectors } from '@youhood/menu';
-
 import { State } from '@youhood/web-app/types';
-import HoodView from './hood';
-import HoodSelection from './hood-selection';
+import { selectors as hoodSelectors } from '@youhood/hood';
+const { getIsEditing } = hoodSelectors;
+
+import HoodViewer from './hood-viewer';
+import HoodSelector from './hood-selector';
+import HoodEditor from './hood-editor';
 
 const { isOverlayOpen } = selectors;
 
@@ -15,12 +18,12 @@ const OverlayOuter = styled.div`
   position: absolute;
   top: 56px;
   right: 0;
-  width: 350px;
+  width: 400px;
   height: 100%;
   background-color: #4285f4;
   transition: 0.2s linear;
   transform: ${(props: any) =>
-    props.show ? 'translate3d(0, 0, 0)' : 'translate3d(350px, 0, 0)'};
+    props.show ? 'translate3d(0, 0, 0)' : 'translate3d(400px, 0, 0)'};
 `;
 
 const OverlayInner = styled.div`
@@ -31,16 +34,15 @@ const OverlayInner = styled.div`
   height: 100%;
 `;
 
-const Overlay = (props: any) =>
-  h(OverlayOuter, props, [
+const Overlay = ({ show = false, isEditing = false }) =>
+  h(OverlayOuter, <any>{ show }, [
     h(OverlayInner, [
-      h(HoodSelection, props),
-      h(HoodView, props),
+      isEditing ? h(HoodEditor) : h(HoodViewer),
+      h(HoodSelector),
     ]),
   ]);
 
-export default connect(
-  (state: State) => ({
-    show: isOverlayOpen(state),
-  }),
-)(Overlay as any);
+export default connect((state: State) => ({
+  show: isOverlayOpen(state),
+  isEditing: getIsEditing(state),
+}))(Overlay as any);

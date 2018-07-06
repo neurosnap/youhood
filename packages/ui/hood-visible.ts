@@ -14,6 +14,8 @@ const Visible = styled.div`
   height: 100%;
 `;
 
+const noop = () => {};
+
 interface VisibleProp {
   (): void;
 }
@@ -23,13 +25,21 @@ interface Props {
   hideAll: VisibleProp;
 }
 
-export const HoodVisible = ({ showAll, hideAll }: Props) => h(Visible, [
-  h(HoodBarButton, { onClick: showAll }, 'Show Hoods'),
-  h(HoodBarButton, { onClick: hideAll }, 'Hide Hoods'),
-]);
+export const HoodVisible: React.SFC<Props> = ({ showAll, hideAll }) =>
+  h(Visible, [
+    h(HoodBarButton, { onClick: showAll }, 'Show Hoods'),
+    h(HoodBarButton, { onClick: hideAll }, 'Hide Hoods'),
+  ]);
 
-export default connect(null, (dispatch) => ({
-  showAll: () => dispatch(showAllHoods()),
-  hideAll: () => dispatch(hideAllHoods()),
-}))(HoodVisible as any);
+HoodVisible.defaultProps = {
+  showAll: noop,
+  hideAll: noop,
+};
 
+export default connect(
+  null,
+  (dispatch) => ({
+    showAll: () => dispatch(showAllHoods()),
+    hideAll: () => dispatch(hideAllHoods()),
+  }),
+)(HoodVisible as any);

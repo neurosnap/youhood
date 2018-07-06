@@ -16,7 +16,7 @@ import {
   onFetchPointsByUser,
 } from './effects';
 
-export function* hoodCreatedSaga() {
+export function* afterHoodSavedSaga() {
   yield takeEvery(AFTER_SAVE_HOOD, hoodCreated);
 }
 
