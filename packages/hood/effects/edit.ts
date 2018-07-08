@@ -11,6 +11,7 @@ export function* onEditHood({ hoodGeoJSON }: HoodMap, action: EditHoodAction) {
   const hood = yield call(<any>findHood, hoodGeoJSON, hoodId);
   if (!hood) return;
 
+  hood.options.editing || (hood.options.editing = {});
   if (edit) {
     yield put(setEdit(true));
     hood.editing.enable();

@@ -12,15 +12,15 @@ exports[`HoodVisible should render the buttons 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding: 0 10px;
-  margin: 0 10px;
+  padding: 0 0.4rem;
+  margin: 0 0.4rem;
   background: inherit;
   color: inherit;
   border: none;
   font: inherit;
   cursor: pointer;
   outline: inherit;
-  font-size: 12px;
+  font-size: 0.8rem;
 }
 
 .c1:hover:enabled {
@@ -41,21 +41,30 @@ exports[`HoodVisible should render the buttons 1`] = `
   height: 100%;
 }
 
-<Component>
+<Component
+  hideAll={[Function]}
+  showAll={[Function]}
+>
   <styled.div>
     <div
       className="c0"
     >
-      <styled.button>
+      <styled.button
+        onClick={[Function]}
+      >
         <button
           className="c1"
+          onClick={[Function]}
         >
           Show Hoods
         </button>
       </styled.button>
-      <styled.button>
+      <styled.button
+        onClick={[Function]}
+      >
         <button
           className="c1"
+          onClick={[Function]}
         >
           Hide Hoods
         </button>

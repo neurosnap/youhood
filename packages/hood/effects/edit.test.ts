@@ -9,10 +9,10 @@ describe('onEditHood', () => {
   const hoodMap = mockHoodMap({ onlyGeoJSON: true });
 
   it('when hood does not exist', () => {
-    const tester = genTester(onEditHood, hoodMap, { payload: { hoodId: '123', edit: false } });
-    const { actual, expected } = tester(
-      skip(),
-    );
+    const tester = genTester(onEditHood, hoodMap, {
+      payload: { hoodId: '123', edit: false },
+    });
+    const { actual, expected } = tester(skip());
 
     expect(actual).toEqual(expected);
   });
@@ -25,6 +25,7 @@ describe('onEditHood', () => {
       },
     };
     const hood = {
+      options: {},
       editing: {
         enable: jest.fn(),
         disable: jest.fn(),
@@ -33,10 +34,7 @@ describe('onEditHood', () => {
 
     it('should set edit to `true`', () => {
       const tester = genTester(onEditHood, hoodMap, action);
-      const { actual, expected } = tester(
-        skip(hood),
-        put(setEdit(true)),
-      );
+      const { actual, expected } = tester(skip(hood), put(setEdit(true)));
       expect(actual).toEqual(expected);
     });
 
@@ -57,6 +55,7 @@ describe('onEditHood', () => {
       },
     };
     const hood = {
+      options: {},
       editing: {
         enable: jest.fn(),
         disable: jest.fn(),
@@ -65,10 +64,7 @@ describe('onEditHood', () => {
 
     it('should set edit to `false`', () => {
       const tester = genTester(onEditHood, hoodMap, action);
-      const { actual, expected } = tester(
-        skip(hood),
-        put(setEdit(false)),
-      );
+      const { actual, expected } = tester(skip(hood), put(setEdit(false)));
 
       expect(actual).toEqual(expected);
     });

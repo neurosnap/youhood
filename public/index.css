@@ -12,6 +12,7 @@ body {
   overflow: hidden;
   font-family: 'Open Sans', sans-serif;
   position: relative;
+  font-size: 16px;
 }
 
 .map {

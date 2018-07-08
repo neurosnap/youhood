@@ -4,15 +4,15 @@ import { connect } from 'react-redux';
 import { actionCreators } from '@youhood/auth';
 const { signOut } = actionCreators;
 
-import { 
-  DropdownMenuContainer, 
+import {
+  DropdownMenuContainer,
   SignInMenuEl,
   Buttons,
   DropdownMenuButton,
 } from './ui';
 
 interface Props {
-  handleSignOut: Function;
+  handleSignOut: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const Profile = ({ handleSignOut }: Props) => {
@@ -27,6 +27,9 @@ export const Profile = ({ handleSignOut }: Props) => {
   ]);
 };
 
-export default connect(null, (dispatch: Function) => ({
-  handleSignOut: () => dispatch(signOut()),
-}))(Profile as any);
+export default connect(
+  null,
+  (dispatch: Function) => ({
+    handleSignOut: () => dispatch(signOut()),
+  }),
+)(Profile as any);

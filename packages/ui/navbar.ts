@@ -19,13 +19,10 @@ interface Props {
   points: number;
 }
 
-export default ({ points }: Props) =>
+const Navbar: React.SFC<Props> = ({ points }) =>
   h(Nav, [
     h(NavContent, [
-      h(NavLeft, [
-        h(Menu),
-        h(Brand, 'YouHood'),
-      ]),
+      h(NavLeft, [h(Menu), h(Brand, 'YouHood')]),
       h(NavRight, [
         h(Search, [
           h(SearchIcon, { className: 'fa fa-search' }),
@@ -36,3 +33,9 @@ export default ({ points }: Props) =>
       ]),
     ]),
   ]);
+
+Navbar.defaultProps = {
+  points: 0,
+};
+
+export default Navbar;

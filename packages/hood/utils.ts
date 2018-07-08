@@ -15,13 +15,17 @@ import {
 import styleFn from './style';
 
 const defaultHood = {};
-export const createHood = (props: { [key: string]: any } = defaultHood): HoodProps => ({
+export const createHood = (
+  props: { [key: string]: any } = defaultHood,
+): HoodProps => ({
   id: props.id || createUuid(),
   userId: props.userId || '',
   name: props.name || '',
   city: props.city || '',
   county: props.county || '',
   state: props.state || '',
+  createdAt: props.createdAt || '',
+  updatedAt: props.updatedAt || '',
 });
 
 export const createHoodUI = (props: { [key: string]: any } = defaultHood) => ({
@@ -63,7 +67,9 @@ export function getHoodPropsMapFromHoods(hoods: PolygonHood[]): HoodPropsMap {
   }, {});
 }
 
-export function getHoodUIPropsMapFromHoods(hoods: PolygonHood[]): HoodUIPropsMap {
+export function getHoodUIPropsMapFromHoods(
+  hoods: PolygonHood[],
+): HoodUIPropsMap {
   return hoods.reduce((acc: HoodUIPropsMap, hood: any) => {
     const props = getHoodProps(hood);
     const hoodId = getHoodId(hood);

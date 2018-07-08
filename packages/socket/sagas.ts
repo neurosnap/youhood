@@ -2,7 +2,12 @@ import { eventChannel } from 'redux-saga';
 import { take, call, spawn, put } from 'redux-saga/effects';
 
 import { HoodMap } from '@youhood/map/types';
-import { Hoods, GeoJsonFeatures, PolygonHood } from '@youhood/hood/types';
+import {
+  Hoods,
+  GeoJsonFeatures,
+  PolygonHood,
+  Feature,
+} from '@youhood/hood/types';
 import { actionCreators, utils } from '@youhood/hood';
 const { addHoods, addHoodUIProps } = actionCreators;
 const { getHoodId, getHoodUIPropsMapFromHoods } = utils;
@@ -13,25 +18,26 @@ import { Users } from '@youhood/user/types';
 const GOT_HOODS = 'got-hoods';
 const GOT_USERS = 'got-users';
 
-const createSocketChannel = (socket: WebSocket) => eventChannel((emit) => {
-  const onOpen = () => {
-    console.log('SOCKET CONNECTED');
-    socket.send(JSON.stringify({ type: 'get-hoods' }));
-  };
+const createSocketChannel = (socket: WebSocket) =>
+  eventChannel((emit) => {
+    const onOpen = () => {
+      console.log('SOCKET CONNECTED');
+      socket.send(JSON.stringify({ type: 'get-hoods' }));
+    };
 
-  const onMessage = (event: any) => {
-    const { type, data } = JSON.parse(event.data);
-    emit({ type, payload: data });
-  };
+    const onMessage = (event: any) => {
+      const { type, data } = JSON.parse(event.data);
+      emit({ type, payload: data });
+    };
 
-  socket.addEventListener('open', onOpen);
-  socket.addEventListener('message', onMessage);
+    socket.addEventListener('open', onOpen);
+    socket.addEventListener('message', onMessage);
 
-  return () => {
-    socket.removeEventListener('open', onOpen);
-    socket.removeEventListener('message', onMessage);
-  };
-});
+    return () => {
+      socket.removeEventListener('open', onOpen);
+      socket.removeEventListener('message', onMessage);
+    };
+  });
 
 export function* socketSaga(hoodMap: HoodMap) {
   const domain = window.location.host;
@@ -76,8 +82,29 @@ function* gotHoods(data: GeoJsonFeatures, { hoodGeoJSON }: HoodMap) {
     return !foundHood;
   });
 
-  data.features = features;
+  data.features = features.map((feature) => {
+    if (feature.geometry.type === 'MultiPolygon') {
+      return transformMutiPolyToPoly(<Feature<GeoJSON.MultiPolygon>>feature);
+    }
+
+    return feature;
+  });
   hoodGeoJSON.addData(data);
+}
+
+function transformMutiPolyToPoly(
+  multiPolygon: Feature<GeoJSON.MultiPolygon>,
+): Feature<GeoJSON.Polygon> {
+  const poly = {
+    ...multiPolygon,
+    geometry: {
+      ...multiPolygon.geometry,
+      type: 'Polygon' as 'Polygon',
+      coordinates: multiPolygon.geometry.coordinates[0],
+    },
+  };
+
+  return poly;
 }
 
 function* gotUsers(users: Users) {

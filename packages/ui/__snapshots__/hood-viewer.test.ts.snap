@@ -1,0 +1,409 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HoodView when the user has registered should render the email as user 1`] = `
+.c2 {
+  font-size: 1.3rem;
+}
+
+.c6 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.c7 {
+  font-size: 0.8rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.c4 {
+  background-color: #fff;
+  border-radius: 0.3rem;
+  padding: 0.6rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c5 {
+  padding: 0 0.5rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.c1 {
+  font-size: 1rem;
+  color: #fff;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.c0 {
+  width: 90%;
+  margin-top: 0.5rem;
+}
+
+<HoodViewer
+  canEdit={false}
+  canUserVote={false}
+  currentUserId=""
+  edit={[Function]}
+  handleUnvote={[Function]}
+  handleVote={[Function]}
+  hood={
+    Object {
+      "city": "Ann Arbor",
+      "county": "Washtenaw",
+      "createdAt": "2018-01-01",
+      "id": "321",
+      "name": "Da Hood",
+      "state": "Michigan",
+      "updatedAt": "2018-01-01",
+      "userId": "123",
+    }
+  }
+  hoodId="321"
+  user={
+    Object {
+      "email": "eric@cool.com",
+      "id": "123",
+      "isTmp": false,
+    }
+  }
+  userVoted={false}
+  votes={0}
+>
+  <styled.div>
+    <div
+      className="c0"
+    >
+      <styled.div>
+        <div
+          className="c1"
+        >
+          <styled.h1>
+            <h1
+              className="c2"
+            >
+              Hood Viewer
+            </h1>
+          </styled.h1>
+          <styled.div>
+            <div
+              className="c3"
+            />
+          </styled.div>
+        </div>
+      </styled.div>
+      <styled.div>
+        <div
+          className="c4"
+        >
+          <styled.div>
+            <div
+              className="c5"
+            >
+              <styled.h1>
+                <h1
+                  className="c2"
+                >
+                  0
+                </h1>
+              </styled.h1>
+            </div>
+          </styled.div>
+          <div
+            style={
+              Object {
+                "width": "85%",
+              }
+            }
+          >
+            <styled.h2>
+              <h2
+                className="c6"
+              >
+                Da Hood
+              </h2>
+            </styled.h2>
+            <styled.div>
+              <div
+                className="c7"
+              >
+                <div>
+                  User
+                </div>
+                <div>
+                  eric@cool.com
+                </div>
+              </div>
+            </styled.div>
+            <styled.div>
+              <div
+                className="c7"
+              >
+                <div>
+                  Last Updated
+                </div>
+                <div>
+                  01-01-2018 00:00 am
+                </div>
+              </div>
+            </styled.div>
+            <styled.div>
+              <div
+                className="c7"
+              >
+                <div>
+                  Created
+                </div>
+                <div>
+                  01-01-2018 00:00 am
+                </div>
+              </div>
+            </styled.div>
+          </div>
+        </div>
+      </styled.div>
+    </div>
+  </styled.div>
+</HoodViewer>
+`;
+
+exports[`HoodView when the user is temporary should render \`Anonymous\` user name 1`] = `
+.c2 {
+  font-size: 1.3rem;
+}
+
+.c6 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.c7 {
+  font-size: 0.8rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.c4 {
+  background-color: #fff;
+  border-radius: 0.3rem;
+  padding: 0.6rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c5 {
+  padding: 0 0.5rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.c1 {
+  font-size: 1rem;
+  color: #fff;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.c0 {
+  width: 90%;
+  margin-top: 0.5rem;
+}
+
+<HoodViewer
+  canEdit={false}
+  canUserVote={false}
+  currentUserId="123"
+  edit={[Function]}
+  handleUnvote={[Function]}
+  handleVote={[Function]}
+  hood={
+    Object {
+      "city": "Ann Arbor",
+      "county": "Washtenaw",
+      "createdAt": "2018-01-01",
+      "id": "321",
+      "name": "Da Hood",
+      "state": "Michigan",
+      "updatedAt": "2018-01-01",
+      "userId": "123",
+    }
+  }
+  hoodId="321"
+  user={
+    Object {
+      "email": "123",
+      "id": "123",
+      "isTmp": true,
+    }
+  }
+  userVoted={false}
+  votes={0}
+>
+  <styled.div>
+    <div
+      className="c0"
+    >
+      <styled.div>
+        <div
+          className="c1"
+        >
+          <styled.h1>
+            <h1
+              className="c2"
+            >
+              Hood Viewer
+            </h1>
+          </styled.h1>
+          <styled.div>
+            <div
+              className="c3"
+            />
+          </styled.div>
+        </div>
+      </styled.div>
+      <styled.div>
+        <div
+          className="c4"
+        >
+          <styled.div>
+            <div
+              className="c5"
+            >
+              <styled.h1>
+                <h1
+                  className="c2"
+                >
+                  0
+                </h1>
+              </styled.h1>
+            </div>
+          </styled.div>
+          <div
+            style={
+              Object {
+                "width": "85%",
+              }
+            }
+          >
+            <styled.h2>
+              <h2
+                className="c6"
+              >
+                Da Hood
+              </h2>
+            </styled.h2>
+            <styled.div>
+              <div
+                className="c7"
+              >
+                <div>
+                  User
+                </div>
+                <div>
+                  Anonymous
+                </div>
+              </div>
+            </styled.div>
+            <styled.div>
+              <div
+                className="c7"
+              >
+                <div>
+                  Last Updated
+                </div>
+                <div>
+                  01-01-2018 00:00 am
+                </div>
+              </div>
+            </styled.div>
+            <styled.div>
+              <div
+                className="c7"
+              >
+                <div>
+                  Created
+                </div>
+                <div>
+                  01-01-2018 00:00 am
+                </div>
+              </div>
+            </styled.div>
+          </div>
+        </div>
+      </styled.div>
+    </div>
+  </styled.div>
+</HoodViewer>
+`;

@@ -1,7 +1,11 @@
 import { put, select, call } from 'redux-saga/effects';
 
 import { HoodMap } from '@youhood/map/types';
-import { actionCreators as userActionCreators, utils as userUtils, selectors } from '@youhood/user';
+import {
+  actionCreators as userActionCreators,
+  utils as userUtils,
+  selectors,
+} from '@youhood/user';
 const { addUsers, setUser } = userActionCreators;
 const { createUser } = userUtils;
 const { getCurrentUser } = selectors;
@@ -11,15 +15,15 @@ import {
   setEdit,
   userAddHoods,
   addHoodUIProps,
+  editHood,
 } from '../action-creators';
-import {
-  getHoodId,
-  createHood,
-  createHoodUI,
-} from '../utils';
+import { getHoodId, createHood, createHoodUI } from '../utils';
 import { DrawCreatedAction } from '../types';
 
-export function* onHoodCreated({ hoodGeoJSON }: HoodMap, action: DrawCreatedAction) {
+export function* onHoodCreated(
+  { hoodGeoJSON }: HoodMap,
+  action: DrawCreatedAction,
+) {
   const layer = action.payload;
   const hood = layer.toGeoJSON();
 
@@ -40,4 +44,5 @@ export function* onHoodCreated({ hoodGeoJSON }: HoodMap, action: DrawCreatedActi
   yield put(addHoodUIProps({ [hoodId]: uiProps }));
   yield put(userAddHoods([hood]));
   yield put(selectHood(hoodId));
+  yield put(editHood({ hoodId, edit: true }));
 }
