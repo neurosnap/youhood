@@ -6,18 +6,12 @@ import apiFetch from '@youhood/fetch';
 
 const log = debug('hood:effects');
 
-import { afterSaveHood } from '../action-creators';
+import { afterSaveHood } from '../actions';
 import { getHoodPropsById } from '../selectors';
-import {
-  findHood,
-  bindTooltip,
-} from '../utils';
+import { findHood, bindTooltip } from '../utils';
 import { SaveHoodAction } from '../types';
 
-export function* onSaveHood(
-  { hoodGeoJSON }: HoodMap,
-  action: SaveHoodAction,
-) {
+export function* onSaveHood({ hoodGeoJSON }: HoodMap, action: SaveHoodAction) {
   const hoodId = action.payload;
   const hood = yield call(findHood, hoodGeoJSON, hoodId);
   if (!hood) return;

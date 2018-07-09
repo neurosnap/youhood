@@ -2,13 +2,13 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import * as h from 'react-hyperscript';
 
-import { actionCreators, selectors } from '@youhood/hood';
+import { actions, selectors } from '@youhood/hood';
 const {
   getHoodsOnPoint,
   getHoodIdSelected,
   getVisibleHoodsOnPoint,
 } = selectors;
-const { toggleHoodSelected, hoverHood, hideHoods, showHoods } = actionCreators;
+const { toggleHoodSelected, hoverHood, hideHoods, showHoods } = actions;
 import { HoodId, HoodIds, HoodPropsList } from '@youhood/hood/types';
 import { selectors as voteSelectors } from '@youhood/vote';
 const { getVoteCountByHoods } = voteSelectors;

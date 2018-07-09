@@ -13,7 +13,7 @@ import {
   onDeselectHood,
   toggleHoodSelected,
 } from './select';
-import { deselectHood, selectHood } from '../action-creators';
+import { deselectHood, selectHood } from '../actions';
 import { mockHoodMap } from '../mock';
 import { applyStyle } from '../utils';
 
@@ -50,7 +50,9 @@ describe('toggleHoodSelected', () => {
   describe('when hoodId payload matches hoodIdSelected', () => {
     it('should hide menu', () => {
       const hoodId = '123';
-      const tester = genTester(toggleHoodSelected, hoodMap, { payload: hoodId });
+      const tester = genTester(toggleHoodSelected, hoodMap, {
+        payload: hoodId,
+      });
       const { actual, expected } = tester(
         skip(hoodId),
         put(deselectHood()),
@@ -64,7 +66,9 @@ describe('toggleHoodSelected', () => {
   describe('when hoodId payload does not match hoodIdSelected', () => {
     it('should select hood', () => {
       const hoodId = '123';
-      const tester = genTester(toggleHoodSelected, hoodMap, { payload: hoodId });
+      const tester = genTester(toggleHoodSelected, hoodMap, {
+        payload: hoodId,
+      });
       const { actual, expected } = tester(
         skip('333'),
         put(deselectHood()),
@@ -93,10 +97,10 @@ describe('onSelectHood', () => {
         call(applyStyle, { hoodMap, hoodId, style }),
         put(showMenu('overlay')),
         skip(hood),
-        yields(
-          call(apiFetch, `/user/${hood.userId}`),
-          { status: 400, body: {} },
-        ),
+        yields(call(apiFetch, `/user/${hood.userId}`), {
+          status: 400,
+          body: {},
+        }),
       );
 
       expect(actual).toEqual(expected);
@@ -126,10 +130,10 @@ describe('onSelectHood', () => {
         call(applyStyle, { hoodMap, hoodId, style }),
         put(showMenu('overlay')),
         skip(hood),
-        yields(
-          call(apiFetch, `/user/${hood.userId}`),
-          { status: 200, body: { user } },
-        ),
+        yields(call(apiFetch, `/user/${hood.userId}`), {
+          status: 200,
+          body: { user },
+        }),
         put(addUsers([tUser])),
       );
 
@@ -153,10 +157,10 @@ describe('onSelectHood', () => {
         call(applyStyle, { hoodMap, hoodId, style }),
         put(showMenu('overlay')),
         skip(hood),
-        yields(
-          call(apiFetch, `/user/${hood.userId}`),
-          { status: 200, body: {} },
-        ),
+        yields(call(apiFetch, `/user/${hood.userId}`), {
+          status: 200,
+          body: {},
+        }),
       );
 
       expect(actual).toEqual(expected);

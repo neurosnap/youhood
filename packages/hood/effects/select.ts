@@ -16,10 +16,7 @@ import {
   PolygonLeaflet,
   ToggleHoodSelectedAction,
 } from '../types';
-import {
-  deselectHood,
-  selectHood,
-} from '../action-creators';
+import { deselectHood, selectHood } from '../actions';
 
 export function onDeselectHood({ hoodGeoJSON }: HoodMap) {
   hoodGeoJSON.eachLayer((hood: PolygonLeaflet) => {
@@ -57,7 +54,10 @@ export function* onSelectHood(hoodMap: HoodMap, action: HoodSelectedAction) {
   yield put(addUsers([user]));
 }
 
-export function* toggleHoodSelected(hoodMap: HoodMap, action: ToggleHoodSelectedAction) {
+export function* toggleHoodSelected(
+  hoodMap: HoodMap,
+  action: ToggleHoodSelectedAction,
+) {
   const hoodId = action.payload;
   const hoodIdSelected = yield select(getHoodIdSelected);
 

@@ -2,8 +2,8 @@ import * as h from 'react-hyperscript';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { actionCreators, selectors } from '@youhood/hood';
-const { drawHood, cancelDrawHood } = actionCreators;
+import { actions, selectors } from '@youhood/hood';
+const { drawHood, cancelDrawHood } = actions;
 const { getIsEditing } = selectors;
 
 import { HoodBarButton } from './ui';

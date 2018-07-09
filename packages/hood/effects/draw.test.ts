@@ -2,8 +2,7 @@ import { genTester, yields } from 'gen-tester';
 import { call, put, take, race } from 'redux-saga/effects';
 
 import { mockHoodMap, cleanupHoodMap } from '../mock';
-import { CANCEL_DRAW_HOOD, HOOD_CREATED } from '../action-types';
-import { setEdit } from '../action-creators';
+import { setEdit, cancelDrawHood, hoodCreated } from '../actions';
 import { onDrawHood, createPolygon } from './draw';
 
 const mockLPolygon = () => ({
@@ -28,8 +27,8 @@ describe('onDrawHood', () => {
         yields(call(createPolygon, hoodMap), mock),
         yields(
           race({
-            cancel: take(CANCEL_DRAW_HOOD),
-            create: take(HOOD_CREATED),
+            cancel: take(`${cancelDrawHood}`),
+            create: take(`${hoodCreated}`),
           }),
           { create: true },
         ),
@@ -50,14 +49,11 @@ describe('onDrawHood', () => {
       const tester = genTester(onDrawHood, hoodMap);
       const { actual, expected } = tester(
         put(setEdit(true)),
-        yields(
-          call(createPolygon, hoodMap),
-          mock,
-        ),
+        yields(call(createPolygon, hoodMap), mock),
         yields(
           race({
-            cancel: take(CANCEL_DRAW_HOOD),
-            create: take(HOOD_CREATED),
+            cancel: take(`${cancelDrawHood}`),
+            create: take(`${hoodCreated}`),
           }),
           { cancel: true },
         ),

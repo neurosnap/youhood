@@ -4,7 +4,7 @@ import { genTester, yields, skip } from 'gen-tester';
 import apiFetch from '@youhood/fetch';
 
 import { mockHoodMap } from '../mock';
-import { afterSaveHood } from '../action-creators';
+import { afterSaveHood } from '../actions';
 import { createHood } from '../utils';
 import { Hoods } from '../types';
 import { onSaveHood } from './save';
@@ -23,10 +23,7 @@ describe('onSaveHood', () => {
   describe('when cannot find props for hood', () => {
     it('should exit early', () => {
       const tester = genTester(onSaveHood, hoodMap, { payload: '123' });
-      const { actual, expected } = tester(
-        skip({}),
-        skip(),
-      );
+      const { actual, expected } = tester(skip({}), skip());
       expect(actual).toEqual(expected);
     });
   });
@@ -76,11 +73,13 @@ describe('onSaveHood', () => {
     const hoodGeo = {
       properties,
     };
-    const hoods: Hoods = [{
-      type: 'Feature',
-      properties: createHood({ id: '123' }),
-      geometry: null,
-    }];
+    const hoods: Hoods = [
+      {
+        type: 'Feature',
+        properties: createHood({ id: '123' }),
+        geometry: null,
+      },
+    ];
 
     it('should return early', () => {
       const tester = genTester(onSaveHood, hoodMap, { payload: '123' });

@@ -3,19 +3,19 @@ import { takeEvery, spawn, take } from 'redux-saga/effects';
 import { HoodMap } from '@youhood/map/types';
 
 import {
-  DESELECT_HOOD,
-  SELECT_HOOD,
-  TOGGLE_HOOD_SELECTED,
-  HOVER_HOOD,
-  EDIT_HOOD,
-  SAVE_HOOD,
-  DRAW_HOOD,
-  HOOD_CREATED,
-  HIDE_HOODS,
-  SHOW_HOODS,
-  HIDE_ALL_HOODS,
-  SHOW_ALL_HOODS,
-} from './action-types';
+  deselectHood,
+  selectHood,
+  toggleHoodSelected,
+  hoverHood,
+  editHood,
+  saveHood,
+  drawHood,
+  hoodCreated,
+  hideHoods,
+  showHoods,
+  hideAllHoods,
+  showAllHoods,
+} from './actions';
 import {
   onHoverHood,
   onShowAllHoods,
@@ -28,7 +28,7 @@ import {
   onSelectHood,
   onEditHood,
   onHoodCreated,
-  toggleHoodSelected,
+  toggleHoodSelected as onToggleHoodSelected,
   createLayerChannel,
   onLayerEvent,
 } from './effects';
@@ -43,49 +43,49 @@ export function* layerSaga({ hoodGeoJSON }: HoodMap) {
 }
 
 export function* showAllHoodsSaga(hoodMap: HoodMap) {
-  yield takeEvery(SHOW_ALL_HOODS, onShowAllHoods, hoodMap);
+  yield takeEvery(`${showAllHoods}`, onShowAllHoods, hoodMap);
 }
 
 export function* hideAllHoodsSaga(hoodMap: HoodMap) {
-  yield takeEvery(HIDE_ALL_HOODS, onHideAllHoods, hoodMap);
+  yield takeEvery(`${hideAllHoods}`, onHideAllHoods, hoodMap);
 }
 
 export function* showHoodsSaga(hoodMap: HoodMap) {
-  yield takeEvery(SHOW_HOODS, onShowHoods, hoodMap);
+  yield takeEvery(`${showHoods}`, onShowHoods, hoodMap);
 }
 
 export function* hideHoodsSaga(hoodMap: HoodMap) {
-  yield takeEvery(HIDE_HOODS, onHideHoods, hoodMap);
+  yield takeEvery(`${hideHoods}`, onHideHoods, hoodMap);
 }
 
 export function* drawHoodSaga(hoodMap: HoodMap) {
-  yield takeEvery(DRAW_HOOD, onDrawHood, hoodMap);
+  yield takeEvery(`${drawHood}`, onDrawHood, hoodMap);
 }
 
 export function* saveHoodSaga(hoodMap: HoodMap) {
-  yield takeEvery(SAVE_HOOD, onSaveHood, hoodMap);
+  yield takeEvery(`${saveHood}`, onSaveHood, hoodMap);
 }
 
 export function* deselectHoodSaga(hoodMap: HoodMap) {
-  yield takeEvery(DESELECT_HOOD, onDeselectHood, hoodMap);
+  yield takeEvery(`${deselectHood}`, onDeselectHood, hoodMap);
 }
 
 export function* selectHoodSaga(hoodMap: HoodMap) {
-  yield takeEvery(SELECT_HOOD, onSelectHood, hoodMap);
+  yield takeEvery(`${selectHood}`, onSelectHood, hoodMap);
 }
 
 export function* hoverHoodSaga(hoodMap: HoodMap) {
-  yield takeEvery(HOVER_HOOD, onHoverHood, hoodMap);
+  yield takeEvery(`${hoverHood}`, onHoverHood, hoodMap);
 }
 
 export function* toggleHoodSelectedSaga(hoodMap: HoodMap) {
-  yield takeEvery(TOGGLE_HOOD_SELECTED, toggleHoodSelected, hoodMap);
+  yield takeEvery(`${toggleHoodSelected}`, onToggleHoodSelected, hoodMap);
 }
 
 export function* editHoodSaga(hoodMap: HoodMap) {
-  yield takeEvery(EDIT_HOOD, onEditHood, hoodMap);
+  yield takeEvery(`${editHood}`, onEditHood, hoodMap);
 }
 
 export function* hoodCreatedSaga(hoodMap: HoodMap) {
-  yield takeEvery(HOOD_CREATED, onHoodCreated, hoodMap);
+  yield takeEvery(`${hoodCreated}`, onHoodCreated, hoodMap);
 }

@@ -2,7 +2,7 @@ import { put, call } from 'redux-saga/effects';
 
 import { HoodMap } from '@youhood/map/types';
 
-import { setEdit } from '../action-creators';
+import { setEdit } from '../actions';
 import { findHood } from '../utils';
 import { EditHoodAction } from '../types';
 

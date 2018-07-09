@@ -4,13 +4,7 @@ import { call, race, put, take } from 'redux-saga/effects';
 
 import { HoodMap } from '@youhood/map/types';
 
-import {
-  HOOD_CREATED,
-  CANCEL_DRAW_HOOD,
-} from '../action-types';
-import {
-  setEdit,
-} from '../action-creators';
+import { setEdit, hoodCreated, cancelDrawHood } from '../actions';
 
 export function createPolygon({ map }: HoodMap) {
   return new L.Draw.Polygon(map);
@@ -22,8 +16,8 @@ export function* onDrawHood(hoodMap: HoodMap) {
   poly.enable();
 
   const winner = yield race({
-    cancel: take(CANCEL_DRAW_HOOD),
-    create: take(HOOD_CREATED),
+    cancel: take(`${cancelDrawHood}`),
+    create: take(`${hoodCreated}`),
   });
 
   if (winner.cancel) {

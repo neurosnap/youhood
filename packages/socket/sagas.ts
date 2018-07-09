@@ -8,8 +8,8 @@ import {
   PolygonHood,
   Feature,
 } from '@youhood/hood/types';
-import { actionCreators, utils } from '@youhood/hood';
-const { addHoods, addHoodUIProps } = actionCreators;
+import { actions, utils } from '@youhood/hood';
+const { addHoods, addHoodUIProps } = actions;
 const { getHoodId, getHoodUIPropsMapFromHoods } = utils;
 import { actionCreators as userActionCreators } from '@youhood/user';
 const { addUsers } = userActionCreators;

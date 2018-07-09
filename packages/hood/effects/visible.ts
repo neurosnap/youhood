@@ -1,15 +1,11 @@
-import { call, put,select } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 
 import { HoodMap, HoodGeoJSON } from '@youhood/map/types';
 
-import { setHoodUIProps } from '../action-creators';
+import { setHoodUIProps } from '../actions';
 import { getHoodUIPropsAsIds } from '../selectors';
-import {  getHoodId } from '../utils';
-import {
-  PolygonLeaflet,
-  HoodId,
-  HoodIds,
-} from '../types';
+import { getHoodId } from '../utils';
+import { PolygonLeaflet, HoodId, HoodIds } from '../types';
 
 interface HoodIdsAction {
   type: string;
@@ -58,7 +54,11 @@ interface SetHoodDisplay {
   display: string;
 }
 
-export function setHoodDisplay({ hoodGeoJSON, hoodIds, display }: SetHoodDisplay) {
+export function setHoodDisplay({
+  hoodGeoJSON,
+  hoodIds,
+  display,
+}: SetHoodDisplay) {
   hoodGeoJSON.eachLayer((hood: PolygonLeaflet) => {
     const hoodId = getHoodId(hood);
 

@@ -4,8 +4,8 @@ import * as h from 'react-hyperscript';
 
 import { HoodProps, HoodId, EditHoodPayload } from '@youhood/hood/types';
 import { User, UserId } from '@youhood/user/types';
-import { actionCreators, selectors, utils } from '@youhood/hood';
-const { editHood } = actionCreators;
+import { actions, selectors, utils } from '@youhood/hood';
+const { editHood } = actions;
 const { createHood } = utils;
 const { getHoodSelected } = selectors;
 import { selectors as userSelectors } from '@youhood/user';

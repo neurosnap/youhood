@@ -16,7 +16,7 @@ import {
   userAddHoods,
   addHoodUIProps,
   editHood,
-} from '../action-creators';
+} from '../actions';
 import { getHoodId, createHood, createHoodUI } from '../utils';
 import { DrawCreatedAction } from '../types';
 

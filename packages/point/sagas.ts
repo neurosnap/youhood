@@ -1,9 +1,9 @@
 import { takeEvery } from 'redux-saga/effects';
 
-import { actions } from '@youhood/auth';
-const { signedIn } = actions;
-import { actionTypes } from '@youhood/hood';
-const { AFTER_SAVE_HOOD } = actionTypes;
+import { actions as authActions } from '@youhood/auth';
+const { signedIn } = authActions;
+import { actions } from '@youhood/hood';
+const { afterSaveHood } = actions;
 import { actionTypes as voteActionTypes } from '@youhood/vote';
 const { VOTE, UNVOTE } = voteActionTypes;
 
@@ -17,7 +17,7 @@ import {
 } from './effects';
 
 export function* afterHoodSavedSaga() {
-  yield takeEvery(AFTER_SAVE_HOOD, hoodCreated);
+  yield takeEvery(`${afterSaveHood}`, hoodCreated);
 }
 
 export function* userVotedSaga() {
