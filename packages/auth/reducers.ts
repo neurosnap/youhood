@@ -1,27 +1,27 @@
 import { Token, AuthError, TokenAction, AuthErrorAction } from './types';
 
-import { SET_TOKEN, RESET_TOKEN, AUTH_ERROR } from './action-types';
+import { setToken, resetToken, authError as authErrorAction } from './actions';
 import * as selectors from './selectors';
 
 const defaultState = '';
 
 const token = (state: Token = defaultState, action: TokenAction) => {
   switch (action.type) {
-  case SET_TOKEN:
-    return action.payload;
-  case RESET_TOKEN:
-    return defaultState;
-  default:
-    return state;
+    case `${setToken}`:
+      return action.payload;
+    case `${resetToken}`:
+      return defaultState;
+    default:
+      return state;
   }
 };
 
 const authError = (state: AuthError = '', action: AuthErrorAction) => {
   switch (action.type) {
-  case AUTH_ERROR:
-    return action.payload;
-  default:
-    return state;
+    case `${authErrorAction}`:
+      return action.payload;
+    default:
+      return state;
   }
 };
 

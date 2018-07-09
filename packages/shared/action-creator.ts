@@ -1,15 +1,17 @@
 export interface Action<T, P> {
   readonly type: T;
-  readonly payload?: P;
+  readonly payload: P;
 }
 type ActionType = string;
 
-export default <P>(type: ActionType) =>
-  (payload: P): Action<ActionType, P> => {
-    if (typeof payload === 'undefined') return { type };
+export default function creator<P>(type: ActionType) {
+  const action = (payload?: P): Action<ActionType, P> => ({
+    type,
+    payload,
+  });
 
-    return {
-      type,
-      payload,
-    };
-  };
+  action.toString = () => `${type}`;
+  return action;
+}
+
+export const getType = (action: any) => `${action}`;

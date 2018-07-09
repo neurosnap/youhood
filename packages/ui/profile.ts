@@ -1,8 +1,8 @@
 import * as h from 'react-hyperscript';
 import { connect } from 'react-redux';
 
-import { actionCreators } from '@youhood/auth';
-const { signOut } = actionCreators;
+import { actions } from '@youhood/auth';
+const { signOut } = actions;
 
 import {
   DropdownMenuContainer,
