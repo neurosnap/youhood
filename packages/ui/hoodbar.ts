@@ -12,7 +12,4 @@ const HoodBar = styled.div`
   display: flex;
 `;
 
-export default () => h(HoodBar, [
-  h(DrawHood),
-  h(HoodVisible),
-]);
+export default () => h(HoodBar, [h(DrawHood), h(HoodVisible)]);

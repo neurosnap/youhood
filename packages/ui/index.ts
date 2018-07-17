@@ -8,6 +8,4 @@ const smartComponents = {
   HoodBar,
 };
 
-export {
-  smartComponents,
-};
+export { smartComponents };

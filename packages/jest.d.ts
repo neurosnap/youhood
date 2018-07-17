@@ -6,6 +6,10 @@ declare namespace jest {
   }
 
   interface Matchers<R> {
-    toHaveStyleRule(property: string, value: string | RegExp, options?: Options): R;
+    toHaveStyleRule(
+      property: string,
+      value: string | RegExp,
+      options?: Options,
+    ): R;
   }
 }

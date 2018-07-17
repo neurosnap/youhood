@@ -11,7 +11,10 @@ export const getCurrentUser = (state: State): User => {
   if (!userId) return null;
   return getUserById(state, { id: userId });
 };
-export const getUserById = (state: State, { id = '' }: { id: UserId }): User => {
+export const getUserById = (
+  state: State,
+  { id = '' }: { id: UserId },
+): User => {
   if (!id) return null;
   return getUsers(state)[id];
 };

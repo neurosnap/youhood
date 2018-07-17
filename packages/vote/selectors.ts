@@ -22,19 +22,31 @@ export const getVotes = (state: State) => state[votes];
 export const getVotesByHood = (state: State, { hoodId }: HoodIdInProp) =>
   getVotes(state)[hoodId] || [];
 export const didUserVoteOnHood = (
-  state: State, { hoodId, userId }: HoodAndUserInProp,
+  state: State,
+  { hoodId, userId }: HoodAndUserInProp,
 ) => {
   const votes = getVotesByHood(state, { hoodId });
   return votes.indexOf(userId) >= 0;
 };
 export const getVoteCountByHood = (state: State, { hoodId }: HoodIdInProp) =>
   getVotesByHood(state, { hoodId }).length;
-export const getVoteCountByHoods = (state: State, { hoodIds = [] }: { hoodIds: HoodIds }): VoteMap => 
+export const getVoteCountByHoods = (
+  state: State,
+  { hoodIds = [] }: { hoodIds: HoodIds },
+): VoteMap =>
   hoodIds.reduce(
-    (acc: VoteMap, hoodId: HoodId) => ({ ...acc, [hoodId]: getVoteCountByHood(state, { hoodId }) }), 
+    (acc: VoteMap, hoodId: HoodId) => ({
+      ...acc,
+      [hoodId]: getVoteCountByHood(state, { hoodId }),
+    }),
     {},
   );
-export const didUserVoteInHoodsOnPoint = (state: State, { userId }: UserIdInProp) => {
+export const didUserVoteInHoodsOnPoint = (
+  state: State,
+  { userId }: UserIdInProp,
+) => {
   const hoodIdsOnPoint = getHoodIdsOnPoint(state);
-  return hoodIdsOnPoint.some((hoodId) => didUserVoteOnHood(state, { hoodId, userId }));
+  return hoodIdsOnPoint.some((hoodId) =>
+    didUserVoteOnHood(state, { hoodId, userId }),
+  );
 };

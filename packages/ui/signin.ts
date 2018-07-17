@@ -27,18 +27,14 @@ export class SignIn extends Component {
 
   toggleMenu = () => {
     this.setState({ open: !this.state.open });
-  }
+  };
 
   componentWillReceiveProps(nextProps: SignInProps) {
-    const justSignedIn = (
-      this.props.authenticated === false
-      && nextProps.authenticated === true
-    );
+    const justSignedIn =
+      this.props.authenticated === false && nextProps.authenticated === true;
 
-    const justSignedOut = (
-      this.props.authenticated === true
-      && nextProps.authenticated === false
-    );
+    const justSignedOut =
+      this.props.authenticated === true && nextProps.authenticated === false;
 
     if (justSignedIn || justSignedOut) {
       this.setState({ open: false });
@@ -62,9 +58,7 @@ export class SignIn extends Component {
 
     return h(SignInContainer, { style: { position: 'relative' } }, [
       h(NavHover, signinProps, [
-        h(SignInEl, [
-          authenticated ? h('a', user.email) : h('a', 'Sign In'),
-        ]),
+        h(SignInEl, [authenticated ? h('a', user.email) : h('a', 'Sign In')]),
       ]),
       menu,
     ]);

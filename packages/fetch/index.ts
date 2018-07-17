@@ -8,7 +8,7 @@ interface FetchOptions {
 
 type ApiOpts = RequestInit & FetchOptions;
 
-export default function* (uri: string, opts: ApiOpts = {}) {
+export default function*(uri: string, opts: ApiOpts = {}) {
   // const auth = typeof opts.auth === 'undefined' ? true : opts.auth;
   const options = { ...opts };
   delete options.auth;
