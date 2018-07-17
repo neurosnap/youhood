@@ -16,10 +16,12 @@ describe('SignIn', () => {
 
   describe('when user is authenticated', () => {
     it('should render text of users email', () => {
-      const tree = shallow(h(SignIn, {
-        authenticated: true,
-        user: { email: 'eric@cool.com' },
-      }));
+      const tree = shallow(
+        h(SignIn, {
+          authenticated: true,
+          user: { email: 'eric@cool.com' },
+        }),
+      );
       expect(tree.find('a').text()).toEqual('eric@cool.com');
     });
   });
@@ -27,10 +29,12 @@ describe('SignIn', () => {
   describe('when menu is open', () => {
     describe('when the user is authenticated', () => {
       it('should render Profile component', () => {
-        const tree = shallow(h(SignIn, {
-          authenticated: true,
-          user: { email: 'eric@cool.com' },
-        }));
+        const tree = shallow(
+          h(SignIn, {
+            authenticated: true,
+            user: { email: 'eric@cool.com' },
+          }),
+        );
 
         tree.find(NavHover).simulate('click');
 
@@ -40,10 +44,12 @@ describe('SignIn', () => {
 
     describe('when the user is authenticated', () => {
       it('should render SignInMenu component', () => {
-        const tree = shallow(h(SignIn, {
-          authenticated: false,
-          user: { email: 'eric@cool.com' },
-        }));
+        const tree = shallow(
+          h(SignIn, {
+            authenticated: false,
+            user: { email: 'eric@cool.com' },
+          }),
+        );
 
         tree.find(NavHover).simulate('click');
 

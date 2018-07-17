@@ -8,7 +8,7 @@ export const mockHood = (): Hood => ({
   type: 'Feature',
   geometry: null,
   properties: createHood(),
- });
+});
 
 export const mockLayer = {
   toGeoJSON: mockHood,
@@ -16,7 +16,7 @@ export const mockLayer = {
 
 export const mockHoodGeoJSON = () => L.geoJSON();
 
-export const mockHoodMap = ({ onlyGeoJSON = false } = {}): HoodMap  => {
+export const mockHoodMap = ({ onlyGeoJSON = false } = {}): HoodMap => {
   const obj: HoodMap = {
     hoodGeoJSON: mockHoodGeoJSON(),
     drawControl: null,

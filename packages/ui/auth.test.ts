@@ -8,11 +8,13 @@ describe('Auth', () => {
   describe('when clicking the button', () => {
     it('should call onclick with correct data', () => {
       const onClick = jest.fn();
-      const tree = shallow(h(Auth, {
-        buttonText: 'Sign In',
-        onClick,
-        currentUserId: '1337',
-      }));
+      const tree = shallow(
+        h(Auth, {
+          buttonText: 'Sign In',
+          onClick,
+          currentUserId: '1337',
+        }),
+      );
 
       const inputs = tree.find(Input);
       const email = inputs.at(0);

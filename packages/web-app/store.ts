@@ -1,6 +1,12 @@
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
-import { createStore, applyMiddleware, Middleware, Store, Reducer } from 'redux';
+import {
+  createStore,
+  applyMiddleware,
+  Middleware,
+  Store,
+  Reducer,
+} from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
@@ -18,22 +24,21 @@ interface Props {
 const persistConfig = {
   key: 'youhood',
   storage,
-  whitelist: [
-    'currentUser',
-    'users',
-    'token',
-  ],
+  whitelist: ['currentUser', 'users', 'token'],
 };
 
-export default function createState({ initState, hoodMap, rootReducer, rootSaga }: Props): Store<State> {
+export default function createState({
+  initState,
+  hoodMap,
+  rootReducer,
+  rootSaga,
+}: Props): Store<State> {
   const sagaMiddleware = createSagaMiddleware();
   const middleware: Middleware[] = [sagaMiddleware];
   const persistedReducer = persistReducer(persistConfig, rootReducer);
 
   if (process.env.NODE_ENV === 'development') {
-    middleware.push(
-      logger,
-    );
+    middleware.push(logger);
   }
 
   const store = createStore(

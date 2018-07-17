@@ -6,14 +6,8 @@ import { HoodGeoJSON } from '@youhood/map/types';
 
 const log = debug('hood:effects');
 
-import {
-  getHoodPropsById,
-  getHoodIdSelected,
-} from '../selectors';
-import {
-  getHoodId,
-  bindTooltip,
-} from '../utils';
+import { getHoodPropsById, getHoodIdSelected } from '../selectors';
+import { getHoodId, bindTooltip } from '../utils';
 import { PolygonLeaflet, HoodId } from '../types';
 import styleFn from '../style';
 
@@ -27,17 +21,18 @@ export const LAYER_ADD = 'layeradd';
   payload: L.LeafletEvent;
 } */
 
-export const createLayerChannel = (layerGroup: HoodGeoJSON) => eventChannel((emit: any) => {
-  const onLayerAdd = (layer: L.LeafletEvent) => {
-    emit({ type: LAYER_ADD, payload: layer });
-  };
+export const createLayerChannel = (layerGroup: HoodGeoJSON) =>
+  eventChannel((emit: any) => {
+    const onLayerAdd = (layer: L.LeafletEvent) => {
+      emit({ type: LAYER_ADD, payload: layer });
+    };
 
-  layerGroup.on('layeradd', onLayerAdd);
+    layerGroup.on('layeradd', onLayerAdd);
 
-  return () => {
-    layerGroup.off('layeradd', onLayerAdd);
-  };
-});
+    return () => {
+      layerGroup.off('layeradd', onLayerAdd);
+    };
+  });
 
 export function* onLayerEvent(event: any) {
   const { type, payload } = event;
@@ -93,22 +88,23 @@ export function* startHoodEvents(hood: PolygonLeaflet, id: HoodId = '') {
   }
 }
 
-const createHoodChannel = (hood: PolygonLeaflet, name: string = '') => eventChannel((emit) => {
-  const onMouseOver = () => {
-    emit({ type: HOOD_MOUSE_OVER });
-  };
+const createHoodChannel = (hood: PolygonLeaflet, name: string = '') =>
+  eventChannel((emit) => {
+    const onMouseOver = () => {
+      emit({ type: HOOD_MOUSE_OVER });
+    };
 
-  const onMouseOut = () => {
-    emit({ type: HOOD_MOUSE_OUT });
-  };
+    const onMouseOut = () => {
+      emit({ type: HOOD_MOUSE_OUT });
+    };
 
-  hood.on('mouseover', onMouseOver);
-  hood.on('mouseout', onMouseOut);
-  bindTooltip(hood, name);
+    hood.on('mouseover', onMouseOver);
+    hood.on('mouseout', onMouseOut);
+    bindTooltip(hood, name);
 
-  return () => {
-    hood.off(HOOD_MOUSE_OVER, onMouseOver);
-    hood.off(HOOD_MOUSE_OUT, onMouseOut);
-    hood.unbindTooltip();
-  };
-});
+    return () => {
+      hood.off(HOOD_MOUSE_OVER, onMouseOver);
+      hood.off(HOOD_MOUSE_OUT, onMouseOut);
+      hood.unbindTooltip();
+    };
+  });

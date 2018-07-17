@@ -9,6 +9,9 @@ PROD_DIR?=/srv/youhood
 SERVER?=youhood.io
 BRANCH?=master
 
+prettier:
+	$(BIN)/prettier --write "{packages,server/web}/**/*.{js,ts}"
+
 dev:
 	$(BIN)/webpack --config "webpack/dev.js" --watch
 .PHONY: dev
