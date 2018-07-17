@@ -1,13 +1,6 @@
 import reducers from './reducers';
-import * as actionTypes from './action-types';
-import * as actionCreators from './action-creators';
+import * as actions from './actions';
 import * as selectors from './selectors';
 import * as utils from './utils';
 
-export {
-  reducers,
-  actionTypes,
-  actionCreators,
-  selectors,
-  utils,
-};
+export { reducers, actions, selectors, utils };

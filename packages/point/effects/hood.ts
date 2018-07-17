@@ -7,7 +7,7 @@ const { getHoodId } = utils;
 import { selectors } from '@youhood/user';
 const { getCurrentUserId } = selectors;
 
-import { addPoints } from '../action-creators';
+import { addPoints } from '../actions';
 import pointMap from '../point-map';
 import { findDuplicatePoint } from '../selectors';
 

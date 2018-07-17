@@ -1,12 +1,12 @@
 import { actions } from '@youhood/hood';
 const { afterSaveHood } = actions;
-import { actionTypes as voteActionTypes } from '@youhood/vote';
-const { VOTE, UNVOTE } = voteActionTypes;
+import { actions as voteActions } from '@youhood/vote';
+const { vote, unvote } = voteActions;
 
 import { PointMap } from './types';
 
 export default <PointMap>{
   [`${afterSaveHood}`]: 10,
-  [VOTE]: 1,
-  [UNVOTE]: -1,
+  [`${vote}`]: 1,
+  [`${unvote}`]: -1,
 };

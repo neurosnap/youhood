@@ -2,10 +2,10 @@ import { call, put } from 'redux-saga/effects';
 import { genTester, yields, skip } from 'gen-tester';
 
 import apiFetch from '@youhood/fetch';
-import { actionCreators } from '@youhood/menu';
-const { hideMenu, showMenu } = actionCreators;
-import { actionCreators as userActionCreators } from '@youhood/user';
-const { addUsers } = userActionCreators;
+import { actions } from '@youhood/menu';
+const { hideMenu, showMenu } = actions;
+import { actions as userActions } from '@youhood/user';
+const { addUsers } = userActions;
 
 import {
   transformUser,

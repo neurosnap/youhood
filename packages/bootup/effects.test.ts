@@ -1,8 +1,8 @@
 import { genTester } from 'gen-tester';
 import { put } from 'redux-saga/effects';
 
-import { actionCreators, effects } from './index';
-const { webBootupComplete } = actionCreators;
+import { actions, effects } from './index';
+const { webBootupComplete } = actions;
 
 describe('onBootup', () => {
   it('should call actions', () => {

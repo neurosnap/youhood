@@ -1,12 +1,8 @@
 import { genTester, yields, skip } from 'gen-tester';
 import { put, call, select } from 'redux-saga/effects';
 
-import {
-  actionCreators as userActionCreators,
-  utils,
-  selectors,
-} from '@youhood/user';
-const { addUsers, setUser } = userActionCreators;
+import { actions as userActions, utils, selectors } from '@youhood/user';
+const { addUsers, setUser } = userActions;
 const { createUser } = utils;
 const { getCurrentUser } = selectors;
 

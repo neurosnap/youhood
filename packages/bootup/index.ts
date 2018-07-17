@@ -1,20 +1,12 @@
 import { put, takeEvery } from 'redux-saga/effects';
 
-import { typeCreator } from '@youhood/shared';
+import { creator } from '@youhood/shared';
 
-// action-types
-const { WEB_BOOTUP, WEB_BOOTUP_COMPLETE } = typeCreator;
+// actions
+const webBootup = creator('WEB_BOOTUP');
+const webBootupComplete = creator('WEB_BOOTUP_COMPLETE');
 
-const actionTypes = {
-  WEB_BOOTUP,
-  WEB_BOOTUP_COMPLETE,
-};
-
-// action-creators
-const webBootup = () => ({ type: WEB_BOOTUP });
-const webBootupComplete = () => ({ type: WEB_BOOTUP_COMPLETE });
-
-const actionCreators = {
+const actions = {
   webBootup,
   webBootupComplete,
 };
@@ -30,16 +22,11 @@ const effects = {
 
 // sagas
 function* bootupSaga() {
-  yield takeEvery(WEB_BOOTUP, onBootup);
+  yield takeEvery(`${webBootup}`, onBootup);
 }
 
 const sagas = {
   bootupSaga,
 };
 
-export {
-  actionTypes,
-  actionCreators,
-  sagas,
-  effects,
-};
+export { actions, sagas, effects };

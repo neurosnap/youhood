@@ -4,10 +4,10 @@ import { actions as authActions } from '@youhood/auth';
 const { signedIn } = authActions;
 import { actions } from '@youhood/hood';
 const { afterSaveHood } = actions;
-import { actionTypes as voteActionTypes } from '@youhood/vote';
-const { VOTE, UNVOTE } = voteActionTypes;
+import { actions as voteActions } from '@youhood/vote';
+const { vote, unvote } = voteActions;
 
-import { FETCH_POINTS_BY_USER } from './action-types';
+import { fetchPointsByUser } from './actions';
 import {
   hoodCreated,
   userVoted,
@@ -21,11 +21,11 @@ export function* afterHoodSavedSaga() {
 }
 
 export function* userVotedSaga() {
-  yield takeEvery(VOTE, userVoted);
+  yield takeEvery(`${vote}`, userVoted);
 }
 
 export function* userUnvotedSaga() {
-  yield takeEvery(UNVOTE, userUnvoted);
+  yield takeEvery(`${unvote}`, userUnvoted);
 }
 
 export function* signedInSaga() {
@@ -33,5 +33,5 @@ export function* signedInSaga() {
 }
 
 export function* fetchPointsByUserSaga() {
-  yield takeEvery(FETCH_POINTS_BY_USER, onFetchPointsByUser);
+  yield takeEvery(`${fetchPointsByUser}`, onFetchPointsByUser);
 }

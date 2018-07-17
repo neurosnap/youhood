@@ -11,8 +11,8 @@ import {
 import { actions, utils } from '@youhood/hood';
 const { addHoods, addHoodUIProps } = actions;
 const { getHoodId, getHoodUIPropsMapFromHoods } = utils;
-import { actionCreators as userActionCreators } from '@youhood/user';
-const { addUsers } = userActionCreators;
+import { actions as userActions } from '@youhood/user';
+const { addUsers } = userActions;
 import { Users } from '@youhood/user/types';
 
 const GOT_HOODS = 'got-hoods';

@@ -1,10 +1,10 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 
-import { actionCreators } from '@youhood/user';
+import { actions } from '@youhood/user';
 import { User } from '@youhood/user/types';
-const { addUsers, setUser, resetUser } = actionCreators;
-import { actionCreators as pointActionCreators } from '@youhood/point';
-const { resetPoints } = pointActionCreators;
+const { addUsers, setUser, resetUser } = actions;
+import { actions as pointActions } from '@youhood/point';
+const { resetPoints } = pointActions;
 
 import { Token, AuthError, AuthAction } from './types';
 import {

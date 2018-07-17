@@ -12,10 +12,10 @@ import { selectors as userSelectors } from '@youhood/user';
 const { getUserById, getCurrentUserId } = userSelectors;
 import {
   selectors as voteSelectors,
-  actionCreators as voteActionCreators,
+  actions as voteActions,
 } from '@youhood/vote';
 const { getVoteCountByHood, didUserVoteOnHood } = voteSelectors;
-const { vote, unvote } = voteActionCreators;
+const { vote, unvote } = voteActions;
 import { selectors as authSelectors } from '@youhood/auth';
 const { isUserAuthenticated } = authSelectors;
 import { State } from '@youhood/web-app/types';

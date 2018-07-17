@@ -2,11 +2,11 @@ import { put, select, call } from 'redux-saga/effects';
 
 import { HoodMap } from '@youhood/map/types';
 import {
-  actionCreators as userActionCreators,
+  actions as userActions,
   utils as userUtils,
   selectors,
 } from '@youhood/user';
-const { addUsers, setUser } = userActionCreators;
+const { addUsers, setUser } = userActions;
 const { createUser } = userUtils;
 const { getCurrentUser } = selectors;
 

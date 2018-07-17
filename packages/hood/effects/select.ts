@@ -1,10 +1,10 @@
 import { put, call, select } from 'redux-saga/effects';
 
 import { HoodMap } from '@youhood/map/types';
-import { actionCreators } from '@youhood/menu';
-const { showMenu, hideMenu } = actionCreators;
-import { actionCreators as userActionCreators } from '@youhood/user';
-const { addUsers } = userActionCreators;
+import { actions } from '@youhood/menu';
+const { showMenu, hideMenu } = actions;
+import { actions as userActions } from '@youhood/user';
+const { addUsers } = userActions;
 import { User, RawUser } from '@youhood/user/types';
 import apiFetch from '@youhood/fetch';
 

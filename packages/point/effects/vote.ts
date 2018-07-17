@@ -1,10 +1,10 @@
 import { put, select, fork } from 'redux-saga/effects';
 
-import { actionTypes as voteActionTypes } from '@youhood/vote';
-const { VOTE, UNVOTE } = voteActionTypes;
+import { actions as voteActions } from '@youhood/vote';
+const { vote, unvote } = voteActions;
 import { VoteAction } from '@youhood/vote/types';
 
-import { addPoints } from '../action-creators';
+import { addPoints } from '../actions';
 import pointMap from '../point-map';
 import { findDuplicatePoint } from '../selectors';
 
@@ -13,12 +13,15 @@ import { submitPoints } from './submit';
 export function* userVoted(action: VoteAction) {
   const { userId, hoodId } = action.payload;
   const point = {
-    value: pointMap[VOTE],
-    reason: VOTE,
+    value: pointMap[`${vote}`],
+    reason: `${vote}`,
     hoodId,
   };
 
-  const foundDuplicatePoint = yield select(findDuplicatePoint, { hoodId, reason: point.reason });
+  const foundDuplicatePoint = yield select(findDuplicatePoint, {
+    hoodId,
+    reason: point.reason,
+  });
   if (foundDuplicatePoint >= 0) {
     return;
   }
@@ -30,12 +33,15 @@ export function* userVoted(action: VoteAction) {
 export function* userUnvoted(action: VoteAction) {
   const { userId, hoodId } = action.payload;
   const point = {
-    value: pointMap[UNVOTE],
-    reason: UNVOTE,
+    value: pointMap[`${unvote}`],
+    reason: `${unvote}`,
     hoodId,
   };
 
-  const foundDuplicatePoint = yield select(findDuplicatePoint, { hoodId, reason: point.reason });
+  const foundDuplicatePoint = yield select(findDuplicatePoint, {
+    hoodId,
+    reason: point.reason,
+  });
   if (foundDuplicatePoint >= 0) {
     return;
   }

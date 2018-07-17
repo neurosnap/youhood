@@ -10,8 +10,8 @@ const { getHoodId } = utils;
 const { getIsEditing } = hoodSelectors;
 import { Hood, Hoods } from '@youhood/hood/types';
 
-import { actionCreators as menuActionCreators } from '@youhood/menu';
-const { showMenu } = menuActionCreators;
+import { actions as menuActions } from '@youhood/menu';
+const { showMenu } = menuActions;
 
 import { HoodMap } from './types';
 
