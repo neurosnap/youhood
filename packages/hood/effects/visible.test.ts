@@ -9,7 +9,7 @@ import {
   onShowHoods,
   onHideHoods,
 } from './visible';
-import { setHoodUIProps } from '../action-creators';
+import { setHoodUIProps } from '../actions';
 import { mockHoodMap } from '../mock';
 
 const hoodMap = mockHoodMap({ onlyGeoJSON: true });
@@ -45,10 +45,12 @@ describe('onShowAllHoods', () => {
     const tester = genTester(onShowAllHoods, hoodMap);
     const { actual, expected } = tester(
       skip(hoodIds),
-      put(setHoodUIProps({
-        1: { visible: true },
-        2: { visible: true },
-      })),
+      put(
+        setHoodUIProps({
+          1: { visible: true },
+          2: { visible: true },
+        }),
+      ),
       call(setHoodDisplay, {
         hoodGeoJSON: hoodMap.hoodGeoJSON,
         hoodIds,
@@ -66,10 +68,12 @@ describe('onShowHoods', () => {
 
     const tester = genTester(onShowHoods, hoodMap, { payload: hoodIds });
     const { actual, expected } = tester(
-      put(setHoodUIProps({
-        1: { visible: true },
-        2: { visible: true },
-      })),
+      put(
+        setHoodUIProps({
+          1: { visible: true },
+          2: { visible: true },
+        }),
+      ),
       call(setHoodDisplay, {
         hoodGeoJSON: hoodMap.hoodGeoJSON,
         hoodIds,
@@ -87,10 +91,12 @@ describe('onHideHoods', () => {
 
     const tester = genTester(onHideHoods, hoodMap, { payload: hoodIds });
     const { actual, expected } = tester(
-      put(setHoodUIProps({
-        1: { visible: false },
-        2: { visible: false },
-      })),
+      put(
+        setHoodUIProps({
+          1: { visible: false },
+          2: { visible: false },
+        }),
+      ),
       call(setHoodDisplay, {
         hoodGeoJSON: hoodMap.hoodGeoJSON,
         hoodIds,

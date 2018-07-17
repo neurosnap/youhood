@@ -8,9 +8,9 @@ import {
   SetHoodNamePayload,
   EditHoodPayload,
 } from '@youhood/hood/types';
-import { selectors, actionCreators, utils } from '@youhood/hood';
+import { selectors, actions, utils } from '@youhood/hood';
 const { getHoodSelected } = selectors;
-const { setHoodName, editHood, saveHood } = actionCreators;
+const { setHoodName, editHood, saveHood } = actions;
 const { createHood } = utils;
 
 import {

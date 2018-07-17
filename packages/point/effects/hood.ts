@@ -1,13 +1,13 @@
 import { put, select, fork } from 'redux-saga/effects';
 
 import { Hoods } from '@youhood/hood/types';
-import { actionTypes, utils } from '@youhood/hood';
-const { AFTER_SAVE_HOOD } = actionTypes;
+import { actions, utils } from '@youhood/hood';
+const { afterSaveHood } = actions;
 const { getHoodId } = utils;
 import { selectors } from '@youhood/user';
 const { getCurrentUserId } = selectors;
 
-import { addPoints } from '../action-creators';
+import { addPoints } from '../actions';
 import pointMap from '../point-map';
 import { findDuplicatePoint } from '../selectors';
 
@@ -21,8 +21,8 @@ interface HoodsAction {
 export function* hoodCreated(action: HoodsAction) {
   const hoodId = getHoodId(action.payload[0]);
   const point = {
-    value: pointMap[AFTER_SAVE_HOOD],
-    reason: AFTER_SAVE_HOOD,
+    value: pointMap[`${afterSaveHood}`],
+    reason: `${afterSaveHood}`,
     hoodId,
   };
 

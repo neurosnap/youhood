@@ -1,13 +1,13 @@
 import { takeEvery } from 'redux-saga/effects';
 
-import { actionTypes as authActionTypes } from '@youhood/auth';
-const { SIGNED_IN } = authActionTypes;
-import { actionTypes } from '@youhood/hood';
-const { AFTER_SAVE_HOOD } = actionTypes;
-import { actionTypes as voteActionTypes } from '@youhood/vote';
-const { VOTE, UNVOTE } = voteActionTypes;
+import { actions as authActions } from '@youhood/auth';
+const { signedIn } = authActions;
+import { actions } from '@youhood/hood';
+const { afterSaveHood } = actions;
+import { actions as voteActions } from '@youhood/vote';
+const { vote, unvote } = voteActions;
 
-import { FETCH_POINTS_BY_USER } from './action-types';
+import { fetchPointsByUser } from './actions';
 import {
   hoodCreated,
   userVoted,
@@ -17,21 +17,21 @@ import {
 } from './effects';
 
 export function* afterHoodSavedSaga() {
-  yield takeEvery(AFTER_SAVE_HOOD, hoodCreated);
+  yield takeEvery(`${afterSaveHood}`, hoodCreated);
 }
 
 export function* userVotedSaga() {
-  yield takeEvery(VOTE, userVoted);
+  yield takeEvery(`${vote}`, userVoted);
 }
 
 export function* userUnvotedSaga() {
-  yield takeEvery(UNVOTE, userUnvoted);
+  yield takeEvery(`${unvote}`, userUnvoted);
 }
 
 export function* signedInSaga() {
-  yield takeEvery(SIGNED_IN, onSignedIn);
+  yield takeEvery(`${signedIn}`, onSignedIn);
 }
 
 export function* fetchPointsByUserSaga() {
-  yield takeEvery(FETCH_POINTS_BY_USER, onFetchPointsByUser);
+  yield takeEvery(`${fetchPointsByUser}`, onFetchPointsByUser);
 }

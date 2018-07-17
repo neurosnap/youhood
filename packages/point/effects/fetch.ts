@@ -3,10 +3,7 @@ import { put, call } from 'redux-saga/effects';
 import { HoodId } from '@youhood/hood/types';
 import apiFetch from '@youhood/fetch';
 
-import {
-  addPoints,
-  resetPoints,
-} from '../action-creators';
+import { addPoints, resetPoints } from '../actions';
 import pointMap from '../point-map';
 import { FetchPointsByUserAction } from '../types';
 

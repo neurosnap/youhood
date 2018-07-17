@@ -1,7 +1,7 @@
 import { put } from 'redux-saga/effects';
 import { genTester, skip } from 'gen-tester';
 
-import { setEdit } from '../action-creators';
+import { setEdit } from '../actions';
 import { mockHoodMap } from '../mock';
 import { onEditHood } from './edit';
 

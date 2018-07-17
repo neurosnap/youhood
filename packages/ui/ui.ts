@@ -186,7 +186,7 @@ export const SigninMsgBase = styled.div`
 export const ErrorText = SigninMsgBase.extend`
   color: #721c24;
   background-color: #f8d7da;
-  font-size: 0.4rem;
+  font-size: 0.8rem;
   padding: 0 0.5rem;
   width: 100%;
   display: flex;

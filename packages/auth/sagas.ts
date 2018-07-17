@@ -1,14 +1,22 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 
-import { actionCreators } from '@youhood/user';
+import { actions } from '@youhood/user';
 import { User } from '@youhood/user/types';
-const { addUsers, setUser, resetUser } = actionCreators;
-import { actionCreators as pointActionCreators } from '@youhood/point';
-const { resetPoints } = pointActionCreators;
+const { addUsers, setUser, resetUser } = actions;
+import { actions as pointActions } from '@youhood/point';
+const { resetPoints } = pointActions;
 
 import { Token, AuthError, AuthAction } from './types';
-import { SIGN_IN, SIGN_OUT, REGISTER } from './action-types';
-import { setToken, authError, resetToken, signedIn, signedOut } from './action-creators';
+import {
+  setToken,
+  authError,
+  resetToken,
+  signIn,
+  signedIn,
+  signOut,
+  signedOut,
+  register,
+} from './actions';
 
 interface SuccessJSON {
   user: User;
@@ -77,13 +85,13 @@ function* onRegister(action: AuthAction) {
 }
 
 export function* registerSaga() {
-  yield takeEvery(REGISTER, onRegister);
+  yield takeEvery(`${register}`, onRegister);
 }
 
 export function* signInSaga() {
-  yield takeEvery(SIGN_IN, onSignIn);
+  yield takeEvery(`${signIn}`, onSignIn);
 }
 
 export function* signOutSaga() {
-  yield takeEvery(SIGN_OUT, onSignOut);
+  yield takeEvery(`${signOut}`, onSignOut);
 }

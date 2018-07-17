@@ -3,8 +3,8 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { actionCreators, selectors as authSelectors } from '@youhood/auth';
-const { signIn, register } = actionCreators;
+import { actions, selectors as authSelectors } from '@youhood/auth';
+const { signIn, register } = actions;
 const { getAuthError } = authSelectors;
 import { selectors } from '@youhood/user';
 const { getCurrentUserId } = selectors;

@@ -1,10 +1,10 @@
 import { put, call, select } from 'redux-saga/effects';
 
 import { HoodMap } from '@youhood/map/types';
-import { actionCreators } from '@youhood/menu';
-const { showMenu, hideMenu } = actionCreators;
-import { actionCreators as userActionCreators } from '@youhood/user';
-const { addUsers } = userActionCreators;
+import { actions } from '@youhood/menu';
+const { showMenu, hideMenu } = actions;
+import { actions as userActions } from '@youhood/user';
+const { addUsers } = userActions;
 import { User, RawUser } from '@youhood/user/types';
 import apiFetch from '@youhood/fetch';
 
@@ -16,10 +16,7 @@ import {
   PolygonLeaflet,
   ToggleHoodSelectedAction,
 } from '../types';
-import {
-  deselectHood,
-  selectHood,
-} from '../action-creators';
+import { deselectHood, selectHood } from '../actions';
 
 export function onDeselectHood({ hoodGeoJSON }: HoodMap) {
   hoodGeoJSON.eachLayer((hood: PolygonLeaflet) => {
@@ -57,7 +54,10 @@ export function* onSelectHood(hoodMap: HoodMap, action: HoodSelectedAction) {
   yield put(addUsers([user]));
 }
 
-export function* toggleHoodSelected(hoodMap: HoodMap, action: ToggleHoodSelectedAction) {
+export function* toggleHoodSelected(
+  hoodMap: HoodMap,
+  action: ToggleHoodSelectedAction,
+) {
   const hoodId = action.payload;
   const hoodIdSelected = yield select(getHoodIdSelected);
 

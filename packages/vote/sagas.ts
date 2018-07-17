@@ -1,13 +1,9 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 
-import { actionTypes } from '@youhood/hood';
-const { SET_HOODS_ON_POINT } = actionTypes;
+import { actions } from '@youhood/hood';
+const { setHoodsOnPoint } = actions;
 
-import {
-  addVotes,
-  removeVotes,
-} from './action-creators';
-import { VOTE, UNVOTE } from './action-types';
+import { addVotes, removeVotes, vote, unvote } from './actions';
 import { FetchVotesByHoodAction, VoteAction } from './types';
 
 function* onFetchVotes(action: FetchVotesByHoodAction) {
@@ -23,7 +19,7 @@ function* onFetchVotes(action: FetchVotesByHoodAction) {
 }
 
 export function* fetchVoteSaga() {
-  yield takeEvery(SET_HOODS_ON_POINT, onFetchVotes);
+  yield takeEvery(`${setHoodsOnPoint}`, onFetchVotes);
 }
 
 function* onVote(action: VoteAction) {
@@ -42,7 +38,7 @@ function* onVote(action: VoteAction) {
 }
 
 export function* voteSaga() {
-  yield takeEvery(VOTE, onVote);
+  yield takeEvery(`${vote}`, onVote);
 }
 
 function* onUnvote(action: VoteAction) {
@@ -57,5 +53,5 @@ function* onUnvote(action: VoteAction) {
 }
 
 export function* unvoteSaga() {
-  yield takeEvery(UNVOTE, onUnvote);
+  yield takeEvery(`${unvote}`, onUnvote);
 }

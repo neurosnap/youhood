@@ -1,27 +1,14 @@
 import { genTester, yields, skip } from 'gen-tester';
 import { put, call, select } from 'redux-saga/effects';
 
-import { actionCreators as userActionCreators, utils, selectors } from '@youhood/user';
-const { addUsers, setUser } = userActionCreators;
+import { actions as userActions, utils, selectors } from '@youhood/user';
+const { addUsers, setUser } = userActions;
 const { createUser } = utils;
 const { getCurrentUser } = selectors;
 
-import {
-  setEdit,
-  addHoodUIProps,
-  userAddHoods,
-  selectHood,
-} from '../action-creators';
-import {
-  createHood,
-  createHoodUI,
-} from '../utils';
-import {
-  mockHood,
-  mockHoodMap,
-  cleanupHoodMap,
-  mockLayer,
-} from '../mock';
+import { setEdit, addHoodUIProps, userAddHoods, selectHood } from '../actions';
+import { createHood, createHoodUI } from '../utils';
+import { mockHood, mockHoodMap, cleanupHoodMap, mockLayer } from '../mock';
 
 import { onHoodCreated } from './create';
 
@@ -47,16 +34,10 @@ describe('onHoodCreated', () => {
       const { actual, expected } = tester(
         put(setEdit(false)),
         skip(),
-        yields(
-          call(createUser),
-          user,
-        ),
+        yields(call(createUser), user),
         put(addUsers([user])),
         put(setUser(user.id)),
-        yields(
-          call(createHood, { userId: user.id }),
-          hood.properties,
-        ),
+        yields(call(createHood, { userId: user.id }), hood.properties),
         put(addHoodUIProps({ [hoodId]: uiProps })),
         put(userAddHoods([hood])),
         put(selectHood(hoodId)),
