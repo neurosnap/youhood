@@ -1,4 +1,4 @@
-FROM node:9.11.1
+FROM node:9.11.2-slim
 ADD . /srv
 WORKDIR /srv
 RUN yarn
