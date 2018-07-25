@@ -7,7 +7,8 @@
   "npmClient": "yarn",
   "scripts": {
     "test": "make test",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "machine-import": "machine-import"
   },
   "repository": {
     "type": "git",
@@ -24,7 +25,7 @@
   "resolutions": {
     "@types/react": "16.3.9"
   },
-  "dependencies": {
+  "devDependencies": {
     "@mapbox/leaflet-pip": "^1.1.0",
     "@types/debug": "^0.0.30",
     "@types/enzyme": "^3.1.10",
@@ -43,17 +44,10 @@
     "@types/websocket": "0.0.38",
     "@types/ws": "4.0.2",
     "awesome-typescript-loader": "^5.0.0",
-    "bcrypt": "2.0.0",
-    "body-parser": "1.18.2",
-    "date-fns": "^1.29.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "express": "4.16.3",
-    "express-promise-router": "3.0.2",
-    "express-session": "^1.15.6",
     "gen-tester": "^3.0.3",
     "husky": "^0.14.3",
-    "isemail": "^3.1.2",
     "jest": "^22.4.3",
     "jest-environment-enzyme": "^6.0.0",
     "jest-enzyme": "^6.0.0",
@@ -61,7 +55,6 @@
     "leaflet": "1.2.0",
     "leaflet-draw": "1.0.2",
     "lint-staged": "^7.2.0",
-    "pg": "7.4.1",
     "prettier": "^1.13.7",
     "react": "16.3.2",
     "react-dom": "16.3.2",
@@ -82,10 +75,21 @@
     "tslint-no-circular-imports": "0.3.0",
     "typescript": "2.8.3",
     "uglifyjs-webpack-plugin": "^1.2.7",
-    "uuid": "3.2.1",
     "webpack": "4.6.0",
     "webpack-cli": "^2.0.14",
-    "webpack-merge": "^4.1.2",
+    "webpack-merge": "^4.1.2"
+  },
+  "dependencies": {
+    "bcrypt": "2.0.0",
+    "body-parser": "1.18.2",
+    "date-fns": "^1.29.0",
+    "debug": "^3.1.0",
+    "express": "4.16.3",
+    "express-promise-router": "3.0.2",
+    "express-session": "^1.15.6",
+    "isemail": "^3.1.2",
+    "pg": "7.4.1",
+    "uuid": "3.2.1",
     "whatwg-fetch": "^2.0.4",
     "ws": "5.1.1"
   }

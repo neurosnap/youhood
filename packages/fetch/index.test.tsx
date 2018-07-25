@@ -6,7 +6,7 @@ import apiFetch from '.';
 describe('apiFetch', () => {
   describe('request was successful', () => {
     it('should finish', () => {
-      const url = '/some/query';
+      const url = 'https://api.youhood.io/some/query';
       const opts = {
         auth: false,
         method: 'POST',
@@ -29,7 +29,7 @@ describe('apiFetch', () => {
         yields(call(fetch, url, optsNoAuth), res),
         yields(call([res, 'json']), json),
         { status: 200, body: json },
-      )
+      );
 
       expect(actual).toEqual(expected);
     });

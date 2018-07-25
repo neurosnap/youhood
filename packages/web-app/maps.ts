@@ -8,9 +8,9 @@ function getMap(doc = document): HTMLElement {
 }
 
 export function setupMap(): HoodMap {
-  const tileMapUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
+  const tileMapUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   const attribution =
-    '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
+    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
   const map = L.map(getMap(), { doubleClickZoom: false }).setView(
     [42.279594, -83.732124],
     13,

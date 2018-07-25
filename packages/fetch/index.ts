@@ -1,6 +1,7 @@
 import { call } from 'redux-saga/effects';
 
-const domain = '';
+const dev = process.env.NODE_ENV === 'development';
+export const domain = dev ? 'localhost:8080' : 'api.youhood.io';
 
 interface FetchOptions {
   auth?: boolean;
@@ -13,7 +14,7 @@ export default function*(uri: string, opts: ApiOpts = {}) {
   const options = { ...opts };
   delete options.auth;
 
-  const url = `${domain}${uri}`;
+  const url = `https://${domain}${uri}`;
 
   const res = yield call(fetch, url, options);
   const body = yield call([res, 'json']);

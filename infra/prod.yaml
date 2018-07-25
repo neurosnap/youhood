@@ -1,0 +1,36 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/app', '-f', 'infra/server/Dockerfile', '.']
+  waitFor: ['-']
+  id: 'app'
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/nginx', '-f', 'infra/nginx/Dockerfile', '.']
+  waitFor: ['-']
+  id: 'nginx'
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/db', '-f', 'infra/sql/Dockerfile', '.']
+  waitFor: ['-']
+  id: 'db'
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/app']
+  waitFor: ['app']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/nginx']
+  waitFor: ['nginx']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/db']
+  waitFor: ['db']
+- name: gcr.io/cloud-builders/gsutil
+  args: ['cp', 'gs://youhood/youhood-1.zip', 'youhood-1.zip']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'compose', '-f', 'infra/compose/Dockerfile', '.']
+- name: 'compose'
+  args: []
+  env:
+  - 'PROJECT_ID=$PROJECT_ID'
+  secretEnv: ['PGPASSWORD']
+images: ['gcr.io/$PROJECT_ID/app', 'gcr.io/$PROJECT_ID/nginx', 'gcr.io/$PROJECT_ID/db']
+secrets:
+- kmsKeyName: projects/youhood-192019/locations/global/keyRings/storage/cryptoKeys/youkey
+  secretEnv:
+    PGPASSWORD: CiQADz5/6fBbmuldeHe3gGs0GGBU41E5YfaOX6PO7MwtSeTRlTgSMQAHlPNf+N6j7yzh5qTmXR1vxbdIU4Yx93h15w+5sWlaWhmK6n6YE2Aw4y2g4xvFmD4=

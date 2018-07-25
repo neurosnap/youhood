@@ -5,9 +5,10 @@ PGHOST?="db"
 PGUSER?="postgres"
 PORT?="5432"
 # PROD
-PROD_DIR?=/srv/youhood
-SERVER?=youhood.io
+SERVER?=35.231.217.200
 BRANCH?=master
+PROJECT_ID?=youhood-192019
+DOCKER_MACHINE?=youhood-1
 
 prettier:
 	$(BIN)/prettier --write "{packages,server/web}/**/*.{js,ts}"
@@ -61,28 +62,36 @@ open:
 	open http://localhost:8080/index
 .PHONY: open
 
-setup: permissions provision start
+setup: provision deploy
 .PHONY: setup
 
-permissions:
-	ssh $(EC2_USER)@$(SERVER) 'sudo chown $(EC2_USER):ubuntu $(PROD_DIR)'
-.PHONY: permissions
+init:
+	gcloud auth configure-docker
+.PHONY: init
 
 provision:
-	ssh $(EC2_USER)@$(SERVER) 'cd $(PROD_DIR) && bash -s' < provision.sh
+	docker-machine create \
+		--driver google \
+		--google-project $(PROJECT_ID) \
+		--google-machine-type f1-micro \
+		--google-address $(SERVER) \
+		--google-zone us-east1-b \
+		--google-tags http-server,https-server \
+		$(DOCKER_MACHINE)
+	docker-machine ssh $(DOCKER_MACHINE) 'bash -s' < provision.sh
 .PHONY: provision
 
-start:
-	ssh $(EC2_USER)@$(SERVER) 'cd $(PROD_DIR) && BRANCH=$(BRANCH) PGPASSWORD=$(PGPASSWORD) bash -s' < ./deploy.sh
-.PHONY: start
-
-deploy: start
+deploy:
+	# BE SURE TO SET CORRECT DOCKER ENVIRONMENT
+	# eval (docker-machine env youhood-1)
+	docker-compose -f production.yml pull --ignore-pull-failures
+	docker-compose -f production.yml up --no-deps -d
 .PHONY: deploy
 
 logs:
-	ssh $(EC2_USER)@$(SERVER) 'cd $(PROD_DIR) && docker-compose logs -f --tail="100"'
+	docker-compose -f production.yml logs -f --tail="100"'
 .PHONY: logs
 
 ssh:
-	ssh $(EC2_USER)@$(SERVER)
+	docker-machine ssh $(DOCKER_MACHINE)
 .PHONY: ssh
