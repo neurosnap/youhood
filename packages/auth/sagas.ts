@@ -1,5 +1,6 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 
+import apiFetch from '@youhood/fetch';
 import { actions } from '@youhood/user';
 import { User } from '@youhood/user/types';
 const { addUsers, setUser, resetUser } = actions;
@@ -28,7 +29,7 @@ interface FailureJSON {
 }
 
 function* onSignIn(action: AuthAction) {
-  const resp = yield call(fetch, '/auth/signin', {
+  const resp = yield call(apiFetch, '/auth/signin', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -60,7 +61,7 @@ function* onSignOut() {
 }
 
 function* onRegister(action: AuthAction) {
-  const resp = yield call(fetch, '/auth/register', {
+  const resp = yield call(apiFetch, '/auth/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

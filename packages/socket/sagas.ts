@@ -14,6 +14,7 @@ const { getHoodId, getHoodUIPropsMapFromHoods } = utils;
 import { actions as userActions } from '@youhood/user';
 const { addUsers } = userActions;
 import { Users } from '@youhood/user/types';
+import { domain } from '@youhood/fetch';
 
 const GOT_HOODS = 'got-hoods';
 const GOT_USERS = 'got-users';
@@ -40,8 +41,7 @@ const createSocketChannel = (socket: WebSocket) =>
   });
 
 export function* socketSaga(hoodMap: HoodMap) {
-  const domain = window.location.host;
-  const socket = new WebSocket(`ws://${domain}`);
+  const socket = new WebSocket(`wss://${domain}`);
   const channel = yield call(createSocketChannel, socket);
 
   while (true) {

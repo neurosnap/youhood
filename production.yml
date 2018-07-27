@@ -1,7 +1,7 @@
 version: "3"
 services:
   nginx:
-    build: ./nginx
+    image: gcr.io/${PROJECT_ID}/nginx:latest
     links:
       - app
     ports:
@@ -9,14 +9,14 @@ services:
       - "443:443"
     restart: always
   db:
-    build: ./sql
+    image: gcr.io/${PROJECT_ID}/db:latest
     environment:
       - POSTGRES_PASSWORD=${PGPASSWORD}
     restart: always
     volumes:
       - data:/var/lib/postgresql/data
   app:
-    build: .
+    image: gcr.io/${PROJECT_ID}/app:latest
     ports:
       - "8080:8080"
     links:

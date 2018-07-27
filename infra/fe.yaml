@@ -1,0 +1,19 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'youhood-fe:$REVISION_ID', '-f', 'infra/web/Dockerfile', '.']
+- name: 'youhood-fe:$REVISION_ID'
+  args: []
+  dir: '/srv'
+  volumes:
+  - name: 'vol'
+    path: '/srv'
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: ['cp', '-a', 'public-read', '/srv/public/*', 'gs://youhood.io/']
+  volumes:
+  - name: 'vol'
+    path: '/srv'
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: ['cp', '-a', 'public-read', '/srv/public/images/*', 'gs://youhood.io/images']
+  volumes:
+  - name: 'vol'
+    path: '/srv'

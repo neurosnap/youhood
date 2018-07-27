@@ -1,7 +1,8 @@
 version: "3"
 services:
   db:
-    build: ./sql
+    build: ./infra/sql
+    context: .
     environment:
       - POSTGRES_PASSWORD=${PGPASSWORD}
     ports:
