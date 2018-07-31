@@ -62,7 +62,7 @@ open:
 	open http://localhost:8080/index
 .PHONY: open
 
-setup: provision deploy
+setup: provision
 .PHONY: setup
 
 init:
@@ -77,8 +77,12 @@ provision:
 		--google-address $(SERVER) \
 		--google-zone us-east1-b \
 		--google-tags http-server,https-server \
+		--google-scopes https://www.googleapis.com/auth/devstorage.read_write,https://www.googleapis.com/auth/logging.write \
+		--google-username docker-user \
 		$(DOCKER_MACHINE)
 	docker-machine ssh $(DOCKER_MACHINE) 'bash -s' < provision.sh
+	$(BIN)/machine-export $(DOCKER_MACHINE)
+	gsutil cp $(DOCKER_MACHINE).zip gs://youhood
 .PHONY: provision
 
 deploy:
