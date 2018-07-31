@@ -55,6 +55,7 @@
     "leaflet": "1.2.0",
     "leaflet-draw": "1.0.2",
     "lint-staged": "^7.2.0",
+    "machine-share": "^0.1.2",
     "prettier": "^1.13.7",
     "react": "16.3.2",
     "react-dom": "16.3.2",
