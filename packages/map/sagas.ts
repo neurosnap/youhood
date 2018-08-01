@@ -39,11 +39,11 @@ const createMapChannel = ({ map, hoodGeoJSON }: HoodMap) =>
     };
 
     map.on('click', onMapClick);
-    map.on(L.Draw.Event.CREATED, onDrawCreated);
+    map.on((<any>L).Draw.Event.CREATED, onDrawCreated);
 
     return () => {
       map.off('click', onMapClick);
-      map.off(L.Draw.Event.CREATED, onDrawCreated);
+      map.off((<any>L).Draw.Event.CREATED, onDrawCreated);
     };
   });
 

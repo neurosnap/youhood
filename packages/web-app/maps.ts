@@ -20,7 +20,7 @@ export function setupMap(): HoodMap {
 
   const hoodGeoJSON: HoodGeoJSON = L.geoJSON(null).addTo(map);
 
-  const drawControl = new L.Control.Draw({
+  const drawControl = new (<any>L.Control).Draw({
     draw: {
       marker: false,
       rectangle: false,

@@ -14,7 +14,7 @@ export default function*(uri: string, opts: ApiOpts = {}) {
   const options = { ...opts };
   delete options.auth;
 
-  const url = `https://${domain}${uri}`;
+  const url = dev ? `http://${domain}${uri}` : `https://${domain}${uri}`;
 
   const res = yield call(fetch, url, options);
   const body = yield call([res, 'json']);

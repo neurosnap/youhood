@@ -40,8 +40,16 @@ const createSocketChannel = (socket: WebSocket) =>
     };
   });
 
+const getSocketUrl = () => {
+  if (process.env.NODE_ENV === 'development') {
+    return `ws://${domain}`;
+  }
+
+  return `wss://${domain}`;
+};
+
 export function* socketSaga(hoodMap: HoodMap) {
-  const socket = new WebSocket(`wss://${domain}`);
+  const socket = new WebSocket(getSocketUrl());
   const channel = yield call(createSocketChannel, socket);
 
   while (true) {

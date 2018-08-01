@@ -1,4 +1,5 @@
 import * as L from 'leaflet';
+import 'leaflet-draw';
 import { createHood } from './utils';
 
 import { HoodMap } from '@youhood/map/types';

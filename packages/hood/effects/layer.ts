@@ -1,6 +1,6 @@
 import { select, take, call, spawn } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
-import debug from 'debug';
+import * as debug from 'debug';
 
 import { HoodGeoJSON } from '@youhood/map/types';
 
