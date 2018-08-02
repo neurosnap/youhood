@@ -25,7 +25,8 @@ app.use('/hood', hoodRoutes);
 app.use('/point', pointRoutes);
 app.use('/user', userRoutes);
 
-const server = app.listen(8080, () => {
+const port = process.env.PORT || 8080;
+const server = app.listen(port, () => {
   console.log('Listening on %d', server.address().port);
 });
 

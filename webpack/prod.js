@@ -7,6 +7,15 @@ const common = require('./common');
 module.exports = merge(common, {
   mode: 'production',
   devtool: 'source-map',
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        loader: 'awesome-typescript-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
   plugins: [
     new webpack.LoaderOptionsPlugin({
       minimize: true,
@@ -36,5 +45,5 @@ module.exports = merge(common, {
         sourceMap: true,
       }),
     ],
-  }
+  },
 });

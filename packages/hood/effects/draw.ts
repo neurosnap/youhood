@@ -7,7 +7,7 @@ import { HoodMap } from '@youhood/map/types';
 import { setEdit, hoodCreated, cancelDrawHood } from '../actions';
 
 export function createPolygon({ map }: HoodMap) {
-  return new L.Draw.Polygon(map);
+  return new (<any>L).Draw.Polygon(map);
 }
 
 export function* onDrawHood(hoodMap: HoodMap) {

@@ -14,7 +14,7 @@ prettier:
 	$(BIN)/prettier --write "{packages,server/web}/**/*.{js,ts}"
 
 dev:
-	$(BIN)/webpack --config "webpack/dev.js" --watch
+	$(BIN)/webpack-dev-server --hot --config "webpack/dev.js"
 .PHONY: dev
 
 prod:
@@ -28,6 +28,7 @@ server:
 	PGDATABASE=$(PGDATABASE) \
 	PGPASSWORD="$(PGPASSWORD)" \
 	PGPORT=$(PORT) \
+	PORT=8080 \
 	node ./server/index.js
 .PHONY: server
 
@@ -80,7 +81,7 @@ provision:
 		--google-scopes https://www.googleapis.com/auth/devstorage.read_write,https://www.googleapis.com/auth/logging.write \
 		--google-username docker-user \
 		$(DOCKER_MACHINE)
-	docker-machine ssh $(DOCKER_MACHINE) 'bash -s' < provision.sh
+	docker-machine ssh $(DOCKER_MACHINE) 'bash -s' < ./infra/provision.sh
 	$(BIN)/machine-export $(DOCKER_MACHINE)
 	gsutil cp $(DOCKER_MACHINE).zip gs://youhood
 .PHONY: provision

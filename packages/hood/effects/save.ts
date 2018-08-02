@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects';
-import debug from 'debug';
+import * as debug from 'debug';
 
 import { HoodMap } from '@youhood/map/types';
 import apiFetch from '@youhood/fetch';
