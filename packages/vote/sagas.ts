@@ -15,7 +15,7 @@ function* onFetchVotes(action: FetchVotesByHoodAction) {
     },
   });
 
-  const data = yield resp.json();
+  const data = resp.body;
   yield put(addVotes(data.votes));
 }
 
@@ -34,7 +34,7 @@ function* onVote(action: VoteAction) {
 
   if (resp.status !== 200) return;
 
-  const data = yield resp.json();
+  const data = resp.body;
   yield put(addVotes(data.votes));
 }
 

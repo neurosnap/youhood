@@ -57,6 +57,10 @@ export function* socketSaga(hoodMap: HoodMap) {
     const { type, payload } = event;
     console.log(type, payload);
 
+    if (!payload) {
+      continue;
+    }
+
     switch (type) {
       case GOT_HOODS:
         yield spawn(gotHoods, payload, hoodMap);
