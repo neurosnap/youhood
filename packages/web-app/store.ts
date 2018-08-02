@@ -9,10 +9,13 @@ import {
 } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import * as debug from 'debug';
 
 import { HoodMap } from '@youhood/map/types';
 
 import { State } from './types';
+
+const log = debug('app:saga:error');
 
 interface Props {
   initState?: State;
@@ -33,7 +36,9 @@ export default function createState({
   rootReducer,
   rootSaga,
 }: Props): Store<State> {
-  const sagaMiddleware = createSagaMiddleware();
+  const sagaMiddleware = createSagaMiddleware({
+    onError: log,
+  });
   const middleware: Middleware[] = [sagaMiddleware];
   const persistedReducer = persistReducer(persistConfig, rootReducer);
 

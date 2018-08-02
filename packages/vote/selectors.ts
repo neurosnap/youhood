@@ -3,7 +3,7 @@ import { HoodId, HoodIds } from '@youhood/hood/types';
 import { selectors } from '@youhood/hood';
 const { getHoodIdsOnPoint } = selectors;
 
-import { VoteMap } from './types';
+import { VoteMap, NeighborhoodVotes, VoteTypes } from './types';
 
 type State = any;
 export const votes = 'votes';
@@ -20,16 +20,34 @@ type HoodAndUserInProp = HoodIdInProp & UserIdInProp;
 
 export const getVotes = (state: State) => state[votes];
 export const getVotesByHood = (state: State, { hoodId }: HoodIdInProp) =>
-  getVotes(state)[hoodId] || [];
+  getVotes(state)[hoodId] || {};
 export const didUserVoteOnHood = (
   state: State,
   { hoodId, userId }: HoodAndUserInProp,
 ) => {
   const votes = getVotesByHood(state, { hoodId });
-  return votes.indexOf(userId) >= 0;
+  return votes.hasOwnProperty(userId);
 };
-export const getVoteCountByHood = (state: State, { hoodId }: HoodIdInProp) =>
-  getVotesByHood(state, { hoodId }).length;
+export const getUserVoteTypeForHood = (
+  state: State,
+  { hoodId, userId }: HoodAndUserInProp,
+): VoteTypes => {
+  const votes = getVotesByHood(state, { hoodId });
+
+  if (!votes.hasOwnProperty(userId)) {
+    return;
+  }
+
+  return votes[userId];
+};
+const getUpvotes = (votes: NeighborhoodVotes) =>
+  Object.keys(votes).filter((userId) => votes[userId] === 'upvote');
+const getDownvotes = (votes: NeighborhoodVotes) =>
+  Object.keys(votes).filter((userId) => votes[userId] === 'downvote');
+export const getVoteCountByHood = (state: State, { hoodId }: HoodIdInProp) => {
+  const votes: NeighborhoodVotes = getVotesByHood(state, { hoodId });
+  return getUpvotes(votes).length - getDownvotes(votes).length;
+};
 export const getVoteCountByHoods = (
   state: State,
   { hoodIds = [] }: { hoodIds: HoodIds },

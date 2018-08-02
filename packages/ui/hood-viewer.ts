@@ -14,8 +14,13 @@ import {
   selectors as voteSelectors,
   actions as voteActions,
 } from '@youhood/vote';
-const { getVoteCountByHood, didUserVoteOnHood } = voteSelectors;
-const { vote, unvote } = voteActions;
+import { VoteTypes } from '@youhood/vote/types';
+const {
+  getVoteCountByHood,
+  didUserVoteOnHood,
+  getUserVoteTypeForHood,
+} = voteSelectors;
+const { upvote, downvote, unvote } = voteActions;
 import { selectors as authSelectors } from '@youhood/auth';
 const { isUserAuthenticated } = authSelectors;
 import { State } from '@youhood/web-app/types';
@@ -43,12 +48,14 @@ interface Props {
   currentUserId?: UserId;
   edit?: Function;
   handleUnvote?: Function;
-  handleVote?: Function;
+  handleUpvote?: Function;
+  handleDownvote?: Function;
   hood: HoodProps;
   hoodId: HoodId;
   user?: User;
   userVoted?: boolean;
   votes?: number;
+  userVoteType?: VoteTypes;
 }
 
 interface DefaultProps {
@@ -57,11 +64,13 @@ interface DefaultProps {
   currentUserId: UserId;
   edit: Function;
   handleUnvote: Function;
-  handleVote: Function;
+  handleUpvote: Function;
+  handleDownvote: Function;
   hood: HoodProps;
   user: User;
   userVoted: boolean;
   votes: number;
+  userVoteType: VoteTypes;
 }
 
 export class HoodViewer extends Component<Props> {
@@ -71,8 +80,10 @@ export class HoodViewer extends Component<Props> {
     currentUserId: '',
     edit: noop,
     handleUnvote: noop,
-    handleVote: noop,
+    handleUpvote: noop,
+    handleDownvote: noop,
     hood: createHood({ id: '123' }),
+    userVoteType: null,
     user: {
       email: 'Unknown',
       id: '',
@@ -97,8 +108,10 @@ export class HoodViewer extends Component<Props> {
       canEdit,
       votes,
       userVoted,
+      userVoteType,
       canUserVote,
-      handleVote,
+      handleUpvote,
+      handleDownvote,
       handleUnvote,
       currentUserId,
     } = this.props;
@@ -113,17 +126,33 @@ export class HoodViewer extends Component<Props> {
       );
     }
 
-    const VoteState = userVoted ? Voted : VoteUp;
-    const UserVoting = canUserVote
-      ? h(VoteState, {
+    const userUpvoted = userVoted && userVoteType === 'upvote';
+    const userDownvoted = userVoted && userVoteType === 'downvote';
+    const VoteUpState = userUpvoted ? Voted : VoteUp;
+    const VoteDownState = userDownvoted ? Voted : VoteUp;
+    const UserUpVoting = canUserVote
+      ? h(VoteUpState, {
           className: 'fa fa-angle-up',
           onClick: () => {
-            if (userVoted) {
-              handleUnvote(hoodId, currentUserId);
+            if (userUpvoted) {
+              handleUnvote(hoodId, currentUserId, 'upvote');
               return;
             }
 
-            handleVote(hoodId, currentUserId);
+            handleUpvote(hoodId, currentUserId);
+          },
+        })
+      : null;
+    const UserDownVoting = canUserVote
+      ? h(VoteDownState, {
+          className: 'fa fa-angle-down',
+          onClick: () => {
+            if (userDownvoted) {
+              handleUnvote(hoodId, currentUserId, 'downvote');
+              return;
+            }
+
+            handleDownvote(hoodId, currentUserId);
           },
         })
       : null;
@@ -132,7 +161,7 @@ export class HoodViewer extends Component<Props> {
     return h(OverlayContainer, [
       h(OverlayHeader, [h(Header, 'Hood Viewer'), h(Actions, actions)]),
       h(HoodContainer, [
-        h(Votes, [UserVoting, h(Header, votes)]),
+        h(Votes, [UserUpVoting, h(Header, votes), UserDownVoting]),
         h('div', { style: { width: '85%' } }, [
           h(HeaderSmall, hood.name),
           h(TextSmall, [h('div', 'User'), h('div', username)]),
@@ -167,16 +196,22 @@ export default connect(
       user: user || {},
       canEdit: didUserCreateHood,
       votes: getVoteCountByHood(state, { hoodId }),
-      userVoted: didUserVoteOnHood(state, { hoodId, userId }),
+      userVoted: didUserVoteOnHood(state, { hoodId, userId: currentUserId }),
+      userVoteType: getUserVoteTypeForHood(state, {
+        hoodId,
+        userId: currentUserId,
+      }),
       canUserVote,
       currentUserId,
     };
   },
   (dispatch: Function) => ({
     edit: (opts: EditHoodPayload) => dispatch(editHood(opts)),
-    handleVote: (hoodId: HoodId, userId: UserId) =>
-      dispatch(vote({ hoodId, userId })),
-    handleUnvote: (hoodId: HoodId, userId: UserId) =>
-      dispatch(unvote({ hoodId, userId })),
+    handleUpvote: (hoodId: HoodId, userId: UserId) =>
+      dispatch(upvote({ hoodId, userId })),
+    handleDownvote: (hoodId: HoodId, userId: UserId) =>
+      dispatch(downvote({ hoodId, userId })),
+    handleUnvote: (hoodId: HoodId, userId: UserId, voteType: VoteTypes) =>
+      dispatch(unvote({ hoodId, userId, voteType })),
   }),
 )(HoodViewer as any);

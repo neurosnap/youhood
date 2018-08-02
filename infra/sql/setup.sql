@@ -39,10 +39,13 @@ CREATE TABLE neighborhood (
 
 ALTER TABLE neighborhood OWNER TO postgres;
 
+CREATE TYPE vote_type AS ENUM ('upvote', 'downvote');
+
 CREATE TABLE vote (
     id bigserial NOT NULL,
     hood_user_id uuid NOT NULL,
     neighborhood_id uuid NOT NULL,
+    vote_type vote_type default 'upvote',
     created_at timestamp without time zone DEFAULT NOW(),
     CONSTRAINT vote_pkey PRIMARY KEY (id),
     CONSTRAINT fk_vote_neighborhood

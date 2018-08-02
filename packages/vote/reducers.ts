@@ -1,76 +1,51 @@
-import {
-  Votes,
-  VoteList,
-  AddVotesAction,
-  VoteAction,
-  VotePayload,
-} from './types';
+import { Votes, AddVotesAction, VoteAction, VoteTypes } from './types';
 
-import { addVotes, vote, removeVotes } from './actions';
+import { unvote, addVotes, upvote, downvote } from './actions';
 import * as selectors from './selectors';
+import { createReducer } from '@youhood/shared';
 
-const votes = (state: Votes = {}, action: AddVotesAction | VoteAction) => {
-  switch (action.type) {
-    case `${addVotes}`: {
-      const newVotes = <Votes>action.payload;
-      const nextState: Votes = {};
+function addVotesFn(state: Votes, action: AddVotesAction) {
+  const newVotes = action.payload;
+  Object.keys(newVotes).forEach((hoodId) => {
+    const hoodVotes = { ...state[hoodId], ...newVotes[hoodId] };
+    state[hoodId] = hoodVotes;
+  });
+}
 
-      Object.keys(newVotes).forEach((hoodId) => {
-        if (!state.hasOwnProperty(hoodId)) {
-          nextState[hoodId] = newVotes[hoodId];
-          return;
-        }
+const unvoteFn = (state: Votes, action: VoteAction) => {
+  const { hoodId, userId } = action.payload;
 
-        nextState[hoodId] = addVotesToList(newVotes[hoodId], state[hoodId]);
-      });
-
-      return nextState;
-    }
-
-    case `${removeVotes}`: {
-      const removeVotes = <Votes>action.payload;
-      const nextState: Votes = {};
-
-      Object.keys(removeVotes).forEach((hoodId) => {
-        if (!state.hasOwnProperty(hoodId)) {
-          return;
-        }
-
-        nextState[hoodId] = removeVotesFromList(
-          removeVotes[hoodId],
-          state[hoodId],
-        );
-      });
-
-      return nextState;
-    }
-
-    case `${vote}`: {
-      const { hoodId, userId } = <VotePayload>action.payload;
-      if (state.hasOwnProperty(hoodId)) {
-        if (state[hoodId].indexOf(userId) >= 0) {
-          return state;
-        }
-      }
-
-      state[hoodId] = [userId];
-    }
-
-    default:
-      return state;
+  if (!state[hoodId]) {
+    return;
   }
+
+  if (!state[hoodId][userId]) {
+    return;
+  }
+
+  delete state[hoodId][userId];
 };
+
+const voteFn = (voteType: VoteTypes) => (state: Votes, action: VoteAction) => {
+  const { hoodId, userId } = action.payload;
+
+  if (!state[hoodId]) {
+    state[hoodId] = {};
+  }
+
+  state[hoodId][userId] = voteType;
+};
+
+export const votes = createReducer<Votes>(
+  {},
+  {
+    [`${addVotes}`]: addVotesFn,
+    [`${upvote}`]: voteFn('upvote'),
+    [`${downvote}`]: voteFn('downvote'),
+    [`${unvote}`]: unvoteFn,
+  },
+);
 
 export default {
   [selectors.votes]: votes,
 };
-
-function addVotesToList(votes: VoteList, list: VoteList): VoteList {
-  return Array.from(new Set([...list, ...votes]));
-}
-
-function removeVotesFromList(votes: VoteList, list: VoteList): VoteList {
-  const setList = new Set(list);
-  votes.forEach((val: string) => setList.delete(val));
-  return Array.from(setList);
-}
