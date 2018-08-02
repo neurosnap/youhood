@@ -22,6 +22,5 @@ export function* submitPoints({ userId, hoodId, reason }: SubmitPoints) {
     }),
   });
 
-  const body = yield result.json();
-  console.log(body);
+  console.log(result.body);
 }

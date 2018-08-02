@@ -159,7 +159,7 @@ export default connect(
     const currentUserId = getCurrentUserId(state);
     const didUserCreateHood = user && user.id === currentUserId;
     const userIsAuthenticated = isUserAuthenticated(state);
-    const canUserVote = userIsAuthenticated;
+    const canUserVote = !didUserCreateHood && userIsAuthenticated;
 
     return {
       hoodId,

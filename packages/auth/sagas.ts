@@ -38,7 +38,7 @@ function* onSignIn(action: AuthAction) {
   });
 
   if (resp.status >= 200 && resp.status < 300) {
-    const result: SuccessJSON = yield resp.json();
+    const result: SuccessJSON = resp.body;
     yield put(addUsers([result.user]));
     yield put(setUser(result.user.id));
     yield put(setToken(result.token));
@@ -47,7 +47,7 @@ function* onSignIn(action: AuthAction) {
   }
 
   if (resp.status >= 400) {
-    const result: FailureJSON = yield resp.json();
+    const result: FailureJSON = resp.body;
     yield put(authError(result.error));
     return;
   }
@@ -70,7 +70,7 @@ function* onRegister(action: AuthAction) {
   });
 
   if (resp.status >= 200 && resp.status < 300) {
-    const result: SuccessJSON = yield resp.json();
+    const result: SuccessJSON = resp.body;
     yield put(addUsers([result.user]));
     yield put(setUser(result.user.id));
     yield put(setToken(result.token));
@@ -79,7 +79,7 @@ function* onRegister(action: AuthAction) {
   }
 
   if (resp.status >= 400) {
-    const result: FailureJSON = yield resp.json();
+    const result: FailureJSON = resp.body;
     yield put(authError(result.error));
     return;
   }

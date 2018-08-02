@@ -22,22 +22,19 @@ router.post('/save', async (req, res, next) => {
 
   const data = transformHood(req.body);
   const results = await Promise.all(
-    data.map(
-      (preparedHood) => createOrUpdateHood(preparedHood),
-    )
+    data.map((preparedHood) => createOrUpdateHood(preparedHood)),
   );
 
-  const successHoods = results
-    .filter((res) => res.hood);
-   
+  const successHoods = results.filter((res) => res.hood);
+
   if (connections) {
-    const geojson = transformSQLToGeoJson(
-      successHoods.map((res) => res.hood)
-    );
+    const geojson = transformSQLToGeoJson(successHoods.map((res) => res.hood));
     sendAll(Object.values(connections), { type: 'got-hoods', data: geojson });
   }
 
-  const hoods = successHoods.map((res) => ({ properties: { id: res.hood.id } }));
+  const hoods = successHoods.map((res) => ({
+    properties: { id: res.hood.id },
+  }));
   res.json({ hoods });
 });
 
@@ -79,7 +76,7 @@ async function createHood(preparedHood) {
     INSERT INTO
       neighborhood (id, hood_user_id, state, city, name, geom)
     VALUES ($1, $2, $3, $4, $5, ST_Multi(ST_GeomFromGeoJSON($6)))
-    RETURNING id, hood_user_id, state, city, name, ST_AsGeoJSON(geom) as geom;
+    RETURNING id, hood_user_id, state, city, name, created_at, updated_at, ST_AsGeoJSON(geom) as geom;
   `;
 
   try {
@@ -113,16 +110,14 @@ async function createOrUpdateHood(preparedHood) {
 
 function transformHood(data) {
   log(data);
-  return data.map(
-    (hood) => [
-      hood.properties.id,
-      hood.properties.userId,
-      hood.properties.state,
-      hood.properties.city,
-      hood.properties.name,
-      hood.geometry,
-    ]
-  );
+  return data.map((hood) => [
+    hood.properties.id,
+    hood.properties.userId,
+    hood.properties.state,
+    hood.properties.city,
+    hood.properties.name,
+    hood.geometry,
+  ]);
 }
 
 async function findHood(hoodId) {
@@ -225,7 +220,7 @@ async function getHoodsByUserId(userId) {
 function transformSQLToGeoJson(sqlResults) {
   const features = sqlResults.map(transformFeaturesToJson);
   return {
-    type: "FeatureCollection",
+    type: 'FeatureCollection',
     features,
   };
 }
