@@ -14,6 +14,7 @@ const corePackages = [
   require('@youhood/socket'),
   require('@youhood/user'),
   require('@youhood/vote'),
+  require('@youhood/search'),
 ];
 
 const packages = use(corePackages);
