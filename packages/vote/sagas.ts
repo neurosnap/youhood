@@ -4,7 +4,7 @@ import apiFetch from '@youhood/fetch';
 import { actions } from '@youhood/hood';
 const { setHoodsOnPoint } = actions;
 
-import { addVotes, removeVotes, vote, unvote } from './actions';
+import { addVotes, upvote, downvote, unvote } from './actions';
 import { FetchVotesByHoodAction, VoteAction } from './types';
 
 function* onFetchVotes(action: FetchVotesByHoodAction) {
@@ -23,29 +23,34 @@ export function* fetchVoteSaga() {
   yield takeEvery(`${setHoodsOnPoint}`, onFetchVotes);
 }
 
-function* onVote(action: VoteAction) {
+function* onVote(voteType: string, action: VoteAction) {
   const { hoodId, userId } = action.payload;
-  const resp = yield call(apiFetch, `/vote/${hoodId}/${userId}`, {
+  const resp = yield call(apiFetch, `/vote/${hoodId}/${userId}/${voteType}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
   });
 
-  if (resp.status !== 200) return;
+  if (resp.status !== 200) {
+    return;
+  }
 
   const data = resp.body;
   yield put(addVotes(data.votes));
 }
 
-export function* voteSaga() {
-  yield takeEvery(`${vote}`, onVote);
+export function* upvoteSaga() {
+  yield takeEvery(`${upvote}`, onVote, 'upvote');
+}
+
+export function* downvoteSaga() {
+  yield takeEvery(`${downvote}`, onVote, 'downvote');
 }
 
 function* onUnvote(action: VoteAction) {
   const { hoodId, userId } = action.payload;
-  yield put(removeVotes({ [hoodId]: [userId] }));
-  yield call(apiFetch, `/vote/${hoodId}/${userId}`, {
+  yield call(apiFetch, `/vote/${hoodId}/${userId}/unvote`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

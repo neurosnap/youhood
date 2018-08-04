@@ -1,8 +1,16 @@
-/* import createNextState from 'immer';
+import createNextState from 'immer';
+import { Action } from 'redux';
 
-export function createReducer(initialState, actionsMap) {
-  return function(state = initialState, action) {
-    return createNextState(state, (draft) => {
+interface ActionsMap<S> {
+  [key: string]: (state: S, action: Action) => S | void;
+}
+
+export default function createReducer<S>(
+  initialState: S,
+  actionsMap: ActionsMap<S>,
+) {
+  return (state: S = initialState, action: Action) => {
+    return createNextState(<any>state, (draft: S) => {
       const caseReducer = actionsMap[action.type];
 
       if (caseReducer) {
@@ -12,4 +20,4 @@ export function createReducer(initialState, actionsMap) {
       return draft;
     });
   };
-} */
+}

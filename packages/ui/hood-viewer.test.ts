@@ -57,7 +57,7 @@ describe('HoodView', () => {
 
   describe('when the user can vote on hood', () => {
     describe('when the user has not voted yet', () => {
-      const handleVote = jest.fn();
+      const handleUpvote = jest.fn();
       const tree = mount(
         h(HoodViewer, {
           hood,
@@ -65,20 +65,20 @@ describe('HoodView', () => {
           user: regUser,
           userVoted: false,
           canUserVote: true,
-          handleVote,
+          handleUpvote,
           currentUserId: regUser.id,
         }),
       );
-      const vote = tree.find(VoteUp);
+      const upvote = tree.find(VoteUp).at(0);
 
       it('should display the upvote arrow', () => {
-        expect(vote.length).toEqual(1);
+        expect(upvote.length).toEqual(1);
       });
 
       describe('when the user clicks the upvote arrow', () => {
         it('should call handleVote', () => {
-          vote.simulate('click');
-          expect(handleVote).toHaveBeenCalledWith('321', regUser.id);
+          upvote.simulate('click');
+          expect(handleUpvote).toHaveBeenCalledWith('321', regUser.id);
         });
       });
     });
@@ -91,6 +91,7 @@ describe('HoodView', () => {
           hoodId: hood.id,
           user: regUser,
           userVoted: true,
+          userVoteType: 'upvote',
           canUserVote: true,
           handleUnvote,
           currentUserId: regUser.id,
@@ -105,7 +106,11 @@ describe('HoodView', () => {
       describe('when the user clicks the upvote arrow', () => {
         it('should call handleUnvote', () => {
           vote.simulate('click');
-          expect(handleUnvote).toHaveBeenCalledWith('321', regUser.id);
+          expect(handleUnvote).toHaveBeenCalledWith(
+            '321',
+            regUser.id,
+            'upvote',
+          );
         });
       });
     });

@@ -29,7 +29,7 @@ server:
 	PGPASSWORD="$(PGPASSWORD)" \
 	PGPORT=$(PORT) \
 	PORT=8080 \
-	node ./server/index.js
+	$(BIN)/nodemon ./server/index.js
 .PHONY: server
 
 psql:
