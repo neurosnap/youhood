@@ -3,6 +3,7 @@ const debug = require('debug');
 
 const db = require('./db');
 const { findOrCreateUser } = require('./user');
+const { addPoint } = require('./point');
 
 const log = debug('router:hood');
 
@@ -94,12 +95,14 @@ async function createHood(preparedHood) {
 async function createOrUpdateHood(preparedHood) {
   const user = await findOrCreateUser(preparedHood[1]);
   if (!user) return;
+  const userId = user.user.id;
   const hoodId = preparedHood[0];
   log(preparedHood);
 
   let hood = await findHood(hoodId);
   if (hood.error) {
     hood = await createHood(preparedHood);
+    await addPoint({ userId, hoodId, reason: 'AFTER_SAVE_HOOD' });
     return hood;
   }
 

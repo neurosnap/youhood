@@ -1,6 +1,7 @@
 import * as h from 'react-hyperscript';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
+import { hot } from 'react-hot-loader';
 
 import { actions } from '@youhood/bootup';
 const { webBootup } = actions;
@@ -20,9 +21,8 @@ export default () => {
   (window as WindowInterface).reduxStore = store;
 
   store.dispatch(webBootup());
+  const prepApp = () => h(Provider, { store }, [h(App, { hoodMap })]);
+  const hotApp = hot(module)(prepApp);
 
-  render(
-    h(Provider, { store }, [h(App, { hoodMap })]),
-    document.querySelector('#app'),
-  );
+  render(h(hotApp), document.querySelector('#app'));
 };

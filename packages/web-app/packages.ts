@@ -7,6 +7,7 @@ import { State } from './types';
 
 const corePackages = [
   require('@youhood/auth'),
+  require('@youhood/bootup'),
   require('@youhood/hood'),
   require('@youhood/map'),
   require('@youhood/menu'),
