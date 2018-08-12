@@ -271,9 +271,13 @@ export const Brand = styled.div`
   margin: 0 1.5rem;
 `;
 
-export const SignInMenuEl = styled.div`
-  height: 80%;
+export const DropMenuEl = styled.div`
+  height: 100%;
   width: 100%;
+`;
+
+export const SignInMenuEl = DropMenuEl.extend`
+  height: 80%;
   display: flex;
   justify-content: center;
   align-items: center;

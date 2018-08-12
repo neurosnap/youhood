@@ -1,6 +1,9 @@
 const router = require('express-promise-router')();
+const debug = require('debug');
 
+const { addPoint, removePoint } = require('./point');
 const db = require('./db');
+const log = debug('app:vote');
 
 module.exports = router;
 
@@ -38,10 +41,17 @@ router.post('/:hoodId/:userId/upvote', async (req, res) => {
   const userId = req.params.userId;
   const alreadyVoted = await findVote({ hoodId, userId, voteType: 'upvote' });
   if (alreadyVoted) {
-    return res.json({ error: 'user already upvoted hood' });
+    console.log(alreadyVoted);
+    return res.status(400).json({ error: 'user already upvoted hood' });
   }
 
-  const payload = await vote({ hoodId, userId, type: 'upvote' });
+  await unvote({ hoodId, userId });
+  const payload = await vote({ hoodId, userId, voteType: 'upvote' });
+  try {
+    await addPoint({ hoodId, userId, reason: 'UPVOTE' });
+  } catch (err) {
+    log(err);
+  }
   return res.json(payload);
 });
 
@@ -53,7 +63,13 @@ router.post('/:hoodId/:userId/downvote', async (req, res) => {
     return res.json({ error: 'user already downvoted hood' });
   }
 
-  const payload = await vote({ hoodId, userId, type: 'downvote' });
+  await unvote({ hoodId, userId });
+  const payload = await vote({ hoodId, userId, voteType: 'downvote' });
+  try {
+    await removePoint({ hoodId, userId });
+  } catch (err) {
+    log(err);
+  }
   return res.json(payload);
 });
 
@@ -61,6 +77,11 @@ router.post('/:hoodId/:userId/unvote', async (req, res) => {
   const hoodId = req.params.hoodId;
   const userId = req.params.userId;
   const result = await unvote({ hoodId, userId });
+  try {
+    await removePoint({ hoodId, userId });
+  } catch (err) {
+    log(err);
+  }
   return res.json(result);
 });
 
@@ -88,13 +109,13 @@ async function unvote({ hoodId, userId }) {
   }
 }
 
-async function vote({ hoodId, userId, type }) {
+async function vote({ hoodId, userId, voteType }) {
   const sql = `
     INSERT INTO vote (hood_user_id, neighborhood_id, vote_type)
     VALUES ($1, $2, $3)
   `;
 
-  await db.query(sql, [userId, hoodId, type]);
+  await db.query(sql, [userId, hoodId, voteType]);
 
   const votes = { [hoodId]: [userId] };
   return { votes };

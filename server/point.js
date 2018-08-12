@@ -1,9 +1,12 @@
 const router = require('express-promise-router')();
+const debug = require('debug');
 
 const db = require('./db');
-const { findOrCreateUser } = require('./user');
+const { findOrCreateUser, findUser } = require('./user');
 
-module.exports = router;
+const log = debug('app:point');
+
+module.exports = { router, addPoint, removePoint };
 
 router.get('/:userId', async (req, res) => {
   const userId = req.params.userId;
@@ -22,28 +25,51 @@ router.get('/:userId', async (req, res) => {
 
 router.post('/:userId', async (req, res) => {
   const userId = req.params.userId;
-  const user = await findOrCreateUser(userId);
-  if (!user) {
-    return res
-      .status(401)
-      .json({ error: 'Could not find user' });
+  const { hoodId, reason } = req.body;
+
+  try {
+    const points = await addPoint({ userId, hoodId, reason });
+    return res.json({ points });
+  } catch (err) {
+    log(err);
+    return res.status(400).json({ error: err.detail });
+  }
+});
+
+async function addPoint({ userId, hoodId, reason }) {
+  if (!userId) {
+    throw new Error('Must provide userId');
   }
 
-  const { hoodId, reason } = req.body;
+  const user = await findOrCreateUser(userId);
+  if (!user) {
+    throw new Error('Could not find or create user');
+  }
+
   const sql = `
     INSERT INTO point (hood_user_id, neighborhood_id, reason)
     VALUES($1, $2, $3)
     RETURNING *;
   `;
-
   const params = [userId, hoodId, reason];
-  try {
-    const results = await db.query(sql, params);
-    return res.json({ points: results.rows });
-  } catch (err) {
-    console.log(err);
-    return res
-      .status(400)
-      .json({ error: err.detail });
+  const results = await db.query(sql, params);
+  return results.rows;
+}
+
+async function removePoint({ userId, hoodId }) {
+  if (!userId) {
+    throw new Error('Must provide userId');
   }
-});
+
+  const user = await findUser(userId);
+  if (!user) {
+    throw new Error('Could not find user');
+  }
+
+  const sql = `
+    DELETE FROM point WHERE hood_user_id=$1 AND neighborhood_id=$2;
+  `;
+  const params = [userId, hoodId];
+  const results = await db.query(sql, params);
+  return results.rows;
+}

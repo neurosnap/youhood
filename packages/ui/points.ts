@@ -8,9 +8,10 @@ const { getTotalPoints, getPoints } = selectors;
 import { Points as PointsType } from '@youhood/point/types';
 
 import { State } from '@youhood/web-app/types';
-import { NavHover, SignInMenuEl, Points } from './ui';
+import { NavHover, DropMenuEl, Points } from './ui';
 
 const PointsMenuContainer = styled.div`
+  overflow-y: scroll;
   position: absolute;
   background: #4285f4;
   top: 46px;
@@ -42,7 +43,7 @@ export const DropMenu: React.SFC<IProps> = ({ open, items }) => {
   const points =
     items.length === 0 ? [h('div', 'Start getting points!')] : HistoryItems;
 
-  return h(PointsMenuContainer, [h(SignInMenuEl, points)]);
+  return h(PointsMenuContainer, [h(DropMenuEl, points)]);
 };
 
 DropMenu.defaultProps = {

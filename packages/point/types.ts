@@ -13,6 +13,11 @@ export interface AddPointsAction {
   payload: Points;
 }
 
+export interface RemovePointsAction {
+  type: string;
+  payload: HoodId;
+}
+
 export interface FetchPointsByUserAction {
   type: string;
   payload: UserId;
