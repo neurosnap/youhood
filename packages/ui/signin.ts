@@ -45,7 +45,12 @@ export class SignIn extends Component {
     const { open } = this.state;
     const { authenticated, user } = this.props;
 
-    const signinProps = { href: '#', onClick: this.toggleMenu };
+    const signinProps = {
+      href: '#',
+      onClick: this.toggleMenu,
+      tabIndex: 0,
+      onBlur: open ? this.toggleMenu : () => {},
+    };
 
     let menu = null;
     if (open) {
