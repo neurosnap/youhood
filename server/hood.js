@@ -1,5 +1,6 @@
 const router = require('express-promise-router')();
 const debug = require('debug');
+const fetch = require('node-fetch');
 
 const db = require('./db');
 const { findOrCreateUser } = require('./user');
@@ -72,7 +73,48 @@ async function updateHood(preparedHood) {
   return null;
 }
 
+function transformGeoLookup(addresses) {
+  const types = [
+    'administrative_area_level_1',
+    'locality',
+    'country',
+    'neighborhood',
+  ];
+  const typeMap = {
+    administrative_area_level_1: 'state',
+    locality: 'city',
+    country: 'country',
+    neighborhood: 'neighborhood',
+  };
+  const result = {};
+  addresses.map((address) => {
+    console.log(address.address_components);
+    const index = types.indexOf(address.types[0]);
+    if (index >= 0) {
+      const addressType = types[index];
+      result[typeMap[addressType]] = address.formatted_address;
+    }
+  });
+
+  return result;
+}
+
+async function reverseGeoLookgup(latlng) {
+  const key = 'AIzaSyD5U15XGats0Dd7oRZ2ke_jXm8vX7SYIJE';
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${[
+    latlng[1],
+    latlng[0],
+  ].join(',')}&key=${key}`;
+
+  const result = await fetch(url);
+  const json = await result.json();
+  return transformGeoLookup(json.results);
+}
+
 async function createHood(preparedHood) {
+  const point = preparedHood[5].coordinates[0][0];
+  const lookup = await reverseGeoLookgup(point);
+  console.log('LOOKUP', lookup);
   const sql = `
     INSERT INTO
       neighborhood (id, hood_user_id, state, city, name, geom)
@@ -82,7 +124,6 @@ async function createHood(preparedHood) {
 
   try {
     const result = await db.query(sql, preparedHood);
-    log(result);
     return { hood: result.rows[0] };
   } catch (err) {
     log(err);
