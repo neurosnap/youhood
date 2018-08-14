@@ -117,6 +117,7 @@ async function reverseGeoLookgup(latlng) {
   const latlngStr = [latlng[1], latlng[0]].join(',');
   const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlngStr}&key=${GOOGLE_API_KEY}`;
 
+  console.log('LOOKING UP LAT LNG: ', url);
   const result = await fetch(url);
   const json = await result.json();
   return transformGeoLookup(json.results);

@@ -1,10 +1,7 @@
-const fs = require('fs');
-const path = require('path');
 const WebSocket = require('ws');
 const debug = require('debug');
 const uuid = require('uuid/v4');
 
-const db = require('./db');
 const { getHoods } = require('./hood');
 
 const log = debug('server:socket');
@@ -24,9 +21,9 @@ function init(server, app) {
       log('message', jso);
 
       switch (jso.type) {
-      case 'get-hoods':
-        getHoods(socket);
-        break;
+        case 'get-hoods':
+          getHoods(socket);
+          break;
       }
 
       return;
