@@ -24,6 +24,7 @@ module.exports = merge(common, {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
+        GOOGLE_API_KEY: JSON.stringify(process.env.GOOGLE_API_KEY),
       },
       __CLIENT__: true,
       __SERVER__: false,

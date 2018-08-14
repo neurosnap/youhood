@@ -1,11 +1,14 @@
 const router = require('express-promise-router')();
 const debug = require('debug');
+const fetch = require('node-fetch');
 
 const db = require('./db');
 const { findOrCreateUser } = require('./user');
 const { addPoint } = require('./point');
 
 const log = debug('router:hood');
+
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || '';
 
 router.get('/:hoodId', async (req, res) => {
   const hoodId = req.params.hoodId;
@@ -72,17 +75,73 @@ async function updateHood(preparedHood) {
   return null;
 }
 
+function transformGeoLookup(addresses) {
+  const types = [
+    'administrative_area_level_1',
+    'locality',
+    'country',
+    'neighborhood',
+  ];
+  const typeMap = {
+    administrative_area_level_1: 'state',
+    locality: 'city',
+    country: 'country',
+    neighborhood: 'neighborhood',
+  };
+
+  const result = { data: addresses };
+  addresses.map((address) => {
+    const foundTypes = address.types.filter((type) => {
+      const index = types.indexOf(type);
+      return index >= 0;
+    });
+
+    foundTypes.forEach((type) => {
+      const index = types.indexOf(type);
+      const addressType = types[index];
+      const components = address.address_components.filter((component) => {
+        return component.types[0] === addressType;
+      });
+      components.forEach((component) => {
+        if (component.types[0] === addressType) {
+          result[typeMap[addressType]] = component.short_name;
+        }
+      });
+    });
+  });
+
+  return result;
+}
+
+async function reverseGeoLookgup(latlng) {
+  const latlngStr = [latlng[1], latlng[0]].join(',');
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlngStr}&key=${GOOGLE_API_KEY}`;
+
+  const result = await fetch(url);
+  const json = await result.json();
+  return transformGeoLookup(json.results);
+}
+
 async function createHood(preparedHood) {
+  const point = preparedHood[5].coordinates[0][0];
+  const lookup = await reverseGeoLookgup(point);
   const sql = `
     INSERT INTO
-      neighborhood (id, hood_user_id, state, city, name, geom)
-    VALUES ($1, $2, $3, $4, $5, ST_Multi(ST_GeomFromGeoJSON($6)))
+      neighborhood (id, hood_user_id, name, city, state, country, geom)
+    VALUES ($1, $2, $3, $4, $5, $6, ST_Multi(ST_GeomFromGeoJSON($7)))
     RETURNING id, hood_user_id, state, city, name, created_at, updated_at, ST_AsGeoJSON(geom) as geom;
   `;
 
   try {
-    const result = await db.query(sql, preparedHood);
-    log(result);
+    const result = await db.query(sql, [
+      preparedHood[0],
+      preparedHood[1],
+      preparedHood[4],
+      lookup.city,
+      lookup.state,
+      lookup.country,
+      preparedHood[5],
+    ]);
     return { hood: result.rows[0] };
   } catch (err) {
     log(err);

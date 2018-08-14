@@ -8,14 +8,18 @@ import { HoodMap } from '@youhood/map/types';
 import { Address, SearchAction } from './types';
 
 const log = debug('app:search');
-const API_KEY = 'AIzaSyD5U15XGats0Dd7oRZ2ke_jXm8vX7SYIJE';
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || '';
 
 const search = creator<Address>('SEARCH');
 
-function* onSearch({ map }: HoodMap, action: SearchAction) {
+function* onSearch(
+  { map }: HoodMap,
+  action: SearchAction,
+  googleApiKey = GOOGLE_API_KEY,
+) {
   try {
     const address = action.payload.replace(' ', '+');
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${API_KEY}`;
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${googleApiKey}`;
     const resp = yield call(fetch, url);
     const data = yield call([resp, 'json']);
 
