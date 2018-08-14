@@ -17,4 +17,5 @@ ENV DOCKER_CERT_PATH="/root/.docker/machine/machines/youhood-1"
 ENV DOCKER_MACHINE_NAME="youhood-1"
 ENV COMPOSE_PROJECT_NAME="youhood"
 
-CMD ["docker-compose", "-f", "production.yml", "up", "--no-deps", "-d"]
+RUN docker-compose -f production.yml build
+CMD ["docker-compose", "-f", "production.yml", "up", "-d"]
