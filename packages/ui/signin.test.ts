@@ -2,15 +2,17 @@ import { shallow } from 'enzyme';
 import * as h from 'react-hyperscript';
 
 import { SignIn } from './signin';
-import { NavHover } from './ui';
+import { NavHover, SignInEl } from './ui';
 import Profile from './profile';
 import AuthMenu from './auth';
+
+jest.useFakeTimers();
 
 describe('SignIn', () => {
   describe('when user is not authenticated', () => {
     it('should render text `Sign In`', () => {
       const tree = shallow(h(SignIn, { authenticated: false }));
-      expect(tree.find('a').text()).toEqual('Sign In');
+      expect(tree.find(SignInEl).html()).toContain('Sign In');
     });
   });
 
@@ -22,7 +24,7 @@ describe('SignIn', () => {
           user: { email: 'eric@cool.com' },
         }),
       );
-      expect(tree.find('a').text()).toEqual('eric@cool.com');
+      expect(tree.find(SignInEl).html()).toContain('eric@cool.com');
     });
   });
 
@@ -59,16 +61,19 @@ describe('SignIn', () => {
 
     describe('clicking outside of the sign in popup', () => {
       it('should close the popup', () => {
+        const ev = { currentTarget: { contains: () => false } };
+        const doc = {};
         const tree = shallow(
           h(SignIn, {
             authenticated: false,
             user: { email: 'eric@cool.com' },
           }),
         );
-        tree.find(NavHover).simulate('click');
-        tree.find(NavHover).simulate('blur');
-
-        expect(tree.find(AuthMenu).length).toEqual(0);
+        tree.setState({ open: true });
+        const instance = tree.instance() as SignIn;
+        instance.onBlur(ev, doc);
+        jest.runAllTimers();
+        expect(tree.state()).toEqual({ open: false });
       });
     });
   });

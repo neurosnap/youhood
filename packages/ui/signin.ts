@@ -29,6 +29,16 @@ export class SignIn extends Component {
     this.setState({ open: !this.state.open });
   };
 
+  onBlur = (ev: any, doc: any = document) => {
+    if (!this.state.open) return;
+
+    const parentEl = ev.currentTarget;
+    setTimeout(() => {
+      const clickedEl = doc.activeElement;
+      if (!parentEl.contains(clickedEl)) this.setState({ open: false });
+    }, 0);
+  };
+
   componentWillReceiveProps(nextProps: SignInProps) {
     const justSignedIn =
       this.props.authenticated === false && nextProps.authenticated === true;
@@ -45,13 +55,6 @@ export class SignIn extends Component {
     const { open } = this.state;
     const { authenticated, user } = this.props;
 
-    const signinProps = {
-      href: '#',
-      onClick: this.toggleMenu,
-      tabIndex: 0,
-      onBlur: open ? this.toggleMenu : () => {},
-    };
-
     let menu = null;
     if (open) {
       if (authenticated) {
@@ -61,9 +64,9 @@ export class SignIn extends Component {
       }
     }
 
-    return h(SignInContainer, { style: { position: 'relative' } }, [
-      h(NavHover, signinProps, [
-        h(SignInEl, [authenticated ? h('a', user.email) : h('a', 'Sign In')]),
+    return h(SignInContainer, { tabIndex: 1, onBlur: this.onBlur }, [
+      h(NavHover, { onClick: this.toggleMenu }, [
+        h(SignInEl, authenticated ? user.email : 'Sign In'),
       ]),
       menu,
     ]);

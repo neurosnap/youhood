@@ -310,6 +310,7 @@ export const SignInContainer = styled.div`
   margin-left: 0;
   position: relative;
   height: 100%;
+  outline: none;
 `;
 
 export const SignInEl = styled.div`
