@@ -10,31 +10,31 @@ const saltRounds = 10;
 
 module.exports = router;
 
-const hashFn = (password, salt) => new Promise((resolve, reject) => {
-  bcrypt.hash(password, salt, (err, hash) => {
-    if (err) reject(err);
-    resolve(hash);
+const hashFn = (password, salt) =>
+  new Promise((resolve, reject) => {
+    bcrypt.hash(password, salt, (err, hash) => {
+      if (err) reject(err);
+      resolve(hash);
+    });
   });
-});
 
-const compare = (password, hash) => new Promise((resolve, reject) => {
-  bcrypt.compare(password, hash, (err, res) => {
-    if (err) reject(err);
-    resolve(res);
+const compare = (password, hash) =>
+  new Promise((resolve, reject) => {
+    bcrypt.compare(password, hash, (err, res) => {
+      if (err) reject(err);
+      resolve(res);
+    });
   });
-});
 
 router.post('/signin', async (req, res) => {
   const { email, password } = req.body;
   console.log(email, password);
 
   if (!isemail.validate(email)) {
-    return res
-      .status(400)
-      .json({ error: 'must provide valid email address' });
+    return res.status(400).json({ error: 'must provide valid email address' });
   }
 
-  const sql = "SELECT * FROM hood_user WHERE email=$1";
+  const sql = 'SELECT * FROM hood_user WHERE email=$1';
 
   let user;
   try {
@@ -42,9 +42,7 @@ router.post('/signin', async (req, res) => {
     user = result.rows[0];
   } catch (err) {
     console.log(err);
-    return res
-      .status(401)
-      .json({ error: 'could not find email' });
+    return res.status(401).json({ error: 'could not find email' });
   }
 
   try {
@@ -54,9 +52,7 @@ router.post('/signin', async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    return res
-      .status(401)
-      .json({ error: 'invalid password' });
+    return res.status(401).json({ error: 'invalid password' });
   }
 
   delete user.passhash;
@@ -71,15 +67,11 @@ router.post('/register', async (req, res) => {
   console.log(email, password);
 
   if (!isemail.validate(email)) {
-    return res
-      .status(400)
-      .json({ error: 'invalid email address' });
+    return res.status(400).json({ error: 'invalid email address' });
   }
 
   if (!password) {
-    return res
-      .status(400)
-      .json({ error: 'password must not be empty' });
+    return res.status(400).json({ error: 'password must not be empty' });
   }
 
   let passhash;
@@ -88,9 +80,7 @@ router.post('/register', async (req, res) => {
     console.log(passhash);
   } catch (err) {
     console.log(err);
-    return res
-      .status(400)
-      .json({ error: 'could not hash password' });
+    return res.status(400).json({ error: 'could not hash password' });
   }
 
   const sql = `INSERT INTO hood_user(id, email, passhash)

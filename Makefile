@@ -11,7 +11,7 @@ PROJECT_ID?=youhood-192019
 DOCKER_MACHINE?=youhood-1
 
 prettier:
-	$(BIN)/prettier --write "{packages,server/web}/**/*.{js,ts}"
+	$(BIN)/prettier --write "{packages,server,web}/**/*.{js,ts}"
 
 dev:
 	$(BIN)/webpack-dev-server --hot --config "webpack/dev.js"
