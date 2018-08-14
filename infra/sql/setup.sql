@@ -26,10 +26,11 @@ CREATE TABLE neighborhood (
     state character varying(255) NOT NULL,
     county character varying(255),
     city character varying(255) NOT NULL,
+    country character varying(100) NOT NULL,
     name character varying(255) NOT NULL,
-    regionid integer,
     created_at timestamp without time zone DEFAULT NOW(),
     updated_at timestamp without time zone DEFAULT NOW(),
+    data jsonb,
     geom geometry(Multipolygon),
     CONSTRAINT neighborhood_pkey PRIMARY KEY (id),
     CONSTRAINT fk_neighborhood_hood_user

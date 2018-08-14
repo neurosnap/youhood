@@ -86,14 +86,26 @@ function transformGeoLookup(addresses) {
     country: 'country',
     neighborhood: 'neighborhood',
   };
-  const result = {};
+
+  const result = { data: addresses };
   addresses.map((address) => {
-    console.log(address.address_components);
-    const index = types.indexOf(address.types[0]);
-    if (index >= 0) {
+    const foundTypes = address.types.filter((type) => {
+      const index = types.indexOf(type);
+      return index >= 0;
+    });
+
+    foundTypes.forEach((type) => {
+      const index = types.indexOf(type);
       const addressType = types[index];
-      result[typeMap[addressType]] = address.formatted_address;
-    }
+      const components = address.address_components.filter((component) => {
+        return component.types[0] === addressType;
+      });
+      components.forEach((component) => {
+        if (component.types[0] === addressType) {
+          result[typeMap[addressType]] = component.short_name;
+        }
+      });
+    });
   });
 
   return result;
@@ -114,16 +126,23 @@ async function reverseGeoLookgup(latlng) {
 async function createHood(preparedHood) {
   const point = preparedHood[5].coordinates[0][0];
   const lookup = await reverseGeoLookgup(point);
-  console.log('LOOKUP', lookup);
   const sql = `
     INSERT INTO
-      neighborhood (id, hood_user_id, state, city, name, geom)
-    VALUES ($1, $2, $3, $4, $5, ST_Multi(ST_GeomFromGeoJSON($6)))
+      neighborhood (id, hood_user_id, name, city, state, country, geom)
+    VALUES ($1, $2, $3, $4, $5, $6, ST_Multi(ST_GeomFromGeoJSON($7)))
     RETURNING id, hood_user_id, state, city, name, created_at, updated_at, ST_AsGeoJSON(geom) as geom;
   `;
 
   try {
-    const result = await db.query(sql, preparedHood);
+    const result = await db.query(sql, [
+      preparedHood[0],
+      preparedHood[1],
+      preparedHood[4],
+      lookup.city,
+      lookup.state,
+      lookup.country,
+      preparedHood[5],
+    ]);
     return { hood: result.rows[0] };
   } catch (err) {
     log(err);
