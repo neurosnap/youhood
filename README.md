@@ -13,6 +13,7 @@ Crowd sourced neighborhood boundary site
 ### Required Environment Variables
 
 * `PGPASSWORD` # password for postgresql
+* `GOOGLE_API_KEY` # required for geolookup of neighborhoods as well as searching for a location
 
 ```bash
 yarn
@@ -23,34 +24,35 @@ make server #  terminal 3
 make psql # terminal 4
 ```
 
-## Deploy
+## Local Deploy
 
-* Create EC2 instance
+All of our servers are built using Google Cloud Build and stored using Google Storage.
+So in order for this deploy to work, the latest images must be pushed to Google Storage.
 
-### Required Environment Variables
+First we need to download the docker machine cert from google storage
 
-* `SERVER` # server address
-* `EC2_USER` # name of the user
-* `PROD_DIR` # production directory
-
-```bash
-make setup
+```
+gsutil cp gs://youhood/youhood-1.zip youhood-1.zip
 ```
 
-Once changes have been made and we want to publish changes
+Then we load the cert
 
-```bash
-make deploy
+```
+yarn global add machine-share
+machine-import youhood-1.zip
 ```
 
-Production logs
+Then we deploy
 
-```bash
-make logs
+```
+eval $(docker-machine env youhood-1)
+docker-compose -f production.yml up --no-deps -d
 ```
 
-SSH into instance
+## Wipe db
 
-```bash
-make ssh
+```
+eval $(docker-machine env youhood-1)
+docker-compose -f production.yml down -v
+docker-compose -f production.yml up --no-deps -d
 ```
