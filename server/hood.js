@@ -8,6 +8,8 @@ const { addPoint } = require('./point');
 
 const log = debug('router:hood');
 
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || '';
+
 router.get('/:hoodId', async (req, res) => {
   const hoodId = req.params.hoodId;
   const hood = await findHood(hoodId);
@@ -112,11 +114,8 @@ function transformGeoLookup(addresses) {
 }
 
 async function reverseGeoLookgup(latlng) {
-  const key = 'AIzaSyD5U15XGats0Dd7oRZ2ke_jXm8vX7SYIJE';
-  const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${[
-    latlng[1],
-    latlng[0],
-  ].join(',')}&key=${key}`;
+  const latlngStr = [latlng[1], latlng[0]].join(',');
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlngStr}&key=${GOOGLE_API_KEY}`;
 
   const result = await fetch(url);
   const json = await result.json();

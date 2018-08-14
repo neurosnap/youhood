@@ -29,6 +29,7 @@ server:
 	PGPASSWORD="$(PGPASSWORD)" \
 	PGPORT=$(PORT) \
 	PORT=8080 \
+	GOOGLE_API_KEY=$(GOOGLE_API_KEY) \
 	$(BIN)/nodemon ./server/index.js
 .PHONY: server
 
@@ -100,3 +101,9 @@ logs:
 ssh:
 	docker-machine ssh $(DOCKER_MACHINE)
 .PHONY: ssh
+
+secret:
+	curl -v "https://cloudkms.googleapis.com/v1/projects/$(PROJECT_ID)/locations/global/keyRings/$(KEYRING_NAME)/cryptoKeys/$(CRYPTOKEY_NAME):encrypt" \
+	  -d "{\"plaintext\":\"$(PLAINTEXT)\"}" \
+	  -H "Authorization:Bearer $(gcloud auth application-default print-access-token)"\
+	  -H "Content-Type: application/json"

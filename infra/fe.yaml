@@ -7,6 +7,7 @@ steps:
   volumes:
   - name: 'vol'
     path: '/srv'
+  secretEnv: ['GOOGLE_API_KEY']
 - name: 'gcr.io/cloud-builders/gsutil'
   args: ['cp', '-a', 'public-read', '/srv/public/*', 'gs://youhood.io/']
   volumes:
@@ -17,3 +18,7 @@ steps:
   volumes:
   - name: 'vol'
     path: '/srv'
+secrets:
+- kmsKeyName: projects/youhood-192019/locations/global/keyRings/storage/cryptoKeys/youkey
+  secretEnv:
+    GOOGLE_API_KEY: CiQADz5/6ateBuHCiJsz2TfujkMklKAw4hqtC8iMl1tM11H69sASUQAHlPNfBdOSVaxH3gCGROSW0dCbua7y4DraCHh2MjytkaeIe8XLf+q5lx2KaiPZfmBlAD2CV2lXIP1kOOHuLvcdJhFoLWbyqewFZ7i6v5SO4g==

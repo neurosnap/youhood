@@ -23,6 +23,7 @@ services:
       - db
     environment:
       - PGPASSWORD
+      - GOOGLE_API_KEY
     restart: always
 volumes:
   data:

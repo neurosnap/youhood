@@ -9,9 +9,14 @@ describe('onSearch', () => {
     it('should exit early', () => {
       const resp = { json: jest.fn() };
       const hoodMap = { map: { setView: jest.fn() } };
-      const tester = genTester(onSearch, hoodMap, { payload: 'ann arbor' });
+      const tester = genTester(
+        onSearch,
+        hoodMap,
+        { payload: 'ann arbor' },
+        'ASECRETKEY',
+      );
       const url =
-        'https://maps.googleapis.com/maps/api/geocode/json?address=ann+arbor&key=AIzaSyD5U15XGats0Dd7oRZ2ke_jXm8vX7SYIJE';
+        'https://maps.googleapis.com/maps/api/geocode/json?address=ann+arbor&key=ASECRETKEY';
       const { actual, expected } = tester(
         yields(call(fetch, url), resp),
         yields(call([resp, 'json']), { results: [], status: 'OK' }),
@@ -25,9 +30,14 @@ describe('onSearch', () => {
     it('should set map view', () => {
       const resp = { json: jest.fn() };
       const hoodMap = { map: { setView: jest.fn() } };
-      const tester = genTester(onSearch, hoodMap, { payload: 'ann arbor' });
+      const tester = genTester(
+        onSearch,
+        hoodMap,
+        { payload: 'ann arbor' },
+        'ASECRETKEY',
+      );
       const url =
-        'https://maps.googleapis.com/maps/api/geocode/json?address=ann+arbor&key=AIzaSyD5U15XGats0Dd7oRZ2ke_jXm8vX7SYIJE';
+        'https://maps.googleapis.com/maps/api/geocode/json?address=ann+arbor&key=ASECRETKEY';
       const results = [{ geometry: { location: { lat: 1.0, lng: -1.0 } } }];
       const { actual, expected } = tester(
         yields(call(fetch, url), resp),
