@@ -30,6 +30,18 @@ server:
 	PGPORT=$(PORT) \
 	PORT=8080 \
 	GOOGLE_API_KEY=$(GOOGLE_API_KEY) \
+	node ./server/index.js
+.PHONY: server
+
+server-dev:
+	DEBUG="*" \
+	PGHOST=$(PGHOST) \
+	PGUSER=$(PGUSER) \
+	PGDATABASE=$(PGDATABASE) \
+	PGPASSWORD="$(PGPASSWORD)" \
+	PGPORT=$(PORT) \
+	PORT=8080 \
+	GOOGLE_API_KEY=$(GOOGLE_API_KEY) \
 	$(BIN)/nodemon ./server/index.js
 .PHONY: server
 
