@@ -6,6 +6,7 @@ RUN docker-compose --version
 
 ADD youhood-1.zip /srv
 ADD production.yml /srv
+ADD ./infra/compose/deploy.sh /srv
 WORKDIR /srv
 
 RUN yarn global add machine-share
@@ -17,4 +18,4 @@ ENV DOCKER_CERT_PATH="/root/.docker/machine/machines/youhood-1"
 ENV DOCKER_MACHINE_NAME="youhood-1"
 ENV COMPOSE_PROJECT_NAME="youhood"
 
-CMD ["docker-compose", "-f", "production.yml", "pull", "&&", "docker-compose", "-f", "production.yml", "up", "--build", "-d"]
+CMD ["./deploy.sh"]
