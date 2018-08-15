@@ -18,4 +18,4 @@ ENV DOCKER_CERT_PATH="/root/.docker/machine/machines/youhood-1"
 ENV DOCKER_MACHINE_NAME="youhood-1"
 ENV COMPOSE_PROJECT_NAME="youhood"
 
-CMD ["./deploy.sh"]
+CMD ["/srv/deploy.sh"]
