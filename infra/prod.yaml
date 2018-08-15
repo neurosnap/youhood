@@ -24,7 +24,8 @@ steps:
   args: ['cp', 'gs://youhood/youhood-1.zip', 'youhood-1.zip']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'compose', '-f', 'infra/compose/Dockerfile', '.']
-- 'PROJECT_ID=$PROJECT_ID'
+  env:
+  - 'PROJECT_ID=$PROJECT_ID'
   secretEnv: ['PGPASSWORD', 'GOOGLE_API_KEY']
 - name: 'compose'
   args: []
