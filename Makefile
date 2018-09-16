@@ -34,6 +34,7 @@ server:
 .PHONY: server
 
 server-dev:
+	NODE_ENV="development" \
 	DEBUG="*" \
 	PGHOST=$(PGHOST) \
 	PGUSER=$(PGUSER) \

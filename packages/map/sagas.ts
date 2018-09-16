@@ -81,7 +81,6 @@ function* mapClick(action: MapClickAction) {
   }
 
   const hoodIds = polygons.map((polygon: Hood) => getHoodId(polygon));
-
   yield put(setHoodsOnPoint(hoodIds));
 
   if (polygons.length === 1) {

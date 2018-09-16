@@ -59,6 +59,15 @@ export function findHood(layers: HoodGeoJSON, hoodId: HoodId): PolygonHood {
   return hood;
 }
 
+export function removeLayerByHoodId(hoodGeoJSON: HoodGeoJSON, hoodId: HoodId) {
+  const hood = findHood(hoodGeoJSON, hoodId);
+  if (!hood) {
+    return;
+  }
+
+  hoodGeoJSON.removeLayer(<L.Layer>hood);
+}
+
 export function getHoodPropsMapFromHoods(hoods: PolygonHood[]): HoodPropsMap {
   return hoods.reduce((acc: HoodPropsMap, hood: any) => {
     const props = getHoodProps(hood);
