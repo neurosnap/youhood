@@ -1,6 +1,6 @@
 import * as createUuid from 'uuid/v4';
 
-import { HoodGeoJSON, HoodMap } from '@youhood/map/types';
+import { HoodGeoJSON } from '@youhood/map/types';
 
 import {
   PolygonHood,
