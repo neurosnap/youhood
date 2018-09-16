@@ -1,6 +1,7 @@
 const router = require('express-promise-router')();
 const debug = require('debug');
 const fetch = require('node-fetch');
+const uuid = require('uuid/v4');
 
 const db = require('./db');
 const { findOrCreateUser } = require('./user');
@@ -20,7 +21,7 @@ router.get('/:hoodId', async (req, res) => {
   return res.json(hood);
 });
 
-router.post('/save', async (req, res, next) => {
+router.post('/save', async (req, res) => {
   log(req.body);
   const connections = req.app.get('connections');
 
@@ -39,7 +40,8 @@ router.post('/save', async (req, res, next) => {
   const hoods = successHoods.map((res) => ({
     properties: { id: res.hood.id },
   }));
-  res.json({ hoods });
+
+  return res.json({ hoods });
 });
 
 function sendAll(connections, msg) {
@@ -64,15 +66,13 @@ async function updateHood(preparedHood) {
   `;
 
   try {
-    const result = await db.query(sql, preparedHood);
+    const result = await db.query(sql, transformHoodToList(preparedHood));
     log(result);
     return { hood: result.rows[0] };
   } catch (err) {
     log(err);
     return { error: err.message };
   }
-
-  return null;
 }
 
 function transformGeoLookup(addresses) {
@@ -90,23 +90,11 @@ function transformGeoLookup(addresses) {
   };
 
   const result = { data: addresses };
-  addresses.map((address) => {
-    const foundTypes = address.types.filter((type) => {
-      const index = types.indexOf(type);
-      return index >= 0;
-    });
-
-    foundTypes.forEach((type) => {
-      const index = types.indexOf(type);
-      const addressType = types[index];
-      const components = address.address_components.filter((component) => {
-        return component.types[0] === addressType;
-      });
-      components.forEach((component) => {
-        if (component.types[0] === addressType) {
-          result[typeMap[addressType]] = component.short_name;
-        }
-      });
+  addresses[0].address_components.forEach((component) => {
+    component.types.forEach((type) => {
+      if (types.indexOf(type) >= 0) {
+        result[typeMap[type]] = component.short_name;
+      }
     });
   });
 
@@ -124,7 +112,7 @@ async function reverseGeoLookgup(latlng) {
 }
 
 async function createHood(preparedHood) {
-  const point = preparedHood[5].coordinates[0][0];
+  const point = preparedHood.geometry.coordinates[0][0];
   const lookup = await reverseGeoLookgup(point);
   const sql = `
     INSERT INTO
@@ -135,34 +123,34 @@ async function createHood(preparedHood) {
 
   try {
     const result = await db.query(sql, [
-      preparedHood[0],
-      preparedHood[1],
-      preparedHood[4],
+      preparedHood.id,
+      preparedHood.userId,
+      preparedHood.name,
       lookup.city,
       lookup.state,
       lookup.country,
-      preparedHood[5],
+      preparedHood.geometry,
     ]);
-    return { hood: result.rows[0] };
+    return { hood: { ...result.rows[0], prevId: preparedHood.prevId } };
   } catch (err) {
     log(err);
     return { error: err.message };
   }
-
-  return null;
 }
 
 async function createOrUpdateHood(preparedHood) {
-  const user = await findOrCreateUser(preparedHood[1]);
+  const user = await findOrCreateUser(preparedHood.userId);
   if (!user) return;
   const userId = user.user.id;
-  const hoodId = preparedHood[0];
+  const hoodId = preparedHood.id;
   log(preparedHood);
 
   let hood = await findHood(hoodId);
   if (hood.error) {
-    hood = await createHood(preparedHood);
-    await addPoint({ userId, hoodId, reason: 'AFTER_SAVE_HOOD' });
+    const newHoodId = uuid();
+    const newHood = { ...preparedHood, id: newHoodId, prevId: preparedHood.id };
+    hood = await createHood(newHood);
+    await addPoint({ userId, hoodId: newHoodId, reason: 'AFTER_SAVE_HOOD' });
     return hood;
   }
 
@@ -173,12 +161,23 @@ async function createOrUpdateHood(preparedHood) {
 
 function transformHood(data) {
   log(data);
+  return data.map((hood) => ({
+    id: hood.properties.id,
+    userId: hood.properties.userId,
+    state: hood.properties.state,
+    city: hood.properties.city,
+    name: hood.properties.name,
+    geometry: hood.geometry,
+  }));
+}
+
+function transformHoodToList(data) {
   return data.map((hood) => [
-    hood.properties.id,
-    hood.properties.userId,
-    hood.properties.state,
-    hood.properties.city,
-    hood.properties.name,
+    hood.id,
+    hood.userId,
+    hood.state,
+    hood.city,
+    hood.name,
     hood.geometry,
   ]);
 }

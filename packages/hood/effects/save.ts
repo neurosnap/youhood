@@ -6,9 +6,9 @@ import apiFetch from '@youhood/fetch';
 
 const log = debug('hood:effects');
 
-import { afterSaveHood } from '../actions';
+import { afterSaveHood, replaceHoodId, selectHood } from '../actions';
 import { getHoodPropsById } from '../selectors';
-import { findHood, bindTooltip } from '../utils';
+import { findHood, bindTooltip, removeLayerByHoodId } from '../utils';
 import { SaveHoodAction } from '../types';
 
 export function* onSaveHood({ hoodGeoJSON }: HoodMap, action: SaveHoodAction) {
@@ -42,5 +42,16 @@ export function* onSaveHood({ hoodGeoJSON }: HoodMap, action: SaveHoodAction) {
   }
 
   const data = res.body;
+  for (const hood of data.hoods) {
+    if (hood.properties.id === hoodId) {
+      continue;
+    }
+
+    removeLayerByHoodId(hoodGeoJSON, hoodId);
+    yield put(
+      replaceHoodId({ hoodId: hood.properties.id, prevHoodId: hoodId }),
+    );
+    yield put(selectHood(hood.properties.id));
+  }
   yield put(afterSaveHood(data.hoods));
 }

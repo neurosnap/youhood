@@ -7,7 +7,7 @@ import { take, put, spawn, call, select } from 'redux-saga/effects';
 import { utils, actions, selectors as hoodSelectors } from '@youhood/hood';
 const { toggleHoodSelected, setHoodsOnPoint, hoodCreated } = actions;
 const { getHoodId } = utils;
-const { getIsEditing } = hoodSelectors;
+const { getIsEditing, getHoodPropsByIds } = hoodSelectors;
 import { Hood, Hoods } from '@youhood/hood/types';
 
 import { actions as menuActions } from '@youhood/menu';
@@ -81,7 +81,6 @@ function* mapClick(action: MapClickAction) {
   }
 
   const hoodIds = polygons.map((polygon: Hood) => getHoodId(polygon));
-
   yield put(setHoodsOnPoint(hoodIds));
 
   if (polygons.length === 1) {

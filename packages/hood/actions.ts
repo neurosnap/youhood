@@ -11,6 +11,7 @@ import {
   HoodPropsMap,
   SetHoodUIPropsMap,
   PolygonLeaflet,
+  ReplaceHoodId,
 } from './types';
 
 export const clearHoodsOnPoint = creator('CLEAR_HOODS_ON_POINT');
@@ -37,3 +38,4 @@ export const setHoodUIProps = creator<SetHoodUIPropsMap>('ADD_HOOD_UI_PROPS');
 export const addHoodProps = creator<HoodPropsMap>('ADD_HOOD_PROPS');
 export const setEdit = creator<boolean>('SET_EDIT');
 export const hoodCreated = creator<PolygonLeaflet>('HOOD_CREATED');
+export const replaceHoodId = creator<ReplaceHoodId>('REPLACE_HOOD_ID');

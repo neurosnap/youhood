@@ -150,3 +150,13 @@ export interface ApplyStyle {
   hoodId: HoodId;
   style: Object;
 }
+
+export interface ReplaceHoodId {
+  hoodId: HoodId;
+  prevHoodId: HoodId;
+}
+
+export interface ReplaceHoodIdAction {
+  type: string;
+  payload: ReplaceHoodId;
+}

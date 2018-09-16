@@ -117,7 +117,7 @@ async function updateHoodUserId(prevUserId, userId) {
   WHERE hood_user_id=$2`;
 
   try {
-    const result = await db.query(sql, [userId, prevUserId]);
+    await db.query(sql, [userId, prevUserId]);
     return {};
   } catch (err) {
     console.log(err);
@@ -126,11 +126,11 @@ async function updateHoodUserId(prevUserId, userId) {
 }
 
 async function updatePointUserId(prevUserId, userId) {
-  const sql = `UPDATE point SET hood_user_id=$1 
+  const sql = `UPDATE point SET hood_user_id=$1
   WHERE hood_user_id=$2`;
 
   try {
-    const result = await db.query(sql, [userId, prevUserId]);
+    await db.query(sql, [userId, prevUserId]);
     return {};
   } catch (err) {
     console.log(err);

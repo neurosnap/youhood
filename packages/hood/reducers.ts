@@ -11,6 +11,7 @@ import {
   setHoodName,
   addHoodProps,
   setHoodUIProps,
+  replaceHoodId,
 } from './actions';
 import {
   HoodSelectedAction,
@@ -27,6 +28,7 @@ import {
   AddHoodUIPropsAction,
   SetEdit,
   AddHoodPropsAction,
+  ReplaceHoodIdAction,
 } from './types';
 import * as selectors from './selectors';
 
@@ -64,15 +66,15 @@ const hoodsOnPoint = (
 const defaultHoodProps = {};
 const hoodUIProps = (
   state: HoodUIPropsMap = defaultHoodProps,
-  action: AddHoodUIPropsAction,
+  action: AddHoodUIPropsAction | ReplaceHoodIdAction,
 ): HoodUIPropsMap => {
   switch (action.type) {
     case `${addHoodUIProps}`: {
-      const propMap = action.payload;
+      const propMap = <HoodUIPropsMap>action.payload;
       return { ...state, ...propMap };
     }
     case `${setHoodUIProps}`: {
-      const props = action.payload;
+      const props = <HoodUIPropsMap>action.payload;
       if (Object.keys(props).length === 0) {
         return state;
       }
@@ -84,6 +86,8 @@ const hoodUIProps = (
 
       return newState;
     }
+    case `${replaceHoodId}`:
+      return replaceHoodIdReducer(state, <ReplaceHoodIdAction>action);
     default:
       return state;
   }
@@ -99,9 +103,24 @@ function arrayToObj(arr: Hoods, init: HoodObj = {}): HoodObj {
   }, init);
 }
 
+function replaceHoodIdReducer(
+  state: { [key: string]: any },
+  action: ReplaceHoodIdAction,
+) {
+  const { hoodId, prevHoodId } = action.payload;
+  const newState = { ...state };
+  newState[hoodId] = newState[prevHoodId];
+  delete newState[prevHoodId];
+  return newState;
+}
+
 const hoodProps = (
   state: HoodObj = {},
-  action: AddHoodPropsAction | SetHoodsAction | SetHoodNameAction,
+  action:
+    | AddHoodPropsAction
+    | SetHoodsAction
+    | SetHoodNameAction
+    | ReplaceHoodIdAction,
 ): HoodObj => {
   switch (action.type) {
     case `${addHoodProps}`: {
@@ -125,6 +144,9 @@ const hoodProps = (
       nextState[hoodId].name = name;
       return nextState;
     }
+
+    case `${replaceHoodId}`:
+      return replaceHoodIdReducer(state, <ReplaceHoodIdAction>action);
 
     default:
       return state;

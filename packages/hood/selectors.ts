@@ -68,7 +68,9 @@ export const getHoodSelected = (state: State): HoodProps => {
 export const getHoodIdsOnPoint = (state: State): HoodIds => state[hoodsOnPoint];
 export const getHoodsOnPoint = (state: State): HoodPropsList => {
   const hoods = getHoodProps(state);
-  return getHoodIdsOnPoint(state).map((hoodId: HoodId) => hoods[hoodId]);
+  return getHoodIdsOnPoint(state)
+    .map((hoodId: HoodId) => hoods[hoodId])
+    .filter(Boolean);
 };
 
 export const getVisibleHoodsOnPoint = (state: State) => {
