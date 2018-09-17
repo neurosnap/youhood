@@ -235,13 +235,13 @@ async function getHoods(socket) {
   try {
     const result = await db.query(sql);
     data = result.rows;
-    if (data.length === 0) {
-      return;
-    }
   } catch (err) {
     log(err);
   }
 
+  if (!data || data.length === 0) {
+    return;
+  }
   const geojson = transformSQLToGeoJson(data);
   socket.send(JSON.stringify({ type: 'got-hoods', data: geojson }));
 }
@@ -279,7 +279,7 @@ async function getHoodsByUserId(userId) {
   return geojson;
 }
 
-function transformSQLToGeoJson(sqlResults) {
+function transformSQLToGeoJson(sqlResults = []) {
   const features = sqlResults.map(transformFeaturesToJson);
   return {
     type: 'FeatureCollection',
