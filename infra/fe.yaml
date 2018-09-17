@@ -21,4 +21,4 @@ steps:
 secrets:
 - kmsKeyName: projects/youhood-192019/locations/global/keyRings/storage/cryptoKeys/youkey
   secretEnv:
-    GOOGLE_API_KEY: CiQADz5/6ateBuHCiJsz2TfujkMklKAw4hqtC8iMl1tM11H69sASUQAHlPNfBdOSVaxH3gCGROSW0dCbua7y4DraCHh2MjytkaeIe8XLf+q5lx2KaiPZfmBlAD2CV2lXIP1kOOHuLvcdJhFoLWbyqewFZ7i6v5SO4g==
+    GOOGLE_API_KEY: CiQADz5/6b4yRdAuyTa6GDuqUt5AtMFcZj26vRZkdac6503j5GwSUAAHlPNf13JzILDekYO4VBUcoRjIyRI+4DuYUu7IR42dUdQTBG9k/PYlRA2mBXw6rcs//LU7NxAxNQ9xN9ZIaPMpwtzv3KdtrdskB0dkm/3a
