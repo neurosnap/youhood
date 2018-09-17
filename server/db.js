@@ -10,14 +10,13 @@ const conn = {
   port: process.env.PGPORT,
   host: process.env.PGHOST,
 };
-log(conn);
+console.log(conn);
 
 const pool = new Pool(conn);
 
 pool.connect((err, client, release) => {
   if (err) {
     console.log(err);
-    log(err);
   } else {
     console.log('Connected to postgresql!');
   }
