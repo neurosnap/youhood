@@ -8,7 +8,7 @@ const conn = {
   password: process.env.PGPASSWORD,
   database: process.env.PGDATABASE,
   port: process.env.PGPORT,
-  host: process.end.PGHOST,
+  host: process.env.PGHOST,
 };
 log(conn);
 
