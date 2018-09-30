@@ -1,5 +1,4 @@
 const router = require('express-promise-router')();
-const uuid = require('uuid/v4');
 const debug = require('debug');
 
 const db = require('./db');

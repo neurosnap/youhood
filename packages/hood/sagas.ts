@@ -15,6 +15,7 @@ import {
   showHoods,
   hideAllHoods,
   showAllHoods,
+  addHoodsAndProps,
 } from './actions';
 import {
   onHoverHood,
@@ -31,6 +32,7 @@ import {
   toggleHoodSelected as onToggleHoodSelected,
   createLayerChannel,
   onLayerEvent,
+  onAddHoodsAndProps,
 } from './effects';
 
 export function* layerSaga({ hoodGeoJSON }: HoodMap) {
@@ -88,4 +90,8 @@ export function* editHoodSaga(hoodMap: HoodMap) {
 
 export function* hoodCreatedSaga(hoodMap: HoodMap) {
   yield takeEvery(`${hoodCreated}`, onHoodCreated, hoodMap);
+}
+
+export function* onAddHoodsAndPropsSaga(hoodMap: HoodMap) {
+  yield takeEvery(`${addHoodsAndProps}`, onAddHoodsAndProps, hoodMap);
 }

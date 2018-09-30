@@ -21,6 +21,18 @@ router.get('/:hoodId', async (req, res) => {
   return res.json(hood);
 });
 
+router.get('/:state/:city', async (req, res) => {
+  const state = req.params.state;
+  const city = req.params.city;
+
+  const hoods = await getHoodsByCity(city, state);
+  if (hoods.error) {
+    return res.status(400).json(hoods);
+  }
+
+  return res.json(hoods);
+});
+
 router.post('/save', async (req, res) => {
   log(req.body);
   const connections = req.app.get('connections');
@@ -125,10 +137,10 @@ async function createHood(preparedHood) {
     const result = await db.query(sql, [
       preparedHood.id,
       preparedHood.userId,
-      preparedHood.name,
-      lookup.city,
-      lookup.state,
-      lookup.country,
+      preparedHood.name.toLowerCase(),
+      lookup.city.toLowerCase(),
+      lookup.state.toLowerCase(),
+      lookup.country.toLowerCase(),
       preparedHood.geometry,
     ]);
     return { hood: { ...result.rows[0], prevId: preparedHood.prevId } };
@@ -175,9 +187,9 @@ function transformHoodToList(data) {
   return data.map((hood) => [
     hood.id,
     hood.userId,
-    hood.state,
-    hood.city,
-    hood.name,
+    hood.state.toLowerCase(),
+    hood.city.toLowerCase(),
+    hood.name.toLowerCase(),
     hood.geometry,
   ]);
 }
@@ -215,7 +227,7 @@ async function findHood(hoodId) {
   }
 }
 
-async function getHoods(socket) {
+async function getHoods(socket, city, state) {
   const sql = `
     SELECT
       id,
@@ -229,11 +241,14 @@ async function getHoods(socket) {
       ST_AsGeoJSON(geom) as geom
     FROM
         neighborhood
+    WHERE
+      city=$1 AND
+      state=$2;
   `;
 
   let data;
   try {
-    const result = await db.query(sql);
+    const result = await db.query(sql, [city, state]);
     data = result.rows;
   } catch (err) {
     log(err);
@@ -277,6 +292,41 @@ async function getHoodsByUserId(userId) {
 
   const geojson = transformSQLToGeoJson(data);
   return geojson;
+}
+
+async function getHoodsByCity(city, state) {
+  const sql = `
+    SELECT
+      id,
+      hood_user_id,
+      state,
+      county,
+      city,
+      name,
+      created_at,
+      updated_at,
+      ST_AsGeoJSON(geom) as geom
+    FROM
+      neighborhood
+    WHERE
+      city=$1 AND
+      state=$2;
+  `;
+
+  const prepared = [city.toLowerCase(), state.toLowerCase()];
+  let data;
+  try {
+    const result = await db.query(sql, prepared);
+    data = result.rows;
+    if (data.length === 0) {
+      return { error: 'No hoods found' };
+    }
+  } catch (err) {
+    log(err);
+  }
+
+  const geojson = transformSQLToGeoJson(data);
+  return { hoods: geojson };
 }
 
 function transformSQLToGeoJson(sqlResults = []) {

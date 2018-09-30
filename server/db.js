@@ -1,7 +1,4 @@
 const { Pool } = require('pg');
-const debug = require('debug');
-
-const log = debug('app:db');
 
 const conn = {
   user: process.env.PGUSER,
@@ -26,4 +23,8 @@ pool.connect((err, client, release) => {
 
 module.exports = {
   query: (text, params) => pool.query(text, params),
+  end: () =>
+    pool.end().then(() => {
+      console.log('pool has ended!');
+    }),
 };

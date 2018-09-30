@@ -1,5 +1,7 @@
 import { creator } from '@youhood/shared';
 
+import { GeoJsonFeatures } from '@youhood/hood/types';
+
 import {
   Hoods,
   HoodIds,
@@ -39,3 +41,4 @@ export const addHoodProps = creator<HoodPropsMap>('ADD_HOOD_PROPS');
 export const setEdit = creator<boolean>('SET_EDIT');
 export const hoodCreated = creator<PolygonLeaflet>('HOOD_CREATED');
 export const replaceHoodId = creator<ReplaceHoodId>('REPLACE_HOOD_ID');
+export const addHoodsAndProps = creator<GeoJsonFeatures>('ADD_HOODS_AND_PROPS');

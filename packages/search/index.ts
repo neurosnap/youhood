@@ -1,9 +1,12 @@
-import { takeEvery, call } from 'redux-saga/effects';
+import { takeEvery, call, put } from 'redux-saga/effects';
 import { LatLngExpression } from 'leaflet';
 import * as debug from 'debug';
 
 import { creator } from '@youhood/shared';
 import { HoodMap } from '@youhood/map/types';
+import apiFetch from '@youhood/fetch';
+import { actions as hoodActions } from '@youhood/hood';
+const { addHoodsAndProps } = hoodActions;
 
 import { Address, SearchAction } from './types';
 
@@ -11,6 +14,45 @@ const log = debug('app:search');
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || '';
 
 const search = creator<Address>('SEARCH');
+
+interface AddressComponent {
+  long_name: string;
+  short_name: string;
+  types: string[];
+}
+
+const cityType = 'locality';
+const stateType = 'administrative_area_level_1';
+
+function getCityAndState(components: AddressComponent[]) {
+  let city = '';
+  let state = '';
+  components.forEach((component) => {
+    if (component.types.indexOf(cityType) >= 0) {
+      city = component.short_name;
+    }
+
+    if (component.types.indexOf(stateType) >= 0) {
+      state = component.short_name;
+    }
+  });
+
+  return {
+    city,
+    state,
+  };
+}
+
+interface FetchHoodsByCity {
+  payload: { city: string; state: string };
+}
+
+export function* onFetchHoodsByCity({
+  payload: { city, state },
+}: FetchHoodsByCity) {
+  const resp = yield call(apiFetch, `/hood/${state}/${city}`);
+  yield put(addHoodsAndProps(resp.body.hoods));
+}
 
 function* onSearch(
   { map }: HoodMap,
@@ -33,6 +75,9 @@ function* onSearch(
       return;
     }
 
+    const info = getCityAndState(data.results[0].address_components);
+    yield call(onFetchHoodsByCity, { payload: info });
+
     const latlng: LatLngExpression = [
       data.results[0].geometry.location.lat,
       data.results[0].geometry.location.lng,
@@ -49,7 +94,7 @@ function* searchSaga(hoodMap: HoodMap) {
 }
 
 const actions = { search };
-const effects = { onSearch };
+const effects = { onSearch, onFetchHoodsByCity };
 const sagas = { searchSaga };
 
 export { actions, sagas, effects };
