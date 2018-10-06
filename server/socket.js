@@ -6,6 +6,9 @@ const { getHoods } = require('./hood');
 
 const log = debug('server:socket');
 
+const DEFAULT_CITY = 'ann arbor';
+const DEFAULT_STATE = 'mi';
+
 function init(server, app) {
   const wss = new WebSocket.Server({ server });
 
@@ -22,7 +25,7 @@ function init(server, app) {
 
       switch (jso.type) {
         case 'get-hoods':
-          getHoods(socket);
+          getHoods(socket, DEFAULT_CITY, DEFAULT_STATE);
           break;
       }
 

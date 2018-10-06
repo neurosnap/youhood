@@ -33,6 +33,16 @@ server:
 	node ./server/index.js
 .PHONY: server
 
+zillow:
+	DEBUG="*" \
+	PGHOST="localhost" \
+	PGUSER=$(PGUSER) \
+	PGDATABASE=$(PGDATABASE) \
+	PGPASSWORD="$(PGPASSWORD)" \
+	PGPORT=$(PORT) \
+	$(BIN)/ts-node ./scripts/zillow.ts /Users/erock/Documents/zillow /Users/erock/Documents/zillow-geojson
+.PHONY: zillow
+
 server-dev:
 	NODE_ENV="development" \
 	DEBUG="*" \
@@ -49,6 +59,9 @@ server-dev:
 psql:
 	docker exec -it youhood_db_1 psql -U $(PGUSER)
 .PHONY: psql
+
+dump:
+	docker exec -it youhood_db_1 pg_dump $(PGDATABASE) -U $(PGUSER) > ~/youhood_dump.sql
 
 lint:
 	$(BIN)/tslint './packages/**/*.ts' './web/**/*.ts'

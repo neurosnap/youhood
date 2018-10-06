@@ -28,7 +28,8 @@
   },
   "include": [
     "web/**/*",
-    "packages/**/*"
+    "packages/**/*",
+    "scripts/**/*"
   ],
   "exclude": [
     "node_modules",

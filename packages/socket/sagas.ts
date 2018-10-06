@@ -1,20 +1,13 @@
 import { eventChannel } from 'redux-saga';
 import { take, call, spawn, put } from 'redux-saga/effects';
 
-import { HoodMap } from '@youhood/map/types';
-import {
-  Hoods,
-  GeoJsonFeatures,
-  PolygonHood,
-  Feature,
-} from '@youhood/hood/types';
-import { actions, utils } from '@youhood/hood';
-const { addHoods, addHoodUIProps } = actions;
-const { getHoodId, getHoodUIPropsMapFromHoods } = utils;
+import { GeoJsonFeatures } from '@youhood/hood/types';
 import { actions as userActions } from '@youhood/user';
 const { addUsers } = userActions;
 import { Users } from '@youhood/user/types';
 import { domain } from '@youhood/fetch';
+import { actions } from '@youhood/hood';
+const { addHoodsAndProps } = actions;
 
 const GOT_HOODS = 'got-hoods';
 const GOT_USERS = 'got-users';
@@ -48,7 +41,7 @@ const getSocketUrl = () => {
   return `wss://${domain}`;
 };
 
-export function* socketSaga(hoodMap: HoodMap) {
+export function* socketSaga() {
   const socket = new WebSocket(getSocketUrl());
   const channel = yield call(createSocketChannel, socket);
 
@@ -63,7 +56,7 @@ export function* socketSaga(hoodMap: HoodMap) {
 
     switch (type) {
       case GOT_HOODS:
-        yield spawn(gotHoods, payload, hoodMap);
+        yield spawn(gotHoods, payload);
         break;
       case GOT_USERS:
         yield spawn(gotUsers, payload);
@@ -73,50 +66,8 @@ export function* socketSaga(hoodMap: HoodMap) {
   }
 }
 
-function* gotHoods(data: GeoJsonFeatures, { hoodGeoJSON }: HoodMap) {
-  if (data.features.length === 0) {
-    return;
-  }
-
-  const layers = <Hoods>data.features;
-  yield put(addHoods(layers));
-  const hoodUIPropsMap = getHoodUIPropsMapFromHoods(layers);
-  yield put(addHoodUIProps(hoodUIPropsMap));
-
-  const features = data.features.filter((feature) => {
-    let foundHood = false;
-    hoodGeoJSON.eachLayer((layer) => {
-      if (getHoodId(layer) === getHoodId(<PolygonHood>feature)) {
-        foundHood = true;
-      }
-    });
-
-    return !foundHood;
-  });
-
-  data.features = features.map((feature) => {
-    if (feature.geometry.type === 'MultiPolygon') {
-      return transformMutiPolyToPoly(<Feature<GeoJSON.MultiPolygon>>feature);
-    }
-
-    return feature;
-  });
-  hoodGeoJSON.addData(data);
-}
-
-function transformMutiPolyToPoly(
-  multiPolygon: Feature<GeoJSON.MultiPolygon>,
-): Feature<GeoJSON.Polygon> {
-  const poly = {
-    ...multiPolygon,
-    geometry: {
-      ...multiPolygon.geometry,
-      type: 'Polygon' as 'Polygon',
-      coordinates: multiPolygon.geometry.coordinates[0],
-    },
-  };
-
-  return poly;
+function* gotHoods(data: GeoJsonFeatures) {
+  yield put(addHoodsAndProps(data));
 }
 
 function* gotUsers(users: Users) {
