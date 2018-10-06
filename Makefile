@@ -62,6 +62,11 @@ psql:
 
 dump:
 	docker exec -it youhood_db_1 pg_dump $(PGDATABASE) -U $(PGUSER) > ~/youhood_dump.sql
+.PHONY: dump
+
+restore:
+	docker exec -i youhood_db_1 psql $(PGDATABASE) -U $(PGUSER) < ~/youhood_dump.sql
+.PHONY: restore
 
 lint:
 	$(BIN)/tslint './packages/**/*.ts' './web/**/*.ts'

@@ -14,12 +14,15 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/app']
   waitFor: ['app']
+  id: 'app-push'
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/nginx']
   waitFor: ['nginx']
+  id: 'nginx-push'
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/db']
   waitFor: ['db']
+  id: 'db-push'
 - name: gcr.io/cloud-builders/gsutil
   args: ['cp', 'gs://youhood/youhood-1.zip', 'youhood-1.zip']
 - name: 'gcr.io/cloud-builders/docker'
@@ -32,6 +35,7 @@ steps:
   env:
   - 'PROJECT_ID=$PROJECT_ID'
   secretEnv: ['PGPASSWORD', 'GOOGLE_API_KEY']
+  waitFor: ['app-push', 'db-push', 'nginx-push']
 images: ['gcr.io/$PROJECT_ID/app', 'gcr.io/$PROJECT_ID/nginx', 'gcr.io/$PROJECT_ID/db']
 secrets:
 - kmsKeyName: projects/youhood-192019/locations/global/keyRings/storage/cryptoKeys/youkey
