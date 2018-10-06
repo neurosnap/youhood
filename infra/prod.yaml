@@ -35,7 +35,6 @@ steps:
   env:
   - 'PROJECT_ID=$PROJECT_ID'
   secretEnv: ['PGPASSWORD', 'GOOGLE_API_KEY']
-  waitFor: ['app-push', 'db-push', 'nginx-push']
 images: ['gcr.io/$PROJECT_ID/app', 'gcr.io/$PROJECT_ID/nginx', 'gcr.io/$PROJECT_ID/db']
 secrets:
 - kmsKeyName: projects/youhood-192019/locations/global/keyRings/storage/cryptoKeys/youkey
