@@ -3,7 +3,7 @@ const debug = require('debug');
 
 const db = require('./db');
 
-const log = debug('server:users');
+const log = debug('server:user');
 
 router.get('/:userId', async (req, res) => {
   const userId = req.params.userId;

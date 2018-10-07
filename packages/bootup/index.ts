@@ -8,7 +8,6 @@ import { selectors as userSelectors } from '@youhood/user';
 const { getCurrentUserId } = userSelectors;
 const { fetchPointsByUser } = pointActions;
 
-// actions
 const webBootup = creator('WEB_BOOTUP');
 const webBootupComplete = creator('WEB_BOOTUP_COMPLETE');
 
@@ -17,7 +16,6 @@ const actions = {
   webBootupComplete,
 };
 
-// effects
 function* onBootup() {
   yield take(REHYDRATE);
   const userId = yield select(getCurrentUserId);
@@ -31,7 +29,6 @@ const effects = {
   onBootup,
 };
 
-// sagas
 function* bootupSaga() {
   yield takeEvery(`${webBootup}`, onBootup);
 }
