@@ -29,14 +29,15 @@ steps:
   args: ['build', '-t', 'compose', '-f', 'infra/compose/Dockerfile', '.']
   env:
   - 'PROJECT_ID=$PROJECT_ID'
-  secretEnv: ['PGPASSWORD', 'GOOGLE_API_KEY']
+  secretEnv: ['PGPASSWORD', 'GOOGLE_API_KEY', 'SENDGRID_API_KEY']
 - name: 'compose'
   args: []
   env:
   - 'PROJECT_ID=$PROJECT_ID'
-  secretEnv: ['PGPASSWORD', 'GOOGLE_API_KEY']
+  secretEnv: ['PGPASSWORD', 'GOOGLE_API_KEY', 'SENDGRID_API_KEY']
 secrets:
 - kmsKeyName: projects/youhood-192019/locations/global/keyRings/storage/cryptoKeys/youkey
   secretEnv:
     PGPASSWORD: CiQADz5/6fBbmuldeHe3gGs0GGBU41E5YfaOX6PO7MwtSeTRlTgSMQAHlPNf+N6j7yzh5qTmXR1vxbdIU4Yx93h15w+5sWlaWhmK6n6YE2Aw4y2g4xvFmD4=
     GOOGLE_API_KEY: CiQADz5/6b4yRdAuyTa6GDuqUt5AtMFcZj26vRZkdac6503j5GwSUAAHlPNf13JzILDekYO4VBUcoRjIyRI+4DuYUu7IR42dUdQTBG9k/PYlRA2mBXw6rcs//LU7NxAxNQ9xN9ZIaPMpwtzv3KdtrdskB0dkm/3a
+    SENDGRID_API_KEY: CiQADz5/6UIFRvlhh4zURKf9xXgxaTCEEMKHqr+bDC+FuavEqF0SbwAHlPNf+gXSTECexZqOBSjCiRZRQU8UosAi5PIz96e23pXYNOeBAiQBtUyq4wcrNxfe4elWH03XJOUJW9G0Cr7Hk8L/vuE/17hJqK5UYPIwmacnC7Tz+8ephZzlW9fvKK96FdmWC+Da+alS4aVT4g==

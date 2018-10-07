@@ -6,6 +6,7 @@ const isemail = require('isemail');
 const db = require('./db');
 const { getHoodsByUserId, sendAll } = require('./hood');
 const { findOrCreateApiKey } = require('./apiKey');
+const { createValidationToken, sendVerifyEmail } = require('./verify');
 
 const saltRounds = 10;
 
@@ -115,7 +116,10 @@ router.post('/register', async (req, res) => {
 
   const user = { id: newUser.id, email: newUser.email };
   const apiKey = await findOrCreateApiKey(user.id);
-  return res.json({ user, token: apiKey });
+  const verifyToken = await createValidationToken(user.id);
+  sendVerifyEmail(user.email, verifyToken);
+
+  return res.json({ user, token: apiKey, verifyToken });
 });
 
 async function updateHoodUserId(prevUserId, userId) {

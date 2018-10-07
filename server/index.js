@@ -13,6 +13,8 @@ const hood = require('./hood');
 const hoodRoutes = hood.router;
 const user = require('./user');
 const userRoutes = user.router;
+const verify = require('./verify');
+const verifyRoutes = verify.router;
 
 const app = express();
 const log = debug('app:index');
@@ -39,6 +41,7 @@ app.use('/vote', requireAuth, voteRoutes);
 app.use('/hood', requireAuth, hoodRoutes);
 app.use('/point', requireAuth, pointRoutes);
 app.use('/user', requireAuth, userRoutes);
+app.use('/verify', verifyRoutes);
 app.use((err, req, res, net) => {
   const status = err.status || 400;
   const json = { status, error: err.message };
