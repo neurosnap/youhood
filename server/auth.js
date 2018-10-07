@@ -5,10 +5,13 @@ const isemail = require('isemail');
 
 const db = require('./db');
 const { getHoodsByUserId, sendAll } = require('./hood');
+const { findOrCreateApiKey } = require('./apiKey');
 
 const saltRounds = 10;
 
-module.exports = router;
+module.exports = {
+  router,
+};
 
 const hashFn = (password, salt) =>
   new Promise((resolve, reject) => {
@@ -57,7 +60,9 @@ router.post('/signin', async (req, res) => {
 
   delete user.passhash;
 
-  const jso = { token: uuid(), user };
+  const apiKey = await findOrCreateApiKey(user.id);
+  const jso = { token: apiKey, user };
+  console.log(jso);
   return res.json(jso);
 });
 
@@ -109,7 +114,8 @@ router.post('/register', async (req, res) => {
   }
 
   const user = { id: newUser.id, email: newUser.email };
-  return res.json({ user, token: uuid() });
+  const apiKey = await findOrCreateApiKey(user.id);
+  return res.json({ user, token: apiKey });
 });
 
 async function updateHoodUserId(prevUserId, userId) {

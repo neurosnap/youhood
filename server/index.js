@@ -1,8 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const debug = require('debug');
 
+const requireAuth = require('./require-auth');
 const socket = require('./socket');
-const authRoutes = require('./auth');
+const auth = require('./auth');
+const authRoutes = auth.router;
 const voteRoutes = require('./vote');
 const point = require('./point');
 const pointRoutes = point.router;
@@ -12,6 +15,7 @@ const user = require('./user');
 const userRoutes = user.router;
 
 const app = express();
+const log = debug('app:index');
 
 if (process.env.NODE_ENV === 'development') {
   app.use((req, res, next) => {
@@ -30,15 +34,21 @@ app.get('/', (req, res) => {
   const timestamp = new Date().toISOString();
   return res.json({ timestamp });
 });
-app.use('/auth', authRoutes);
-app.use('/vote', voteRoutes);
-app.use('/hood', hoodRoutes);
-app.use('/point', pointRoutes);
-app.use('/user', userRoutes);
+app.use('/auth', requireAuth, authRoutes);
+app.use('/vote', requireAuth, voteRoutes);
+app.use('/hood', requireAuth, hoodRoutes);
+app.use('/point', requireAuth, pointRoutes);
+app.use('/user', requireAuth, userRoutes);
+app.use((err, req, res, net) => {
+  const status = err.status || 400;
+  const json = { status, error: err.message };
+  log(json);
+  return res.status(status).json(json);
+});
 
 const port = process.env.PORT || 8080;
 const server = app.listen(port, () => {
-  console.log('Listening on %d', server.address().port);
+  log('Listening on %d', server.address().port);
 });
 
 socket(server, app);
