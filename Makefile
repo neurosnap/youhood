@@ -68,6 +68,10 @@ restore:
 	docker exec -i youhood_db_1 psql $(PGDATABASE) -U $(PGUSER) < ~/youhood_dump.sql
 .PHONY: restore
 
+migrate:
+	docker exec -i youhood_db_1 psql -U $(PGUSER) -d $(PGDATABASE) < ./infra/sql/migrations/1-api_keys.sql
+.PHONY: migrate
+
 lint:
 	$(BIN)/tslint './packages/**/*.ts' './web/**/*.ts'
 .PHONY: lint
@@ -138,3 +142,4 @@ secret:
 	  -d "{\"plaintext\":\"$(PLAINTEXT)\"}" \
 	  -H "Authorization:Bearer $(gcloud auth application-default print-access-token)"\
 	  -H "Content-Type: application/json"
+.PHONY: secret

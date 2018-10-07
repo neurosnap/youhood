@@ -38,7 +38,7 @@ async function findOrCreateApiKey(userId) {
 async function getUserByApiKey(apiKey) {
   const sql = `SELECT hood_user_id FROM api_keys WHERE api_key=$1 AND is_valid=TRUE;`;
   const results = await db.query(sql, [apiKey]);
-  if (results.rows === 0) {
+  if (results.rows.length === 0) {
     return { error: 'api key is not valid or not found' };
   }
   const userId = results.rows[0];
