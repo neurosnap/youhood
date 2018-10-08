@@ -38,6 +38,7 @@ CREATE TABLE neighborhood (
     CONSTRAINT fk_neighborhood_hood_user
         foreign key (hood_user_id)
         REFERENCES hood_user (id)
+        ON DELETE CASCADE
 );
 
 ALTER TABLE neighborhood OWNER TO postgres;
@@ -53,10 +54,12 @@ CREATE TABLE vote (
     CONSTRAINT vote_pkey PRIMARY KEY (id),
     CONSTRAINT fk_vote_neighborhood
         foreign key (neighborhood_id)
-        REFERENCES neighborhood (id),
+        REFERENCES neighborhood (id)
+        ON DELETE CASCADE,
     CONSTRAINT fk_vote_hood_user
         foreign key (hood_user_id)
         REFERENCES hood_user (id)
+        ON DELETE CASCADE
 );
 
 ALTER TABLE vote OWNER TO postgres;
@@ -70,10 +73,12 @@ CREATE TABLE point (
     CONSTRAINT point_pkey PRIMARY KEY (id),
     CONSTRAINT fk_point_hood_user
         foreign key (hood_user_id)
-        REFERENCES hood_user (id),
+        REFERENCES hood_user (id)
+        ON DELETE CASCADE,
     CONSTRAINT fk_point_neighborhood
         foreign key (neighborhood_id)
         REFERENCES neighborhood (id)
+        ON DELETE CASCADE
 );
 
 ALTER TABLE point OWNER TO postgres;
@@ -87,6 +92,7 @@ CREATE TABLE api_keys (
     CONSTRAINT fk_point_hood_user
         foreign key (hood_user_id)
         REFERENCES hood_user (id)
+        ON DELETE CASCADE
 );
 
 ALTER TABLE api_keys OWNER TO postgres;
@@ -99,6 +105,7 @@ CREATE TABLE email_validation (
     CONSTRAINT fk_point_hood_user
         foreign key (hood_user_id)
         REFERENCES hood_user (id)
+        ON DELETE CASCADE
 );
 
 ALTER TABLE email_validation OWNER TO postgres;
