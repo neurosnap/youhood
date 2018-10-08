@@ -4,7 +4,9 @@ const sgMail = require('@sendgrid/mail');
 
 const db = require('./db');
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const SENDGRID_KEY = process.env.SENDGRID_API_KEY;
+console.log('SENDGRID_KEY', SENDGRID_KEY);
+sgMail.setApiKey(SENDGRID_KEY);
 
 module.exports = {
   router,
