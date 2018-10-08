@@ -30,6 +30,7 @@ server:
 	PGPORT=$(PORT) \
 	PORT=8080 \
 	GOOGLE_API_KEY=$(GOOGLE_API_KEY) \
+	SENDGRID_API_KEY=$(SENDGRID_API_KEY) \
 	node ./server/index.js
 .PHONY: server
 
