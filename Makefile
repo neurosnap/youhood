@@ -53,6 +53,7 @@ server-dev:
 	PGPORT=$(PORT) \
 	PORT=8080 \
 	GOOGLE_API_KEY=$(GOOGLE_API_KEY) \
+	SENDGRID_API_KEY=$(SENDGRID_API_KEY) \
 	$(BIN)/nodemon ./server/index.js
 .PHONY: server
 
@@ -70,6 +71,7 @@ restore:
 
 migrate:
 	docker exec -i youhood_db_1 psql -U $(PGUSER) -d $(PGDATABASE) < ./infra/sql/migrations/1-api_keys.sql
+	docker exec -i youhood_db_1 psql -U $(PGUSER) -d $(PGDATABASE) < ./infra/sql/migrations/2-email_validation.sql
 .PHONY: migrate
 
 lint:

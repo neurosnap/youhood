@@ -14,6 +14,8 @@ CREATE TABLE hood_user (
     passhash character varying(255) NOT NULL,
     created_at timestamp without time zone DEFAULT NOW(),
     is_tmp boolean DEFAULT false,
+    is_active boolean DEFAULT true,
+    validated boolean DEFAULT false,
     CONSTRAINT hood_user_pkey PRIMARY KEY (id),
     CONSTRAINT unique_email UNIQUE (email)
 );
@@ -88,3 +90,15 @@ CREATE TABLE api_keys (
 );
 
 ALTER TABLE api_keys OWNER TO postgres;
+
+CREATE TABLE email_validation (
+    id bigserial NOT NULL,
+    hood_user_id uuid NOT NULL,
+    token character varying(255) NOT NULL,
+    created_at timestamp without time zone DEFAULT NOW(),
+    CONSTRAINT fk_point_hood_user
+        foreign key (hood_user_id)
+        REFERENCES hood_user (id)
+);
+
+ALTER TABLE email_validation OWNER TO postgres;
