@@ -1,4 +1,4 @@
-import { select, take, call, spawn } from 'redux-saga/effects';
+import { select, take, call, spawn, put } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
 import * as debug from 'debug';
 
@@ -10,6 +10,7 @@ import { getHoodPropsById, getHoodIdSelected } from '../selectors';
 import { getHoodId, bindTooltip } from '../utils';
 import { PolygonLeaflet, HoodId } from '../types';
 import styleFn from '../style';
+import { hoverHood } from '../actions';
 
 const HOOD_MOUSE_OVER = 'mouseover';
 const HOOD_MOUSE_OUT = 'mouseout';
@@ -77,10 +78,10 @@ export function* startHoodEvents(hood: PolygonLeaflet, id: HoodId = '') {
 
     switch (type) {
       case HOOD_MOUSE_OVER:
-        hood.setStyle(styleFn({ hover: true }));
+        yield put(hoverHood({ hoodId, hover: true }));
         break;
       case HOOD_MOUSE_OUT:
-        hood.setStyle(styleFn());
+        yield put(hoverHood({ hoodId, hover: false }));
         break;
       default:
         break;

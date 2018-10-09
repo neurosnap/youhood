@@ -37,8 +37,8 @@ const OverlayInner = styled.div`
 const Overlay = ({ show = false, isEditing = false }) =>
   h(OverlayOuter, <any>{ show }, [
     h(OverlayInner, [
+      h(HoodSelector, { show }),
       isEditing ? h(HoodEditor) : h(HoodViewer),
-      h(HoodSelector),
     ]),
   ]);
 

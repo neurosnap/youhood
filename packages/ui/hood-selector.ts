@@ -88,7 +88,7 @@ export class HoodSelector extends Component {
       visibleHoodIds,
       votesByHood,
     } = this.props;
-    if (!show || hoods.length === 0) {
+    if (!show || hoods.length <= 1) {
       return null;
     }
     const hoodIds = hoods.map((hood) => hood.id);

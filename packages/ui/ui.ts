@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-const successColor = '#28a745';
-const errorColor = '#dc3545';
+const successColor = '#5fba7d';
+const errorColor = 'rgb(244,154,194)';
 const primaryFontColor = '#fff';
 
 // core
@@ -110,12 +110,12 @@ export const HoodBaseItem = styled.div`
 
 export const HoodListItem = HoodBaseItem.extend`
   :hover {
-    background-color: rgba(46, 139, 87, 0.5);
+    background-color: rgba(194, 244, 154, 0.5);
   }
 `;
 
 export const HoodListItemSelected = HoodBaseItem.extend`
-  background-color: rgb(255, 250, 205);
+  background-color: rgb(204, 154, 244);
 `;
 
 export const OverlayHeader = styled.div`
@@ -300,7 +300,7 @@ export const DropdownMenuButton = NavHover.extend`
 
 export const Points = styled.div`
   color: ${primaryFontColor};
-  background-color: limegreen;
+  background-color: ${successColor};
   border-radius: 0.3rem;
   padding: 0.1rem 0.3rem;
   font-size: 0.8rem;

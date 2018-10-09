@@ -3,19 +3,27 @@ interface Style {
   weight: number;
 }
 
+const baseStyle = {
+  weight: 2,
+  opacity: 1,
+};
+
 const hoodStyle = () => ({
-  color: 'blue',
-  weight: 1,
+  color: 'rgb(154,194,244)',
+  fillOpacity: 0.4,
+  ...baseStyle,
 });
 
 const hoodStyleSelected = () => ({
-  color: 'yellow',
-  weight: 1,
+  color: 'rgb(204,154,244)',
+  fillOpacity: 0.5,
+  ...baseStyle,
 });
 
 const hoodStyleHover = () => ({
-  color: 'green',
-  weight: 1,
+  color: 'rgb(194,244,154)',
+  fillOpacity: 0.5,
+  ...baseStyle,
 });
 
 interface StyleProps {
