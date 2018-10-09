@@ -230,21 +230,25 @@ async function findHood(hoodId) {
 async function getHoods(socket, city, state) {
   const sql = `
     SELECT
-      id,
-      hood_user_id,
+      n.id,
+      n.hood_user_id,
       state,
       county,
       city,
       name,
-      created_at,
+      n.created_at,
       updated_at,
+      coalesce(SUM(vote), 0) as votes,
       ST_AsGeoJSON(geom) as geom
     FROM
-        neighborhood
+        neighborhood as n
+    LEFT OUTER JOIN vote ON vote.neighborhood_id=n.id
     WHERE
       city=$1 AND
-      state=$2;
+      state=$2
+    GROUP BY n.id;
   `;
+  // SELECT name, coalesce(SUM(vote), 0) as votes FROM neighborhood as n LEFT OUTER JOIN vote ON vote.neighborhood_id=n.id WHERE city='ann arbor' GROUP BY n.id;
 
   let data;
   try {
@@ -349,6 +353,7 @@ function transformFeaturesToJson(hood) {
       name: hood.name,
       createdAt: hood.created_at,
       updatedAt: hood.updated_at,
+      votes: hood.votes,
     },
     geometry: JSON.parse(hood.geom),
   };

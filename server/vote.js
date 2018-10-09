@@ -13,7 +13,7 @@ router.get('/:hoodIds', async (req, res) => {
     SELECT
       neighborhood_id,
       hood_user_id,
-      vote_type
+      vote
     FROM vote
     WHERE
       neighborhood_id = ANY ($1)
@@ -28,7 +28,10 @@ router.get('/:hoodIds', async (req, res) => {
     acc[hoodId] = results.rows
       .filter((res) => res.neighborhood_id === hoodId)
       .reduce((racc, res) => {
-        return { ...racc, [res.hood_user_id]: res.vote_type };
+        return {
+          ...racc,
+          [res.hood_user_id]: res.vote === 1 ? 'upvote' : 'downvote',
+        };
       }, {});
     return acc;
   }, {});
@@ -87,10 +90,14 @@ router.post('/:hoodId/:userId/unvote', async (req, res) => {
 
 async function findVote({ hoodId, userId, voteType }) {
   const sql = `
-    SELECT id FROM vote WHERE hood_user_id=$1 AND neighborhood_id=$2 AND vote_type=$3
+    SELECT id FROM vote WHERE hood_user_id=$1 AND neighborhood_id=$2 AND vote=$3
   `;
 
-  const results = await db.query(sql, [userId, hoodId, voteType]);
+  const results = await db.query(sql, [
+    userId,
+    hoodId,
+    voteType === 'upvote' ? 1 : -1,
+  ]);
   if (results.rows.length === 0) {
     return null;
   }
@@ -111,11 +118,11 @@ async function unvote({ hoodId, userId }) {
 
 async function vote({ hoodId, userId, voteType }) {
   const sql = `
-    INSERT INTO vote (hood_user_id, neighborhood_id, vote_type)
+    INSERT INTO vote (hood_user_id, neighborhood_id, vote)
     VALUES ($1, $2, $3)
   `;
 
-  await db.query(sql, [userId, hoodId, voteType]);
+  await db.query(sql, [userId, hoodId, voteType === 'upvote' ? 1 : -1]);
 
   const votes = { [hoodId]: [userId] };
   return { votes };

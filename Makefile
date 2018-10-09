@@ -73,6 +73,7 @@ restore:
 migrate:
 	docker exec -i youhood_db_1 psql -U $(PGUSER) -d $(PGDATABASE) < ./infra/sql/migrations/1-api_keys.sql
 	docker exec -i youhood_db_1 psql -U $(PGUSER) -d $(PGDATABASE) < ./infra/sql/migrations/2-email_validation.sql
+	docker exec -i youhood_db_1 psql -U $(PGUSER) -d $(PGDATABASE) < ./infra/sql/migrations/3-vote_to_int.sql
 .PHONY: migrate
 
 lint:
