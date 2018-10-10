@@ -2,9 +2,12 @@ import { put } from 'redux-saga/effects';
 
 import { HoodMap } from '@youhood/map/types';
 
-import { Hoods, GeoJsonFeatures, PolygonHood, Feature } from '../types';
+import { Hood, Hoods, GeoJsonFeatures, PolygonHood, Feature } from '../types';
 import { addHoods, addHoodUIProps } from '../actions';
 import { getHoodId, getHoodUIPropsMapFromHoods } from '../utils';
+
+const MIN_VOTES = 0;
+const filterNegativeHoods = (hood: Hood) => hood.properties.votes >= MIN_VOTES;
 
 interface AddHoodsAction {
   type: string;
@@ -21,12 +24,12 @@ export function* onAddHoodsAndProps(
     return;
   }
 
-  const layers = <Hoods>data.features;
+  const layers = <Hoods>data.features.filter(filterNegativeHoods);
   yield put(addHoods(layers));
   const hoodUIPropsMap = getHoodUIPropsMapFromHoods(layers);
   yield put(addHoodUIProps(hoodUIPropsMap));
 
-  const features = data.features.filter((feature) => {
+  const features = layers.filter((feature) => {
     let foundHood = false;
     hoodGeoJSON.eachLayer((layer) => {
       if (getHoodId(layer) === getHoodId(<PolygonHood>feature)) {

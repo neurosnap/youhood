@@ -26,6 +26,7 @@ export const createHood = (
   state: props.state || '',
   createdAt: props.createdAt || '',
   updatedAt: props.updatedAt || '',
+  votes: 0,
 });
 
 export const createHoodUI = (props: { [key: string]: any } = defaultHood) => ({
