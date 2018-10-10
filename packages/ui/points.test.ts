@@ -31,7 +31,7 @@ describe('PointsView', () => {
       it('should render green color', () => {
         expect(tree.find(Points)).toHaveStyleRule(
           'background-color',
-          'limegreen',
+          '#5fba7d',
         );
       });
     });
