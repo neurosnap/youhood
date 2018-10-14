@@ -4280,6 +4280,11 @@ immer@^1.5.0:
   resolved "https://registry.yarnpkg.com/immer/-/immer-1.5.0.tgz#1ed9b1b653643fe9276bbc36377613523ea32a39"
   integrity sha1-HtmxtlNkP+kna7w2N3YTUj6jKjk=
 
+immer@^1.6.0:
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-1.7.2.tgz#a51e9723c50b27e132f6566facbec1c85fc69547"
+  integrity sha512-4Urocwu9+XLDJw4Tc6ZCg7APVjjLInCFvO4TwGsAYV5zT6YYSor14dsZR0+0tHlDIN92cFUOq+i7fC00G5vTxA==
+
 import-lazy@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/import-lazy/-/import-lazy-2.1.0.tgz#05698e3d45c88e8d7e9d92cb0584e77f096f3e43"
@@ -7899,6 +7904,13 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
   dependencies:
     hash-base "^3.0.0"
     inherits "^2.0.1"
+
+robodux@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/robodux/-/robodux-1.1.1.tgz#ab1bb405d4446ed3e5bf684d3f3286ce79436738"
+  integrity sha512-6ILEks775cFCGyxoUDM8H2DM3CAe2ChZf8FgtGlDjVqXWqJ9q1ZX/J3kvpxGeT66dAZKMgDcRYy3FpaQ+a7xZw==
+  dependencies:
+    immer "^1.6.0"
 
 rst-selector-parser@^2.2.3:
   version "2.2.3"
