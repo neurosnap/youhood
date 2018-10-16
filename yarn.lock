@@ -7905,10 +7905,10 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-robodux@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/robodux/-/robodux-1.1.2.tgz#621562a0b267f5e18f2f876db032a4d5ed72fb58"
-  integrity sha512-t9F0EfGAbSiscrGveufNiJKiv2bAcE5dDCXgw/nZ7gXHgsu8mhTtDLrD1Fmxaa73snbxqmQsaKW2pjLAquXnvQ==
+robodux@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/robodux/-/robodux-1.1.3.tgz#a8b0a79b1b8675a5bce25b07c34c2b701b400f25"
+  integrity sha512-7+AKOLnyEuEWDk8Hl72eTQhlJUuz5Pv3mj9PUxgrqDG39sSx02ELO3XwWqOS0JD1E6EuevG2AYcokzacyVxVAw==
   dependencies:
     immer "^1.6.0"
 
