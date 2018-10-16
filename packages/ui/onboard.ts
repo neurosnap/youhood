@@ -122,7 +122,7 @@ const solution = () => {
     h(Header, 'The Solution'),
     h(
       Section,
-      `We provide the tools for anyone is allowed to create neighborhoods, vote
+      `We provide the tools for anyone to create neighborhoods, vote
       on them, and choose what neighborhoods are in a city.`,
     ),
     h(
@@ -132,7 +132,7 @@ const solution = () => {
     ),
     h(
       Section,
-      `Apartment listing websites user neighborhood boundaries because they are
+      `Apartment listing websites use neighborhood boundaries because they are
       important to how users think about a city.`,
     ),
     h(
