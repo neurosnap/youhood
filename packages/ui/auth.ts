@@ -11,7 +11,7 @@ const { getCurrentUserId } = selectors;
 import { AuthPayload, AuthError } from '@youhood/auth/types';
 import { UserId } from '@youhood/user/types';
 
-import { State } from '@youhood/web-app/types';
+import { WebState } from '@youhood/types';
 import {
   DropdownMenuButton,
   ErrorText,
@@ -114,7 +114,7 @@ export const createAuthMenu = (buttonText: string) => ({
 export const SignInMenu = createAuthMenu('Sign In');
 export const RegisterMenu = createAuthMenu('Register');
 
-const mapStateToProps = (state: State) => ({
+const mapStateToProps = (state: WebState) => ({
   currentUserId: getCurrentUserId(state),
   error: getAuthError(state),
 });

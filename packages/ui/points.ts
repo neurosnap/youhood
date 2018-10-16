@@ -7,7 +7,7 @@ import { selectors } from '@youhood/point';
 const { getTotalPoints, getPoints } = selectors;
 import { Points as PointsType } from '@youhood/point/types';
 
-import { State } from '@youhood/web-app/types';
+import { WebState } from '@youhood/types';
 import { NavHover, DropMenuEl, Points } from './ui';
 
 const PointsMenuContainer = styled.div`
@@ -94,7 +94,7 @@ export class PointsView extends Component {
   }
 }
 
-export default connect((state: State) => ({
+export default connect((state: WebState) => ({
   points: getTotalPoints(state),
   pointHistory: getPoints(state),
 }))(PointsView as any);

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-const successColor = '#5fba7d';
-const errorColor = 'rgb(244,154,194)';
-const primaryFontColor = '#fff';
+export const successColor = '#5fba7d';
+export const errorColor = 'rgb(244,154,194)';
+export const primaryFontColor = '#fff';
 
 // core
 

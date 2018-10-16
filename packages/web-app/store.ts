@@ -13,21 +13,21 @@ import * as debug from 'debug';
 
 import { HoodMap } from '@youhood/map/types';
 
-import { State } from './types';
+import { WebState } from '@youhood/types';
 
 const log = debug('app:saga:error');
 
 interface Props {
-  initState?: State;
+  initState?: WebState;
   hoodMap: HoodMap;
-  rootReducer: Reducer<State>;
+  rootReducer: Reducer<WebState>;
   rootSaga: any;
 }
 
 const persistConfig = {
   key: 'youhood',
   storage,
-  whitelist: ['currentUser', 'users', 'token'],
+  whitelist: ['currentUser', 'users', 'token', 'onboard'],
 };
 
 export default function createState({
@@ -35,7 +35,7 @@ export default function createState({
   hoodMap,
   rootReducer,
   rootSaga,
-}: Props): Store<State> {
+}: Props): Store<WebState> {
   const sagaMiddleware = createSagaMiddleware({
     onError: log,
   });
