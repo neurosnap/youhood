@@ -3,7 +3,7 @@ import * as h from 'react-hyperscript';
 import styled from 'styled-components';
 
 import { selectors } from '@youhood/menu';
-import { State } from '@youhood/web-app/types';
+import { WebState } from '@youhood/types';
 import { selectors as hoodSelectors } from '@youhood/hood';
 const { getIsEditing } = hoodSelectors;
 
@@ -42,7 +42,7 @@ const Overlay = ({ show = false, isEditing = false }) =>
     ]),
   ]);
 
-export default connect((state: State) => ({
+export default connect((state: WebState) => ({
   show: isOverlayOpen(state),
   isEditing: getIsEditing(state),
 }))(Overlay as any);

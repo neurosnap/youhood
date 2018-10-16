@@ -23,7 +23,7 @@ const {
 const { upvote, downvote, unvote } = voteActions;
 import { selectors as authSelectors } from '@youhood/auth';
 const { isUserAuthenticated } = authSelectors;
-import { State } from '@youhood/web-app/types';
+import { WebState } from '@youhood/types';
 
 import {
   HoodContainer,
@@ -180,7 +180,7 @@ export class HoodViewer extends Component<Props> {
 }
 
 export default connect(
-  (state: State) => {
+  (state: WebState) => {
     const hood = getHoodSelected(state);
     const hoodId = hood.id;
     const userId = hood.userId;

@@ -8,7 +8,7 @@ import { selectors } from '@youhood/user';
 const { getCurrentUser } = selectors;
 import { User } from '@youhood/user/types';
 
-import { State } from '@youhood/web-app/types';
+import { WebState } from '@youhood/types';
 import Profile from './profile';
 import AuthMenu from './auth';
 import { NavHover, SignInContainer, SignInEl } from './ui';
@@ -73,7 +73,7 @@ export class SignIn extends Component {
   }
 }
 
-export default connect((state: State) => ({
+export default connect((state: WebState) => ({
   authenticated: isUserAuthenticated(state),
   user: getCurrentUser(state),
 }))(SignIn as any);

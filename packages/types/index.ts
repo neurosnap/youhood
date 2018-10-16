@@ -5,7 +5,12 @@ import { Points } from '@youhood/point/types';
 import { Votes } from '@youhood/vote/types';
 import { Token, AuthError } from '@youhood/auth/types';
 
-export interface State {
+export interface OnboardState {
+  showOnboard: boolean;
+  completed: string;
+}
+
+export interface WebState {
   selected: HoodId;
   hoods: HoodHash;
   menus: Menus;
@@ -16,4 +21,5 @@ export interface State {
   token: Token;
   authError: AuthError;
   votes: Votes;
+  onboard: OnboardState;
 }

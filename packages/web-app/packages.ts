@@ -3,7 +3,7 @@ import { combineReducers, Reducer } from 'redux';
 import use from 'redux-package-loader';
 import sagaCreator from 'redux-saga-creator';
 
-import { State } from './types';
+import { WebState } from '@youhood/types';
 
 const corePackages = [
   require('@youhood/auth'),
@@ -16,10 +16,11 @@ const corePackages = [
   require('@youhood/user'),
   require('@youhood/vote'),
   require('@youhood/search'),
+  require('@youhood/onboard'),
 ];
 
 const packages = use(corePackages);
-const rootReducer: Reducer<State> = combineReducers(packages.reducers);
+const rootReducer: Reducer<WebState> = combineReducers(packages.reducers);
 const rootSaga = sagaCreator(packages.sagas);
 
 export { packages, rootReducer, rootSaga };

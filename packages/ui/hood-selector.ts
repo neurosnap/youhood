@@ -14,7 +14,7 @@ import { selectors as voteSelectors } from '@youhood/vote';
 const { getVoteCountByHoods } = voteSelectors;
 import { VoteMap } from '@youhood/vote/types';
 
-import { State } from '@youhood/web-app/types';
+import { WebState } from '@youhood/types';
 import {
   HoodListItem,
   HoodSelectionContainer,
@@ -144,7 +144,7 @@ export class HoodSelector extends Component {
 }
 
 export default connect(
-  (state: State) => {
+  (state: WebState) => {
     const hoods = getHoodsOnPoint(state);
     const hoodIds = hoods.map((hood) => hood.id);
 
