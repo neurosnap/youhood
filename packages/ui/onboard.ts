@@ -250,7 +250,7 @@ const mapState = (state: WebState) => ({
 const mapDispatch = (dispatch: Dispatch) => ({
   hide: () => {
     const timestamp = new Date();
-    dispatch(completeOnboard(timestamp.toString()));
+    dispatch(completeOnboard(Math.floor(timestamp.getTime() / 1000)));
   },
 });
 

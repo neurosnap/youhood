@@ -5,8 +5,6 @@ import { hot } from 'react-hot-loader';
 
 import { actions } from '@youhood/bootup';
 const { webBootup } = actions;
-import { smartComponents } from '@youhood/ui';
-const { Onboard } = smartComponents;
 
 import createState from './store';
 import { rootReducer, rootSaga } from './packages';
@@ -25,8 +23,6 @@ export default () => {
   store.dispatch(webBootup());
   const prepApp = () => h(Provider, { store }, [h(App, { hoodMap })]);
   const hotApp = hot(module)(prepApp);
-  const onboardApp = () => h(Provider, { store }, [h(Onboard)]);
 
   render(h(hotApp), document.querySelector('#app'));
-  render(h(onboardApp), document.querySelector('#modal'));
 };

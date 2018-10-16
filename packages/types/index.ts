@@ -7,7 +7,7 @@ import { Token, AuthError } from '@youhood/auth/types';
 
 export interface OnboardState {
   showOnboard: boolean;
-  completed: string;
+  completed: number;
 }
 
 export interface WebState {
