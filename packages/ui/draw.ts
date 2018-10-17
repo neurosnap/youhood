@@ -49,8 +49,8 @@ interface Props extends IState, IDispatch {}
 export const DrawHood: React.SFC<Props> = ({
   handleDrawHood,
   handleCancelDrawHood,
-  isEditing,
-  isUserLoggedIn,
+  isEditing = false,
+  isUserLoggedIn = false,
 }) => {
   if (!isUserLoggedIn) {
     return null;

@@ -42,6 +42,7 @@ exports[`DrawHood when \`isEditing\` is false should render the create button 1`
 
 <Component
   isEditing={false}
+  isUserLoggedIn={true}
 >
   <styled.button>
     <button
@@ -105,6 +106,7 @@ exports[`DrawHood when \`isEditing\` is true should render the cancel button 1`]
 
 <Component
   isEditing={true}
+  isUserLoggedIn={true}
 >
   <Component>
     <div>
