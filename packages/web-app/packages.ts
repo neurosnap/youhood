@@ -17,6 +17,9 @@ const corePackages = [
   require('@youhood/vote'),
   require('@youhood/search'),
   require('@youhood/onboard'),
+  require('@youhood/hood-winners'),
+  require('@youhood/account'),
+  require('@youhood/token'),
 ];
 
 const packages = use(corePackages);

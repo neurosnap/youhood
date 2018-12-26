@@ -15,6 +15,8 @@ const user = require('./user');
 const userRoutes = user.router;
 const verify = require('./verify');
 const verifyRoutes = verify.router;
+const apiKeys = require('./apiKey');
+const apiKeyRoutes = apiKeys.router;
 
 const app = express();
 const log = debug('app:index');
@@ -41,6 +43,7 @@ app.use('/vote', requireAuth, voteRoutes);
 app.use('/hood', requireAuth, hoodRoutes);
 app.use('/point', requireAuth, pointRoutes);
 app.use('/user', requireAuth, userRoutes);
+app.use('/api-keys', requireAuth, apiKeyRoutes);
 app.use('/verify', verifyRoutes);
 app.use((err, req, res, net) => {
   const status = err.status || 400;

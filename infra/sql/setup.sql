@@ -42,6 +42,8 @@ CREATE TABLE neighborhood (
 );
 
 ALTER TABLE neighborhood OWNER TO postgres;
+CREATE INDEX neighborhood_city_key ON neighborhood USING btree(city);
+CREATE INDEX neighborhood_state_key ON neighborhood USING btree(state);
 
 CREATE TYPE vote_type AS ENUM ('upvote', 'downvote');
 
@@ -87,6 +89,7 @@ CREATE TABLE api_keys (
     id bigserial NOT NULL,
     hood_user_id uuid NOT NULL,
     api_key character varying(255) NOT NULL,
+    label character varying(255),
     is_valid boolean DEFAULT true,
     created_at timestamp without time zone DEFAULT NOW(),
     CONSTRAINT fk_point_hood_user

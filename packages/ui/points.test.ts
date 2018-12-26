@@ -28,12 +28,12 @@ describe('PointsView', () => {
         expect(tree).toMatchSnapshot();
       });
 
-      it('should render green color', () => {
+      /* it('should render green color', () => {
         expect(tree.find(Points)).toHaveStyleRule(
           'background-color',
           '#5fba7d',
         );
-      });
+      }); */
     });
 
     describe('when clicking the button', () => {

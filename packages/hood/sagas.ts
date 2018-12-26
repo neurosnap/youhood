@@ -16,6 +16,7 @@ import {
   hideAllHoods,
   showAllHoods,
   addHoodsAndProps,
+  showOnlyWinnerHoods,
 } from './actions';
 import {
   onHoverHood,
@@ -33,15 +34,24 @@ import {
   createLayerChannel,
   onLayerEvent,
   onAddHoodsAndProps,
+  onShowOnlyWinnerHoods,
 } from './effects';
 
-export function* layerSaga({ hoodGeoJSON }: HoodMap) {
-  const channel = createLayerChannel(hoodGeoJSON);
+export function* layerSaga(hoodMap: HoodMap) {
+  if (!hoodMap) {
+    return;
+  }
+
+  const channel = createLayerChannel(hoodMap.hoodGeoJSON);
 
   while (true) {
     const event = yield take(channel);
     yield spawn(onLayerEvent, event);
   }
+}
+
+export function* showOnlyWinnerHoodsSaga(hoodMap: HoodMap) {
+  yield takeEvery(`${showOnlyWinnerHoods}`, onShowOnlyWinnerHoods, hoodMap);
 }
 
 export function* showAllHoodsSaga(hoodMap: HoodMap) {

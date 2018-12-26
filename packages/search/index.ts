@@ -7,6 +7,9 @@ import { HoodMap } from '@youhood/map/types';
 import apiFetch from '@youhood/fetch';
 import { actions as hoodActions } from '@youhood/hood';
 const { addHoodsAndProps } = hoodActions;
+import { actions as hoodWinnerActions } from '@youhood/hood-winners';
+const { setHoodWinners } = hoodWinnerActions;
+import { GeoJsonFeatures, HoodIds } from '@youhood/hood/types';
 
 import { Address, SearchAction } from './types';
 
@@ -47,11 +50,26 @@ interface FetchHoodsByCity {
   payload: { city: string; state: string };
 }
 
+interface FetchHoodsResp {
+  hoods: GeoJsonFeatures;
+  winners: HoodIds;
+}
+
 export function* onFetchHoodsByCity({
   payload: { city, state },
 }: FetchHoodsByCity) {
-  const resp = yield call(apiFetch, `/hood/${state}/${city}`);
-  yield put(addHoodsAndProps(resp.body.hoods));
+  const resp = yield call(
+    apiFetch,
+    `/hood/${state.toLowerCase()}/${city.toLowerCase()}/all`,
+  );
+
+  if (resp.status < 200 || resp.status > 300) {
+    return;
+  }
+
+  const body: FetchHoodsResp = resp.body;
+  yield put(addHoodsAndProps(body.hoods));
+  yield put(setHoodWinners(body.winners));
 }
 
 function* onSearch(

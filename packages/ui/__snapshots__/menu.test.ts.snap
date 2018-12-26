@@ -2,26 +2,29 @@
 
 exports[`Menu should render menu 1`] = `
 <div>
-  <styled.button
+  <Styled(styled.button)
     onClick={[Function]}
   >
-    <i
-      className="fa fa-bars fa-lg"
-    />
-  </styled.button>
+    <Component />
+  </Styled(styled.button)>
   <styled.div
     show={false}
   >
     <styled.div>
       <styled.a
-        href="#"
+        href="/"
       >
-        About
+        Explore
       </styled.a>
       <styled.a
-        href="#"
+        href="/docs"
       >
-        FAQ
+        API Documentation
+      </styled.a>
+      <styled.a
+        href="/pricing"
+      >
+        Pricing
       </styled.a>
       <styled.a
         href="https://github.com/neurosnap/youhood/issues"
@@ -34,6 +37,16 @@ exports[`Menu should render menu 1`] = `
         target="_blank"
       >
         Source Code
+      </styled.a>
+      <styled.a
+        href="/about"
+      >
+        About
+      </styled.a>
+      <styled.a
+        href="/faq"
+      >
+        FAQ
       </styled.a>
     </styled.div>
   </styled.div>

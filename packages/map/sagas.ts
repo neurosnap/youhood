@@ -1,6 +1,6 @@
 import * as L from 'leaflet';
 import 'leaflet-draw';
-import * as leafletPip from '@mapbox/leaflet-pip';
+import { pointInLayer } from '@mapbox/leaflet-pip';
 import { eventChannel } from 'redux-saga';
 import { take, put, spawn, call, select } from 'redux-saga/effects';
 
@@ -26,10 +26,7 @@ interface MapClickAction {
 const createMapChannel = ({ map, hoodGeoJSON }: HoodMap) =>
   eventChannel((emit) => {
     const onMapClick = (event: L.LeafletMouseEvent) => {
-      const polygons: Hoods = leafletPip.pointInLayer(
-        event.latlng,
-        hoodGeoJSON,
-      );
+      const polygons: Hoods = pointInLayer(event.latlng, hoodGeoJSON);
       emit({ type: MAP_CLICK, payload: polygons });
     };
 
@@ -48,6 +45,10 @@ const createMapChannel = ({ map, hoodGeoJSON }: HoodMap) =>
   });
 
 export function* mapSaga(hoodMap: HoodMap) {
+  if (!hoodMap) {
+    return;
+  }
+
   const channel = yield call(createMapChannel, hoodMap);
 
   while (true) {

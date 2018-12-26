@@ -1,31 +1,28 @@
 import styled from 'styled-components';
+import * as h from 'react-hyperscript';
 
-export const successColor = '#5fba7d';
-export const errorColor = 'rgb(244,154,194)';
-export const primaryFontColor = '#fff';
-
-// core
+import theme from '@youhood/theme';
 
 export const Header = styled.h1`
-  font-size: 1.3rem;
+  font-size: ${theme.font.size.header.large};
 `;
 
 export const HeaderSmall = styled.h2`
-  font-size: 1.2rem;
+  font-size: ${theme.font.size.header.small};
   margin-bottom: 0.5rem;
 `;
 
 export const Link = styled.a`
   margin: 0 0.2rem;
-  color: ${primaryFontColor};
+  color: ${theme.palette.font.primary};
 `;
 
-export const LinkDanger = Link.extend`
-  color: ${errorColor};
+export const LinkDanger = styled(Link)`
+  color: ${theme.palette.error};
 `;
 
-export const LinkSuccess = Link.extend`
-  color: ${successColor};
+export const LinkSuccess = styled(Link)`
+  color: ${theme.palette.success};
 `;
 
 export const InputBase = styled.input`
@@ -34,33 +31,33 @@ export const InputBase = styled.input`
 `;
 
 export const TextSmall = styled.div`
-  font-size: 0.8rem;
+  font-size: ${theme.font.size.small};
   display: flex;
   justify-content: space-between;
 `;
 
 // derived
 
-export const InputOverlay = InputBase.extend`
+export const InputOverlay = styled(InputBase)`
   padding: 0.375rem 0.75rem;
-  color: #495057;
-  background-color: #fff;
+  color: ${theme.palette.font.input};
+  background-color: ${theme.palette.bg.secondary};
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   width: 100%;
 `;
 
 const OverlaySection = styled.div`
-  background-color: #fff;
+  background-color: ${theme.palette.bg.secondary};
   border-radius: 0.3rem;
   padding: 0.6rem;
 `;
 
-export const HoodContainer = OverlaySection.extend`
+export const HoodContainer = styled(OverlaySection)`
   display: flex;
 `;
 export const HoodEditorContainer = OverlaySection;
 
-export const HoodSelectionContainer = OverlaySection.extend`
+export const HoodSelectionContainer = styled(OverlaySection)`
   display: flex;
   flex-direction: column;
   margin-bottom: 0.5rem;
@@ -69,10 +66,12 @@ export const HoodSelectionContainer = OverlaySection.extend`
 export const HoodSelectionItem = styled.div`
   display: flex;
   align-items: center;
+  margin: 0.2rem 0;
 `;
 
-export const HoodVisibility = styled.i`
+export const HoodVisibility = styled.div`
   cursor: pointer;
+  font-size: ${theme.font.size.small};
 `;
 
 export const Votes = styled.div`
@@ -83,11 +82,11 @@ export const Votes = styled.div`
   justify-content: center;
 `;
 
-export const VoteUp = styled.i`
+export const VoteUp = styled.div`
   cursor: pointer;
 `;
 
-export const Voted = VoteUp.extend`
+export const Voted = styled(VoteUp)`
   color: orange;
 `;
 
@@ -96,7 +95,7 @@ export const Actions = styled.div`
   justify-content: space-between;
 `;
 
-export const EditorActions = Actions.extend`
+export const EditorActions = styled(Actions)`
   margin-top: 0.5rem;
 `;
 
@@ -108,19 +107,19 @@ export const HoodBaseItem = styled.div`
   margin-left: 0.3rem;
 `;
 
-export const HoodListItem = HoodBaseItem.extend`
+export const HoodListItem = styled(HoodBaseItem)`
   :hover {
-    background-color: rgba(194, 244, 154, 0.5);
+    background-color: ${theme.palette.hood.hover};
   }
 `;
 
-export const HoodListItemSelected = HoodBaseItem.extend`
-  background-color: rgb(204, 154, 244);
+export const HoodListItemSelected = styled(HoodBaseItem)`
+  background-color: ${theme.palette.hood.selected};
 `;
 
 export const OverlayHeader = styled.div`
-  font-size: 1rem;
-  color: ${primaryFontColor};
+  font-size: ${theme.font.size.normal};
+  color: ${theme.palette.font.primary};
   display: flex;
   align-items: center;
   margin-bottom: 0.6rem;
@@ -146,33 +145,33 @@ export const NavHover = styled.button`
   outline: inherit;
 
   :hover:enabled {
-    background-color: rgba(255, 255, 255, 0.25);
+    background-color: ${theme.palette.bg.input.hover};
   }
 
   :disabled {
-    color: #ccc;
+    color: ${theme.palette.font.disabled};
   }
 `;
 
-export const HoodBarButton = NavHover.extend`
-  font-size: 0.8rem;
+export const HoodBarButton = styled(NavHover)`
+  font-size: ${theme.font.size.small};
 `;
 
-export const Input = InputBase.extend`
+export const Input = styled(InputBase)`
   margin: 0.4rem;
   padding: 0.4rem;
   border-radius: 0.1rem;
   height: 3rem;
   border: none;
   background-image: none;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: ${theme.palette.bg.input.normal};
   box-shadow: none;
   width: 90%;
-  color: ${primaryFontColor};
-  font-size: 1rem;
+  color: ${theme.palette.font.primary};
+  font-size: ${theme.font.size.normal};
 
   :hover {
-    background-color: rgba(255, 255, 255, 0.25);
+    background-color: ${theme.palette.bg.input.hover};
   }
 
   ::-webkit-input-placeholder {
@@ -184,10 +183,10 @@ export const SigninMsgBase = styled.div`
   height: 2rem;
 `;
 
-export const ErrorText = SigninMsgBase.extend`
-  color: #721c24;
-  background-color: #f8d7da;
-  font-size: 0.8rem;
+export const ErrorText = styled(SigninMsgBase)`
+  color: ${theme.palette.font.error};
+  background-color: ${theme.palette.bg.error};
+  font-size: ${theme.font.size.small};
   padding: 0 0.5rem;
   width: 100%;
   display: flex;
@@ -200,7 +199,7 @@ export const Buttons = styled.div`
   display: flex;
 `;
 
-export const Menu = NavHover.extend`
+export const Menu = styled(NavHover)`
   height: 2rem;
 `;
 
@@ -208,11 +207,11 @@ export const Nav = styled.div`
   display: flex;
   align-items: center;
   height: 56px;
-  background: #4285f4;
+  background: ${theme.palette.bg.primary};
   box-sizing: border-box;
   top: 0;
   width: 100vw;
-  color: ${primaryFontColor};
+  color: ${theme.palette.font.primary};
 `;
 
 export const NavContent = styled.div`
@@ -238,36 +237,33 @@ export const NavRight = styled.div`
 export const Search = styled.div`
   width: 40%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: ${theme.palette.bg.input.normal};
   border-radius: 0.1rem;
   display: flex;
   align-items: center;
 
   :hover {
-    background-color: rgba(255, 255, 255, 0.25);
+    background-color: ${theme.palette.bg.input.hover};
   }
 `;
 
-export const SearchInput = InputBase.extend`
-  font-size: 1rem;
+export const SearchInput = styled(InputBase)`
+  padding: 0 0.5rem;
+  font-size: ${theme.font.size.normal};
   background: none;
   border: none;
   box-sizing: border-box;
   height: 100%;
   flex: 1;
-  color: ${primaryFontColor};
+  color: ${theme.palette.font.primary};
 
   ::-webkit-input-placeholder {
-    color: ${primaryFontColor};
+    color: ${theme.palette.font.primary};
   }
 `;
 
-export const SearchIcon = styled.i`
-  margin: 0 0.5rem;
-`;
-
 export const Brand = styled.div`
-  font-size: 1.1rem;
+  font-size: ${theme.font.size.large};
   margin: 0 1.5rem;
 `;
 
@@ -276,7 +272,7 @@ export const DropMenuEl = styled.div`
   width: 100%;
 `;
 
-export const SignInMenuEl = DropMenuEl.extend`
+export const SignInMenuEl = styled(DropMenuEl)`
   height: 80%;
   display: flex;
   justify-content: center;
@@ -286,7 +282,7 @@ export const SignInMenuEl = DropMenuEl.extend`
 
 export const DropdownMenuContainer = styled.div`
   position: absolute;
-  background: #4285f4;
+  background: ${theme.palette.bg.primary};
   top: 46px;
   right: 9px;
   z-index: 401;
@@ -294,16 +290,16 @@ export const DropdownMenuContainer = styled.div`
   height: 260px;
 `;
 
-export const DropdownMenuButton = NavHover.extend`
+export const DropdownMenuButton = styled(NavHover)`
   height: 2rem;
 `;
 
 export const Points = styled.div`
-  color: ${primaryFontColor};
-  background-color: ${successColor};
+  color: ${theme.palette.font.primary};
+  background-color: ${theme.palette.success};
   border-radius: 0.3rem;
   padding: 0.1rem 0.3rem;
-  font-size: 0.8rem;
+  font-size: ${theme.font.size.small};
 `;
 
 export const SignInContainer = styled.div`
@@ -315,10 +311,32 @@ export const SignInContainer = styled.div`
 
 export const SignInEl = styled.div`
   text-decoration: none;
-  color: ${primaryFontColor};
+  color: ${theme.palette.font.primary};
 
   a {
     text-decoration: none;
-    color: ${primaryFontColor};
+    color: ${theme.palette.font.primary};
   }
 `;
+
+export const Hamburger = () => {
+  return h(
+    'svg',
+    {
+      height: '32px',
+      style: { enableBackground: 'new 0 0 32 32' },
+      viewBox: '0 0 32 32',
+      fill: theme.palette.font.primary,
+      width: '32px',
+      xmlSpace: 'preserve',
+      xmlns: 'http://www.w3.org/2000/svg',
+      xmlnsXlink: 'http://www.w3.org/1999/xlink',
+    },
+    [
+      h('path', {
+        d:
+          'M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z',
+      }),
+    ],
+  );
+};

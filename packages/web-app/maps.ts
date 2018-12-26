@@ -11,7 +11,8 @@ function getMap(doc = document): HTMLElement {
 }
 
 export function setupMap(): HoodMap {
-  const tileMapUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+  // const tileMapUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+  const tileMapUrl = 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png';
   const attribution =
     '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
   const map = L.map(getMap(), { doubleClickZoom: false, minZoom: 11 }).setView(
@@ -20,6 +21,9 @@ export function setupMap(): HoodMap {
   );
 
   L.tileLayer(tileMapUrl, { attribution }).addTo(map);
+  setTimeout(() => {
+    map.invalidateSize();
+  }, 100);
 
   const hoodGeoJSON: HoodGeoJSON = L.geoJSON(null).addTo(map);
 

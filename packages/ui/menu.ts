@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import * as h from 'react-hyperscript';
 import { Component } from 'react';
 
-import { Menu } from './ui';
+import { Menu, Hamburger } from './ui';
+import theme from '@youhood/theme';
 
 const OverlayOuter = styled.div`
   z-index: 314159;
@@ -11,7 +12,7 @@ const OverlayOuter = styled.div`
   left: 0;
   width: 350px;
   height: 100%;
-  background-color: #4285f4;
+  background-color: ${theme.palette.bg.primary};
   transition: 0.2s linear;
   transform: ${(props: any) =>
     props.show ? 'translate3d(0, 0, 0)' : 'translate3d(-350px, 0, 0)'};
@@ -20,8 +21,7 @@ const OverlayOuter = styled.div`
 const OverlayInner = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: ${theme.palette.bg.input.normal};
   height: 100%;
   padding: 50px;
 `;
@@ -33,10 +33,10 @@ const Link = styled.a`
   padding: 10px;
   margin: 10px;
   text-decoration: none;
-  color: #fff;
+  color: ${theme.palette.font.primary};
 
   :hover {
-    background-color: rgba(255, 255, 255, 0.25);
+    background-color: ${theme.palette.bg.input.hover};
   }
 `;
 
@@ -51,11 +51,12 @@ class MenuDrawer extends Component {
 
   render() {
     return h('div', [
-      h(Menu, { onClick: this.toggle }, [h('i.fa.fa-bars.fa-lg')]),
+      h(Menu, { onClick: this.toggle }, [h(Hamburger)]),
       h(OverlayOuter, <any>{ show: this.state.show }, [
         h(OverlayInner, [
-          h(Link, { href: '#' }, 'About'),
-          h(Link, { href: '#' }, 'FAQ'),
+          h(Link, { href: '/' }, 'Explore'),
+          h(Link, { href: '/docs' }, 'API Documentation'),
+          h(Link, { href: '/pricing' }, 'Pricing'),
           h(
             Link,
             {
@@ -69,6 +70,8 @@ class MenuDrawer extends Component {
             { href: 'https://github.com/neurosnap/youhood', target: '_blank' },
             'Source Code',
           ),
+          h(Link, { href: '/about' }, 'About'),
+          h(Link, { href: '/faq' }, 'FAQ'),
         ]),
       ]),
     ]);

@@ -21,8 +21,8 @@ const {
   getUserVoteTypeForHood,
 } = voteSelectors;
 const { upvote, downvote, unvote } = voteActions;
-import { selectors as authSelectors } from '@youhood/auth';
-const { isUserAuthenticated } = authSelectors;
+import { selectors as tokenSelectors } from '@youhood/token';
+const { getIsUserLoggedIn } = tokenSelectors;
 import { WebState } from '@youhood/types';
 
 import {
@@ -131,30 +131,36 @@ export class HoodViewer extends Component<Props> {
     const VoteUpState = userUpvoted ? Voted : VoteUp;
     const VoteDownState = userDownvoted ? Voted : VoteUp;
     const UserUpVoting = canUserVote
-      ? h(VoteUpState, {
-          className: 'fa fa-angle-up',
-          onClick: () => {
-            if (userUpvoted) {
-              handleUnvote(hoodId, currentUserId, 'upvote');
-              return;
-            }
+      ? h(
+          VoteUpState,
+          {
+            onClick: () => {
+              if (userUpvoted) {
+                handleUnvote(hoodId, currentUserId, 'upvote');
+                return;
+              }
 
-            handleUpvote(hoodId, currentUserId);
+              handleUpvote(hoodId, currentUserId);
+            },
           },
-        })
+          '/\\',
+        )
       : null;
     const UserDownVoting = canUserVote
-      ? h(VoteDownState, {
-          className: 'fa fa-angle-down',
-          onClick: () => {
-            if (userDownvoted) {
-              handleUnvote(hoodId, currentUserId, 'downvote');
-              return;
-            }
+      ? h(
+          VoteDownState,
+          {
+            onClick: () => {
+              if (userDownvoted) {
+                handleUnvote(hoodId, currentUserId, 'downvote');
+                return;
+              }
 
-            handleDownvote(hoodId, currentUserId);
+              handleDownvote(hoodId, currentUserId);
+            },
           },
-        })
+          '\\/',
+        )
       : null;
 
     const username = user.isTmp ? 'Anonymous' : user.email;
@@ -187,7 +193,7 @@ export default connect(
     const user = getUserById(state, { id: userId });
     const currentUserId = getCurrentUserId(state);
     const didUserCreateHood = user && user.id === currentUserId;
-    const userIsAuthenticated = isUserAuthenticated(state);
+    const userIsAuthenticated = getIsUserLoggedIn(state);
     const canUserVote = !didUserCreateHood && userIsAuthenticated;
 
     return {

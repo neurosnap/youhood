@@ -2,8 +2,8 @@ import * as h from 'react-hyperscript';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { selectors as authSelectors } from '@youhood/auth';
-const { isUserAuthenticated } = authSelectors;
+import { selectors as tokenSelectors } from '@youhood/token';
+const { getIsUserLoggedIn } = tokenSelectors;
 import { selectors } from '@youhood/user';
 const { getCurrentUser } = selectors;
 import { User } from '@youhood/user/types';
@@ -74,6 +74,6 @@ export class SignIn extends Component {
 }
 
 export default connect((state: WebState) => ({
-  authenticated: isUserAuthenticated(state),
+  authenticated: getIsUserLoggedIn(state),
   user: getCurrentUser(state),
 }))(SignIn as any);

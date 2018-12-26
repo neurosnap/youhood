@@ -10,8 +10,9 @@ import { selectors } from '@youhood/user';
 const { getCurrentUserId } = selectors;
 import { AuthPayload, AuthError } from '@youhood/auth/types';
 import { UserId } from '@youhood/user/types';
-
 import { WebState } from '@youhood/types';
+import theme from '@youhood/theme';
+
 import {
   DropdownMenuButton,
   ErrorText,
@@ -136,14 +137,15 @@ interface IAuthMenuState {
 }
 
 const TabSelected = styled.div`
+  color: ${theme.palette.font.primary};
   text-decoration: underline;
 `;
 const TabInactive = styled.div`
   cursor: pointer;
-  color: #ccc;
+  color: ${theme.palette.font.disabled};
 
   :hover {
-    color: #fff;
+    color: ${theme.palette.font.primary};
   }
 `;
 const TabMenu = styled.div`
@@ -153,7 +155,7 @@ const TabMenu = styled.div`
   height: 36px;
 `;
 
-export default class AuthMenu extends Component<null, IAuthMenuState> {
+export class AuthMenu extends Component<null, IAuthMenuState> {
   state = {
     tabSelected: 'Sign In' as Tab,
   };
@@ -174,6 +176,10 @@ export default class AuthMenu extends Component<null, IAuthMenuState> {
     });
     const Menu = tabSelected === 'Sign In' ? SignInMenuConn : RegisterMenuConn;
 
-    return h(DropdownMenuContainer, [h(TabMenu, tabs), h(Menu)]);
+    return h('div', [h(TabMenu, tabs), h(Menu)]);
   }
 }
+
+export default () => {
+  return h(DropdownMenuContainer, [h(AuthMenu)]);
+};

@@ -1,13 +1,16 @@
 import { eventChannel } from 'redux-saga';
 import { take, call, spawn, put } from 'redux-saga/effects';
 
-import { GeoJsonFeatures } from '@youhood/hood/types';
+import { GeoJsonFeatures, HoodIds } from '@youhood/hood/types';
 import { actions as userActions } from '@youhood/user';
 const { addUsers } = userActions;
 import { Users } from '@youhood/user/types';
 import { domain } from '@youhood/fetch';
 import { actions } from '@youhood/hood';
 const { addHoodsAndProps } = actions;
+import { actions as hoodWinnerActions } from '@youhood/hood-winners';
+import { HoodMap } from '@youhood/map/types';
+const { setHoodWinners } = hoodWinnerActions;
 
 const GOT_HOODS = 'got-hoods';
 const GOT_USERS = 'got-users';
@@ -41,7 +44,11 @@ const getSocketUrl = () => {
   return `wss://${domain}`;
 };
 
-export function* socketSaga() {
+export function* socketSaga(hoodMap: HoodMap) {
+  if (!hoodMap) {
+    return;
+  }
+
   const socket = new WebSocket(getSocketUrl());
   const channel = yield call(createSocketChannel, socket);
 
@@ -66,8 +73,14 @@ export function* socketSaga() {
   }
 }
 
-function* gotHoods(data: GeoJsonFeatures) {
-  yield put(addHoodsAndProps(data));
+interface FetchHoodsResp {
+  hoods: GeoJsonFeatures;
+  winners: HoodIds;
+}
+
+function* gotHoods({ hoods, winners }: FetchHoodsResp) {
+  yield put(addHoodsAndProps(hoods));
+  yield put(setHoodWinners(winners));
 }
 
 function* gotUsers(users: Users) {

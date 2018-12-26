@@ -2,14 +2,15 @@ import { Component } from 'react';
 import * as h from 'react-hyperscript';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { WebState } from '@youhood/types';
 import { selectors, actions } from '@youhood/onboard';
-import { Dispatch } from 'redux';
 const { shouldShowOnboard } = selectors;
 const { completeOnboard } = actions;
+import theme from '@youhood/theme';
 
-import { DropdownMenuButton, successColor } from './ui';
+import { DropdownMenuButton } from './ui';
 
 const Overlay = styled.div`
   position: fixed;
@@ -45,13 +46,13 @@ const Header = styled.h2``;
 const Section = styled.div`
   margin: 8px 0;
 `;
-const Button = DropdownMenuButton.extend``;
-const PrevButton = Button.extend`
+const Button = styled(DropdownMenuButton)``;
+const PrevButton = styled(Button)`
   font-style: italic;
   color: #9a9a9a;
 `;
-const CompleteButton = Button.extend`
-  color: ${successColor};
+const CompleteButton = styled(Button)`
+  color: ${theme.palette.success};
 `;
 const Progress = styled.div`
   width: 10px;
@@ -60,8 +61,8 @@ const Progress = styled.div`
   margin: 0 5px 0 0;
   background-color: #ccc;
 `;
-const ProgressActive = Progress.extend`
-  background-color: ${successColor};
+const ProgressActive = styled(Progress)`
+  background-color: ${theme.palette.success};
 `;
 const ProgressContainer = styled.div`
   width: 100%;
