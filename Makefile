@@ -14,7 +14,7 @@ prettier:
 	$(BIN)/prettier --write "{packages,server,web}/**/*.{js,ts}"
 
 dev:
-	$(BIN)/webpack-dev-server --hot --config "webpack/dev.js"
+	$(BIN)/webpack-dev-server --config "webpack/dev.js"
 .PHONY: dev
 
 prod:

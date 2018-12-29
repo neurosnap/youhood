@@ -1,7 +1,6 @@
 import * as h from 'react-hyperscript';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
-import { hot } from 'react-hot-loader';
 import createHistory from 'history/createBrowserHistory';
 
 import { actions } from '@youhood/bootup';
@@ -40,11 +39,10 @@ export default () => {
   (window as WindowInterface).reduxStore = store;
 
   store.dispatch(webBootup());
-  const prepApp = () =>
+  const AppConn = () =>
     h(Provider, { store }, [
       h(PersistGate, { loading: null, persistor }, [h(App, { history })]),
     ]);
-  const hotApp = hot(module)(prepApp);
 
-  render(h(hotApp), document.querySelector('#app'));
+  render(h(AppConn), document.querySelector('#app'));
 };
