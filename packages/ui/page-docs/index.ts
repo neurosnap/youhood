@@ -6,11 +6,10 @@ import styled from 'styled-components';
 import { selectors } from '@youhood/token';
 const { getToken } = selectors;
 import { WebState } from '@youhood/types';
-import { smartComponents } from '@youhood/ui';
-const { NavbarLogo } = smartComponents;
+import theme from '@youhood/theme';
 
 import { exampleHoodResp } from './mock';
-import theme from '@youhood/theme';
+import NavbarLogo from '../navbar-logo';
 
 const dev = process.env.NODE_ENV === 'development';
 const domain = dev ? 'http://localhost:8080' : 'https://api.youhood.io';

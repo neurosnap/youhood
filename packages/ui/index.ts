@@ -1,21 +1,13 @@
-import Overlay from './overlay';
-import Navbar from './navbar';
-import HoodBar from './hoodbar';
-import Onboard from './onboard';
-import NavbarStatic from './navbar-static';
-import NavbarLogo from './navbar-logo';
-import SigninPage from './signin-page';
-import AccountPage from './account';
+import SigninPage from './page-signin';
+import AccountPage from './page-account';
+import DocPage from './page-docs';
+import ExplorePage from './page-explore';
 
-const smartComponents = {
-  Overlay,
-  Navbar,
-  NavbarStatic,
-  HoodBar,
-  Onboard,
-  NavbarLogo,
+const pages = {
   SigninPage,
   AccountPage,
+  DocPage,
+  ExplorePage,
 };
 
-export { smartComponents };
+export { pages };

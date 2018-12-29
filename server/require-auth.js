@@ -1,4 +1,4 @@
-const { getUserByApiKey, getApiKeyFromRequest } = require('./apiKey');
+const { getUserByApiKey, getApiKeyFromRequest } = require('./api-key');
 
 const devHosts = ['http://localhost:8000'];
 const prodHosts = ['https://youhood.io'];

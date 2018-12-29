@@ -2,7 +2,6 @@ import * as h from 'react-hyperscript';
 import { Component } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
 
 import theme from '@youhood/theme';
 import { selectors } from '@youhood/token';
@@ -46,11 +45,6 @@ interface IProps {
 
 export class SigninPage extends Component<IProps> {
   render() {
-    const { isLoggedIn } = this.props;
-    if (isLoggedIn) {
-      return h(Redirect, { to: '/' });
-    }
-
     return h('div', { style: { height: '100%' } }, [
       h(NavbarStatic),
       h(SignInView, [h(SignInContainer, [h(AuthMenu)]), h(PageGlobalStyle)]),

@@ -1,0 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  overflow: hidden;
+}
+
+body {
+  overflow: hidden;
+  font-family: 'Open Sans', sans-serif;
+  position: relative;
+  font-size: 16px;
+}
+
+#map {
+  height: calc(100vh - 84px);
+  width: 100vw;
+}

@@ -5,7 +5,7 @@ const isemail = require('isemail');
 
 const db = require('./db');
 const { getHoodsByUserId, sendAll } = require('./hood');
-const { findOrCreateApiKey } = require('./apiKey');
+const { findOrCreateApiKey } = require('./api-key');
 const { createValidationToken, sendVerifyEmail } = require('./verify');
 
 const saltRounds = 10;

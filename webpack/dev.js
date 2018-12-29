@@ -13,7 +13,12 @@ module.exports = merge(common, {
     contentBase: path.join(ROOT, 'public'),
     compress: true,
     port: 8000,
-    historyApiFallback: true,
+    historyApiFallback: {
+      rewrites: [
+        { from: /^\/$/, to: '/explore.html' },
+        { from: /^\/./, to: '/index.html' },
+      ],
+    },
   },
   plugins: [
     new webpack.DefinePlugin({

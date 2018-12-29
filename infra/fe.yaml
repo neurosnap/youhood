@@ -9,12 +9,12 @@ steps:
     path: '/srv'
   secretEnv: ['GOOGLE_API_KEY']
 - name: 'gcr.io/cloud-builders/gsutil'
-  args: ['cp', '-a', 'public-read', '/srv/public/*', 'gs://youhood.io/']
+  args: ['cp', '-a', 'public-read', '/srv/public/*', 'gs://youhood-web/']
   volumes:
   - name: 'vol'
     path: '/srv'
 - name: 'gcr.io/cloud-builders/gsutil'
-  args: ['cp', '-a', 'public-read', '/srv/public/images/*', 'gs://youhood.io/images']
+  args: ['cp', '-a', 'public-read', '/srv/public/images/*', 'gs://youhood-web/images']
   volumes:
   - name: 'vol'
     path: '/srv'
