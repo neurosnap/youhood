@@ -7,7 +7,10 @@ const {
 const ROOT = path.resolve(__dirname, '..');
 
 module.exports = {
-  entry: path.join(ROOT, 'web', 'index.ts'),
+  entry: {
+    explore: path.join(ROOT, 'delivery', 'explore', 'index.ts'),
+    web: path.join(ROOT, 'delivery', 'web', 'index.ts'),
+  },
   module: {
     rules: [
       {
@@ -22,8 +25,19 @@ module.exports = {
     plugins: [new TsConfigPathsPlugin()],
   },
   output: {
-    filename: 'bundle.js',
+    filename: '[name]-bundle.js',
     path: path.join(ROOT, 'public'),
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        common: {
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'all',
+          name: 'common',
+        },
+      },
+    },
   },
   plugins: [new CheckerPlugin()],
 };

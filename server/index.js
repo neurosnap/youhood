@@ -15,7 +15,7 @@ const user = require('./user');
 const userRoutes = user.router;
 const verify = require('./verify');
 const verifyRoutes = verify.router;
-const apiKeys = require('./apiKey');
+const apiKeys = require('./api-key');
 const apiKeyRoutes = apiKeys.router;
 
 const app = express();

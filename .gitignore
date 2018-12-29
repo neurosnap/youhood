@@ -3,6 +3,8 @@
 *.swp
 node_modules
 public/bundle.js*
+public/*-bundle.js*
+public/common.js
 data/user.json
 dist/
 env.sh

@@ -9,7 +9,10 @@ describe('Profile', () => {
     it('should call `handleSignOut`', () => {
       const handleSignOut = jest.fn();
       const tree = shallow(h(Profile, { handleSignOut }));
-      tree.find(Link).simulate('click');
+      tree
+        .find(Link)
+        .at(1)
+        .simulate('click');
       expect(handleSignOut).toHaveBeenCalled();
     });
   });
