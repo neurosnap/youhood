@@ -74,6 +74,8 @@ migrate:
 	docker exec -i youhood_db_1 psql -U $(PGUSER) -d $(PGDATABASE) < ./infra/sql/migrations/1-api_keys.sql
 	docker exec -i youhood_db_1 psql -U $(PGUSER) -d $(PGDATABASE) < ./infra/sql/migrations/2-email_validation.sql
 	docker exec -i youhood_db_1 psql -U $(PGUSER) -d $(PGDATABASE) < ./infra/sql/migrations/3-vote_to_int.sql
+	docker exec -i youhood_db_1 psql -U $(PGUSER) -d $(PGDATABASE) < ./infra/sql/migrations/4-hood_indexes.sql
+	docker exec -i youhood_db_1 psql -U $(PGUSER) -d $(PGDATABASE) < ./infra/sql/migrations/5-api_keys_add_label.sql
 .PHONY: migrate
 
 lint:

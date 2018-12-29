@@ -13,6 +13,7 @@ module.exports = merge(common, {
     contentBase: path.join(ROOT, 'public'),
     compress: true,
     port: 8000,
+    historyApiFallback: true,
   },
   module: {
     rules: [

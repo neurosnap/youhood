@@ -7,7 +7,7 @@ import { actions } from '@youhood/search';
 const { search } = actions;
 import { Address } from '@youhood/search/types';
 
-import { Search, SearchIcon, SearchInput } from './ui';
+import { Search, SearchInput } from './ui';
 
 interface Props {
   handleSearch: (address: Address) => void;
@@ -26,7 +26,6 @@ export class SearchView extends Component<Props> {
 
   render() {
     return h(Search, [
-      h(SearchIcon, { className: 'fa fa-search' }),
       h(SearchInput, { onKeyPress: this.keyPress, placeholder: 'Search' }),
     ]);
   }

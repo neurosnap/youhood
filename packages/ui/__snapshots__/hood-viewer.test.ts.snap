@@ -1,86 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HoodView when the user has registered should render the email as user 1`] = `
-.c2 {
-  font-size: 1.3rem;
-}
-
-.c6 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.c7 {
-  font-size: 0.8rem;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-
-.c4 {
-  background-color: #fff;
-  border-radius: 0.3rem;
-  padding: 0.6rem;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.c5 {
-  padding: 0 0.5rem;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-.c3 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-
-.c1 {
-  font-size: 1rem;
-  color: #fff;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin-bottom: 0.6rem;
-}
-
-.c0 {
-  width: 90%;
-  margin-top: 0.5rem;
-}
-
 <HoodViewer
   canEdit={false}
   canUserVote={false}
@@ -114,183 +34,453 @@ exports[`HoodView when the user has registered should render the email as user 1
   votes={0}
 >
   <styled.div>
-    <div
-      className="c0"
+    <StyledComponent
+      forwardedComponent={
+        Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "attrs": Array [],
+          "componentStyle": ComponentStyle {
+            "componentId": "sc-kpOJdX",
+            "isStatic": true,
+            "lastClassName": "gVPSAx",
+            "rules": Array [
+              "
+  width: 90%;
+  margin-top: 0.5rem;
+",
+            ],
+          },
+          "displayName": "styled.div",
+          "foldedComponentIds": Array [],
+          "render": [Function],
+          "styledComponentId": "sc-kpOJdX",
+          "target": "div",
+          "toString": [Function],
+          "warnTooManyClasses": [Function],
+          "withComponent": [Function],
+        }
+      }
+      forwardedRef={null}
     >
-      <styled.div>
-        <div
-          className="c1"
-        >
-          <styled.h1>
-            <h1
-              className="c2"
-            >
-              Hood Viewer
-            </h1>
-          </styled.h1>
-          <styled.div>
-            <div
-              className="c3"
-            />
-          </styled.div>
-        </div>
-      </styled.div>
-      <styled.div>
-        <div
-          className="c4"
-        >
-          <styled.div>
-            <div
-              className="c5"
-            >
-              <styled.h1>
-                <h1
-                  className="c2"
-                >
-                  0
-                </h1>
-              </styled.h1>
-            </div>
-          </styled.div>
-          <div
-            style={
+      <div
+        className="gVPSAx"
+      >
+        <styled.div>
+          <StyledComponent
+            forwardedComponent={
               Object {
-                "width": "85%",
+                "$$typeof": Symbol(react.forward_ref),
+                "attrs": Array [],
+                "componentStyle": ComponentStyle {
+                  "componentId": "sc-kGXeez",
+                  "isStatic": true,
+                  "lastClassName": "ffVuun",
+                  "rules": Array [
+                    "
+  font-size: ",
+                    "1rem",
+                    ";
+  color: ",
+                    "#fff",
+                    ";
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.6rem;
+",
+                  ],
+                },
+                "displayName": "styled.div",
+                "foldedComponentIds": Array [],
+                "render": [Function],
+                "styledComponentId": "sc-kGXeez",
+                "target": "div",
+                "toString": [Function],
+                "warnTooManyClasses": [Function],
+                "withComponent": [Function],
               }
             }
+            forwardedRef={null}
           >
-            <styled.h2>
-              <h2
-                className="c6"
-              >
-                Da Hood
-              </h2>
-            </styled.h2>
-            <styled.div>
+            <div
+              className="ffVuun"
+            >
+              <styled.h1>
+                <StyledComponent
+                  forwardedComponent={
+                    Object {
+                      "$$typeof": Symbol(react.forward_ref),
+                      "attrs": Array [],
+                      "componentStyle": ComponentStyle {
+                        "componentId": "sc-bdVaJa",
+                        "isStatic": true,
+                        "lastClassName": "gxzuMa",
+                        "rules": Array [
+                          "
+  font-size: ",
+                          "1.3rem",
+                          ";
+",
+                        ],
+                      },
+                      "displayName": "styled.h1",
+                      "foldedComponentIds": Array [],
+                      "render": [Function],
+                      "styledComponentId": "sc-bdVaJa",
+                      "target": "h1",
+                      "toString": [Function],
+                      "warnTooManyClasses": [Function],
+                      "withComponent": [Function],
+                    }
+                  }
+                  forwardedRef={null}
+                >
+                  <h1
+                    className="gxzuMa"
+                  >
+                    Hood Viewer
+                  </h1>
+                </StyledComponent>
+              </styled.h1>
+              <styled.div>
+                <StyledComponent
+                  forwardedComponent={
+                    Object {
+                      "$$typeof": Symbol(react.forward_ref),
+                      "attrs": Array [],
+                      "componentStyle": ComponentStyle {
+                        "componentId": "sc-jzJRlG",
+                        "isStatic": true,
+                        "lastClassName": "kYcudh",
+                        "rules": Array [
+                          "
+  display: flex;
+  justify-content: space-between;
+",
+                        ],
+                      },
+                      "displayName": "styled.div",
+                      "foldedComponentIds": Array [],
+                      "render": [Function],
+                      "styledComponentId": "sc-jzJRlG",
+                      "target": "div",
+                      "toString": [Function],
+                      "warnTooManyClasses": [Function],
+                      "withComponent": [Function],
+                    }
+                  }
+                  forwardedRef={null}
+                >
+                  <div
+                    className="kYcudh"
+                  />
+                </StyledComponent>
+              </styled.div>
+            </div>
+          </StyledComponent>
+        </styled.div>
+        <Styled(styled.div)>
+          <StyledComponent
+            forwardedComponent={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "attrs": Array [],
+                "componentStyle": ComponentStyle {
+                  "componentId": "sc-dnqmqq",
+                  "isStatic": true,
+                  "lastClassName": "dZFXYm",
+                  "rules": Array [
+                    "
+  background-color: ",
+                    "#fff",
+                    ";
+  border-radius: 0.3rem;
+  padding: 0.6rem;
+",
+                    "
+  display: flex;
+",
+                  ],
+                },
+                "displayName": "Styled(styled.div)",
+                "foldedComponentIds": Array [
+                  "sc-htoDjs",
+                ],
+                "render": [Function],
+                "styledComponentId": "sc-dnqmqq",
+                "target": "div",
+                "toString": [Function],
+                "warnTooManyClasses": [Function],
+                "withComponent": [Function],
+              }
+            }
+            forwardedRef={null}
+          >
+            <div
+              className="dZFXYm"
+            >
+              <styled.div>
+                <StyledComponent
+                  forwardedComponent={
+                    Object {
+                      "$$typeof": Symbol(react.forward_ref),
+                      "attrs": Array [],
+                      "componentStyle": ComponentStyle {
+                        "componentId": "sc-VigVT",
+                        "isStatic": true,
+                        "lastClassName": "gFrDvL",
+                        "rules": Array [
+                          "
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+",
+                        ],
+                      },
+                      "displayName": "styled.div",
+                      "foldedComponentIds": Array [],
+                      "render": [Function],
+                      "styledComponentId": "sc-VigVT",
+                      "target": "div",
+                      "toString": [Function],
+                      "warnTooManyClasses": [Function],
+                      "withComponent": [Function],
+                    }
+                  }
+                  forwardedRef={null}
+                >
+                  <div
+                    className="gFrDvL"
+                  >
+                    <styled.h1>
+                      <StyledComponent
+                        forwardedComponent={
+                          Object {
+                            "$$typeof": Symbol(react.forward_ref),
+                            "attrs": Array [],
+                            "componentStyle": ComponentStyle {
+                              "componentId": "sc-bdVaJa",
+                              "isStatic": true,
+                              "lastClassName": "gxzuMa",
+                              "rules": Array [
+                                "
+  font-size: ",
+                                "1.3rem",
+                                ";
+",
+                              ],
+                            },
+                            "displayName": "styled.h1",
+                            "foldedComponentIds": Array [],
+                            "render": [Function],
+                            "styledComponentId": "sc-bdVaJa",
+                            "target": "h1",
+                            "toString": [Function],
+                            "warnTooManyClasses": [Function],
+                            "withComponent": [Function],
+                          }
+                        }
+                        forwardedRef={null}
+                      >
+                        <h1
+                          className="gxzuMa"
+                        >
+                          0
+                        </h1>
+                      </StyledComponent>
+                    </styled.h1>
+                  </div>
+                </StyledComponent>
+              </styled.div>
               <div
-                className="c7"
+                style={
+                  Object {
+                    "width": "85%",
+                  }
+                }
               >
-                <div>
-                  User
-                </div>
-                <div>
-                  eric@cool.com
-                </div>
+                <styled.h2>
+                  <StyledComponent
+                    forwardedComponent={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "sc-bwzfXH",
+                          "isStatic": true,
+                          "lastClassName": "JiXRr",
+                          "rules": Array [
+                            "
+  font-size: ",
+                            "1.2rem",
+                            ";
+  margin-bottom: 0.5rem;
+",
+                          ],
+                        },
+                        "displayName": "styled.h2",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "sc-bwzfXH",
+                        "target": "h2",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      }
+                    }
+                    forwardedRef={null}
+                  >
+                    <h2
+                      className="JiXRr"
+                    >
+                      Da Hood
+                    </h2>
+                  </StyledComponent>
+                </styled.h2>
+                <styled.div>
+                  <StyledComponent
+                    forwardedComponent={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "sc-bZQynM",
+                          "isStatic": true,
+                          "lastClassName": "dgcADw",
+                          "rules": Array [
+                            "
+  font-size: ",
+                            "0.8rem",
+                            ";
+  display: flex;
+  justify-content: space-between;
+",
+                          ],
+                        },
+                        "displayName": "styled.div",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "sc-bZQynM",
+                        "target": "div",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      }
+                    }
+                    forwardedRef={null}
+                  >
+                    <div
+                      className="dgcADw"
+                    >
+                      <div>
+                        User
+                      </div>
+                      <div>
+                        eric@cool.com
+                      </div>
+                    </div>
+                  </StyledComponent>
+                </styled.div>
+                <styled.div>
+                  <StyledComponent
+                    forwardedComponent={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "sc-bZQynM",
+                          "isStatic": true,
+                          "lastClassName": "dgcADw",
+                          "rules": Array [
+                            "
+  font-size: ",
+                            "0.8rem",
+                            ";
+  display: flex;
+  justify-content: space-between;
+",
+                          ],
+                        },
+                        "displayName": "styled.div",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "sc-bZQynM",
+                        "target": "div",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      }
+                    }
+                    forwardedRef={null}
+                  >
+                    <div
+                      className="dgcADw"
+                    >
+                      <div>
+                        Last Updated
+                      </div>
+                      <div>
+                        01-01-2018 12:00 am
+                      </div>
+                    </div>
+                  </StyledComponent>
+                </styled.div>
+                <styled.div>
+                  <StyledComponent
+                    forwardedComponent={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "sc-bZQynM",
+                          "isStatic": true,
+                          "lastClassName": "dgcADw",
+                          "rules": Array [
+                            "
+  font-size: ",
+                            "0.8rem",
+                            ";
+  display: flex;
+  justify-content: space-between;
+",
+                          ],
+                        },
+                        "displayName": "styled.div",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "sc-bZQynM",
+                        "target": "div",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      }
+                    }
+                    forwardedRef={null}
+                  >
+                    <div
+                      className="dgcADw"
+                    >
+                      <div>
+                        Created
+                      </div>
+                      <div>
+                        01-01-2018 12:00 am
+                      </div>
+                    </div>
+                  </StyledComponent>
+                </styled.div>
               </div>
-            </styled.div>
-            <styled.div>
-              <div
-                className="c7"
-              >
-                <div>
-                  Last Updated
-                </div>
-                <div>
-                  01-01-2018 00:00 am
-                </div>
-              </div>
-            </styled.div>
-            <styled.div>
-              <div
-                className="c7"
-              >
-                <div>
-                  Created
-                </div>
-                <div>
-                  01-01-2018 00:00 am
-                </div>
-              </div>
-            </styled.div>
-          </div>
-        </div>
-      </styled.div>
-    </div>
+            </div>
+          </StyledComponent>
+        </Styled(styled.div)>
+      </div>
+    </StyledComponent>
   </styled.div>
 </HoodViewer>
 `;
 
 exports[`HoodView when the user is temporary should render \`Anonymous\` user name 1`] = `
-.c2 {
-  font-size: 1.3rem;
-}
-
-.c6 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.c7 {
-  font-size: 0.8rem;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-
-.c4 {
-  background-color: #fff;
-  border-radius: 0.3rem;
-  padding: 0.6rem;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.c5 {
-  padding: 0 0.5rem;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-.c3 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-
-.c1 {
-  font-size: 1rem;
-  color: #fff;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin-bottom: 0.6rem;
-}
-
-.c0 {
-  width: 90%;
-  margin-top: 0.5rem;
-}
-
 <HoodViewer
   canEdit={false}
   canUserVote={false}
@@ -324,98 +514,448 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
   votes={0}
 >
   <styled.div>
-    <div
-      className="c0"
+    <StyledComponent
+      forwardedComponent={
+        Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "attrs": Array [],
+          "componentStyle": ComponentStyle {
+            "componentId": "sc-kpOJdX",
+            "isStatic": true,
+            "lastClassName": "gVPSAx",
+            "rules": Array [
+              "
+  width: 90%;
+  margin-top: 0.5rem;
+",
+            ],
+          },
+          "displayName": "styled.div",
+          "foldedComponentIds": Array [],
+          "render": [Function],
+          "styledComponentId": "sc-kpOJdX",
+          "target": "div",
+          "toString": [Function],
+          "warnTooManyClasses": [Function],
+          "withComponent": [Function],
+        }
+      }
+      forwardedRef={null}
     >
-      <styled.div>
-        <div
-          className="c1"
-        >
-          <styled.h1>
-            <h1
-              className="c2"
-            >
-              Hood Viewer
-            </h1>
-          </styled.h1>
-          <styled.div>
-            <div
-              className="c3"
-            />
-          </styled.div>
-        </div>
-      </styled.div>
-      <styled.div>
-        <div
-          className="c4"
-        >
-          <styled.div>
-            <div
-              className="c5"
-            >
-              <styled.h1>
-                <h1
-                  className="c2"
-                >
-                  0
-                </h1>
-              </styled.h1>
-            </div>
-          </styled.div>
-          <div
-            style={
+      <div
+        className="gVPSAx"
+      >
+        <styled.div>
+          <StyledComponent
+            forwardedComponent={
               Object {
-                "width": "85%",
+                "$$typeof": Symbol(react.forward_ref),
+                "attrs": Array [],
+                "componentStyle": ComponentStyle {
+                  "componentId": "sc-kGXeez",
+                  "isStatic": true,
+                  "lastClassName": "ffVuun",
+                  "rules": Array [
+                    "
+  font-size: ",
+                    "1rem",
+                    ";
+  color: ",
+                    "#fff",
+                    ";
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.6rem;
+",
+                  ],
+                },
+                "displayName": "styled.div",
+                "foldedComponentIds": Array [],
+                "render": [Function],
+                "styledComponentId": "sc-kGXeez",
+                "target": "div",
+                "toString": [Function],
+                "warnTooManyClasses": [Function],
+                "withComponent": [Function],
               }
             }
+            forwardedRef={null}
           >
-            <styled.h2>
-              <h2
-                className="c6"
-              >
-                Da Hood
-              </h2>
-            </styled.h2>
-            <styled.div>
+            <div
+              className="ffVuun"
+            >
+              <styled.h1>
+                <StyledComponent
+                  forwardedComponent={
+                    Object {
+                      "$$typeof": Symbol(react.forward_ref),
+                      "attrs": Array [],
+                      "componentStyle": ComponentStyle {
+                        "componentId": "sc-bdVaJa",
+                        "isStatic": true,
+                        "lastClassName": "gxzuMa",
+                        "rules": Array [
+                          "
+  font-size: ",
+                          "1.3rem",
+                          ";
+",
+                        ],
+                      },
+                      "displayName": "styled.h1",
+                      "foldedComponentIds": Array [],
+                      "render": [Function],
+                      "styledComponentId": "sc-bdVaJa",
+                      "target": "h1",
+                      "toString": [Function],
+                      "warnTooManyClasses": [Function],
+                      "withComponent": [Function],
+                    }
+                  }
+                  forwardedRef={null}
+                >
+                  <h1
+                    className="gxzuMa"
+                  >
+                    Hood Viewer
+                  </h1>
+                </StyledComponent>
+              </styled.h1>
+              <styled.div>
+                <StyledComponent
+                  forwardedComponent={
+                    Object {
+                      "$$typeof": Symbol(react.forward_ref),
+                      "attrs": Array [],
+                      "componentStyle": ComponentStyle {
+                        "componentId": "sc-jzJRlG",
+                        "isStatic": true,
+                        "lastClassName": "kYcudh",
+                        "rules": Array [
+                          "
+  display: flex;
+  justify-content: space-between;
+",
+                        ],
+                      },
+                      "displayName": "styled.div",
+                      "foldedComponentIds": Array [],
+                      "render": [Function],
+                      "styledComponentId": "sc-jzJRlG",
+                      "target": "div",
+                      "toString": [Function],
+                      "warnTooManyClasses": [Function],
+                      "withComponent": [Function],
+                    }
+                  }
+                  forwardedRef={null}
+                >
+                  <div
+                    className="kYcudh"
+                  />
+                </StyledComponent>
+              </styled.div>
+            </div>
+          </StyledComponent>
+        </styled.div>
+        <Styled(styled.div)>
+          <StyledComponent
+            forwardedComponent={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "attrs": Array [],
+                "componentStyle": ComponentStyle {
+                  "componentId": "sc-dnqmqq",
+                  "isStatic": true,
+                  "lastClassName": "dZFXYm",
+                  "rules": Array [
+                    "
+  background-color: ",
+                    "#fff",
+                    ";
+  border-radius: 0.3rem;
+  padding: 0.6rem;
+",
+                    "
+  display: flex;
+",
+                  ],
+                },
+                "displayName": "Styled(styled.div)",
+                "foldedComponentIds": Array [
+                  "sc-htoDjs",
+                ],
+                "render": [Function],
+                "styledComponentId": "sc-dnqmqq",
+                "target": "div",
+                "toString": [Function],
+                "warnTooManyClasses": [Function],
+                "withComponent": [Function],
+              }
+            }
+            forwardedRef={null}
+          >
+            <div
+              className="dZFXYm"
+            >
+              <styled.div>
+                <StyledComponent
+                  forwardedComponent={
+                    Object {
+                      "$$typeof": Symbol(react.forward_ref),
+                      "attrs": Array [],
+                      "componentStyle": ComponentStyle {
+                        "componentId": "sc-VigVT",
+                        "isStatic": true,
+                        "lastClassName": "gFrDvL",
+                        "rules": Array [
+                          "
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+",
+                        ],
+                      },
+                      "displayName": "styled.div",
+                      "foldedComponentIds": Array [],
+                      "render": [Function],
+                      "styledComponentId": "sc-VigVT",
+                      "target": "div",
+                      "toString": [Function],
+                      "warnTooManyClasses": [Function],
+                      "withComponent": [Function],
+                    }
+                  }
+                  forwardedRef={null}
+                >
+                  <div
+                    className="gFrDvL"
+                  >
+                    <styled.h1>
+                      <StyledComponent
+                        forwardedComponent={
+                          Object {
+                            "$$typeof": Symbol(react.forward_ref),
+                            "attrs": Array [],
+                            "componentStyle": ComponentStyle {
+                              "componentId": "sc-bdVaJa",
+                              "isStatic": true,
+                              "lastClassName": "gxzuMa",
+                              "rules": Array [
+                                "
+  font-size: ",
+                                "1.3rem",
+                                ";
+",
+                              ],
+                            },
+                            "displayName": "styled.h1",
+                            "foldedComponentIds": Array [],
+                            "render": [Function],
+                            "styledComponentId": "sc-bdVaJa",
+                            "target": "h1",
+                            "toString": [Function],
+                            "warnTooManyClasses": [Function],
+                            "withComponent": [Function],
+                          }
+                        }
+                        forwardedRef={null}
+                      >
+                        <h1
+                          className="gxzuMa"
+                        >
+                          0
+                        </h1>
+                      </StyledComponent>
+                    </styled.h1>
+                  </div>
+                </StyledComponent>
+              </styled.div>
               <div
-                className="c7"
+                style={
+                  Object {
+                    "width": "85%",
+                  }
+                }
               >
-                <div>
-                  User
-                </div>
-                <div>
-                  Anonymous
-                </div>
+                <styled.h2>
+                  <StyledComponent
+                    forwardedComponent={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "sc-bwzfXH",
+                          "isStatic": true,
+                          "lastClassName": "JiXRr",
+                          "rules": Array [
+                            "
+  font-size: ",
+                            "1.2rem",
+                            ";
+  margin-bottom: 0.5rem;
+",
+                          ],
+                        },
+                        "displayName": "styled.h2",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "sc-bwzfXH",
+                        "target": "h2",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      }
+                    }
+                    forwardedRef={null}
+                  >
+                    <h2
+                      className="JiXRr"
+                    >
+                      Da Hood
+                    </h2>
+                  </StyledComponent>
+                </styled.h2>
+                <styled.div>
+                  <StyledComponent
+                    forwardedComponent={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "sc-bZQynM",
+                          "isStatic": true,
+                          "lastClassName": "dgcADw",
+                          "rules": Array [
+                            "
+  font-size: ",
+                            "0.8rem",
+                            ";
+  display: flex;
+  justify-content: space-between;
+",
+                          ],
+                        },
+                        "displayName": "styled.div",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "sc-bZQynM",
+                        "target": "div",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      }
+                    }
+                    forwardedRef={null}
+                  >
+                    <div
+                      className="dgcADw"
+                    >
+                      <div>
+                        User
+                      </div>
+                      <div>
+                        Anonymous
+                      </div>
+                    </div>
+                  </StyledComponent>
+                </styled.div>
+                <styled.div>
+                  <StyledComponent
+                    forwardedComponent={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "sc-bZQynM",
+                          "isStatic": true,
+                          "lastClassName": "dgcADw",
+                          "rules": Array [
+                            "
+  font-size: ",
+                            "0.8rem",
+                            ";
+  display: flex;
+  justify-content: space-between;
+",
+                          ],
+                        },
+                        "displayName": "styled.div",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "sc-bZQynM",
+                        "target": "div",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      }
+                    }
+                    forwardedRef={null}
+                  >
+                    <div
+                      className="dgcADw"
+                    >
+                      <div>
+                        Last Updated
+                      </div>
+                      <div>
+                        01-01-2018 12:00 am
+                      </div>
+                    </div>
+                  </StyledComponent>
+                </styled.div>
+                <styled.div>
+                  <StyledComponent
+                    forwardedComponent={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "sc-bZQynM",
+                          "isStatic": true,
+                          "lastClassName": "dgcADw",
+                          "rules": Array [
+                            "
+  font-size: ",
+                            "0.8rem",
+                            ";
+  display: flex;
+  justify-content: space-between;
+",
+                          ],
+                        },
+                        "displayName": "styled.div",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "sc-bZQynM",
+                        "target": "div",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      }
+                    }
+                    forwardedRef={null}
+                  >
+                    <div
+                      className="dgcADw"
+                    >
+                      <div>
+                        Created
+                      </div>
+                      <div>
+                        01-01-2018 12:00 am
+                      </div>
+                    </div>
+                  </StyledComponent>
+                </styled.div>
               </div>
-            </styled.div>
-            <styled.div>
-              <div
-                className="c7"
-              >
-                <div>
-                  Last Updated
-                </div>
-                <div>
-                  01-01-2018 00:00 am
-                </div>
-              </div>
-            </styled.div>
-            <styled.div>
-              <div
-                className="c7"
-              >
-                <div>
-                  Created
-                </div>
-                <div>
-                  01-01-2018 00:00 am
-                </div>
-              </div>
-            </styled.div>
-          </div>
-        </div>
-      </styled.div>
-    </div>
+            </div>
+          </StyledComponent>
+        </Styled(styled.div)>
+      </div>
+    </StyledComponent>
   </styled.div>
 </HoodViewer>
 `;

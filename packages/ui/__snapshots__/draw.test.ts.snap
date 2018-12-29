@@ -1,70 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DrawHood when \`isEditing\` is false should render the create button 1`] = `
-.c0 {
-  cursor: pointer;
-  height: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  padding: 0 0.4rem;
-  margin: 0 0.4rem;
-  background: inherit;
-  color: inherit;
-  border: none;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
-  font-size: 0.8rem;
-  width: 91px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-.c0:hover:enabled {
-  background-color: rgba(255,255,255,0.25);
-}
-
-.c0:disabled {
-  color: #ccc;
-}
-
 <Component
   isEditing={false}
   isUserLoggedIn={true}
 >
-  <styled.button>
-    <button
-      className="c0"
-    >
-      Create Hood
-    </button>
-  </styled.button>
-</Component>
-`;
-
-exports[`DrawHood when \`isEditing\` is true should render the cancel button 1`] = `
-.c0 {
+  <Styled(Styled(styled.button))>
+    <StyledComponent
+      forwardedComponent={
+        Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "attrs": Array [],
+          "componentStyle": ComponentStyle {
+            "componentId": "sc-Rmtcm",
+            "isStatic": true,
+            "lastClassName": "cwkdGT",
+            "rules": Array [
+              "
   cursor: pointer;
   height: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
   padding: 0 0.4rem;
   margin: 0 0.4rem;
@@ -74,55 +29,174 @@ exports[`DrawHood when \`isEditing\` is true should render the cancel button 1`]
   font: inherit;
   cursor: pointer;
   outline: inherit;
-  font-size: 0.8rem;
+
+  :hover:enabled {
+    background-color: ",
+              "rgba(255, 255, 255, 0.25)",
+              ";
+  }
+
+  :disabled {
+    color: ",
+              "#ccc",
+              ";
+  }
+",
+              "
+  font-size: ",
+              "0.8rem",
+              ";
+",
+              "
   width: 91px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
   justify-content: center;
-}
+",
+            ],
+          },
+          "displayName": "Styled(Styled(styled.button))",
+          "foldedComponentIds": Array [
+            "sc-dxgOiQ",
+            "sc-ckVGcZ",
+          ],
+          "render": [Function],
+          "styledComponentId": "sc-Rmtcm",
+          "target": "button",
+          "toString": [Function],
+          "warnTooManyClasses": [Function],
+          "withComponent": [Function],
+        }
+      }
+      forwardedRef={null}
+    >
+      <button
+        className="cwkdGT"
+      >
+        Create Hood
+      </button>
+    </StyledComponent>
+  </Styled(Styled(styled.button))>
+</Component>
+`;
 
-.c0:hover:enabled {
-  background-color: rgba(255,255,255,0.25);
-}
-
-.c0:disabled {
-  color: #ccc;
-}
-
-.c1 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 56px;
-  background-color: rgba(0,0,0,0);
-  cursor: pointer;
-}
-
+exports[`DrawHood when \`isEditing\` is true should render the cancel button 1`] = `
 <Component
   isEditing={true}
   isUserLoggedIn={true}
 >
   <Component>
     <div>
-      <styled.button>
-        <button
-          className="c0"
+      <Styled(Styled(styled.button))>
+        <StyledComponent
+          forwardedComponent={
+            Object {
+              "$$typeof": Symbol(react.forward_ref),
+              "attrs": Array [],
+              "componentStyle": ComponentStyle {
+                "componentId": "sc-Rmtcm",
+                "isStatic": true,
+                "lastClassName": "cwkdGT",
+                "rules": Array [
+                  "
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 0.4rem;
+  margin: 0 0.4rem;
+  background: inherit;
+  color: inherit;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+
+  :hover:enabled {
+    background-color: ",
+                  "rgba(255, 255, 255, 0.25)",
+                  ";
+  }
+
+  :disabled {
+    color: ",
+                  "#ccc",
+                  ";
+  }
+",
+                  "
+  font-size: ",
+                  "0.8rem",
+                  ";
+",
+                  "
+  width: 91px;
+  display: flex;
+  justify-content: center;
+",
+                ],
+              },
+              "displayName": "Styled(Styled(styled.button))",
+              "foldedComponentIds": Array [
+                "sc-dxgOiQ",
+                "sc-ckVGcZ",
+              ],
+              "render": [Function],
+              "styledComponentId": "sc-Rmtcm",
+              "target": "button",
+              "toString": [Function],
+              "warnTooManyClasses": [Function],
+              "withComponent": [Function],
+            }
+          }
+          forwardedRef={null}
         >
-          <div>
-            Cancel
-          </div>
-        </button>
-      </styled.button>
+          <button
+            className="cwkdGT"
+          >
+            <div>
+              Cancel
+            </div>
+          </button>
+        </StyledComponent>
+      </Styled(Styled(styled.button))>
       <styled.div>
-        <div
-          className="c1"
-        />
+        <StyledComponent
+          forwardedComponent={
+            Object {
+              "$$typeof": Symbol(react.forward_ref),
+              "attrs": Array [],
+              "componentStyle": ComponentStyle {
+                "componentId": "sc-bRBYWo",
+                "isStatic": true,
+                "lastClassName": "jEiFST",
+                "rules": Array [
+                  "
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 56px;
+  background-color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+",
+                ],
+              },
+              "displayName": "styled.div",
+              "foldedComponentIds": Array [],
+              "render": [Function],
+              "styledComponentId": "sc-bRBYWo",
+              "target": "div",
+              "toString": [Function],
+              "warnTooManyClasses": [Function],
+              "withComponent": [Function],
+            }
+          }
+          forwardedRef={null}
+        >
+          <div
+            className="jEiFST"
+          />
+        </StyledComponent>
       </styled.div>
     </div>
   </Component>

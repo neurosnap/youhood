@@ -5,12 +5,13 @@ import styled from 'styled-components';
 import { actions, selectors } from '@youhood/hood';
 const { drawHood, cancelDrawHood } = actions;
 const { getIsEditing } = selectors;
-import { selectors as authSelectors } from '@youhood/auth';
-const { isUserAuthenticated } = authSelectors;
+import { selectors as authSelectors } from '@youhood/token';
+const { getIsUserLoggedIn } = authSelectors;
+import { WebState } from '@youhood/types';
 
 import { HoodBarButton } from './ui';
 
-const Button = HoodBarButton.extend`
+const Button = styled(HoodBarButton)`
   width: 91px;
   display: flex;
   justify-content: center;
@@ -41,8 +42,8 @@ interface IState {
   isEditing: boolean;
 }
 interface IDispatch {
-  handleCancelDrawHood: CancelFn;
-  handleDrawHood: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  handleCancelDrawHood: () => any;
+  handleDrawHood: () => any;
 }
 interface Props extends IState, IDispatch {}
 
@@ -61,10 +62,10 @@ export const DrawHood: React.SFC<Props> = ({
     : h(Button, { onClick: handleDrawHood }, 'Create Hood');
 };
 
-export default connect<IState, IDispatch>(
-  (state) => ({
+export default connect(
+  (state: WebState) => ({
     isEditing: getIsEditing(state),
-    isUserLoggedIn: isUserAuthenticated(state),
+    isUserLoggedIn: getIsUserLoggedIn(state),
   }),
   (dispatch) => ({
     handleDrawHood: () => dispatch(drawHood()),

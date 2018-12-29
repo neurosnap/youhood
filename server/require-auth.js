@@ -1,4 +1,4 @@
-const { getUserByApiKey } = require('./apiKey');
+const { getUserByApiKey, getApiKeyFromRequest } = require('./apiKey');
 
 const devHosts = ['http://localhost:8000'];
 const prodHosts = ['https://youhood.io'];
@@ -7,8 +7,7 @@ const whitelistOrigins =
 
 async function requireAuth(req, res, next) {
   const origin = req.get('origin');
-  const auth = req.headers['authorization'];
-  const token = auth ? auth.replace('Bearer', '').trim() : '';
+  const token = getApiKeyFromRequest(req);
 
   if (!token && whitelistOrigins.indexOf(origin) >= 0) {
     return next();

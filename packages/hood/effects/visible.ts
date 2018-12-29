@@ -1,6 +1,8 @@
 import { call, put, select } from 'redux-saga/effects';
 
 import { HoodMap, HoodGeoJSON } from '@youhood/map/types';
+import { selectors } from '@youhood/hood-winners';
+const { getHoodWinners } = selectors;
 
 import { setHoodUIProps } from '../actions';
 import { getHoodUIPropsAsIds } from '../selectors';
@@ -10,6 +12,14 @@ import { PolygonLeaflet, HoodId, HoodIds } from '../types';
 interface HoodIdsAction {
   type: string;
   payload: HoodIds;
+}
+
+export function* onShowOnlyWinnerHoods({ hoodGeoJSON }: HoodMap) {
+  yield call(onHideAllHoods, { hoodGeoJSON });
+  const hoodIds = yield select(getHoodWinners);
+  const hoodUIProps = setHoodUIVisibility(hoodIds, true);
+  yield put(setHoodUIProps(hoodUIProps));
+  yield call(setHoodDisplay, { hoodGeoJSON, hoodIds, display: 'block' });
 }
 
 export function* onHideAllHoods({ hoodGeoJSON }: HoodMap) {

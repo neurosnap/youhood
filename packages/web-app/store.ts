@@ -7,7 +7,7 @@ import {
   Store,
   Reducer,
 } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistStore, persistReducer, Persistor } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import * as debug from 'debug';
 
@@ -35,7 +35,7 @@ export default function createState({
   hoodMap,
   rootReducer,
   rootSaga,
-}: Props): Store<WebState> {
+}: Props): { store: Store<WebState>; persistor: Persistor } {
   const sagaMiddleware = createSagaMiddleware({
     onError: log,
   });
@@ -53,6 +53,6 @@ export default function createState({
   );
   sagaMiddleware.run(rootSaga, hoodMap);
 
-  persistStore(store);
-  return store;
+  const persistor = persistStore(store);
+  return { store, persistor };
 }

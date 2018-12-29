@@ -6,6 +6,7 @@ const uuid = require('uuid/v4');
 const db = require('./db');
 const { findOrCreateUser } = require('./user');
 const { addPoint } = require('./point');
+const { transformSQLToGeoJson } = require('./transform');
 
 const log = debug('router:hood');
 
@@ -21,11 +22,28 @@ router.get('/:hoodId', async (req, res) => {
   return res.json(hood);
 });
 
-router.get('/:state/:city', async (req, res) => {
+router.get('/:state/:city/all', async (req, res) => {
   const state = req.params.state;
   const city = req.params.city;
 
   const hoods = await getHoodsByCity(city, state);
+  if (hoods.error) {
+    return res.status(400).json(hoods);
+  }
+
+  const winners = await getHoodWinnerIdsByCity(city, state);
+  if (winners.error) {
+    return res.status(400).json(winners);
+  }
+
+  return res.json({ ...hoods, ...winners });
+});
+
+router.get('/:state/:city', async (req, res) => {
+  const state = req.params.state;
+  const city = req.params.city;
+
+  const hoods = await getHoodWinnersByCity(city, state);
   if (hoods.error) {
     return res.status(400).json(hoods);
   }
@@ -61,6 +79,65 @@ function sendAll(connections, msg) {
     const user = connections[i];
     user.send(JSON.stringify(msg));
   }
+}
+
+const findHoodWinners = `
+  SELECT DISTINCT ON (a.name) a.id
+  FROM (
+		SELECT n.id, n.name, SUM(COALESCE(vote, 0)) as votes
+		FROM neighborhood as n
+		LEFT OUTER JOIN vote ON vote.neighborhood_id=n.id
+		WHERE city=$1 AND state=$2
+		GROUP BY n.id
+		ORDER BY n.name asc
+	) as a
+	ORDER BY a.name, a.votes DESC, a.id
+`;
+
+async function getHoodWinnersByCity(city, state) {
+  const sql = `
+  SELECT hood.id, hood.name, hood.state, hood.city, hood.county, ST_AsGeoJSON(geom) as geom
+  FROM neighborhood as hood
+  WHERE hood.id IN (${findHoodWinners});
+  `;
+
+  const prepared = [city.toLowerCase(), state.toLowerCase()];
+  let data;
+  try {
+    const result = await db.query(sql, prepared);
+    data = result.rows;
+    if (data.length === 0) {
+      return { error: 'No hoods found' };
+    }
+  } catch (err) {
+    log(err);
+  }
+
+  const geojson = transformSQLToGeoJson(data);
+  return { hoods: geojson };
+}
+
+async function getHoodWinnerIdsByCity(city, state) {
+  const sql = `
+  SELECT hood.id
+  FROM neighborhood as hood
+  WHERE hood.id IN (${findHoodWinners});
+  `;
+
+  const prepared = [city.toLowerCase(), state.toLowerCase()];
+  let data;
+  try {
+    const result = await db.query(sql, prepared);
+    data = result.rows;
+    if (data.length === 0) {
+      return { error: 'No hoods found' };
+    }
+  } catch (err) {
+    log(err);
+  }
+
+  const winners = data.map((d) => d.id);
+  return { winners };
 }
 
 async function updateHood(preparedHood) {
@@ -228,40 +305,19 @@ async function findHood(hoodId) {
 }
 
 async function getHoods(socket, city, state) {
-  const sql = `
-    SELECT
-      n.id,
-      n.hood_user_id,
-      state,
-      county,
-      city,
-      name,
-      n.created_at,
-      updated_at,
-      coalesce(SUM(vote), 0) as votes,
-      ST_AsGeoJSON(geom) as geom
-    FROM
-        neighborhood as n
-    LEFT OUTER JOIN vote ON vote.neighborhood_id=n.id
-    WHERE
-      city=$1 AND
-      state=$2
-    GROUP BY n.id;
-  `;
-
-  let data;
-  try {
-    const result = await db.query(sql, [city, state]);
-    data = result.rows;
-  } catch (err) {
-    log(err);
-  }
-
-  if (!data || data.length === 0) {
+  const hoods = await getHoodsByCity(city, state);
+  if (hoods.error) {
     return;
   }
-  const geojson = transformSQLToGeoJson(data);
-  socket.send(JSON.stringify({ type: 'got-hoods', data: geojson }));
+
+  const winners = await getHoodWinnerIdsByCity(city, state);
+  if (winners.error) {
+    return;
+  }
+
+  socket.send(
+    JSON.stringify({ type: 'got-hoods', data: { ...hoods, ...winners } }),
+  );
 }
 
 async function getHoodsByUserId(userId) {
@@ -335,35 +391,11 @@ async function getHoodsByCity(city, state) {
   return { hoods: geojson };
 }
 
-function transformSQLToGeoJson(sqlResults = []) {
-  const features = sqlResults.map(transformFeaturesToJson);
-  return {
-    type: 'FeatureCollection',
-    features,
-  };
-}
-
-function transformFeaturesToJson(hood) {
-  return {
-    type: 'Feature',
-    properties: {
-      id: hood.id,
-      userId: hood.hood_user_id,
-      state: hood.state,
-      county: hood.county,
-      city: hood.city,
-      name: hood.name,
-      createdAt: hood.created_at,
-      updatedAt: hood.updated_at,
-      votes: hood.votes ? parseInt(hood.votes, 10) : null,
-    },
-    geometry: JSON.parse(hood.geom),
-  };
-}
-
 module.exports = {
   sendAll,
   getHoods,
   getHoodsByUserId,
   router,
+  getHoodWinnerIdsByCity,
+  getHoodWinnersByCity,
 };

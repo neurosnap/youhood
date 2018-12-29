@@ -97,16 +97,22 @@ export class HoodSelector extends Component {
     return h(OverlayContainer, [
       h(OverlayHeader, 'Hoods on Point'),
       h(HoodSelectionContainer, [
-        h('div', [
+        h('div', { style: { margin: '0.2rem 0' } }, [
           allHoodsAreVisible
-            ? h(HoodVisibility, {
-                className: 'fa fa-eye',
-                onClick: () => hideHoods(hoodIds),
-              })
-            : h(HoodVisibility, {
-                className: 'fa fa-eye-slash',
-                onClick: () => showHoods(hoodIds),
-              }),
+            ? h(
+                HoodVisibility,
+                {
+                  onClick: () => hideHoods(hoodIds),
+                },
+                'hide all',
+              )
+            : h(
+                HoodVisibility,
+                {
+                  onClick: () => showHoods(hoodIds),
+                },
+                'show all',
+              ),
         ]),
         ...hoods.map((hood) => {
           const { name } = hood;
@@ -118,14 +124,20 @@ export class HoodSelector extends Component {
 
           return h(HoodSelectionItem, [
             isHoodVisible
-              ? h(HoodVisibility, {
-                  className: 'fa fa-eye',
-                  onClick: () => hideHoods([hoodId]),
-                })
-              : h(HoodVisibility, {
-                  className: 'fa fa-eye-slash',
-                  onClick: () => showHoods([hoodId]),
-                }),
+              ? h(
+                  HoodVisibility,
+                  {
+                    onClick: () => hideHoods([hoodId]),
+                  },
+                  'hide',
+                )
+              : h(
+                  HoodVisibility,
+                  {
+                    onClick: () => showHoods([hoodId]),
+                  },
+                  'show',
+                ),
             h(
               Item,
               {

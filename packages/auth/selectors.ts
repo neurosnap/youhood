@@ -1,8 +1,4 @@
-export const token = 'token';
+import { WebState } from '@youhood/types';
+
 export const authError = 'authError';
-
-type State = any;
-
-export const getToken = (state: State) => state[token];
-export const getAuthError = (state: State) => state[authError];
-export const isUserAuthenticated = (state: State) => !!getToken(state);
+export const getAuthError = (state: WebState) => state[authError];

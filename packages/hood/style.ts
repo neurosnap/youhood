@@ -1,3 +1,5 @@
+import theme from '@youhood/theme';
+
 interface Style {
   color: string;
   weight: number;
@@ -9,19 +11,19 @@ const baseStyle = {
 };
 
 const hoodStyle = () => ({
-  color: 'rgb(154,194,244)',
+  color: theme.palette.hood.primary,
   fillOpacity: 0.4,
   ...baseStyle,
 });
 
 const hoodStyleSelected = () => ({
-  color: 'rgb(204,154,244)',
+  color: theme.palette.hood.selected,
   fillOpacity: 0.5,
   ...baseStyle,
 });
 
 const hoodStyleHover = () => ({
-  color: 'rgb(194,244,154)',
+  color: theme.palette.hood.hover,
   fillOpacity: 0.5,
   ...baseStyle,
 });

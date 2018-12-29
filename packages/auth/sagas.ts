@@ -6,12 +6,13 @@ import { User } from '@youhood/user/types';
 const { addUsers, setUser, resetUser } = actions;
 import { actions as pointActions } from '@youhood/point';
 const { resetPoints } = pointActions;
+import { actions as tokenActions } from '@youhood/token';
+const { setToken, resetToken } = tokenActions;
+import { Token } from '@youhood/types';
 
-import { Token, AuthError, AuthAction } from './types';
+import { AuthError, AuthAction } from './types';
 import {
-  setToken,
   authError,
-  resetToken,
   signIn,
   signedIn,
   signOut,
@@ -35,6 +36,7 @@ function* onSignIn(action: AuthAction) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(action.payload),
+    auth: false,
   });
 
   if (resp.status >= 200 && resp.status < 300) {
@@ -67,6 +69,7 @@ function* onRegister(action: AuthAction) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(action.payload),
+    auth: false,
   });
 
   if (resp.status >= 200 && resp.status < 300) {
