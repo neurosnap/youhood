@@ -15,31 +15,6 @@ module.exports = merge(common, {
     port: 8000,
     historyApiFallback: true,
   },
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              babelrc: false,
-              plugins: ['react-hot-loader/babel'],
-            },
-          },
-          {
-            loader: 'awesome-typescript-loader',
-            options: {
-              configFileName: path.join(ROOT, 'tsconfig.dev.json'),
-              useBabel: true,
-              useCache: true,
-            },
-          },
-        ],
-      },
-    ],
-  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
