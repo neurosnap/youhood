@@ -1,7 +1,8 @@
 import * as h from 'react-hyperscript';
 
-import { pages } from '@youhood/ui';
-const { ExplorePage } = pages;
+// must use relative imports for proper tree-shaking since
+// the ui package pulls everything in
+import ExplorePage from '../../packages/ui/page-explore';
 
 const App = () => h(ExplorePage);
 

@@ -1,5 +1,4 @@
 import createSagaMiddleware from 'redux-saga';
-import logger from 'redux-logger';
 import {
   createStore,
   applyMiddleware,
@@ -12,7 +11,6 @@ import storage from 'redux-persist/lib/storage';
 import * as debug from 'debug';
 
 import { HoodMap } from '@youhood/map/types';
-
 import { WebState } from '@youhood/types';
 
 const log = debug('app:saga:error');
@@ -43,6 +41,7 @@ export default function createState({
   const persistedReducer = persistReducer(persistConfig, rootReducer);
 
   if (process.env.NODE_ENV === 'development') {
+    const logger = require('redux-logger').default;
     middleware.push(logger);
   }
 

@@ -421,7 +421,7 @@ exports[`HoodView when the user has registered should render the email as user 1
                         Last Updated
                       </div>
                       <div>
-                        01-01-2018 12:00 am
+                        12/31/2017 07:00 pm
                       </div>
                     </div>
                   </StyledComponent>
@@ -465,7 +465,7 @@ exports[`HoodView when the user has registered should render the email as user 1
                         Created
                       </div>
                       <div>
-                        01-01-2018 12:00 am
+                        12/31/2017 07:00 pm
                       </div>
                     </div>
                   </StyledComponent>
@@ -901,7 +901,7 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
                         Last Updated
                       </div>
                       <div>
-                        01-01-2018 12:00 am
+                        12/31/2017 07:00 pm
                       </div>
                     </div>
                   </StyledComponent>
@@ -945,7 +945,7 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
                         Created
                       </div>
                       <div>
-                        01-01-2018 12:00 am
+                        12/31/2017 07:00 pm
                       </div>
                     </div>
                   </StyledComponent>

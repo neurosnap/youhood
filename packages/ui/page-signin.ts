@@ -8,8 +8,12 @@ import { selectors } from '@youhood/token';
 const { getIsUserLoggedIn } = selectors;
 import { WebState } from '@youhood/types';
 
-import NavbarStatic from './navbar-static';
 import { AuthMenu } from './auth';
+import { Brand, Link } from './ui';
+
+const NavLink = styled(Link)`
+  text-decoration: none;
+`;
 
 const PageGlobalStyle = createGlobalStyle`
   #app {
@@ -39,6 +43,13 @@ const SignInContainer = styled.div`
   `};
 `;
 
+const BrandView = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
 interface IProps {
   isLoggedIn: boolean;
 }
@@ -46,8 +57,13 @@ interface IProps {
 export class SigninPage extends Component<IProps> {
   render() {
     return h('div', { style: { height: '100%' } }, [
-      h(NavbarStatic),
-      h(SignInView, [h(SignInContainer, [h(AuthMenu)]), h(PageGlobalStyle)]),
+      h(SignInView, [
+        h(SignInContainer, [
+          h(BrandView, [h(NavLink, { href: '/' }, [h(Brand, 'YouHood')])]),
+          h(AuthMenu),
+        ]),
+        h(PageGlobalStyle),
+      ]),
     ]);
   }
 }

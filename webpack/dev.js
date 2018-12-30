@@ -16,7 +16,8 @@ module.exports = merge(common, {
     historyApiFallback: {
       rewrites: [
         { from: /^\/$/, to: '/explore.html' },
-        { from: /^\/./, to: '/index.html' },
+        { from: /^\/explore$/, to: '/explore.html' },
+        { from: /^\/\w+/, to: '/index.html' },
       ],
     },
   },
