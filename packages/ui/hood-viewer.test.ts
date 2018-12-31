@@ -19,8 +19,8 @@ const hood = {
   city: 'Ann Arbor',
   state: 'Michigan',
   county: 'Washtenaw',
-  createdAt: '2018-01-01',
-  updatedAt: '2018-01-01',
+  createdAt: '2018-01-01T00:00:00Z',
+  updatedAt: '2018-01-01T00:00:00Z',
   userId: tmpUser.id,
   name: 'Da Hood',
 };
