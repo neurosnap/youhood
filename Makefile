@@ -95,7 +95,7 @@ tsc:
 .PHONY: tsc
 
 jest:
-	$(BIN)/jest $(JEST_FILES)
+	TZ=America/New_York $(BIN)/jest $(JEST_FILES)
 .PHONY: jest
 
 jest-watch:
