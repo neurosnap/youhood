@@ -17,6 +17,14 @@ dev:
 	$(BIN)/webpack-dev-server --config "webpack/dev.js"
 .PHONY: dev
 
+stats:
+	$(BIN)/webpack --profile --json --config "webpack/prod.js" > stats.json
+.PHONY: stats
+
+analyze:
+	$(BIN)/webpack-bundle-analyzer stats.json
+.PHONY: analyze
+
 prod:
 	$(BIN)/webpack --config "webpack/prod.js"
 .PHONY: prod
@@ -87,7 +95,7 @@ tsc:
 .PHONY: tsc
 
 jest:
-	$(BIN)/jest $(JEST_FILES)
+	TZ=America/New_York $(BIN)/jest $(JEST_FILES)
 .PHONY: jest
 
 jest-watch:

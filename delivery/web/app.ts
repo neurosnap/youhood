@@ -3,10 +3,15 @@ import { SFC } from 'react';
 import { connect } from 'react-redux';
 
 import { WebState } from '@youhood/types';
-import { pages } from '@youhood/ui';
-const { SigninPage, AccountPage, DocPage } = pages;
 import { selectors } from '@youhood/token';
 const { getIsUserLoggedIn } = selectors;
+
+// must use relative imports for proper tree-shaking since
+// the ui package pulls everything in
+import SigninPage from '../../packages/ui/page-signin';
+import AccountPage from '../../packages/ui/page-account';
+import DocPage from '../../packages/ui/page-docs';
+import LandingPage from '../../packages/ui/page-landing';
 
 interface IAuth {
   isUserLoggedIn: boolean;
@@ -17,6 +22,7 @@ const mapState = (state: WebState) => {
     isUserLoggedIn: getIsUserLoggedIn(state),
   };
 };
+
 const AuthRequired = (Component: any) => {
   const req: SFC<IAuth> = ({ isUserLoggedIn }) => {
     if (!isUserLoggedIn) {
@@ -28,6 +34,7 @@ const AuthRequired = (Component: any) => {
 
   return connect(mapState)(req);
 };
+
 const Redirect = (Component: any) => {
   const req: SFC<IAuth> = ({ isUserLoggedIn }) => {
     if (isUserLoggedIn) {
@@ -47,8 +54,10 @@ const App = () => {
       return h(DocPage);
     case '/account':
       return h(AuthRequired(AccountPage));
-    default:
+    case '/signin':
       return h(Redirect(SigninPage));
+    default:
+      return h(LandingPage);
   }
 };
 

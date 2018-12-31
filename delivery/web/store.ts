@@ -1,5 +1,4 @@
 import createSagaMiddleware from 'redux-saga';
-import logger from 'redux-logger';
 import {
   createStore,
   applyMiddleware,
@@ -39,6 +38,7 @@ export default function createState({
   const persistedReducer = persistReducer(persistConfig, rootReducer);
 
   if (process.env.NODE_ENV === 'development') {
+    const logger = require('redux-logger').default;
     middleware.push(logger);
   }
 

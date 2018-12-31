@@ -1,7 +1,7 @@
 import { takeEvery } from 'redux-saga/effects';
 
 import { actions as authActions } from '@youhood/auth';
-const { signedIn } = authActions;
+const { signedIn, signedOut } = authActions;
 import { actions } from '@youhood/hood';
 const { afterSaveHood } = actions;
 import { actions as voteActions } from '@youhood/vote';
@@ -14,6 +14,7 @@ import {
   userDownVoted,
   userUnvoted,
   onSignedIn,
+  onSignedOut,
   onFetchPointsByUser,
 } from './effects';
 
@@ -39,4 +40,8 @@ export function* signedInSaga() {
 
 export function* fetchPointsByUserSaga() {
   yield takeEvery(`${fetchPointsByUser}`, onFetchPointsByUser);
+}
+
+export function* signedOutSaga() {
+  yield takeEvery(`${signedOut}`, onSignedOut);
 }

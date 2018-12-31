@@ -32,11 +32,13 @@ export default {
       header: {
         small: '1.2rem',
         large: '1.3rem',
+        xlarge: '2rem',
+        xxlarge: '2.5rem',
       },
     },
   },
   responsive: {
-    mobile: (strings: TemplateStringsArray) => {
+    mobile: (strings: TemplateStringsArray, ...args: any[]) => {
       return `@media only screen and (max-width: 760px) {
         ${strings.join('')}
       }`;

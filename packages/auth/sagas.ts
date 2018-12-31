@@ -4,8 +4,6 @@ import apiFetch from '@youhood/fetch';
 import { actions } from '@youhood/user';
 import { User } from '@youhood/user/types';
 const { addUsers, setUser, resetUser } = actions;
-import { actions as pointActions } from '@youhood/point';
-const { resetPoints } = pointActions;
 import { actions as tokenActions } from '@youhood/token';
 const { setToken, resetToken } = tokenActions;
 import { Token } from '@youhood/types';
@@ -58,7 +56,6 @@ function* onSignIn(action: AuthAction) {
 function* onSignOut() {
   yield put(resetUser());
   yield put(resetToken());
-  yield put(resetPoints());
   yield put(signedOut());
 }
 

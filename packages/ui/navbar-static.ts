@@ -6,16 +6,9 @@ import { SFC } from 'react';
 import { WebState } from '@youhood/types';
 import { selectors } from '@youhood/token';
 const { getIsUserLoggedIn } = selectors;
+import theme from '@youhood/theme';
 
-import {
-  Link,
-  Nav,
-  NavContent,
-  NavLeft,
-  NavRight,
-  Brand,
-  NavHover,
-} from './ui';
+import { Link, NavRight, NavHover } from './ui';
 import Signin from './signin';
 
 const NavLink = styled(Link)`
@@ -26,17 +19,66 @@ interface IProps {
   isUserLoggedIn: boolean;
 }
 
+const Nav = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  margin-top: 10px;
+
+  ${theme.responsive.mobile`
+    margin-left: 20px;
+  `}
+`;
+
+const NavView = styled.div`
+  z-index: 1;
+  width: 100%;
+  max-width: 1040px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+`;
+
+const NavBrand = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Brand = styled.div`
+  font-size: ${theme.font.size.header.large};
+  font-weight: 400;
+`;
+
+const SignInLink = styled(NavLink)`
+  border: 1px solid #fff;
+  border-radius: 5px;
+  margin: 0 0 0 1rem;
+  padding: 0.3rem 0.7rem;
+`;
+
+const Hover = styled(NavHover)`
+  margin: 0 1rem;
+  padding: 0 0.5rem;
+`;
+
+const NavMenu = styled(NavRight)`
+  ${theme.responsive.mobile`
+    display: none;
+  `}
+`;
+
 const Navbar: SFC<IProps> = ({ isUserLoggedIn }) =>
   h(Nav, [
-    h(NavContent, [
-      h(NavLeft, [h(NavLink, { href: '/' }, [h(Brand, 'YouHood')])]),
-      h(NavRight, [
-        h(NavHover, [h(NavLink, { href: '/' }, 'Explore')]),
-        h(NavHover, [h(NavLink, { href: '/docs' }, 'Docs')]),
-        h(NavHover, [h(NavLink, { href: '/pricing' }, 'Pricing')]),
+    h(NavView, [
+      h(NavBrand, [h(NavLink, { href: '/' }, [h(Brand, 'YouHood')])]),
+      h(NavMenu, [
+        h(Hover, [h(NavLink, { href: '/' }, 'Explore')]),
+        h(Hover, [h(NavLink, { href: '/docs' }, 'Docs')]),
+        h(Hover, [h(NavLink, { href: '/pricing' }, 'Pricing')]),
         isUserLoggedIn
           ? h(Signin)
-          : h(NavHover, [h(NavLink, { href: '/signin' }, 'Sign In')]),
+          : h(SignInLink, { href: '/signin' }, 'Sign In'),
       ]),
     ]),
   ]);

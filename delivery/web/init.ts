@@ -1,11 +1,11 @@
 import * as h from 'react-hyperscript';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
+import { PersistGate } from 'redux-persist/integration/react';
 
 import createState from './store';
 import { rootReducer, rootSaga } from './packages';
 import App from './app';
-import { PersistGate } from 'redux-persist/integration/react';
 
 interface WindowInterface extends Window {
   reduxStore: any;
