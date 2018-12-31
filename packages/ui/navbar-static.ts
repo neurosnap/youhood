@@ -73,7 +73,7 @@ const Navbar: SFC<IProps> = ({ isUserLoggedIn }) =>
     h(NavView, [
       h(NavBrand, [h(NavLink, { href: '/' }, [h(Brand, 'YouHood')])]),
       h(NavMenu, [
-        h(Hover, [h(NavLink, { href: '/' }, 'Explore')]),
+        h(Hover, [h(NavLink, { href: '/explore' }, 'Explore')]),
         h(Hover, [h(NavLink, { href: '/docs' }, 'Docs')]),
         h(Hover, [h(NavLink, { href: '/pricing' }, 'Pricing')]),
         isUserLoggedIn
