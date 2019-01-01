@@ -207,8 +207,8 @@ export const Nav = styled.div`
   display: flex;
   align-items: center;
   height: 56px;
-  background: ${theme.palette.bg.primary};
   box-sizing: border-box;
+  background: ${theme.palette.bg.primary};
   top: 0;
   width: 100vw;
   color: ${theme.palette.font.primary};

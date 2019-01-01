@@ -12,6 +12,10 @@ import SigninPage from '../../packages/ui/page-signin';
 import AccountPage from '../../packages/ui/page-account';
 import DocPage from '../../packages/ui/page-docs';
 import LandingPage from '../../packages/ui/page-landing';
+import AboutPage from '../../packages/ui/page-about';
+import PrivacyPage from '../../packages/ui/page-privacy';
+import TosPage from '../../packages/ui/page-tos';
+import PricingPage from '../../packages/ui/page-pricing';
 
 interface IAuth {
   isUserLoggedIn: boolean;
@@ -50,6 +54,14 @@ const Redirect = (Component: any) => {
 
 const App = () => {
   switch (location.pathname) {
+    case '/pricing':
+      return h(PricingPage);
+    case '/tos':
+      return h(TosPage);
+    case '/privacy':
+      return h(PrivacyPage);
+    case '/about':
+      return h(AboutPage);
     case '/docs':
       return h(DocPage);
     case '/account':
