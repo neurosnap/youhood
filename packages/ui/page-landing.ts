@@ -28,7 +28,6 @@ const Intro = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1;
 
   ${theme.responsive.mobile`
     height: 450px;
@@ -67,6 +66,7 @@ const Stripes = styled.div`
   background: linear-gradient(150deg, #53f 15%, #05d5ff 70%, #a6ffcb 94%);
   position: absolute;
   top: 0;
+  z-index: -1;
 
   ${theme.responsive.mobile`
     height: 500px;
@@ -122,7 +122,7 @@ const ViewContainer = styled.div`
 
 export default () => {
   return h(ViewContainer, [
-    h(NavbarStatic, { style: { zIndex: 1 } }),
+    h(NavbarStatic, { style: { background: 'transparent' } }),
     h(View, [
       h(Intro, [
         h(IntroView, [
