@@ -80,7 +80,9 @@ interface FetchHoodsResp {
 
 function* gotHoods({ hoods, winners }: FetchHoodsResp) {
   yield put(addHoodsAndProps(hoods));
-  yield put(setHoodWinners(winners));
+  if (winners && winners.length > 0) {
+    yield put(setHoodWinners(winners));
+  }
 }
 
 function* gotUsers(users: Users) {

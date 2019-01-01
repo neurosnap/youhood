@@ -64,7 +64,10 @@ router.post('/save', async (req, res) => {
 
   if (connections) {
     const geojson = transformSQLToGeoJson(successHoods.map((res) => res.hood));
-    sendAll(Object.values(connections), { type: 'got-hoods', data: geojson });
+    sendAll(Object.values(connections), {
+      type: 'got-hoods',
+      data: { hoods: geojson },
+    });
   }
 
   const hoods = successHoods.map((res) => ({

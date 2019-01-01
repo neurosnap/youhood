@@ -16,7 +16,7 @@ router.get('/:userId', async (req, res) => {
 });
 
 async function findUser(id) {
-  const sql = 'SELECT * FROM hood_user WHERE id=$1';
+  const sql = 'SELECT id, email, created_at, is_tmp FROM hood_user WHERE id=$1';
 
   try {
     const result = await db.query(sql, [id]);
