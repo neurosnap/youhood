@@ -23,8 +23,8 @@ const Nav = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50px;
-  margin-top: 10px;
+  height: 56px;
+  background-color: ${theme.palette.bg.primary};
 
   ${theme.responsive.mobile`
     margin-left: 20px;

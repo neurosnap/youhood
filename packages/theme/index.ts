@@ -9,7 +9,7 @@ export default {
       disabled: '#ccc',
     },
     bg: {
-      primary: '#4285f4',
+      primary: '#53f',
       secondary: '#fff',
       error: '#f8d7da',
       accent: '#37404e',
