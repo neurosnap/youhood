@@ -4,15 +4,11 @@ import { genTester, yields, skip } from 'gen-tester';
 import apiFetch from '@youhood/fetch';
 import { actions } from '@youhood/menu';
 const { hideMenu, showMenu } = actions;
-import { actions as userActions } from '@youhood/user';
+import { actions as userActions, transforms } from '@youhood/user';
 const { addUsers } = userActions;
+const { transformUser } = transforms;
 
-import {
-  transformUser,
-  onSelectHood,
-  onDeselectHood,
-  toggleHoodSelected,
-} from './select';
+import { onSelectHood, onDeselectHood, toggleHoodSelected } from './select';
 import { deselectHood, selectHood } from '../actions';
 import { mockHoodMap } from '../mock';
 import { applyStyle } from '../utils';
