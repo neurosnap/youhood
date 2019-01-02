@@ -1,4 +1,3 @@
-import { UserId } from '@youhood/user/types';
 import { HoodMap } from '@youhood/map/types';
 
 type ActionType = string;
@@ -8,7 +7,7 @@ export type HoodHash = { [key: string]: Hood };
 
 export interface HoodProps {
   id: HoodId;
-  userId: UserId;
+  userId: string;
   name: string;
   state: string;
   county: string;

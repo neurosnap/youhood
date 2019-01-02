@@ -1,5 +1,3 @@
-import { UserId } from '@youhood/user/types';
-
 export type AuthError = string;
 
 export interface AuthAction {
@@ -10,7 +8,7 @@ export interface AuthAction {
 export interface AuthPayload {
   email: string;
   password: string;
-  currentUserId: UserId;
+  currentUserId: string;
 }
 
 export interface AuthErrorAction {
@@ -20,5 +18,5 @@ export interface AuthErrorAction {
 
 export interface SignedInAction {
   type: string;
-  payload: UserId;
+  payload: string;
 }

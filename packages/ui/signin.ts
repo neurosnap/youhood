@@ -6,9 +6,8 @@ import { selectors as tokenSelectors } from '@youhood/token';
 const { getIsUserLoggedIn } = tokenSelectors;
 import { selectors } from '@youhood/user';
 const { getCurrentUser } = selectors;
-import { User } from '@youhood/user/types';
 
-import { WebState } from '@youhood/types';
+import { User, WebState } from '@youhood/types';
 import Profile from './profile';
 import AuthMenu from './auth';
 import { NavHover, SignInContainer, SignInEl } from './ui';

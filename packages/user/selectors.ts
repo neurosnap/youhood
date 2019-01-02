@@ -1,19 +1,14 @@
-import { User, UserId, UserHash } from '@youhood/user/types';
-import { WebState } from '@youhood/types';
+import { WebState, User, UserHash } from '@youhood/types';
 
-export const currentUser = 'currentUser';
-export const users = 'users';
+import { currentUserSlice, usersSlice } from './slice';
 
-export const getCurrentUserId = (state: WebState): UserId => state[currentUser];
-export const getUsers = (state: WebState): UserHash => state[users];
-export const getCurrentUser = (state: WebState): User => {
-  const userId = getCurrentUserId(state);
-  if (!userId) return null;
-  return getUserById(state, { id: userId });
-};
+export const getCurrentUser = (state: WebState): User =>
+  state[currentUserSlice];
+export const getCurrentUserId = (state: WebState) => getCurrentUser(state).id;
+export const getUsers = (state: WebState): UserHash => state[usersSlice];
 export const getUserById = (
   state: WebState,
-  { id = '' }: { id: UserId },
+  { id = '' }: { id: string },
 ): User => {
   if (!id) return null;
   return getUsers(state)[id];

@@ -5,7 +5,8 @@ import { actions } from '@youhood/menu';
 const { showMenu, hideMenu } = actions;
 import { actions as userActions } from '@youhood/user';
 const { addUsers } = userActions;
-import { User, RawUser } from '@youhood/user/types';
+import { RawUser } from '@youhood/user/types';
+import { User } from '@youhood/types';
 import apiFetch from '@youhood/fetch';
 
 import styleFn from '../style';
@@ -51,7 +52,7 @@ export function* onSelectHood(hoodMap: HoodMap, action: HoodSelectedAction) {
   const rawUser = userResp.body;
   const user = transformUser(rawUser.user);
   if (!user) return;
-  yield put(addUsers([user]));
+  yield put(addUsers({ [user.id]: user }));
 }
 
 export function* toggleHoodSelected(

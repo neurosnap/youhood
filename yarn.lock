@@ -8054,10 +8054,10 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-robodux@^1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/robodux/-/robodux-1.1.4.tgz#eb12a2645f0092b1a67867a68a2cd8350ab11003"
-  integrity sha512-Af/ghPTMKBdHrvoJ3m4x0Rh3w+6xQpEFrIzMCdO0Ivx/5Z9utxYxkTypSfzUTpxfZXcVRl3vgUhrBb9lkWEfrw==
+robodux@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/robodux/-/robodux-1.2.0.tgz#2ddd3db5447e9eb34a11b1830c49b195dfcb7098"
+  integrity sha512-82Ql6UKjIxBRCizZa2slslzV5NG/UyXxsH1MEMb2snYDEQShmV0vPT7bLMjxWdyYH6PKcbrVgNdSAX5AZWFPVA==
   dependencies:
     immer "^1.6.0"
 

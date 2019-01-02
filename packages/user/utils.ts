@@ -1,8 +1,13 @@
 import * as createUuid from 'uuid/v4';
 
-import { User } from '@youhood/user/types';
+import { User } from '@youhood/types';
 
-const defaultUser = { id: '', name: 'Anonymous' };
+export const defaultUser = {
+  id: '',
+  email: '',
+  createdAt: '',
+  isTmp: true,
+};
 export const createUser = (
   props: { [key: string]: any } = defaultUser,
 ): User => ({

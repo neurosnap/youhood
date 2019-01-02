@@ -134,7 +134,7 @@ describe('onSelectHood', () => {
           status: 200,
           body: { user },
         }),
-        put(addUsers([tUser])),
+        put(addUsers({ [tUser.id]: tUser })),
       );
 
       expect(actual).toEqual(expected);

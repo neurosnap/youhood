@@ -2,11 +2,10 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 
 import apiFetch from '@youhood/fetch';
 import { actions } from '@youhood/user';
-import { User } from '@youhood/user/types';
-const { addUsers, setUser, resetUser } = actions;
+const { setCurrentUser, resetCurrentUser } = actions;
 import { actions as tokenActions } from '@youhood/token';
 const { setToken, resetToken } = tokenActions;
-import { Token } from '@youhood/types';
+import { Token, User } from '@youhood/types';
 
 import { AuthError, AuthAction } from './types';
 import {
@@ -39,8 +38,7 @@ function* onSignIn(action: AuthAction) {
 
   if (resp.status >= 200 && resp.status < 300) {
     const result: SuccessJSON = resp.body;
-    yield put(addUsers([result.user]));
-    yield put(setUser(result.user.id));
+    yield put(setCurrentUser(result.user));
     yield put(setToken(result.token));
     yield put(signedIn(result.user.id));
     return;
@@ -54,7 +52,7 @@ function* onSignIn(action: AuthAction) {
 }
 
 function* onSignOut() {
-  yield put(resetUser());
+  yield put(resetCurrentUser());
   yield put(resetToken());
   yield put(signedOut());
 }
@@ -71,8 +69,7 @@ function* onRegister(action: AuthAction) {
 
   if (resp.status >= 200 && resp.status < 300) {
     const result: SuccessJSON = resp.body;
-    yield put(addUsers([result.user]));
-    yield put(setUser(result.user.id));
+    yield put(setCurrentUser(result.user));
     yield put(setToken(result.token));
     yield put(signedIn(result.user.id));
     return;

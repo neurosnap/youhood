@@ -2,7 +2,7 @@ import { genTester, yields, skip } from 'gen-tester';
 import { put, call, select } from 'redux-saga/effects';
 
 import { actions as userActions, utils, selectors } from '@youhood/user';
-const { addUsers, setUser } = userActions;
+const { setCurrentUser } = userActions;
 const { createUser } = utils;
 const { getCurrentUser } = selectors;
 
@@ -35,8 +35,7 @@ describe('onHoodCreated', () => {
         put(setEdit(false)),
         skip(),
         yields(call(createUser), user),
-        put(addUsers([user])),
-        put(setUser(user.id)),
+        put(setCurrentUser(user)),
         yields(call(createHood, { userId: user.id }), hood.properties),
         put(addHoodUIProps({ [hoodId]: uiProps })),
         put(userAddHoods([hood])),
