@@ -1,11 +1,13 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 
 import apiFetch from '@youhood/fetch';
-import { actions } from '@youhood/user';
+import { actions, transforms } from '@youhood/user';
+import { RawUser } from '@youhood/user/types';
 const { setCurrentUser, resetCurrentUser } = actions;
+const { transformUser } = transforms;
 import { actions as tokenActions } from '@youhood/token';
 const { setToken, resetToken } = tokenActions;
-import { Token, User } from '@youhood/types';
+import { Token } from '@youhood/types';
 
 import { AuthError, AuthAction } from './types';
 import {
@@ -18,7 +20,7 @@ import {
 } from './actions';
 
 interface SuccessJSON {
-  user: User;
+  user: RawUser;
   token: Token;
 }
 
@@ -38,7 +40,7 @@ function* onSignIn(action: AuthAction) {
 
   if (resp.status >= 200 && resp.status < 300) {
     const result: SuccessJSON = resp.body;
-    yield put(setCurrentUser(result.user));
+    yield put(setCurrentUser(transformUser(result.user)));
     yield put(setToken(result.token));
     yield put(signedIn(result.user.id));
     return;
@@ -69,7 +71,7 @@ function* onRegister(action: AuthAction) {
 
   if (resp.status >= 200 && resp.status < 300) {
     const result: SuccessJSON = resp.body;
-    yield put(setCurrentUser(result.user));
+    yield put(setCurrentUser(transformUser(result.user)));
     yield put(setToken(result.token));
     yield put(signedIn(result.user.id));
     return;

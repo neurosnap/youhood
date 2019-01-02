@@ -4,7 +4,7 @@ import { User } from '@youhood/types';
 
 export const defaultUser = {
   id: '',
-  email: '',
+  email: 'Anonymous',
   createdAt: '',
   isTmp: true,
 };

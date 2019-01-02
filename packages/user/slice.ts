@@ -12,7 +12,7 @@ interface CurrentUserActions {
 const currentUser = robodux<User, CurrentUserActions>({
   initialState: defaultUser,
   actions: {
-    setCurrentUser: (p: User) => p,
+    setCurrentUser: (state, p: User) => p,
     resetCurrentUser: () => defaultUser,
   },
   slice: 'currentUser',
