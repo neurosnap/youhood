@@ -1,13 +1,22 @@
-import { UserId, UserHash } from '@youhood/user/types';
 import { HoodId, HoodIds, HoodHash } from '@youhood/hood/types';
 import { Menus } from '@youhood/menu/types';
 import { Points } from '@youhood/point/types';
 import { Votes } from '@youhood/vote/types';
 import { AuthError } from '@youhood/auth/types';
 
+export interface User {
+  id: string;
+  email: string;
+  createdAt?: string;
+  isTmp?: boolean;
+}
+export interface UserHash {
+  [key: string]: User;
+}
+
 export interface Action<P = any> {
   type: string;
-  payload: P;
+  payload?: P;
 }
 
 export type Token = string;
@@ -33,7 +42,7 @@ export interface WebState {
   hoodsOnPoint: HoodIds;
   hoodWinners: HoodIds;
   points: Points;
-  currentUser: UserId;
+  currentUser: User;
   users: UserHash;
   token: Token;
   authError: AuthError;

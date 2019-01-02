@@ -2,19 +2,19 @@ import { shallow } from 'enzyme';
 import * as h from 'react-hyperscript';
 
 import { PointsView, DropMenu } from './points';
-import { Points } from './ui';
+import { Points, Trophy } from './ui';
 
 describe('PointsView', () => {
   describe('when there are no points', () => {
     it('should render the trophy icon', () => {
       const tree = shallow(h(PointsView));
-      expect(tree.find('.fa-trophy').length).toEqual(1);
+      expect(tree.find(Trophy).length).toEqual(1);
     });
 
     describe('when clicking the button', () => {
       it('should set state to `open`', () => {
         const tree = shallow(h(PointsView));
-        tree.find('.fa-trophy').simulate('click');
+        tree.find(Trophy).simulate('click');
         expect(tree.state('open')).toEqual(true);
       });
     });

@@ -3,10 +3,9 @@ import { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { WebState, ApiKey } from '@youhood/types';
+import { WebState, ApiKey, User } from '@youhood/types';
 import { selectors as userSelectors } from '@youhood/user';
 const { getCurrentUser } = userSelectors;
-import { User } from '@youhood/user/types';
 import { actions as accountActions, selectors } from '@youhood/account';
 const { fetchApiKeys } = accountActions;
 const { getApiKeys } = selectors;

@@ -1,4 +1,3 @@
-import { UserId } from '@youhood/user/types';
 import { HoodId, HoodIds } from '@youhood/hood/types';
 
 export type VoteTypes = 'upvote' | 'downvote';
@@ -6,13 +5,13 @@ export interface NeighborhoodVotes {
   [key: string]: VoteTypes;
 }
 
-export type VoteList = UserId[];
+export type VoteList = string[];
 export interface Votes {
   [key: string]: NeighborhoodVotes;
 }
 
 export interface VotePayload {
-  userId: UserId;
+  userId: string;
   hoodId: HoodId;
 }
 

@@ -4,7 +4,7 @@ import { take, call, spawn, put } from 'redux-saga/effects';
 import { GeoJsonFeatures, HoodIds } from '@youhood/hood/types';
 import { actions as userActions } from '@youhood/user';
 const { addUsers } = userActions;
-import { Users } from '@youhood/user/types';
+import { User, UserHash } from '@youhood/types';
 import { domain } from '@youhood/fetch';
 import { actions } from '@youhood/hood';
 const { addHoodsAndProps } = actions;
@@ -85,6 +85,10 @@ function* gotHoods({ hoods, winners }: FetchHoodsResp) {
   }
 }
 
-function* gotUsers(users: Users) {
-  yield put(addUsers(users));
+function* gotUsers(users: User[]) {
+  const userHash = users.reduce<UserHash>((acc, user) => {
+    acc[user.id] = user;
+    return acc;
+  }, {});
+  yield put(addUsers(userHash));
 }

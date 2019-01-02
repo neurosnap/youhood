@@ -37,12 +37,10 @@ exports[`PointsView when there are points when rendering should render the point
     }
   }
 >
-  <styled.div>
-    <styled.div
-      onClick={[Function]}
-    >
-      +10
-    </styled.div>
+  <styled.div
+    onClick={[Function]}
+  >
+    +10
   </styled.div>
   <Component
     items={Array []}

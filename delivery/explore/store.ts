@@ -25,7 +25,7 @@ interface Props {
 const persistConfig = {
   key: 'youhood',
   storage,
-  whitelist: ['currentUser', 'users', 'token', 'onboard'],
+  whitelist: ['currentUser', 'token', 'onboard'],
 };
 
 export default function createState({

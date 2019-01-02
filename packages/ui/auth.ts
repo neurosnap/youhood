@@ -9,7 +9,6 @@ const { getAuthError } = authSelectors;
 import { selectors } from '@youhood/user';
 const { getCurrentUserId } = selectors;
 import { AuthPayload, AuthError } from '@youhood/auth/types';
-import { UserId } from '@youhood/user/types';
 import { WebState } from '@youhood/types';
 import theme from '@youhood/theme';
 
@@ -28,7 +27,7 @@ interface IAuth {
   error?: AuthError;
   children?: any;
   onClick: OnClick;
-  currentUserId: UserId;
+  currentUserId: string;
   buttonText: string;
 }
 
@@ -103,7 +102,7 @@ export class Auth extends Component<IAuth, IAuthState> {
 interface IAuthMenu {
   error: AuthError;
   onClick: OnClick;
-  currentUserId: UserId;
+  currentUserId: string;
 }
 
 export const createAuthMenu = (buttonText: string) => ({

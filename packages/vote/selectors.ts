@@ -1,4 +1,3 @@
-import { UserId } from '@youhood/user/types';
 import { HoodId, HoodIds } from '@youhood/hood/types';
 import { selectors } from '@youhood/hood';
 const { getHoodIdsOnPoint } = selectors;
@@ -13,7 +12,7 @@ interface HoodIdInProp {
 }
 
 interface UserIdInProp {
-  userId: UserId;
+  userId: string;
 }
 
 type HoodAndUserInProp = HoodIdInProp & UserIdInProp;

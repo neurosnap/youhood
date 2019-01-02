@@ -3,9 +3,9 @@ import { put, call, select } from 'redux-saga/effects';
 import { HoodMap } from '@youhood/map/types';
 import { actions } from '@youhood/menu';
 const { showMenu, hideMenu } = actions;
-import { actions as userActions } from '@youhood/user';
+import { actions as userActions, transforms } from '@youhood/user';
 const { addUsers } = userActions;
-import { User, RawUser } from '@youhood/user/types';
+const { transformUser } = transforms;
 import apiFetch from '@youhood/fetch';
 
 import styleFn from '../style';
@@ -22,16 +22,6 @@ export function onDeselectHood({ hoodGeoJSON }: HoodMap) {
   hoodGeoJSON.eachLayer((hood: PolygonLeaflet) => {
     hood.setStyle(styleFn({ selected: false }));
   });
-}
-
-export function transformUser(rawUser: RawUser): User {
-  if (!rawUser) return null;
-  return {
-    id: rawUser.id,
-    email: rawUser.email,
-    createdAt: rawUser.created_at,
-    isTmp: rawUser.is_tmp,
-  };
 }
 
 export function* onSelectHood(hoodMap: HoodMap, action: HoodSelectedAction) {
@@ -51,7 +41,7 @@ export function* onSelectHood(hoodMap: HoodMap, action: HoodSelectedAction) {
   const rawUser = userResp.body;
   const user = transformUser(rawUser.user);
   if (!user) return;
-  yield put(addUsers([user]));
+  yield put(addUsers({ [user.id]: user }));
 }
 
 export function* toggleHoodSelected(

@@ -2,10 +2,9 @@ import { call } from 'redux-saga/effects';
 
 import apiFetch from '@youhood/fetch';
 import { HoodId } from '@youhood/hood/types';
-import { UserId } from '@youhood/user/types';
 
 interface SubmitPoints {
-  userId: UserId;
+  userId: string;
   hoodId: HoodId;
   reason: string;
 }

@@ -1,4 +1,3 @@
-import { UserId } from '@youhood/user/types';
 import { HoodId } from '@youhood/hood/types';
 
 export interface Point {
@@ -20,7 +19,7 @@ export interface RemovePointsAction {
 
 export interface FetchPointsByUserAction {
   type: string;
-  payload: UserId;
+  payload: string;
 }
 
 export interface PointMap {

@@ -6,7 +6,7 @@ import {
   utils as userUtils,
   selectors,
 } from '@youhood/user';
-const { addUsers, setUser } = userActions;
+const { setCurrentUser } = userActions;
 const { createUser } = userUtils;
 const { getCurrentUser } = selectors;
 
@@ -32,8 +32,7 @@ export function* onHoodCreated(
   let user = yield select(getCurrentUser);
   if (!user) {
     user = yield call(createUser);
-    yield put(addUsers([user]));
-    yield put(setUser(user.id));
+    yield put(setCurrentUser(user));
   }
 
   const props = yield call(createHood, { userId: user.id });

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import * as h from 'react-hyperscript';
 
 import { HoodProps, HoodId, EditHoodPayload } from '@youhood/hood/types';
-import { User, UserId } from '@youhood/user/types';
 import { actions, selectors, utils } from '@youhood/hood';
 const { editHood } = actions;
 const { createHood } = utils;
@@ -23,7 +22,7 @@ const {
 const { upvote, downvote, unvote } = voteActions;
 import { selectors as tokenSelectors } from '@youhood/token';
 const { getIsUserLoggedIn } = tokenSelectors;
-import { WebState } from '@youhood/types';
+import { User, WebState } from '@youhood/types';
 
 import {
   HoodContainer,
@@ -39,6 +38,8 @@ import {
   TextSmall,
 } from './ui';
 import { formatDate } from './date';
+
+type UserId = string;
 
 const noop = () => {};
 
