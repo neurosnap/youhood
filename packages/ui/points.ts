@@ -6,14 +6,15 @@ import styled from 'styled-components';
 import { selectors } from '@youhood/point';
 const { getTotalPoints, getPoints } = selectors;
 import { Points as PointsType } from '@youhood/point/types';
-
+import theme from '@youhood/theme';
 import { WebState } from '@youhood/types';
-import { NavHover, DropMenuEl, Points } from './ui';
+
+import { NavHover, DropMenuEl, Points, Trophy } from './ui';
 
 const PointsMenuContainer = styled.div`
   overflow-y: scroll;
   position: absolute;
-  background: #4285f4;
+  background: ${theme.palette.bg.primary};
   top: 46px;
   right: -2px;
   z-index: 401;
@@ -51,10 +52,6 @@ DropMenu.defaultProps = {
   items: [],
 };
 
-const PointsContainer = styled.div`
-  margin-right: 0;
-`;
-
 interface Props {
   points: number;
   pointHistory: PointsType;
@@ -84,11 +81,11 @@ export class PointsView extends Component {
 
     let Icon = h(Points, { onClick: this.toggleMenu }, `+${points}`);
     if (points === 0) {
-      Icon = h('i.fa.fa-trophy.fa-lg', { onClick: this.toggleMenu });
+      Icon = h(Trophy, { onClick: this.toggleMenu });
     }
 
     return h(NavHover, { style: { position: 'relative' } }, [
-      h(PointsContainer, [Icon]),
+      Icon,
       h(DropMenu, { open, items: pointHistory }),
     ]);
   }
