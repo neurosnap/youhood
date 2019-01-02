@@ -1,4 +1,4 @@
-import robodux, { mapSlice } from 'robodux';
+import robodux, { mapSlice, createAction } from 'robodux';
 
 import { User, UserHash } from '@youhood/types';
 import { Action } from 'redux';
@@ -32,6 +32,7 @@ const users = mapSlice<UserHash, UserHashActions>({
 const actions = {
   ...currentUser.actions,
   ...users.actions,
+  fetchUser: createAction<string>('FETCH_USER'),
 };
 
 const reducers = {
