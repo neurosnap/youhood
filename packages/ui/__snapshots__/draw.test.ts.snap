@@ -12,9 +12,9 @@ exports[`DrawHood when \`isEditing\` is false should render the create button 1`
           "$$typeof": Symbol(react.forward_ref),
           "attrs": Array [],
           "componentStyle": ComponentStyle {
-            "componentId": "sc-Rmtcm",
+            "componentId": "sc-csuQGl",
             "isStatic": true,
-            "lastClassName": "cwkdGT",
+            "lastClassName": "hjBqYz",
             "rules": Array [
               "
   cursor: pointer;
@@ -56,11 +56,11 @@ exports[`DrawHood when \`isEditing\` is false should render the create button 1`
           },
           "displayName": "Styled(Styled(styled.button))",
           "foldedComponentIds": Array [
-            "sc-dxgOiQ",
-            "sc-ckVGcZ",
+            "sc-jKJlTe",
+            "sc-eNQAEJ",
           ],
           "render": [Function],
-          "styledComponentId": "sc-Rmtcm",
+          "styledComponentId": "sc-csuQGl",
           "target": "button",
           "toString": [Function],
           "warnTooManyClasses": [Function],
@@ -70,7 +70,7 @@ exports[`DrawHood when \`isEditing\` is false should render the create button 1`
       forwardedRef={null}
     >
       <button
-        className="cwkdGT"
+        className="hjBqYz"
       >
         Create Hood
       </button>
@@ -93,9 +93,9 @@ exports[`DrawHood when \`isEditing\` is true should render the cancel button 1`]
               "$$typeof": Symbol(react.forward_ref),
               "attrs": Array [],
               "componentStyle": ComponentStyle {
-                "componentId": "sc-Rmtcm",
+                "componentId": "sc-csuQGl",
                 "isStatic": true,
-                "lastClassName": "cwkdGT",
+                "lastClassName": "hjBqYz",
                 "rules": Array [
                   "
   cursor: pointer;
@@ -137,11 +137,11 @@ exports[`DrawHood when \`isEditing\` is true should render the cancel button 1`]
               },
               "displayName": "Styled(Styled(styled.button))",
               "foldedComponentIds": Array [
-                "sc-dxgOiQ",
-                "sc-ckVGcZ",
+                "sc-jKJlTe",
+                "sc-eNQAEJ",
               ],
               "render": [Function],
-              "styledComponentId": "sc-Rmtcm",
+              "styledComponentId": "sc-csuQGl",
               "target": "button",
               "toString": [Function],
               "warnTooManyClasses": [Function],
@@ -151,7 +151,7 @@ exports[`DrawHood when \`isEditing\` is true should render the cancel button 1`]
           forwardedRef={null}
         >
           <button
-            className="cwkdGT"
+            className="hjBqYz"
           >
             <div>
               Cancel
@@ -166,9 +166,9 @@ exports[`DrawHood when \`isEditing\` is true should render the cancel button 1`]
               "$$typeof": Symbol(react.forward_ref),
               "attrs": Array [],
               "componentStyle": ComponentStyle {
-                "componentId": "sc-bRBYWo",
+                "componentId": "sc-Rmtcm",
                 "isStatic": true,
-                "lastClassName": "jEiFST",
+                "lastClassName": "keJsFf",
                 "rules": Array [
                   "
   position: fixed;
@@ -184,7 +184,7 @@ exports[`DrawHood when \`isEditing\` is true should render the cancel button 1`]
               "displayName": "styled.div",
               "foldedComponentIds": Array [],
               "render": [Function],
-              "styledComponentId": "sc-bRBYWo",
+              "styledComponentId": "sc-Rmtcm",
               "target": "div",
               "toString": [Function],
               "warnTooManyClasses": [Function],
@@ -194,7 +194,7 @@ exports[`DrawHood when \`isEditing\` is true should render the cancel button 1`]
           forwardedRef={null}
         >
           <div
-            className="jEiFST"
+            className="keJsFf"
           />
         </StyledComponent>
       </styled.div>

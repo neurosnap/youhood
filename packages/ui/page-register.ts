@@ -8,11 +8,19 @@ import { selectors } from '@youhood/token';
 const { getIsUserLoggedIn } = selectors;
 import { WebState } from '@youhood/types';
 
-import SignIn from './signin';
+import Register from './register';
 import { Brand, Link } from './ui';
 
 const NavLink = styled(Link)`
   text-decoration: none;
+`;
+
+const Info = styled.div`
+  display: flex;
+  color: ${theme.palette.font.primary};
+  font-size: ${theme.font.size.small};
+  justify-content: center;
+  align-items: center;
 `;
 
 const PageGlobalStyle = createGlobalStyle`
@@ -32,7 +40,7 @@ const SignInView = styled.div`
 
 const SignInInner = styled.div`
   width: 350px;
-  height: 300px;
+  height: 450px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -55,13 +63,17 @@ interface IProps {
   isLoggedIn: boolean;
 }
 
-export class SigninPage extends Component<IProps> {
+export class RegisterPage extends Component<IProps> {
   render() {
     return h('div', { style: { height: '100%' } }, [
       h(SignInView, [
         h(SignInInner, [
           h(BrandView, [h(NavLink, { href: '/' }, [h(Brand, 'YouHood')])]),
-          h(SignIn),
+          h(Register),
+          h(Info, [
+            h('div', 'Already have an account?'),
+            h(Link, { href: '/signin' }, 'Sign in'),
+          ]),
         ]),
         h(PageGlobalStyle),
       ]),
@@ -74,4 +86,4 @@ const mapState = (state: WebState) => {
     isLoggedIn: getIsUserLoggedIn(state),
   };
 };
-export default connect(mapState)(SigninPage);
+export default connect(mapState)(RegisterPage);

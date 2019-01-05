@@ -12,9 +12,9 @@ exports[`HoodVisible should render the buttons 1`] = `
           "$$typeof": Symbol(react.forward_ref),
           "attrs": Array [],
           "componentStyle": ComponentStyle {
-            "componentId": "sc-Rmtcm",
+            "componentId": "sc-csuQGl",
             "isStatic": true,
-            "lastClassName": "dXNjSN",
+            "lastClassName": "gejFaP",
             "rules": Array [
               "
   display: flex;
@@ -27,7 +27,7 @@ exports[`HoodVisible should render the buttons 1`] = `
           "displayName": "styled.div",
           "foldedComponentIds": Array [],
           "render": [Function],
-          "styledComponentId": "sc-Rmtcm",
+          "styledComponentId": "sc-csuQGl",
           "target": "div",
           "toString": [Function],
           "warnTooManyClasses": [Function],
@@ -37,7 +37,7 @@ exports[`HoodVisible should render the buttons 1`] = `
       forwardedRef={null}
     >
       <div
-        className="dXNjSN"
+        className="gejFaP"
       >
         <Styled(styled.button)>
           <StyledComponent
@@ -46,9 +46,9 @@ exports[`HoodVisible should render the buttons 1`] = `
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "sc-ckVGcZ",
+                  "componentId": "sc-eNQAEJ",
                   "isStatic": true,
-                  "lastClassName": "dPSpHd",
+                  "lastClassName": "bmXkwR",
                   "rules": Array [
                     "
   cursor: pointer;
@@ -85,10 +85,10 @@ exports[`HoodVisible should render the buttons 1`] = `
                 },
                 "displayName": "Styled(styled.button)",
                 "foldedComponentIds": Array [
-                  "sc-dxgOiQ",
+                  "sc-jKJlTe",
                 ],
                 "render": [Function],
-                "styledComponentId": "sc-ckVGcZ",
+                "styledComponentId": "sc-eNQAEJ",
                 "target": "button",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -98,7 +98,7 @@ exports[`HoodVisible should render the buttons 1`] = `
             forwardedRef={null}
           >
             <button
-              className="dPSpHd"
+              className="bmXkwR"
             >
               Show Current Hoods
             </button>
@@ -113,9 +113,9 @@ exports[`HoodVisible should render the buttons 1`] = `
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "sc-ckVGcZ",
+                  "componentId": "sc-eNQAEJ",
                   "isStatic": true,
-                  "lastClassName": "dPSpHd",
+                  "lastClassName": "bmXkwR",
                   "rules": Array [
                     "
   cursor: pointer;
@@ -152,10 +152,10 @@ exports[`HoodVisible should render the buttons 1`] = `
                 },
                 "displayName": "Styled(styled.button)",
                 "foldedComponentIds": Array [
-                  "sc-dxgOiQ",
+                  "sc-jKJlTe",
                 ],
                 "render": [Function],
-                "styledComponentId": "sc-ckVGcZ",
+                "styledComponentId": "sc-eNQAEJ",
                 "target": "button",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -166,7 +166,7 @@ exports[`HoodVisible should render the buttons 1`] = `
             onClick={[Function]}
           >
             <button
-              className="dPSpHd"
+              className="bmXkwR"
               onClick={[Function]}
             >
               Show All Hoods
@@ -182,9 +182,9 @@ exports[`HoodVisible should render the buttons 1`] = `
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "sc-ckVGcZ",
+                  "componentId": "sc-eNQAEJ",
                   "isStatic": true,
-                  "lastClassName": "dPSpHd",
+                  "lastClassName": "bmXkwR",
                   "rules": Array [
                     "
   cursor: pointer;
@@ -221,10 +221,10 @@ exports[`HoodVisible should render the buttons 1`] = `
                 },
                 "displayName": "Styled(styled.button)",
                 "foldedComponentIds": Array [
-                  "sc-dxgOiQ",
+                  "sc-jKJlTe",
                 ],
                 "render": [Function],
-                "styledComponentId": "sc-ckVGcZ",
+                "styledComponentId": "sc-eNQAEJ",
                 "target": "button",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -235,7 +235,7 @@ exports[`HoodVisible should render the buttons 1`] = `
             onClick={[Function]}
           >
             <button
-              className="dPSpHd"
+              className="bmXkwR"
               onClick={[Function]}
             >
               Hide All Hoods

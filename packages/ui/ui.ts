@@ -37,6 +37,46 @@ export const TextSmall = styled.div`
   justify-content: space-between;
 `;
 
+export const Button = styled.button`
+  min-width: 185px;
+  white-space: nowrap;
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 14px;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  font-size: ${theme.font.size.normal};
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  color: #fff;
+  background: #3ecf8e;
+  text-align: center;
+  cursor: pointer;
+
+  :hover {
+    box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+  }
+
+  :disabled {
+    background-color: ${theme.palette.bg.accent};
+    cursor: inherit;
+  }
+`;
+
+export const ButtonLight = styled(Button)`
+  color: #6772e5;
+  background-color: #fff;
+
+  ${theme.responsive.mobile`
+    margin-top: 10px;
+  `}
+`;
+
 // derived
 
 export const InputOverlay = styled(InputBase)`
@@ -160,7 +200,7 @@ export const HoodBarButton = styled(NavHover)`
 
 export const Input = styled(InputBase)`
   margin: 0.4rem;
-  padding: 0.4rem;
+  padding: 0.4rem 0.6rem;
   border-radius: 0.1rem;
   height: 3rem;
   border: none;
@@ -180,15 +220,12 @@ export const Input = styled(InputBase)`
   }
 `;
 
-export const SigninMsgBase = styled.div`
-  height: 2rem;
-`;
-
-export const ErrorText = styled(SigninMsgBase)`
+export const ErrorText = styled.div`
+  margin-top: 1rem;
   color: ${theme.palette.font.error};
   background-color: ${theme.palette.bg.error};
   font-size: ${theme.font.size.small};
-  padding: 0 0.5rem;
+  padding: 1rem;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -198,6 +235,7 @@ export const ErrorText = styled(SigninMsgBase)`
 export const Buttons = styled.div`
   margin-top: 0.4rem;
   display: flex;
+  justify-content: center;
 `;
 
 export const Menu = styled(NavHover)`
@@ -285,10 +323,11 @@ export const DropdownMenuContainer = styled.div`
   position: absolute;
   background: ${theme.palette.bg.primary};
   top: 46px;
-  right: 9px;
+  right: 7px;
   z-index: 401;
   width: 310px;
-  height: 260px;
+  min-height: 260px;
+  padding: 1rem;
 `;
 
 export const DropdownMenuButton = styled(NavHover)`
@@ -301,23 +340,6 @@ export const Points = styled.div`
   border-radius: 0.3rem;
   padding: 0.1rem 0.3rem;
   font-size: ${theme.font.size.small};
-`;
-
-export const SignInContainer = styled.div`
-  margin-left: 0;
-  position: relative;
-  height: 100%;
-  outline: none;
-`;
-
-export const SignInEl = styled.div`
-  text-decoration: none;
-  color: ${theme.palette.font.primary};
-
-  a {
-    text-decoration: none;
-    color: ${theme.palette.font.primary};
-  }
 `;
 
 export const Hamburger = () => {

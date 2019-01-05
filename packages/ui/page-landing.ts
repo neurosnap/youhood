@@ -73,41 +73,6 @@ const Stripes = styled.div`
   `}
 `;
 
-const Link = styled.a`
-  width: 165px;
-  white-space: nowrap;
-  display: inline-block;
-  height: 40px;
-  line-height: 40px;
-  padding: 0 14px;
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-  border-radius: 4px;
-  font-size: 15px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.025em;
-  text-decoration: none;
-  transition: all 0.15s ease;
-  margin-right: 23px;
-  color: #fff;
-  background: #3ecf8e;
-  text-align: center;
-
-  :hover {
-    box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
-    transform: translateY(-1px);
-  }
-`;
-
-const LinkExplore = styled(Link)`
-  color: #6772e5;
-  background-color: #fff;
-
-  ${theme.responsive.mobile`
-    margin-top: 10px;
-  `}
-`;
-
 const LinkView = styled.div`
   margin-top: 65px;
 
@@ -118,6 +83,47 @@ const LinkView = styled.div`
 
 const ViewContainer = styled.div`
   position: relative;
+`;
+
+export const Button = styled.a`
+  min-width: 185px;
+  white-space: nowrap;
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 14px;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  font-size: ${theme.font.size.normal};
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  text-decoration: none;
+  margin-right: 23px;
+  transition: all 0.15s ease;
+  color: #fff;
+  background: #3ecf8e;
+  text-align: center;
+  cursor: pointer;
+
+  :hover {
+    box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+  }
+
+  :disabled {
+    background-color: ${theme.palette.bg.accent};
+    cursor: inherit;
+  }
+`;
+
+export const ButtonLight = styled(Button)`
+  color: #6772e5;
+  background-color: #fff;
+
+  ${theme.responsive.mobile`
+    margin-top: 10px;
+  `}
 `;
 
 export default () => {
@@ -132,8 +138,8 @@ export default () => {
             'Youhood is a crowd-sourced platform for determining neighborhoods within cities.  We also provide an API that allows services to obtain geographical data on neighborhoods.',
           ),
           h(LinkView, [
-            h(Link, { href: '/signin' }, 'Create Account'),
-            h(LinkExplore, { href: '/explore' }, 'Explore'),
+            h(Button, { href: '/register' }, 'Create Account'),
+            h(ButtonLight, { href: '/explore' }, 'Explore'),
           ]),
         ]),
       ]),
