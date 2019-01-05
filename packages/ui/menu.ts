@@ -54,7 +54,7 @@ class MenuDrawer extends Component {
       h(Menu, { onClick: this.toggle }, [h(Hamburger)]),
       h(OverlayOuter, <any>{ show: this.state.show }, [
         h(OverlayInner, [
-          h(Link, { href: '/' }, 'Explore'),
+          h(Link, { href: '/' }, 'Home'),
           h(Link, { href: '/docs' }, 'API Documentation'),
           h(Link, { href: '/pricing' }, 'Pricing'),
           h(
@@ -70,8 +70,11 @@ class MenuDrawer extends Component {
             { href: 'https://github.com/neurosnap/youhood', target: '_blank' },
             'Source Code',
           ),
-          h(Link, { href: '/about' }, 'About'),
-          h(Link, { href: '/faq' }, 'FAQ'),
+          h(
+            Link,
+            { href: 'mailto:support@youhood.io', target: '_blank' },
+            'support@youhood.io',
+          ),
         ]),
       ]),
     ]);
