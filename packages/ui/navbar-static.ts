@@ -9,7 +9,7 @@ const { getIsUserLoggedIn } = selectors;
 import theme from '@youhood/theme';
 
 import { Link, NavRight, NavHover } from './ui';
-import Signin from './signin';
+import UserMenu from './user-menu';
 
 const NavLink = styled(Link)`
   text-decoration: none;
@@ -78,7 +78,7 @@ const Navbar: SFC<IProps> = ({ isUserLoggedIn, style }) =>
         h(Hover, [h(NavLink, { href: '/docs' }, 'Docs')]),
         h(Hover, [h(NavLink, { href: '/pricing' }, 'Pricing')]),
         isUserLoggedIn
-          ? h(Signin)
+          ? h(UserMenu)
           : h(SignInLink, { href: '/signin' }, 'Sign In'),
       ]),
     ]),

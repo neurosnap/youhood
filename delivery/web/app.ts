@@ -16,6 +16,7 @@ import AboutPage from '../../packages/ui/page-about';
 import PrivacyPage from '../../packages/ui/page-privacy';
 import TosPage from '../../packages/ui/page-tos';
 import PricingPage from '../../packages/ui/page-pricing';
+import RegisterPage from '../../packages/ui/page-register';
 
 interface IAuth {
   isUserLoggedIn: boolean;
@@ -43,7 +44,7 @@ const Redirect = (Component: any) => {
   const req: SFC<IAuth> = ({ isUserLoggedIn }) => {
     if (isUserLoggedIn) {
       // a little hacky
-      window.location.replace('/');
+      window.location.replace('/explore');
     }
 
     return h(Component);
@@ -68,6 +69,8 @@ const App = () => {
       return h(AuthRequired(AccountPage));
     case '/signin':
       return h(Redirect(SigninPage));
+    case '/register':
+      return h(Redirect(RegisterPage));
     default:
       return h(LandingPage);
   }

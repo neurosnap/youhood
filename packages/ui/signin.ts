@@ -2,77 +2,98 @@ import * as h from 'react-hyperscript';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { selectors as tokenSelectors } from '@youhood/token';
-const { getIsUserLoggedIn } = tokenSelectors;
+import { actions, selectors as authSelectors } from '@youhood/auth';
+const { signIn } = actions;
+const { getAuthError } = authSelectors;
 import { selectors } from '@youhood/user';
-const { getCurrentUser } = selectors;
+const { getCurrentUserId } = selectors;
+import { AuthPayload, AuthError } from '@youhood/auth/types';
+import { WebState } from '@youhood/types';
 
-import { User, WebState } from '@youhood/types';
-import Profile from './profile';
-import AuthMenu from './auth';
-import { NavHover, SignInContainer, SignInEl } from './ui';
+import { ErrorText, Input, Buttons, SignInMenuEl, Button } from './ui';
 
-interface SignInProps {
-  authenticated: boolean;
-  user: User;
+type OnClick = (props: AuthPayload) => void;
+interface IAuth {
+  error: AuthError;
+  onClick: OnClick;
+  currentUserId: string;
 }
 
-export class SignIn extends Component {
-  props: SignInProps;
+interface IAuthState {
+  email: string;
+  password: string;
+}
+
+export class SignIn extends Component<IAuth, IAuthState> {
+  static defaultProps = {
+    onClick: () => {},
+    currentUserId: '',
+    error: '',
+  };
 
   state = {
-    open: false,
+    email: '',
+    password: '',
   };
 
-  toggleMenu = () => {
-    this.setState({ open: !this.state.open });
+  handleEmail = (event: React.FormEvent<HTMLInputElement>) => {
+    this.setState({ email: event.currentTarget.value });
   };
 
-  onBlur = (ev: any, doc: any = document) => {
-    if (!this.state.open) return;
-
-    const parentEl = ev.currentTarget;
-    setTimeout(() => {
-      const clickedEl = doc.activeElement;
-      if (!parentEl.contains(clickedEl)) this.setState({ open: false });
-    }, 0);
+  handlePassword = (event: React.FormEvent<HTMLInputElement>) => {
+    this.setState({ password: event.currentTarget.value });
   };
 
-  componentWillReceiveProps(nextProps: SignInProps) {
-    const justSignedIn =
-      this.props.authenticated === false && nextProps.authenticated === true;
-
-    const justSignedOut =
-      this.props.authenticated === true && nextProps.authenticated === false;
-
-    if (justSignedIn || justSignedOut) {
-      this.setState({ open: false });
-    }
-  }
+  handleClick = () => {
+    const { email, password } = this.state;
+    const { onClick, currentUserId } = this.props;
+    onClick({ email, password, currentUserId });
+  };
 
   render() {
-    const { open } = this.state;
-    const { authenticated, user } = this.props;
+    const { email, password } = this.state;
+    const { error } = this.props;
+    const shouldDisableButton = !email || !password;
 
-    let menu = null;
-    if (open) {
-      if (authenticated) {
-        menu = h(Profile);
-      } else {
-        menu = h(AuthMenu);
-      }
-    }
-
-    return h(SignInContainer, { tabIndex: 1, onBlur: this.onBlur }, [
-      h(NavHover, { onClick: this.toggleMenu }, [
-        h(SignInEl, authenticated ? user.email : 'Sign In'),
+    return h(SignInMenuEl, [
+      h(Input, {
+        className: 'signin-email',
+        type: 'text',
+        placeholder: 'email address',
+        value: email,
+        onChange: this.handleEmail,
+      }),
+      h(Input, {
+        className: 'signin-pass',
+        type: 'password',
+        placeholder: 'password',
+        value: password,
+        onChange: this.handlePassword,
+      }),
+      h(Buttons, [
+        h(
+          Button,
+          {
+            className: 'signin-btn',
+            onClick: this.handleClick,
+            disabled: shouldDisableButton,
+          },
+          'Sign in',
+        ),
       ]),
-      menu,
+      error ? h(ErrorText, error) : null,
     ]);
   }
 }
 
-export default connect((state: WebState) => ({
-  authenticated: getIsUserLoggedIn(state),
-  user: getCurrentUser(state),
-}))(SignIn as any);
+const mapStateToProps = (state: WebState) => ({
+  currentUserId: getCurrentUserId(state),
+  error: getAuthError(state),
+});
+
+export default connect(
+  mapStateToProps,
+  (dispatch: Function) => ({
+    onClick: (payload: AuthPayload) => dispatch(signIn(payload)),
+  }),
+)(SignIn);

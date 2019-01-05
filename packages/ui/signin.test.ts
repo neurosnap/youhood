@@ -2,79 +2,62 @@ import { shallow } from 'enzyme';
 import * as h from 'react-hyperscript';
 
 import { SignIn } from './signin';
-import { NavHover, SignInEl } from './ui';
-import Profile from './profile';
-import AuthMenu from './auth';
-
-jest.useFakeTimers();
+import { Input, Button } from './ui';
 
 describe('SignIn', () => {
-  describe('when user is not authenticated', () => {
-    it('should render text `Sign In`', () => {
-      const tree = shallow(h(SignIn, { authenticated: false }));
-      expect(tree.find(SignInEl).html()).toContain('Sign In');
-    });
-  });
-
-  describe('when user is authenticated', () => {
-    it('should render text of users email', () => {
+  describe('when clicking the button', () => {
+    it('should call onclick with correct data', () => {
+      const onClick = jest.fn();
       const tree = shallow(
         h(SignIn, {
-          authenticated: true,
-          user: { email: 'eric@cool.com' },
+          error: '',
+          onClick,
+          currentUserId: '1337',
         }),
       );
-      expect(tree.find(SignInEl).html()).toContain('eric@cool.com');
+
+      const inputs = tree.find(Input);
+      const email = inputs.at(0);
+      const password = inputs.at(1);
+      email.simulate('change', { currentTarget: { value: 'eric@cool.com' } });
+      password.simulate('change', { currentTarget: { value: '12345' } });
+      tree.find(Button).simulate('click');
+
+      expect(onClick).toHaveBeenCalledWith({
+        email: 'eric@cool.com',
+        password: '12345',
+        currentUserId: '1337',
+      });
     });
   });
 
-  describe('when menu is open', () => {
-    describe('when the user is authenticated', () => {
-      it('should render Profile component', () => {
-        const tree = shallow(
-          h(SignIn, {
-            authenticated: true,
-            user: { email: 'eric@cool.com' },
-          }),
-        );
-
-        tree.find(NavHover).simulate('click');
-
-        expect(tree.find(Profile).length).toEqual(1);
-      });
+  describe('when email and password is empty', () => {
+    it('should disable the button', () => {
+      const tree = shallow(h(SignIn));
+      const btn = tree.find(Button);
+      expect(btn.props().disabled).toEqual(true);
     });
+  });
 
-    describe('when the user is not authenticated', () => {
-      it('should render SignInMenu component', () => {
-        const tree = shallow(
-          h(SignIn, {
-            authenticated: false,
-            user: { email: 'eric@cool.com' },
-          }),
-        );
-
-        tree.find(NavHover).simulate('click');
-
-        expect(tree.find(AuthMenu).length).toEqual(1);
-      });
+  describe('when email is empty', () => {
+    it('should disable the button', () => {
+      const tree = shallow(h(SignIn));
+      const inputs = tree.find(Input);
+      const password = inputs.at(1);
+      password.simulate('change', { currentTarget: { value: '12345' } });
+      const btn = tree.find(Button);
+      expect(btn.props().disabled).toEqual(true);
     });
+  });
 
-    describe('clicking outside of the sign in popup', () => {
-      it('should close the popup', () => {
-        const ev = { currentTarget: { contains: () => false } };
-        const doc = {};
-        const tree = shallow(
-          h(SignIn, {
-            authenticated: false,
-            user: { email: 'eric@cool.com' },
-          }),
-        );
-        tree.setState({ open: true });
-        const instance = tree.instance() as SignIn;
-        instance.onBlur(ev, doc);
-        jest.runAllTimers();
-        expect(tree.state()).toEqual({ open: false });
-      });
+  describe('when password is empty', () => {
+    it('should disable the button', () => {
+      const tree = shallow(h(SignIn));
+      const inputs = tree.find(Input);
+      const email = inputs.at(0);
+      email.simulate('change', { currentTarget: { value: 'eric@cool.com' } });
+      const btn = tree.find(Button);
+      expect(btn.props().disabled).toEqual(true);
     });
   });
 });
