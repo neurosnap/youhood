@@ -40,9 +40,9 @@ exports[`HoodView when the user has registered should render the email as user 1
           "$$typeof": Symbol(react.forward_ref),
           "attrs": Array [],
           "componentStyle": ComponentStyle {
-            "componentId": "sc-kpOJdX",
+            "componentId": "sc-ckVGcZ",
             "isStatic": true,
-            "lastClassName": "gVPSAx",
+            "lastClassName": "lfahBz",
             "rules": Array [
               "
   width: 90%;
@@ -53,7 +53,7 @@ exports[`HoodView when the user has registered should render the email as user 1
           "displayName": "styled.div",
           "foldedComponentIds": Array [],
           "render": [Function],
-          "styledComponentId": "sc-kpOJdX",
+          "styledComponentId": "sc-ckVGcZ",
           "target": "div",
           "toString": [Function],
           "warnTooManyClasses": [Function],
@@ -63,7 +63,7 @@ exports[`HoodView when the user has registered should render the email as user 1
       forwardedRef={null}
     >
       <div
-        className="gVPSAx"
+        className="lfahBz"
       >
         <styled.div>
           <StyledComponent
@@ -72,9 +72,9 @@ exports[`HoodView when the user has registered should render the email as user 1
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "sc-kGXeez",
+                  "componentId": "sc-dxgOiQ",
                   "isStatic": true,
-                  "lastClassName": "ffVuun",
+                  "lastClassName": "jTjskY",
                   "rules": Array [
                     "
   font-size: ",
@@ -92,7 +92,7 @@ exports[`HoodView when the user has registered should render the email as user 1
                 "displayName": "styled.div",
                 "foldedComponentIds": Array [],
                 "render": [Function],
-                "styledComponentId": "sc-kGXeez",
+                "styledComponentId": "sc-dxgOiQ",
                 "target": "div",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -102,7 +102,7 @@ exports[`HoodView when the user has registered should render the email as user 1
             forwardedRef={null}
           >
             <div
-              className="ffVuun"
+              className="jTjskY"
             >
               <styled.h1>
                 <StyledComponent
@@ -148,9 +148,9 @@ exports[`HoodView when the user has registered should render the email as user 1
                       "$$typeof": Symbol(react.forward_ref),
                       "attrs": Array [],
                       "componentStyle": ComponentStyle {
-                        "componentId": "sc-jzJRlG",
+                        "componentId": "sc-kAzzGY",
                         "isStatic": true,
-                        "lastClassName": "kYcudh",
+                        "lastClassName": "cDFycH",
                         "rules": Array [
                           "
   display: flex;
@@ -161,7 +161,7 @@ exports[`HoodView when the user has registered should render the email as user 1
                       "displayName": "styled.div",
                       "foldedComponentIds": Array [],
                       "render": [Function],
-                      "styledComponentId": "sc-jzJRlG",
+                      "styledComponentId": "sc-kAzzGY",
                       "target": "div",
                       "toString": [Function],
                       "warnTooManyClasses": [Function],
@@ -171,7 +171,7 @@ exports[`HoodView when the user has registered should render the email as user 1
                   forwardedRef={null}
                 >
                   <div
-                    className="kYcudh"
+                    className="cDFycH"
                   />
                 </StyledComponent>
               </styled.div>
@@ -185,9 +185,9 @@ exports[`HoodView when the user has registered should render the email as user 1
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "sc-dnqmqq",
+                  "componentId": "sc-gZMcBi",
                   "isStatic": true,
-                  "lastClassName": "dZFXYm",
+                  "lastClassName": "gTdQYw",
                   "rules": Array [
                     "
   background-color: ",
@@ -203,10 +203,10 @@ exports[`HoodView when the user has registered should render the email as user 1
                 },
                 "displayName": "Styled(styled.div)",
                 "foldedComponentIds": Array [
-                  "sc-htoDjs",
+                  "sc-iwsKbI",
                 ],
                 "render": [Function],
-                "styledComponentId": "sc-dnqmqq",
+                "styledComponentId": "sc-gZMcBi",
                 "target": "div",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -216,7 +216,7 @@ exports[`HoodView when the user has registered should render the email as user 1
             forwardedRef={null}
           >
             <div
-              className="dZFXYm"
+              className="gTdQYw"
             >
               <styled.div>
                 <StyledComponent
@@ -225,9 +225,9 @@ exports[`HoodView when the user has registered should render the email as user 1
                       "$$typeof": Symbol(react.forward_ref),
                       "attrs": Array [],
                       "componentStyle": ComponentStyle {
-                        "componentId": "sc-VigVT",
+                        "componentId": "sc-fjdhpX",
                         "isStatic": true,
-                        "lastClassName": "gFrDvL",
+                        "lastClassName": "jOrice",
                         "rules": Array [
                           "
   padding: 0 0.5rem;
@@ -241,7 +241,7 @@ exports[`HoodView when the user has registered should render the email as user 1
                       "displayName": "styled.div",
                       "foldedComponentIds": Array [],
                       "render": [Function],
-                      "styledComponentId": "sc-VigVT",
+                      "styledComponentId": "sc-fjdhpX",
                       "target": "div",
                       "toString": [Function],
                       "warnTooManyClasses": [Function],
@@ -251,7 +251,7 @@ exports[`HoodView when the user has registered should render the email as user 1
                   forwardedRef={null}
                 >
                   <div
-                    className="gFrDvL"
+                    className="jOrice"
                   >
                     <styled.h1>
                       <StyledComponent
@@ -520,9 +520,9 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
           "$$typeof": Symbol(react.forward_ref),
           "attrs": Array [],
           "componentStyle": ComponentStyle {
-            "componentId": "sc-kpOJdX",
+            "componentId": "sc-ckVGcZ",
             "isStatic": true,
-            "lastClassName": "gVPSAx",
+            "lastClassName": "lfahBz",
             "rules": Array [
               "
   width: 90%;
@@ -533,7 +533,7 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
           "displayName": "styled.div",
           "foldedComponentIds": Array [],
           "render": [Function],
-          "styledComponentId": "sc-kpOJdX",
+          "styledComponentId": "sc-ckVGcZ",
           "target": "div",
           "toString": [Function],
           "warnTooManyClasses": [Function],
@@ -543,7 +543,7 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
       forwardedRef={null}
     >
       <div
-        className="gVPSAx"
+        className="lfahBz"
       >
         <styled.div>
           <StyledComponent
@@ -552,9 +552,9 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "sc-kGXeez",
+                  "componentId": "sc-dxgOiQ",
                   "isStatic": true,
-                  "lastClassName": "ffVuun",
+                  "lastClassName": "jTjskY",
                   "rules": Array [
                     "
   font-size: ",
@@ -572,7 +572,7 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
                 "displayName": "styled.div",
                 "foldedComponentIds": Array [],
                 "render": [Function],
-                "styledComponentId": "sc-kGXeez",
+                "styledComponentId": "sc-dxgOiQ",
                 "target": "div",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -582,7 +582,7 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
             forwardedRef={null}
           >
             <div
-              className="ffVuun"
+              className="jTjskY"
             >
               <styled.h1>
                 <StyledComponent
@@ -628,9 +628,9 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
                       "$$typeof": Symbol(react.forward_ref),
                       "attrs": Array [],
                       "componentStyle": ComponentStyle {
-                        "componentId": "sc-jzJRlG",
+                        "componentId": "sc-kAzzGY",
                         "isStatic": true,
-                        "lastClassName": "kYcudh",
+                        "lastClassName": "cDFycH",
                         "rules": Array [
                           "
   display: flex;
@@ -641,7 +641,7 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
                       "displayName": "styled.div",
                       "foldedComponentIds": Array [],
                       "render": [Function],
-                      "styledComponentId": "sc-jzJRlG",
+                      "styledComponentId": "sc-kAzzGY",
                       "target": "div",
                       "toString": [Function],
                       "warnTooManyClasses": [Function],
@@ -651,7 +651,7 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
                   forwardedRef={null}
                 >
                   <div
-                    className="kYcudh"
+                    className="cDFycH"
                   />
                 </StyledComponent>
               </styled.div>
@@ -665,9 +665,9 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "sc-dnqmqq",
+                  "componentId": "sc-gZMcBi",
                   "isStatic": true,
-                  "lastClassName": "dZFXYm",
+                  "lastClassName": "gTdQYw",
                   "rules": Array [
                     "
   background-color: ",
@@ -683,10 +683,10 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
                 },
                 "displayName": "Styled(styled.div)",
                 "foldedComponentIds": Array [
-                  "sc-htoDjs",
+                  "sc-iwsKbI",
                 ],
                 "render": [Function],
-                "styledComponentId": "sc-dnqmqq",
+                "styledComponentId": "sc-gZMcBi",
                 "target": "div",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -696,7 +696,7 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
             forwardedRef={null}
           >
             <div
-              className="dZFXYm"
+              className="gTdQYw"
             >
               <styled.div>
                 <StyledComponent
@@ -705,9 +705,9 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
                       "$$typeof": Symbol(react.forward_ref),
                       "attrs": Array [],
                       "componentStyle": ComponentStyle {
-                        "componentId": "sc-VigVT",
+                        "componentId": "sc-fjdhpX",
                         "isStatic": true,
-                        "lastClassName": "gFrDvL",
+                        "lastClassName": "jOrice",
                         "rules": Array [
                           "
   padding: 0 0.5rem;
@@ -721,7 +721,7 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
                       "displayName": "styled.div",
                       "foldedComponentIds": Array [],
                       "render": [Function],
-                      "styledComponentId": "sc-VigVT",
+                      "styledComponentId": "sc-fjdhpX",
                       "target": "div",
                       "toString": [Function],
                       "warnTooManyClasses": [Function],
@@ -731,7 +731,7 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
                   forwardedRef={null}
                 >
                   <div
-                    className="gFrDvL"
+                    className="jOrice"
                   >
                     <styled.h1>
                       <StyledComponent

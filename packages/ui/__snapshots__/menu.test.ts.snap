@@ -14,7 +14,7 @@ exports[`Menu should render menu 1`] = `
       <styled.a
         href="/"
       >
-        Explore
+        Home
       </styled.a>
       <styled.a
         href="/docs"
@@ -39,14 +39,10 @@ exports[`Menu should render menu 1`] = `
         Source Code
       </styled.a>
       <styled.a
-        href="/about"
+        href="mailto:support@youhood.io"
+        target="_blank"
       >
-        About
-      </styled.a>
-      <styled.a
-        href="/faq"
-      >
-        FAQ
+        support@youhood.io
       </styled.a>
     </styled.div>
   </styled.div>
