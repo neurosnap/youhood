@@ -67,5 +67,13 @@ function sendVerifyEmail(email, token) {
     text: `Thanks for signing up to YouHood!\n\n  Click link to verify ${link}`,
     html: `Thanks for signing up to YouHood!<br /><br />  <a href=${link}>Click link to verify</a>`,
   };
-  sgMail.send(msg);
+  sendEmail(msg);
+}
+
+function sendEmail(msg) {
+  if (SENDGRID_KEY) {
+    sgMail.send(msg);
+  } else {
+    console.log(msg);
+  }
 }
