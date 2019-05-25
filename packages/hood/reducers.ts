@@ -110,6 +110,7 @@ function replaceHoodIdReducer(
   const { hoodId, prevHoodId } = action.payload;
   const newState = { ...state };
   newState[hoodId] = newState[prevHoodId];
+  newState[hoodId].id = hoodId;
   delete newState[prevHoodId];
   return newState;
 }
