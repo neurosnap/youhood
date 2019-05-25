@@ -1,12 +1,9 @@
 const router = require('express-promise-router')();
 const uuid = require('uuid/v4');
-const sgMail = require('@sendgrid/mail');
 
 const db = require('./db');
-
-const SENDGRID_KEY = process.env.SENDGRID_API_KEY;
-console.log('SENDGRID_KEY', SENDGRID_KEY);
-sgMail.setApiKey(SENDGRID_KEY);
+const sendEmail = require('./email');
+const sendNotificationEmail = require('./notification');
 
 module.exports = {
   router,
@@ -68,12 +65,11 @@ function sendVerifyEmail(email, token) {
     html: `Thanks for signing up to YouHood!<br /><br />  <a href=${link}>Click link to verify</a>`,
   };
   sendEmail(msg);
-}
 
-function sendEmail(msg) {
-  if (SENDGRID_KEY) {
-    sgMail.send(msg);
-  } else {
-    console.log(msg);
-  }
+  const logMsg = {
+    subject: `${email} signed up for YouHood!`,
+    text: `${email} signed up for Youhood`,
+    html: `${email} signed up for Youhood`,
+  };
+  sendNotificationEmail(logMsg);
 }

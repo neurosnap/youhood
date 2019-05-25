@@ -14,6 +14,7 @@ Crowd sourced neighborhood boundary site
 
 * `PGPASSWORD` # password for postgresql
 * `GOOGLE_API_KEY` # required for geolookup of neighborhoods as well as searching for a location
+* `SENDGRID_API_KEY` # required for sending emails
 
 ```bash
 yarn
