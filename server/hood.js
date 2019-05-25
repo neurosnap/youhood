@@ -7,6 +7,7 @@ const db = require('./db');
 const { findOrCreateUser } = require('./user');
 const { addPoint } = require('./point');
 const { transformSQLToGeoJson } = require('./transform');
+const sendNotificationEmail = require('./notification');
 
 const log = debug('router:hood');
 
@@ -73,6 +74,22 @@ router.post('/save', async (req, res) => {
   const hoods = successHoods.map((res) => ({
     properties: { id: res.hood.id },
   }));
+
+  successHoods.forEach(({ hood }) => {
+    const text =
+      `id: ${hood.id}\n` +
+      `state: ${hood.state}\n` +
+      `city: ${hood.city}\n` +
+      `name: ${hood.name}\n` +
+      `user id: ${hood.hood_user_id}\n` +
+      `---`;
+
+    sendNotificationEmail({
+      subject: `${hood.name} hood created in ${hood.city}, ${hood.state}`,
+      text,
+      html: text.replace(/\n/g, '<br />'),
+    });
+  });
 
   return res.json({ hoods });
 });
