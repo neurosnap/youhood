@@ -16,6 +16,10 @@ function* onFetchVotes(action: FetchVotesByHoodAction) {
   });
 
   const data = resp.body;
+  if (Object.keys(data.votes).length === 0) {
+    return;
+  }
+
   yield put(addVotes(data.votes));
 }
 

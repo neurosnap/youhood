@@ -4,7 +4,7 @@ const sendNotificationEmail = require('./notification');
 
 const log = debug('router:report');
 
-router.post('/report/:hoodId', async (req, res) => {
+router.post('/:hoodId', async (req, res) => {
   const hoodId = req.params.hoodId;
   const data = req.body;
   const reason = data.reason;

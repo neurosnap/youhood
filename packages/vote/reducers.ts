@@ -1,19 +1,18 @@
-import { Votes, AddVotesAction, VoteAction, VoteTypes } from './types';
+import { Votes, VotePayload, VoteTypes } from './types';
 
 import { unvote, addVotes, upvote, downvote } from './actions';
 import * as selectors from './selectors';
 import { createReducer } from 'robodux';
 
-function addVotesFn(state: Votes, action: AddVotesAction) {
-  const newVotes = action.payload;
-  Object.keys(newVotes).forEach((hoodId) => {
-    const hoodVotes = { ...state[hoodId], ...newVotes[hoodId] };
+function addVotesFn(state: Votes, payload: Votes) {
+  Object.keys(payload).forEach((hoodId) => {
+    const hoodVotes = { ...state[hoodId], ...payload[hoodId] };
     state[hoodId] = hoodVotes;
   });
 }
 
-const unvoteFn = (state: Votes, action: VoteAction) => {
-  const { hoodId, userId } = action.payload;
+const unvoteFn = (state: Votes, payload: VotePayload) => {
+  const { hoodId, userId } = payload;
 
   if (!state[hoodId]) {
     return;
@@ -26,8 +25,11 @@ const unvoteFn = (state: Votes, action: VoteAction) => {
   delete state[hoodId][userId];
 };
 
-const voteFn = (voteType: VoteTypes) => (state: Votes, action: VoteAction) => {
-  const { hoodId, userId } = action.payload;
+const voteFn = (voteType: VoteTypes) => (
+  state: Votes,
+  payload: VotePayload,
+) => {
+  const { hoodId, userId } = payload;
 
   if (!state[hoodId]) {
     state[hoodId] = {};

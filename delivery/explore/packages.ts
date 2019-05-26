@@ -6,20 +6,21 @@ import sagaCreator from 'redux-saga-creator';
 import { WebState } from '@youhood/types';
 
 const corePackages = [
+  require('@youhood/account'),
   require('@youhood/auth'),
   require('@youhood/bootup'),
+  require('@youhood/hood-winners'),
   require('@youhood/hood'),
   require('@youhood/map'),
   require('@youhood/menu'),
+  require('@youhood/onboard'),
   require('@youhood/point'),
+  require('@youhood/report'),
+  require('@youhood/search'),
   require('@youhood/socket'),
+  require('@youhood/token'),
   require('@youhood/user'),
   require('@youhood/vote'),
-  require('@youhood/search'),
-  require('@youhood/onboard'),
-  require('@youhood/hood-winners'),
-  require('@youhood/account'),
-  require('@youhood/token'),
 ];
 
 const packages = use(corePackages);
