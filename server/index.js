@@ -17,6 +17,8 @@ const verify = require('./verify');
 const verifyRoutes = verify.router;
 const apiKeys = require('./api-key');
 const apiKeyRoutes = apiKeys.router;
+const report = require('./report');
+const reportRoutes = report.router;
 
 const app = express();
 const log = debug('app:index');
@@ -45,6 +47,7 @@ app.use('/point', requireAuth, pointRoutes);
 app.use('/user', requireAuth, userRoutes);
 app.use('/api-keys', requireAuth, apiKeyRoutes);
 app.use('/verify', verifyRoutes);
+app.use('/report', reportRoutes);
 app.use((err, req, res, net) => {
   const status = err.status || 400;
   const json = { status, error: err.message };

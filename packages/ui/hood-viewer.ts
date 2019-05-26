@@ -36,8 +36,10 @@ import {
   Link,
   Header,
   TextSmall,
+  LinkDanger,
 } from './ui';
 import { formatDate } from './date';
+import { domain } from '@youhood/fetch';
 
 type UserId = string;
 
@@ -179,6 +181,9 @@ export class HoodViewer extends Component<Props> {
           h(TextSmall, [
             h('div', 'Created'),
             h('div', formatDate(hood.createdAt)),
+          ]),
+          h(TextSmall, [
+            h(LinkDanger, { href: `${domain}/report/${hood.id}` }, 'Report'),
           ]),
         ]),
       ]),

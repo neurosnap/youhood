@@ -1,14 +1,9 @@
 import robodux from 'robodux';
 
-import { Action, Token, WebState } from '@youhood/types';
-
-interface TokenActions {
-  setToken: (p: Token) => Action<Token>;
-  resetToken: () => Action;
-}
+import { Token, WebState } from '@youhood/types';
 
 const slice = 'token';
-const { actions, reducer } = robodux<string, TokenActions>({
+const { actions, reducer } = robodux({
   slice,
   initialState: '',
   actions: {

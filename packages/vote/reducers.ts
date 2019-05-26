@@ -2,7 +2,7 @@ import { Votes, AddVotesAction, VoteAction, VoteTypes } from './types';
 
 import { unvote, addVotes, upvote, downvote } from './actions';
 import * as selectors from './selectors';
-import { createReducer } from '@youhood/shared';
+import { createReducer } from 'robodux';
 
 function addVotesFn(state: Votes, action: AddVotesAction) {
   const newVotes = action.payload;
@@ -36,15 +36,15 @@ const voteFn = (voteType: VoteTypes) => (state: Votes, action: VoteAction) => {
   state[hoodId][userId] = voteType;
 };
 
-export const votes = createReducer<Votes>(
-  {},
-  {
+export const votes = createReducer({
+  initialState: {},
+  actions: {
     [`${addVotes}`]: addVotesFn,
     [`${upvote}`]: voteFn('upvote'),
     [`${downvote}`]: voteFn('downvote'),
     [`${unvote}`]: unvoteFn,
   },
-);
+});
 
 export default {
   [selectors.votes]: votes,
