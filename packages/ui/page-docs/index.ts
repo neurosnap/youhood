@@ -152,7 +152,7 @@ const SectionRight = styled.div`
 `;
 
 const Section: React.SFC<{
-  children: React.ReactNode;
+  children: any;
   title: string;
   id: string;
 }> = ({ children, title, id }) => {
