@@ -470,6 +470,111 @@ exports[`HoodView when the user has registered should render the email as user 1
                     </div>
                   </StyledComponent>
                 </styled.div>
+                <HoodReport
+                  hood={
+                    Object {
+                      "city": "Ann Arbor",
+                      "county": "Washtenaw",
+                      "createdAt": "2018-01-01T00:00:00Z",
+                      "id": "321",
+                      "name": "Da Hood",
+                      "state": "Michigan",
+                      "updatedAt": "2018-01-01T00:00:00Z",
+                      "userId": "123",
+                    }
+                  }
+                >
+                  <styled.div>
+                    <StyledComponent
+                      forwardedComponent={
+                        Object {
+                          "$$typeof": Symbol(react.forward_ref),
+                          "attrs": Array [],
+                          "componentStyle": ComponentStyle {
+                            "componentId": "sc-bZQynM",
+                            "isStatic": true,
+                            "lastClassName": "dgcADw",
+                            "rules": Array [
+                              "
+  font-size: ",
+                              "0.8rem",
+                              ";
+  display: flex;
+  justify-content: space-between;
+",
+                            ],
+                          },
+                          "displayName": "styled.div",
+                          "foldedComponentIds": Array [],
+                          "render": [Function],
+                          "styledComponentId": "sc-bZQynM",
+                          "target": "div",
+                          "toString": [Function],
+                          "warnTooManyClasses": [Function],
+                          "withComponent": [Function],
+                        }
+                      }
+                      forwardedRef={null}
+                    >
+                      <div
+                        className="dgcADw"
+                      >
+                        <Styled(styled.a)
+                          href="api.youhood.io/report/321"
+                          onClick={[Function]}
+                        >
+                          <StyledComponent
+                            forwardedComponent={
+                              Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "sc-bxivhb",
+                                  "isStatic": true,
+                                  "lastClassName": "famlZw",
+                                  "rules": Array [
+                                    "
+  margin: 0 0.2rem;
+  color: ",
+                                    "#fff",
+                                    ";
+",
+                                    "
+  color: ",
+                                    "rgb(244,154,194)",
+                                    ";
+",
+                                  ],
+                                },
+                                "displayName": "Styled(styled.a)",
+                                "foldedComponentIds": Array [
+                                  "sc-htpNat",
+                                ],
+                                "render": [Function],
+                                "styledComponentId": "sc-bxivhb",
+                                "target": "a",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              }
+                            }
+                            forwardedRef={null}
+                            href="api.youhood.io/report/321"
+                            onClick={[Function]}
+                          >
+                            <a
+                              className="famlZw"
+                              href="api.youhood.io/report/321"
+                              onClick={[Function]}
+                            >
+                              Report
+                            </a>
+                          </StyledComponent>
+                        </Styled(styled.a)>
+                      </div>
+                    </StyledComponent>
+                  </styled.div>
+                </HoodReport>
               </div>
             </div>
           </StyledComponent>
@@ -950,6 +1055,111 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
                     </div>
                   </StyledComponent>
                 </styled.div>
+                <HoodReport
+                  hood={
+                    Object {
+                      "city": "Ann Arbor",
+                      "county": "Washtenaw",
+                      "createdAt": "2018-01-01T00:00:00Z",
+                      "id": "321",
+                      "name": "Da Hood",
+                      "state": "Michigan",
+                      "updatedAt": "2018-01-01T00:00:00Z",
+                      "userId": "123",
+                    }
+                  }
+                >
+                  <styled.div>
+                    <StyledComponent
+                      forwardedComponent={
+                        Object {
+                          "$$typeof": Symbol(react.forward_ref),
+                          "attrs": Array [],
+                          "componentStyle": ComponentStyle {
+                            "componentId": "sc-bZQynM",
+                            "isStatic": true,
+                            "lastClassName": "dgcADw",
+                            "rules": Array [
+                              "
+  font-size: ",
+                              "0.8rem",
+                              ";
+  display: flex;
+  justify-content: space-between;
+",
+                            ],
+                          },
+                          "displayName": "styled.div",
+                          "foldedComponentIds": Array [],
+                          "render": [Function],
+                          "styledComponentId": "sc-bZQynM",
+                          "target": "div",
+                          "toString": [Function],
+                          "warnTooManyClasses": [Function],
+                          "withComponent": [Function],
+                        }
+                      }
+                      forwardedRef={null}
+                    >
+                      <div
+                        className="dgcADw"
+                      >
+                        <Styled(styled.a)
+                          href="api.youhood.io/report/321"
+                          onClick={[Function]}
+                        >
+                          <StyledComponent
+                            forwardedComponent={
+                              Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "sc-bxivhb",
+                                  "isStatic": true,
+                                  "lastClassName": "famlZw",
+                                  "rules": Array [
+                                    "
+  margin: 0 0.2rem;
+  color: ",
+                                    "#fff",
+                                    ";
+",
+                                    "
+  color: ",
+                                    "rgb(244,154,194)",
+                                    ";
+",
+                                  ],
+                                },
+                                "displayName": "Styled(styled.a)",
+                                "foldedComponentIds": Array [
+                                  "sc-htpNat",
+                                ],
+                                "render": [Function],
+                                "styledComponentId": "sc-bxivhb",
+                                "target": "a",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              }
+                            }
+                            forwardedRef={null}
+                            href="api.youhood.io/report/321"
+                            onClick={[Function]}
+                          >
+                            <a
+                              className="famlZw"
+                              href="api.youhood.io/report/321"
+                              onClick={[Function]}
+                            >
+                              Report
+                            </a>
+                          </StyledComponent>
+                        </Styled(styled.a)>
+                      </div>
+                    </StyledComponent>
+                  </styled.div>
+                </HoodReport>
               </div>
             </div>
           </StyledComponent>

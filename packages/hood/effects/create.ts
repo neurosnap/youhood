@@ -20,10 +20,8 @@ import {
 import { getHoodId, createHood, createHoodUI } from '../utils';
 import { DrawCreatedAction } from '../types';
 
-export function* onHoodCreated(
-  { hoodGeoJSON }: HoodMap,
-  action: DrawCreatedAction,
-) {
+export function* onHoodCreated(hoodMap: HoodMap, action: DrawCreatedAction) {
+  const { hoodGeoJSON } = hoodMap;
   const layer = action.payload;
   const hood = layer.toGeoJSON();
 

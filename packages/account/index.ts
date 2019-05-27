@@ -1,29 +1,22 @@
 import robodux from 'robodux';
-import { Action } from 'redux';
 import { takeEvery, call, put } from 'redux-saga/effects';
 
 import apiFetch from '@youhood/fetch';
 import { ApiKeysState, WebState, ApiKey } from '@youhood/types';
 import { creator } from '@youhood/shared';
 
-interface ApiKeysActions {
-  setApiKeys: (p: ApiKeysState) => Action<ApiKeysState>;
-  resetApiKeys: () => Action;
-  fetchApiKeys: () => Action;
-}
-
 const slice = 'apiKeys';
-const { actions, reducer } = robodux<ApiKeysState, ApiKeysActions>({
+const apiKeys = robodux({
   initialState: [],
   actions: {
-    setApiKeys: (state, payload: ApiKeysState) => payload,
+    setApiKeys: (state: ApiKeysState, payload: ApiKeysState) => payload,
     resetApiKeys: () => [],
   },
   slice,
 });
 
 const reducers = {
-  [slice]: reducer,
+  [slice]: apiKeys.reducer,
 };
 
 const getApiKeys = (state: WebState) => state[slice];
@@ -31,7 +24,10 @@ const selectors = {
   getApiKeys,
 };
 
-actions.fetchApiKeys = creator('FETCH_API_KEYS');
+const actions = {
+  ...apiKeys.actions,
+  fetchApiKeys: creator('FETCH_API_KEYS'),
+};
 
 interface FetchResponse {
   api_key: string;

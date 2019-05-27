@@ -3833,10 +3833,12 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
-gen-tester@^3.0.3:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/gen-tester/-/gen-tester-3.3.0.tgz#82d7ceba1e34071084b4f859abbfa423dba83f7a"
-  integrity sha512-SDO6dzdSfcUv+k1SCLx2+xONec1cSMShM6KQcnVrby2aIcwSrmDwREGNa0hoxvozopwx5ZlDkTspbpzpYf+t4g==
+gen-tester@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/gen-tester/-/gen-tester-4.0.2.tgz#94b4791b6e070135e539d3e014e4f71c6784a192"
+  integrity sha512-SvCppvMj0ZdA7e5TGtlYNNyJXMEcwtbuo1vlkHw394m+VW+HsHjuaGMqh4ThC/lydKNUveakQ9PEB+n0spnYbQ==
+  dependencies:
+    jest-diff "^23.6.0"
 
 geojson-utils@~1.1.0:
   version "1.1.0"
@@ -4435,7 +4437,12 @@ ignore@^3.3.5:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.10.tgz#0a97fb876986e8081c631160f8f9f389157f0043"
   integrity sha512-Pgs951kaMm5GXP7MOvxERINe3gsaVjUWFm+UZPSq9xYriQAksyhg0csnS0KXSNRD5NmNdapXEpjxG49+AKh/ug==
 
-immer@^1.5.0, immer@^1.6.0:
+immer@^1.10.0:
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-1.12.1.tgz#40c6e5b292c00560836c2993bda3a24379d466f5"
+  integrity sha512-3fmKM6ovaqDt0CdC9daXpNi5x/YCYS3i4cwLdTVkhJdk5jrDXoPs7lCm3IqM3yhfSnz4tjjxbRG2CziQ7m8ztg==
+
+immer@^1.5.0:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/immer/-/immer-1.9.3.tgz#e88f8cbea730d2cde0f5e7e763000a8608bccdae"
   integrity sha512-bUyz3fOHGn82V7h4oVgJGmFglZt53JWwSyVNAT4sO0d7IovHLwLuHbh14uYKY0tewFoDcEdiQW7HuL0NsRVziw==
@@ -5169,6 +5176,16 @@ jest-diff@^22.4.0, jest-diff@^22.4.3:
     diff "^3.2.0"
     jest-get-type "^22.4.3"
     pretty-format "^22.4.3"
+
+jest-diff@^23.6.0:
+  version "23.6.0"
+  resolved "https://registry.yarnpkg.com/jest-diff/-/jest-diff-23.6.0.tgz#1500f3f16e850bb3d71233408089be099f610c7d"
+  integrity sha512-Gz9l5Ov+X3aL5L37IT+8hoCUsof1CVYBb2QEkOupK64XyRR3h+uRpYIm97K7sY8diFxowR8pIGEdyfMKTixo3g==
+  dependencies:
+    chalk "^2.0.1"
+    diff "^3.2.0"
+    jest-get-type "^22.1.0"
+    pretty-format "^23.6.0"
 
 jest-docblock@^22.4.0, jest-docblock@^22.4.3:
   version "22.4.3"
@@ -8054,12 +8071,12 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-robodux@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/robodux/-/robodux-1.2.0.tgz#2ddd3db5447e9eb34a11b1830c49b195dfcb7098"
-  integrity sha512-82Ql6UKjIxBRCizZa2slslzV5NG/UyXxsH1MEMb2snYDEQShmV0vPT7bLMjxWdyYH6PKcbrVgNdSAX5AZWFPVA==
+robodux@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/robodux/-/robodux-4.2.0.tgz#5aa6ac04b36913a38abc7e96aecfaa8c0ec2d002"
+  integrity sha512-9cj8eQWIDvJgUfqtt1LIFjTOx0URlYWWF4PkQdunI4ThFRjJDqVRkdPO6z/N3/p3TEHlYk8m/QM9PI/VvQSKvg==
   dependencies:
-    immer "^1.6.0"
+    immer "^1.10.0"
 
 rst-selector-parser@^2.2.3:
   version "2.2.3"
@@ -9185,10 +9202,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^3.1.1:
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.2.2.tgz#fe8101c46aa123f8353523ebdcf5730c2ae493e5"
-  integrity sha512-VCj5UiSyHBjwfYacmDuc/NOk4QQixbE+Wn7MFJuS0nRuPQbof132Pw4u53dm264O8LPc2MVsc7RJNml5szurkg==
+typescript@^3.4.5:
+  version "3.4.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.4.5.tgz#2d2618d10bb566572b8d7aad5180d84257d70a99"
+  integrity sha512-YycBxUb49UUhdNMU5aJ7z5Ej2XGmaIBL0x34vZ82fn3hGvD+bgrMrVDpatgz2f7YxUMJxMkbWxJZeAvDxVe7Vw==
 
 ua-parser-js@^0.7.18:
   version "0.7.19"

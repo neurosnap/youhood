@@ -13,7 +13,7 @@ import { mockHood, mockHoodMap, cleanupHoodMap, mockLayer } from '../mock';
 import { onHoodCreated } from './create';
 
 describe('onHoodCreated', () => {
-  const hoodMap = mockHoodMap();
+  const hoodMap = mockHoodMap({ onlyGeoJSON: true });
 
   afterAll(() => {
     cleanupHoodMap(hoodMap);
@@ -27,10 +27,6 @@ describe('onHoodCreated', () => {
       const uiProps = createHoodUI({ id: hoodId });
 
       const tester = genTester(onHoodCreated, hoodMap, { payload: mockLayer });
-      const yields = (expected: any, returns: any) => ({
-        expected,
-        returns,
-      });
       const { actual, expected } = tester(
         put(setEdit(false)),
         skip(),
@@ -47,21 +43,23 @@ describe('onHoodCreated', () => {
   });
 
   describe('when there is a user selected', () => {
-    const user = createUser();
-    const hood = mockHood();
-    const hoodId = hood.properties.id;
-    const uiProps = createHoodUI({ id: hoodId });
+    it('should skip creating a user', () => {
+      const user = createUser();
+      const hood = mockHood();
+      const hoodId = hood.properties.id;
+      const uiProps = createHoodUI({ id: hoodId });
 
-    const tester = genTester(onHoodCreated, hoodMap, { payload: mockLayer });
-    const { actual, expected } = tester(
-      put(setEdit(false)),
-      yields(select(getCurrentUser), user),
-      yields(call(createHood, { userId: user.id }), hood.properties),
-      put(addHoodUIProps({ [hoodId]: uiProps })),
-      put(userAddHoods([hood])),
-      put(selectHood(hoodId)),
-    );
+      const tester = genTester(onHoodCreated, hoodMap, { payload: mockLayer });
+      const { actual, expected } = tester(
+        put(setEdit(false)),
+        yields(select(getCurrentUser), user),
+        yields(call(createHood, { userId: user.id }), hood.properties),
+        put(addHoodUIProps({ [hoodId]: uiProps })),
+        put(userAddHoods([hood])),
+        put(selectHood(hoodId)),
+      );
 
-    expect(actual).toEqual(expected);
+      expect(actual).toEqual(expected);
+    });
   });
 });

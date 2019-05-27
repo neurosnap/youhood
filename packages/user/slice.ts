@@ -1,28 +1,22 @@
 import robodux, { mapSlice, createAction } from 'robodux';
 
 import { User, UserHash } from '@youhood/types';
-import { Action } from 'redux';
 import { defaultUser } from './utils';
 
-interface CurrentUserActions {
-  setCurrentUser: (p: User) => Action<User>;
-  resetCurrentUser: () => Action;
-}
-
-const currentUser = robodux<User, CurrentUserActions>({
+const currentUser = robodux({
   initialState: defaultUser,
   actions: {
-    setCurrentUser: (state, p: User) => p,
+    setCurrentUser: (state: User, p: User) => p,
     resetCurrentUser: () => defaultUser,
   },
   slice: 'currentUser',
 });
 
 interface UserHashActions {
-  setUsers: (p: UserHash) => Action<UserHash>;
-  addUsers: (p: UserHash) => Action<UserHash>;
-  removeUsers: (p: string[]) => Action<string[]>;
-  resetUsers: () => Action;
+  setUsers: UserHash;
+  addUsers: UserHash;
+  removeUsers: string[];
+  resetUsers: never;
 }
 
 const users = mapSlice<UserHash, UserHashActions>({

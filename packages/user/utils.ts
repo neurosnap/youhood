@@ -2,7 +2,7 @@ import * as createUuid from 'uuid/v4';
 
 import { User } from '@youhood/types';
 
-export const defaultUser = {
+export const defaultUser: User = {
   id: '',
   email: 'Anonymous',
   createdAt: '',

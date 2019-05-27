@@ -38,6 +38,7 @@ import {
   TextSmall,
 } from './ui';
 import { formatDate } from './date';
+import HoodReport from './hood-report';
 
 type UserId = string;
 
@@ -180,6 +181,7 @@ export class HoodViewer extends Component<Props> {
             h('div', 'Created'),
             h('div', formatDate(hood.createdAt)),
           ]),
+          h(HoodReport, { hood }),
         ]),
       ]),
     ]);

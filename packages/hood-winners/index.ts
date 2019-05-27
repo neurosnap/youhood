@@ -1,19 +1,13 @@
-import { Action } from 'redux';
 import robodux from 'robodux';
 
 import { HoodIds } from '@youhood/hood/types';
 import { WebState } from '@youhood/types';
 
-interface Actions {
-  setHoodWinners: (p: HoodIds) => Action<HoodIds>;
-  resetHoodWinners: () => Action;
-}
-
 const slice = 'hoodWinners';
-const { actions, reducer } = robodux<HoodIds, Actions>({
+const { actions, reducer } = robodux({
   initialState: [],
   actions: {
-    setHoodWinners: (state, payload: HoodIds) => payload,
+    setHoodWinners: (state: HoodIds, payload: HoodIds) => payload,
     resetHoodWinners: () => [],
   },
   slice,
