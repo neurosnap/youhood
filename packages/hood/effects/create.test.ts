@@ -25,6 +25,7 @@ describe('onHoodCreated', () => {
       const hood = mockHood();
       const hoodId = hood.properties.id;
       const uiProps = createHoodUI({ id: hoodId });
+      console.log(hoodMap);
 
       const tester = genTester(onHoodCreated, hoodMap, { payload: mockLayer });
       const yields = (expected: any, returns: any) => ({
