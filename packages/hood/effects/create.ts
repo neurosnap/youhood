@@ -20,11 +20,8 @@ import {
 import { getHoodId, createHood, createHoodUI } from '../utils';
 import { DrawCreatedAction } from '../types';
 
-export function* onHoodCreated(
-  { hoodGeoJSON }: HoodMap,
-  action: DrawCreatedAction,
-) {
-  console.log('before', hoodGeoJSON);
+export function* onHoodCreated(hoodMap: HoodMap, action: DrawCreatedAction) {
+  const { hoodGeoJSON } = hoodMap;
   const layer = action.payload;
   const hood = layer.toGeoJSON();
 
@@ -37,7 +34,6 @@ export function* onHoodCreated(
   }
 
   const props = yield call(createHood, { userId: user.id });
-  console.log('after', hoodGeoJSON);
   hoodGeoJSON.addData(hood);
   hood.properties = props;
   const hoodId = getHoodId(hood);
