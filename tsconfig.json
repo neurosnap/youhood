@@ -9,6 +9,7 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
+    "allowSyntheticDefaultImports": false,
     "target": "es5",
     "outDir": "./dist",
     "module": "commonjs",
@@ -18,7 +19,6 @@
       "es2017",
       "dom"
     ],
-    "allowSyntheticDefaultImports": false,
     "baseUrl": ".",
     "paths": {
       "@youhood/*": [
