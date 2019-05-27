@@ -24,6 +24,7 @@ export function* onHoodCreated(
   { hoodGeoJSON }: HoodMap,
   action: DrawCreatedAction,
 ) {
+  console.log('before', hoodGeoJSON);
   const layer = action.payload;
   const hood = layer.toGeoJSON();
 
@@ -36,6 +37,7 @@ export function* onHoodCreated(
   }
 
   const props = yield call(createHood, { userId: user.id });
+  console.log('after', hoodGeoJSON);
   hoodGeoJSON.addData(hood);
   hood.properties = props;
   const hoodId = getHoodId(hood);
