@@ -1,6 +1,6 @@
 import { HoodId, HoodIds } from '@youhood/hood/types';
 
-export type VoteTypes = 'upvote' | 'downvote';
+export type VoteTypes = 'upvote' | 'downvote' | 'unknown';
 export interface NeighborhoodVotes {
   [key: string]: VoteTypes;
 }

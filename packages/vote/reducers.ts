@@ -38,8 +38,10 @@ const voteFn = (voteType: VoteTypes) => (
   state[hoodId][userId] = voteType;
 };
 
+const defaultVotes: Votes = {};
+
 export const votes = createReducer({
-  initialState: {},
+  initialState: defaultVotes,
   actions: {
     [`${addVotes}`]: addVotesFn,
     [`${upvote}`]: voteFn('upvote'),

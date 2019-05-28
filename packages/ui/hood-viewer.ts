@@ -45,38 +45,27 @@ type UserId = string;
 const noop = () => {};
 
 interface Props {
-  canEdit?: boolean;
-  canUserVote?: boolean;
-  currentUserId?: UserId;
-  edit?: Function;
-  handleUnvote?: Function;
-  handleUpvote?: Function;
-  handleDownvote?: Function;
-  hood: HoodProps;
-  hoodId: HoodId;
-  user?: User;
-  userVoted?: boolean;
-  votes?: number;
-  userVoteType?: VoteTypes;
-}
-
-interface DefaultProps {
   canEdit: boolean;
   canUserVote: boolean;
   currentUserId: UserId;
-  edit: Function;
-  handleUnvote: Function;
-  handleUpvote: Function;
-  handleDownvote: Function;
+  edit: (p: { hoodId: HoodId; edit: boolean }) => void;
+  handleUnvote: (
+    hoodId: HoodId,
+    currentUserId: string,
+    vote: VoteTypes,
+  ) => void;
+  handleUpvote: (hoodId: HoodId, currentUserId: string) => void;
+  handleDownvote: (hoodId: HoodId, currentUserId: string) => void;
   hood: HoodProps;
+  hoodId: HoodId;
   user: User;
   userVoted: boolean;
   votes: number;
-  userVoteType: VoteTypes;
+  userVoteType?: VoteTypes;
 }
 
 export class HoodViewer extends Component<Props> {
-  static defaultProps: DefaultProps = {
+  static defaultProps = {
     canEdit: false,
     canUserVote: false,
     currentUserId: '',
@@ -85,7 +74,7 @@ export class HoodViewer extends Component<Props> {
     handleUpvote: noop,
     handleDownvote: noop,
     hood: createHood({ id: '123' }),
-    userVoteType: null,
+    userVoteType: 'unknown',
     user: {
       email: 'Unknown',
       id: '',

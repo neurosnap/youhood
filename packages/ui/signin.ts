@@ -25,8 +25,8 @@ interface IAuthState {
 }
 
 export class SignIn extends Component<IAuth, IAuthState> {
-  static defaultProps = {
-    onClick: () => {},
+  static defaultProps: IAuth = {
+    onClick: (p: AuthPayload) => {},
     currentUserId: '',
     error: '',
   };

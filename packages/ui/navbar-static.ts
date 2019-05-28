@@ -17,7 +17,7 @@ const NavLink = styled(Link)`
 
 interface IProps {
   isUserLoggedIn: boolean;
-  style: { [key: string]: string | number };
+  style?: { [key: string]: string | number };
 }
 
 const Nav = styled.div`
@@ -69,7 +69,7 @@ const NavMenu = styled(NavRight)`
   `}
 `;
 
-const Navbar: SFC<IProps> = ({ isUserLoggedIn, style }) =>
+const Navbar: SFC<IProps> = ({ isUserLoggedIn, style = {} }) =>
   h(Nav, { style }, [
     h(NavView, [
       h(NavBrand, [h(NavLink, { href: '/' }, [h(Brand, 'YouHood')])]),

@@ -89,7 +89,7 @@ const buildUrl = (token: string, endpoint: string) => {
   -H "Authorization: Bearer ${displayToken}"`;
 };
 
-const HoodText: React.SFC<IProps> = ({ token }) => {
+const HoodText = () => {
   return h('div', [
     h(Paragraph, 'Retrives neighborhoods within the state and city'),
   ]);
@@ -152,7 +152,7 @@ const SectionRight = styled.div`
 `;
 
 const Section: React.SFC<{
-  children: any;
+  children?: any;
   title: string;
   id: string;
 }> = ({ children, title, id }) => {

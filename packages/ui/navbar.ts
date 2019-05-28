@@ -8,19 +8,15 @@ import Menu from './menu';
 import Search from './search';
 
 interface Props {
-  points: number;
+  points?: number;
 }
 
-const Navbar: React.SFC<Props> = ({ points }) =>
+const Navbar: React.SFC<Props> = ({ points = 0 }) =>
   h(Nav, [
     h(NavContent, [
       h(NavLeft, [h(Menu), h(Brand, 'YouHood')]),
       h(NavRight, [h(Search), h(Points, { points }), h(UserMenu)]),
     ]),
   ]);
-
-Navbar.defaultProps = {
-  points: 0,
-};
 
 export default Navbar;

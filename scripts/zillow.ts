@@ -76,7 +76,7 @@ function* unzipFile(fileName: string, inDir: string, outDir: string) {
 
 interface RunResult {
   files: string[];
-  error: Error;
+  error: Error | null;
 }
 
 function* findZipFiles(dir: string) {
@@ -178,6 +178,9 @@ function* extractGeoJson(fileName: string) {
 
 function* loadGeoJson(hood: GeoJSON.Feature, userId: string) {
   const geometry = hood.geometry;
+  if (!hood.properties) {
+    return;
+  }
   const state = hood.properties.State.toLowerCase();
   const city = hood.properties.City.toLowerCase();
   const county = hood.properties.County.toLowerCase();

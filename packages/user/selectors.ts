@@ -10,6 +10,5 @@ export const getUserById = (
   state: WebState,
   { id = '' }: { id: string },
 ): User => {
-  if (!id) return null;
   return getUsers(state)[id];
 };
