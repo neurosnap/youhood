@@ -36,7 +36,7 @@ export const createHoodUI = (props: { [key: string]: any } = defaultHood) => ({
 
 export function getHoodProps(polygon: PolygonHood): HoodProps {
   if (polygon.hasOwnProperty('feature')) {
-    return (<PolygonLeaflet>polygon).feature.properties;
+    return (polygon as any).feature.properties;
   }
 
   return (<Hood>polygon).properties;
@@ -48,7 +48,10 @@ export function getHoodId(polygon: PolygonHood): HoodId {
   return props ? props.id : '';
 }
 
-export function findHood(layers: HoodGeoJSON, hoodId: HoodId): PolygonHood {
+export function findHood(
+  layers: HoodGeoJSON,
+  hoodId: HoodId,
+): PolygonHood | null {
   let hood = null;
 
   layers.eachLayer((layer) => {

@@ -1,11 +1,7 @@
-import { call, put, select } from 'redux-saga/effects';
+import { put, select } from 'redux-saga/effects';
 
-import {
-  actions as voteActions,
-  selectors as voteSelectors,
-} from '@youhood/vote';
+import { actions as voteActions } from '@youhood/vote';
 const { upvote } = voteActions;
-const { didUserVoteOnHood } = voteSelectors;
 import { UnvoteAction, VoteAction } from '@youhood/vote/types';
 
 import { addPoints, removePoints } from '../actions';
@@ -31,13 +27,13 @@ export function* userUpVoted(action: VoteAction) {
   yield put(addPoints([point]));
 }
 
-export function* userDownVoted(action: VoteAction) {
+/* export function* userDownVoted(action: VoteAction) {
   const { userId, hoodId } = action.payload;
   const userVoted = yield select(didUserVoteOnHood, { userId, hoodId });
   if (userVoted) {
-    yield call(userUnvoted, action);
+    yield call(userUnvoted, { type: '', payload: { hoodId } });
   }
-}
+} */
 
 export function* userUnvoted(action: UnvoteAction) {
   const { hoodId, voteType } = action.payload;

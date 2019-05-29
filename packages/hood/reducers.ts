@@ -33,7 +33,7 @@ import {
 import * as selectors from './selectors';
 
 const hoodSelected = (
-  state: HoodId = null,
+  state: HoodId = '',
   action: HoodSelectedAction,
 ): HoodId => {
   switch (action.type) {
@@ -41,7 +41,7 @@ const hoodSelected = (
       return action.payload;
 
     case `${deselectHood}`:
-      return null;
+      return '';
 
     default:
       return state;

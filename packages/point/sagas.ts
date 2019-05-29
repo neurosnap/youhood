@@ -5,13 +5,12 @@ const { signedIn, signedOut } = authActions;
 import { actions } from '@youhood/hood';
 const { afterSaveHood } = actions;
 import { actions as voteActions } from '@youhood/vote';
-const { upvote, unvote, downvote } = voteActions;
+const { upvote, unvote } = voteActions;
 
 import { fetchPointsByUser } from './actions';
 import {
   hoodCreated,
   userUpVoted,
-  userDownVoted,
   userUnvoted,
   onSignedIn,
   onSignedOut,
@@ -24,10 +23,6 @@ export function* afterHoodSavedSaga() {
 
 export function* userUpVotedSaga() {
   yield takeEvery(`${upvote}`, userUpVoted);
-}
-
-export function* userDownVotedSaga() {
-  yield takeEvery(`${downvote}`, userDownVoted);
 }
 
 export function* userUnvotedSaga() {
