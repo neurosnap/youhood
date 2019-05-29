@@ -6,7 +6,14 @@ import { DrawHood } from './draw';
 describe('DrawHood', () => {
   describe('when user is not logged in', () => {
     it('should not render', () => {
-      const tree = mount(h(DrawHood, { isUserLoggedIn: false }));
+      const tree = mount(
+        h(DrawHood, {
+          isUserLoggedIn: false,
+          isEditing: false,
+          handleCancelDrawHood: () => {},
+          handleDrawHood: () => {},
+        }),
+      );
       expect(tree.html()).toBe(null);
     });
   });
@@ -14,7 +21,12 @@ describe('DrawHood', () => {
   describe('when `isEditing` is true', () => {
     it('should render the cancel button', () => {
       const tree = mount(
-        h(DrawHood, { isEditing: true, isUserLoggedIn: true }),
+        h(DrawHood, {
+          isEditing: true,
+          isUserLoggedIn: true,
+          handleCancelDrawHood: () => {},
+          handleDrawHood: () => {},
+        }),
       );
       expect(tree).toMatchSnapshot();
     });
@@ -23,7 +35,12 @@ describe('DrawHood', () => {
   describe('when `isEditing` is false', () => {
     it('should render the create button', () => {
       const tree = mount(
-        h(DrawHood, { isEditing: false, isUserLoggedIn: true }),
+        h(DrawHood, {
+          isEditing: false,
+          isUserLoggedIn: true,
+          handleCancelDrawHood: () => {},
+          handleDrawHood: () => {},
+        }),
       );
       expect(tree).toMatchSnapshot();
     });

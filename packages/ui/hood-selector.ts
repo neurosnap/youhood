@@ -62,9 +62,7 @@ interface DefaultProps {
 
 const noop = () => {};
 
-export class HoodSelector extends Component {
-  props: Props;
-
+export class HoodSelector extends Component<Props> {
   static defaultProps: DefaultProps = {
     show: false,
     hoods: [],

@@ -64,6 +64,8 @@ describe('HoodEditor', () => {
       h(HoodEditor, {
         hood,
         edit,
+        save: () => {},
+        updateHoodName: () => {},
       }),
     );
 

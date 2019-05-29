@@ -117,7 +117,7 @@ const mapDispatch = (dispatch: Dispatch) => {
     report: (props: ReportHoodPayload) => dispatch(reportHood(props)),
   };
 };
-const ReportMenuConn = connect<MapState>(
+const ReportMenuConn = connect<null, MapState>(
   null,
   mapDispatch,
 )(ReportMenu);
