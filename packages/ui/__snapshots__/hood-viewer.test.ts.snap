@@ -4,7 +4,7 @@ exports[`HoodView when the user has registered should render the email as user 1
 <HoodViewer
   canEdit={false}
   canUserVote={false}
-  currentUserId=""
+  currentUserId="123"
   edit={[Function]}
   handleDownvote={[Function]}
   handleUnvote={[Function]}
@@ -19,6 +19,7 @@ exports[`HoodView when the user has registered should render the email as user 1
       "state": "Michigan",
       "updatedAt": "2018-01-01T00:00:00Z",
       "userId": "123",
+      "votes": 0,
     }
   }
   hoodId="321"
@@ -29,7 +30,7 @@ exports[`HoodView when the user has registered should render the email as user 1
       "isTmp": false,
     }
   }
-  userVoteType={null}
+  userVoteType="unknown"
   userVoted={false}
   votes={0}
 >
@@ -481,6 +482,7 @@ exports[`HoodView when the user has registered should render the email as user 1
                       "state": "Michigan",
                       "updatedAt": "2018-01-01T00:00:00Z",
                       "userId": "123",
+                      "votes": 0,
                     }
                   }
                 >
@@ -604,6 +606,7 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
       "state": "Michigan",
       "updatedAt": "2018-01-01T00:00:00Z",
       "userId": "123",
+      "votes": 0,
     }
   }
   hoodId="321"
@@ -614,7 +617,7 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
       "isTmp": true,
     }
   }
-  userVoteType={null}
+  userVoteType="unknown"
   userVoted={false}
   votes={0}
 >
@@ -1066,6 +1069,7 @@ exports[`HoodView when the user is temporary should render \`Anonymous\` user na
                       "state": "Michigan",
                       "updatedAt": "2018-01-01T00:00:00Z",
                       "userId": "123",
+                      "votes": 0,
                     }
                   }
                 >

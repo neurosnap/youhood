@@ -4,11 +4,13 @@
     "types"
   ],
   "compilerOptions": {
+    "strict": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
+    "jsx": "react",
     "allowSyntheticDefaultImports": false,
     "target": "es5",
     "outDir": "./dist",

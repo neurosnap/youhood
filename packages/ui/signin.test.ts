@@ -4,6 +4,8 @@ import * as h from 'react-hyperscript';
 import { SignIn } from './signin';
 import { Input, Button } from './ui';
 
+const noop = () => {};
+
 describe('SignIn', () => {
   describe('when clicking the button', () => {
     it('should call onclick with correct data', () => {
@@ -33,7 +35,9 @@ describe('SignIn', () => {
 
   describe('when email and password is empty', () => {
     it('should disable the button', () => {
-      const tree = shallow(h(SignIn));
+      const tree = shallow(
+        h(SignIn, { onClick: noop, currentUserId: '', error: '' }),
+      );
       const btn = tree.find(Button);
       expect(btn.props().disabled).toEqual(true);
     });
@@ -41,7 +45,9 @@ describe('SignIn', () => {
 
   describe('when email is empty', () => {
     it('should disable the button', () => {
-      const tree = shallow(h(SignIn));
+      const tree = shallow(
+        h(SignIn, { onClick: noop, currentUserId: '', error: '' }),
+      );
       const inputs = tree.find(Input);
       const password = inputs.at(1);
       password.simulate('change', { currentTarget: { value: '12345' } });
@@ -52,7 +58,9 @@ describe('SignIn', () => {
 
   describe('when password is empty', () => {
     it('should disable the button', () => {
-      const tree = shallow(h(SignIn));
+      const tree = shallow(
+        h(SignIn, { onClick: noop, currentUserId: '', error: '' }),
+      );
       const inputs = tree.find(Input);
       const email = inputs.at(0);
       email.simulate('change', { currentTarget: { value: 'eric@cool.com' } });

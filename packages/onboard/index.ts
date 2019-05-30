@@ -1,7 +1,7 @@
 import robodux from 'robodux';
 import { OnboardState, WebState } from '@youhood/types';
 
-const defaultState = { showOnboard: true, completed: null as number };
+const defaultState = { showOnboard: true, completed: 0 };
 
 const slice = 'onboard';
 

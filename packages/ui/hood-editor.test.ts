@@ -19,6 +19,7 @@ const hood = {
   updatedAt: '2018-01-01',
   userId: tmpUser.id,
   name: 'Da Hood',
+  votes: 0,
 };
 
 describe('HoodEditor', () => {
@@ -64,6 +65,8 @@ describe('HoodEditor', () => {
       h(HoodEditor, {
         hood,
         edit,
+        save: () => {},
+        updateHoodName: () => {},
       }),
     );
 

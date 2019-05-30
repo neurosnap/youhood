@@ -77,7 +77,7 @@ describe('onSaveHood', () => {
       {
         type: 'Feature',
         properties: createHood({ id: '123' }),
-        geometry: null,
+        geometry: { type: 'Polygon', coordinates: [] },
       },
     ];
 

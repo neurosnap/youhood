@@ -25,7 +25,7 @@ export function setupMap(): HoodMap {
     map.invalidateSize();
   }, 100);
 
-  const hoodGeoJSON: HoodGeoJSON = L.geoJSON(null).addTo(map);
+  const hoodGeoJSON: HoodGeoJSON = L.geoJSON().addTo(map);
 
   const drawControl = new (<any>L.Control).Draw({
     draw: {

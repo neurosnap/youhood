@@ -7,7 +7,7 @@ import { Hood } from './types';
 
 export const mockHood = (): Hood => ({
   type: 'Feature',
-  geometry: null,
+  geometry: { type: 'Polygon', coordinates: [] },
   properties: createHood(),
 });
 
@@ -20,13 +20,9 @@ export const mockHoodGeoJSON = () => L.geoJSON();
 export const mockHoodMap = ({ onlyGeoJSON = false } = {}): HoodMap => {
   const obj: HoodMap = {
     hoodGeoJSON: mockHoodGeoJSON(),
-    drawControl: null,
-    map: null,
+    drawControl: {} as any,
+    map: L.map(document.body),
   };
-
-  if (!onlyGeoJSON) {
-    obj.map = L.map(document.body);
-  }
 
   return obj;
 };

@@ -17,7 +17,12 @@ interface WindowInterface extends Window {
 
 export default () => {
   const hoodMap = setupMap();
-  const { store, persistor } = createState({ hoodMap, rootReducer, rootSaga });
+  const { store, persistor } = createState({
+    hoodMap,
+    rootReducer,
+    rootSaga,
+    initState: {},
+  });
   (window as WindowInterface).reduxStore = store;
 
   store.dispatch(webBootup());

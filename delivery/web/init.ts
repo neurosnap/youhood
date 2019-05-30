@@ -12,7 +12,11 @@ interface WindowInterface extends Window {
 }
 
 export default () => {
-  const { store, persistor } = createState({ rootReducer, rootSaga });
+  const { store, persistor } = createState({
+    rootReducer,
+    rootSaga,
+    initState: {},
+  });
   (window as WindowInterface).reduxStore = store;
 
   const AppConn = () =>

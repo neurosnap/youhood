@@ -23,6 +23,7 @@ const hood = {
   updatedAt: '2018-01-01T00:00:00Z',
   userId: tmpUser.id,
   name: 'Da Hood',
+  votes: 0,
 };
 
 describe('HoodView', () => {
@@ -34,6 +35,15 @@ describe('HoodView', () => {
           hoodId: hood.id,
           currentUserId: tmpUser.id,
           user: tmpUser,
+          userVoteType: 'unknown',
+          canEdit: false,
+          canUserVote: false,
+          edit: (p: any) => {},
+          handleUnvote: () => {},
+          handleUpvote: () => {},
+          handleDownvote: () => {},
+          userVoted: false,
+          votes: 0,
         }),
       );
 
@@ -48,6 +58,16 @@ describe('HoodView', () => {
           hood,
           hoodId: hood.id,
           user: regUser,
+          currentUserId: regUser.id,
+          userVoteType: 'unknown',
+          canEdit: false,
+          canUserVote: false,
+          edit: (p: any) => {},
+          handleUnvote: () => {},
+          handleUpvote: () => {},
+          handleDownvote: () => {},
+          userVoted: false,
+          votes: 0,
         }),
       );
 
@@ -67,6 +87,12 @@ describe('HoodView', () => {
           canUserVote: true,
           handleUpvote,
           currentUserId: regUser.id,
+          userVoteType: 'unknown',
+          canEdit: false,
+          edit: (p: any) => {},
+          handleUnvote: () => {},
+          handleDownvote: () => {},
+          votes: 0,
         }),
       );
       const upvote = tree.find(VoteUp).at(0);
@@ -95,6 +121,11 @@ describe('HoodView', () => {
           canUserVote: true,
           handleUnvote,
           currentUserId: regUser.id,
+          canEdit: false,
+          edit: (p: any) => {},
+          handleUpvote: () => {},
+          handleDownvote: () => {},
+          votes: 0,
         }),
       );
       const vote = tree.find(Voted);
@@ -125,6 +156,15 @@ describe('HoodView', () => {
             hoodId: hood.id,
             user: tmpUser,
             canEdit: true,
+            currentUserId: regUser.id,
+            userVoteType: 'unknown',
+            canUserVote: false,
+            edit: (p: any) => {},
+            handleUnvote: () => {},
+            handleUpvote: () => {},
+            handleDownvote: () => {},
+            userVoted: false,
+            votes: 0,
           }),
         );
 

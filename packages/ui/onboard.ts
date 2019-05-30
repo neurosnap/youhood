@@ -71,16 +71,6 @@ const ProgressContainer = styled.div`
   margin: 10px 0;
 `;
 
-interface IState {
-  show: boolean;
-}
-
-interface IDispatch {
-  hide: () => void;
-}
-
-interface IProps extends IState, IDispatch {}
-
 const intro = () => {
   return h(Slide, [
     h(Header, 'Wecome to YouHood!'),
@@ -182,6 +172,16 @@ const ProgressMeter = ({
   return h(ProgressContainer, steps);
 };
 
+interface IState {
+  show: boolean;
+}
+
+interface IDispatch {
+  hide: () => void;
+}
+
+interface IProps extends IState, IDispatch {}
+
 class Onboard extends Component<IProps> {
   static defaultProps = {
     show: false,
@@ -255,7 +255,7 @@ const mapDispatch = (dispatch: Dispatch) => ({
   },
 });
 
-export default connect<IState, IDispatch>(
+export default connect(
   mapState,
   mapDispatch,
 )(Onboard);

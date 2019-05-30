@@ -7,19 +7,23 @@ const { getHoodWinners } = selectors;
 import { setHoodUIProps } from '../actions';
 import { getHoodUIPropsAsIds } from '../selectors';
 import { getHoodId } from '../utils';
-import { PolygonLeaflet, HoodId, HoodIds } from '../types';
+import { HoodId, HoodIds } from '../types';
 
 interface HoodIdsAction {
   type: string;
   payload: HoodIds;
 }
 
-export function* onShowOnlyWinnerHoods({ hoodGeoJSON }: HoodMap) {
-  yield call(onHideAllHoods, { hoodGeoJSON });
+export function* onShowOnlyWinnerHoods(hoodMap: HoodMap) {
+  yield call(onHideAllHoods, hoodMap);
   const hoodIds = yield select(getHoodWinners);
   const hoodUIProps = setHoodUIVisibility(hoodIds, true);
   yield put(setHoodUIProps(hoodUIProps));
-  yield call(setHoodDisplay, { hoodGeoJSON, hoodIds, display: 'block' });
+  yield call(setHoodDisplay, {
+    hoodGeoJSON: hoodMap.hoodGeoJSON,
+    hoodIds,
+    display: 'block',
+  });
 }
 
 export function* onHideAllHoods({ hoodGeoJSON }: HoodMap) {
@@ -69,7 +73,7 @@ export function setHoodDisplay({
   hoodIds,
   display,
 }: SetHoodDisplay) {
-  hoodGeoJSON.eachLayer((hood: PolygonLeaflet) => {
+  hoodGeoJSON.eachLayer((hood: any) => {
     const hoodId = getHoodId(hood);
 
     if (hoodIds.indexOf(hoodId) === -1) {

@@ -35,12 +35,12 @@ const createMapChannel = ({ map, hoodGeoJSON }: HoodMap) =>
       emit({ type: HOOD_CREATED, payload: layer });
     };
 
-    map.on('click', onMapClick);
-    map.on((<any>L).Draw.Event.CREATED, onDrawCreated);
+    map.on('click', onMapClick as any);
+    map.on((<any>L).Draw.Event.CREATED, onDrawCreated as any);
 
     return () => {
-      map.off('click', onMapClick);
-      map.off((<any>L).Draw.Event.CREATED, onDrawCreated);
+      map.off('click', onMapClick as any);
+      map.off((<any>L).Draw.Event.CREATED, onDrawCreated as any);
     };
   });
 

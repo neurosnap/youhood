@@ -35,10 +35,10 @@ function getHoodId(hood: HoodProps): HoodId {
 }
 
 interface IProps {
-  hood?: HoodProps;
-  updateHoodName?: Function;
-  edit?: Function;
-  save?: Function;
+  hood: HoodProps;
+  updateHoodName: Function;
+  edit: Function;
+  save: Function;
 }
 
 interface IState {

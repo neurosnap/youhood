@@ -55,7 +55,7 @@ class Account extends Component<IProps> {
           h(Flex, [h(Label, 'email'), h(Content, user.email)]),
           h(Flex, [
             h(Label, 'created at'),
-            h(Content, formatDate(user.createdAt)),
+            h(Content, formatDate(user.createdAt || '')),
           ]),
           h(Flex, [
             h(Label, 'api keys'),

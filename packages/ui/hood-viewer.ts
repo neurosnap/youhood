@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import * as h from 'react-hyperscript';
 
 import { HoodProps, HoodId, EditHoodPayload } from '@youhood/hood/types';
-import { actions, selectors, utils } from '@youhood/hood';
+import { actions, selectors } from '@youhood/hood';
 const { editHood } = actions;
-const { createHood } = utils;
 const { getHoodSelected } = selectors;
 import { selectors as userSelectors } from '@youhood/user';
 const { getUserById, getCurrentUserId } = userSelectors;
@@ -42,33 +41,20 @@ import HoodReport from './hood-report';
 
 type UserId = string;
 
-const noop = () => {};
-
 interface Props {
-  canEdit?: boolean;
-  canUserVote?: boolean;
-  currentUserId?: UserId;
-  edit?: Function;
-  handleUnvote?: Function;
-  handleUpvote?: Function;
-  handleDownvote?: Function;
-  hood: HoodProps;
-  hoodId: HoodId;
-  user?: User;
-  userVoted?: boolean;
-  votes?: number;
-  userVoteType?: VoteTypes;
-}
-
-interface DefaultProps {
   canEdit: boolean;
   canUserVote: boolean;
   currentUserId: UserId;
-  edit: Function;
-  handleUnvote: Function;
-  handleUpvote: Function;
-  handleDownvote: Function;
+  edit: (p: { hoodId: HoodId; edit: boolean }) => void;
+  handleUnvote: (
+    hoodId: HoodId,
+    currentUserId: string,
+    vote: VoteTypes,
+  ) => void;
+  handleUpvote: (hoodId: HoodId, currentUserId: string) => void;
+  handleDownvote: (hoodId: HoodId, currentUserId: string) => void;
   hood: HoodProps;
+  hoodId: HoodId;
   user: User;
   userVoted: boolean;
   votes: number;
@@ -76,26 +62,6 @@ interface DefaultProps {
 }
 
 export class HoodViewer extends Component<Props> {
-  static defaultProps: DefaultProps = {
-    canEdit: false,
-    canUserVote: false,
-    currentUserId: '',
-    edit: noop,
-    handleUnvote: noop,
-    handleUpvote: noop,
-    handleDownvote: noop,
-    hood: createHood({ id: '123' }),
-    userVoteType: null,
-    user: {
-      email: 'Unknown',
-      id: '',
-      createdAt: '',
-      isTmp: true,
-    },
-    userVoted: false,
-    votes: 0,
-  };
-
   handleEdit = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const { edit, hoodId } = this.props;
@@ -223,4 +189,4 @@ export default connect(
     handleUnvote: (hoodId: HoodId, userId: UserId, voteType: VoteTypes) =>
       dispatch(unvote({ hoodId, userId, voteType })),
   }),
-)(HoodViewer as any);
+)(HoodViewer);

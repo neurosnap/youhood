@@ -7,13 +7,13 @@ import { Points, Trophy } from './ui';
 describe('PointsView', () => {
   describe('when there are no points', () => {
     it('should render the trophy icon', () => {
-      const tree = shallow(h(PointsView));
+      const tree = shallow(h(PointsView, { points: 0, pointHistory: [] }));
       expect(tree.find(Trophy).length).toEqual(1);
     });
 
     describe('when clicking the button', () => {
       it('should set state to `open`', () => {
-        const tree = shallow(h(PointsView));
+        const tree = shallow(h(PointsView, { points: 0, pointHistory: [] }));
         tree.find(Trophy).simulate('click');
         expect(tree.state('open')).toEqual(true);
       });
@@ -22,7 +22,7 @@ describe('PointsView', () => {
 
   describe('when there are points', () => {
     describe('when rendering', () => {
-      const tree = shallow(h(PointsView, { points: 10 }));
+      const tree = shallow(h(PointsView, { points: 10, pointHistory: [] }));
 
       it('should render the points', () => {
         expect(tree).toMatchSnapshot();
@@ -38,7 +38,7 @@ describe('PointsView', () => {
 
     describe('when clicking the button', () => {
       it('should set state to `open`', () => {
-        const tree = shallow(h(PointsView, { points: 5 }));
+        const tree = shallow(h(PointsView, { points: 5, pointHistory: [] }));
         tree.find(Points).simulate('click');
         expect(tree.state('open')).toEqual(true);
       });
@@ -53,6 +53,7 @@ describe('DropMenu', () => {
         const tree = shallow(
           h(DropMenu, {
             open: true,
+            items: [],
           }),
         );
         expect(tree).toMatchSnapshot();
@@ -77,7 +78,7 @@ describe('DropMenu', () => {
 
   describe('when it is not open', () => {
     it('should render null', () => {
-      const tree = shallow(h(DropMenu));
+      const tree = shallow(h(DropMenu, { open: false, items: [] }));
       expect(tree).toMatchSnapshot();
     });
   });

@@ -32,7 +32,7 @@ const TabMenu = styled.div`
   height: 36px;
 `;
 
-export class AuthMenu extends Component<null, IAuthMenuState> {
+export class AuthMenu extends Component<any, IAuthMenuState> {
   state = {
     tabSelected: 'Sign In' as Tab,
   };
@@ -45,7 +45,7 @@ export class AuthMenu extends Component<null, IAuthMenuState> {
 
   render() {
     const { tabSelected } = this.state;
-    const tabNames = ['Sign In', 'Register'];
+    const tabNames: Tab[] = ['Sign In', 'Register'];
     const tabs = tabNames.map((tab: Tab) => {
       const onClick = () => this.setTab(tab);
       const TabView = tab === tabSelected ? TabSelected : TabInactive;

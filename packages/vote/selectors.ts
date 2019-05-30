@@ -34,7 +34,7 @@ export const getUserVoteTypeForHood = (
   const votes = getVotesByHood(state, { hoodId });
 
   if (!votes.hasOwnProperty(userId)) {
-    return;
+    return 'unknown';
   }
 
   return votes[userId];

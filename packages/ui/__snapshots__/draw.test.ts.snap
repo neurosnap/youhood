@@ -2,10 +2,14 @@
 
 exports[`DrawHood when \`isEditing\` is false should render the create button 1`] = `
 <Component
+  handleCancelDrawHood={[Function]}
+  handleDrawHood={[Function]}
   isEditing={false}
   isUserLoggedIn={true}
 >
-  <Styled(Styled(styled.button))>
+  <Styled(Styled(styled.button))
+    onClick={[Function]}
+  >
     <StyledComponent
       forwardedComponent={
         Object {
@@ -68,9 +72,11 @@ exports[`DrawHood when \`isEditing\` is false should render the create button 1`
         }
       }
       forwardedRef={null}
+      onClick={[Function]}
     >
       <button
         className="hjBqYz"
+        onClick={[Function]}
       >
         Create Hood
       </button>
@@ -81,12 +87,18 @@ exports[`DrawHood when \`isEditing\` is false should render the create button 1`
 
 exports[`DrawHood when \`isEditing\` is true should render the cancel button 1`] = `
 <Component
+  handleCancelDrawHood={[Function]}
+  handleDrawHood={[Function]}
   isEditing={true}
   isUserLoggedIn={true}
 >
-  <Component>
+  <Component
+    cancelDraw={[Function]}
+  >
     <div>
-      <Styled(Styled(styled.button))>
+      <Styled(Styled(styled.button))
+        onClick={[Function]}
+      >
         <StyledComponent
           forwardedComponent={
             Object {
@@ -149,9 +161,11 @@ exports[`DrawHood when \`isEditing\` is true should render the cancel button 1`]
             }
           }
           forwardedRef={null}
+          onClick={[Function]}
         >
           <button
             className="hjBqYz"
+            onClick={[Function]}
           >
             <div>
               Cancel
@@ -159,7 +173,9 @@ exports[`DrawHood when \`isEditing\` is true should render the cancel button 1`]
           </button>
         </StyledComponent>
       </Styled(Styled(styled.button))>
-      <styled.div>
+      <styled.div
+        onClick={[Function]}
+      >
         <StyledComponent
           forwardedComponent={
             Object {
@@ -192,9 +208,11 @@ exports[`DrawHood when \`isEditing\` is true should render the cancel button 1`]
             }
           }
           forwardedRef={null}
+          onClick={[Function]}
         >
           <div
             className="keJsFf"
+            onClick={[Function]}
           />
         </StyledComponent>
       </styled.div>

@@ -32,7 +32,7 @@ interface IProps {
   items: PointItem[];
 }
 
-export const DropMenu: React.SFC<IProps> = ({ open, items }) => {
+export const DropMenu: React.SFC<IProps> = ({ open = false, items = [] }) => {
   if (!open) {
     return null;
   }
@@ -47,19 +47,16 @@ export const DropMenu: React.SFC<IProps> = ({ open, items }) => {
   return h(PointsMenuContainer, [h(DropMenuEl, points)]);
 };
 
-DropMenu.defaultProps = {
-  open: false,
-  items: [],
-};
-
 interface Props {
   points: number;
   pointHistory: PointsType;
 }
 
-export class PointsView extends Component {
-  props: Props;
+interface State {
+  open: boolean;
+}
 
+export class PointsView extends Component<Props, State> {
   static defaultProps: Props = {
     points: 0,
     pointHistory: [],
