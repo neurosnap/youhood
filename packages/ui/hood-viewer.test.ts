@@ -23,6 +23,7 @@ const hood = {
   updatedAt: '2018-01-01T00:00:00Z',
   userId: tmpUser.id,
   name: 'Da Hood',
+  votes: 0,
 };
 
 describe('HoodView', () => {

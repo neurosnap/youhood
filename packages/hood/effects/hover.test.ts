@@ -24,7 +24,7 @@ describe('onHoverHood', () => {
       });
       const { actual, expected } = tester(
         skip('321'),
-        call(applyStyle, { hoodMap: null, hoodId: '123', style }),
+        call(applyStyle, { hoodMap: null as any, hoodId: '123', style }),
       );
 
       expect(actual).toEqual(expected);

@@ -19,8 +19,8 @@ import {
 import { deselectHood, selectHood } from '../actions';
 
 export function onDeselectHood({ hoodGeoJSON }: HoodMap) {
-  hoodGeoJSON.eachLayer((hood: PolygonLeaflet) => {
-    hood.setStyle(styleFn({ selected: false }));
+  hoodGeoJSON.eachLayer((hood) => {
+    (hood as PolygonLeaflet).setStyle(styleFn({ selected: false }));
   });
 }
 

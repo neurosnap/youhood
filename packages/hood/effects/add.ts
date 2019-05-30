@@ -24,7 +24,7 @@ export function* onAddHoodsAndProps(
     return;
   }
 
-  const layers = <Hoods>data.features.filter(filterNegativeHoods);
+  const layers = (data.features as Hoods).filter(filterNegativeHoods);
   yield put(addHoods(layers));
   const hoodUIPropsMap = getHoodUIPropsMapFromHoods(layers);
   yield put(addHoodUIProps(hoodUIPropsMap));

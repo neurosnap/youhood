@@ -4,6 +4,7 @@ exports[`HoodVisible should render the buttons 1`] = `
 <Component
   hideAll={[Function]}
   showAll={[Function]}
+  showWinners={[Function]}
 >
   <styled.div>
     <StyledComponent
@@ -39,7 +40,9 @@ exports[`HoodVisible should render the buttons 1`] = `
       <div
         className="gejFaP"
       >
-        <Styled(styled.button)>
+        <Styled(styled.button)
+          onClick={[Function]}
+        >
           <StyledComponent
             forwardedComponent={
               Object {
@@ -96,9 +99,11 @@ exports[`HoodVisible should render the buttons 1`] = `
               }
             }
             forwardedRef={null}
+            onClick={[Function]}
           >
             <button
               className="bmXkwR"
+              onClick={[Function]}
             >
               Show Current Hoods
             </button>

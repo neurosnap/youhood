@@ -16,13 +16,6 @@ import { applyStyle } from '../utils';
 const hoodMap = mockHoodMap({ onlyGeoJSON: true });
 
 describe('transformUser', () => {
-  describe('when there is no user input', () => {
-    it('should return null', () => {
-      const actual = transformUser(undefined);
-      expect(actual).toEqual(null);
-    });
-  });
-
   describe('when there is a user input', () => {
     it('should return the correct json object', () => {
       const actual = transformUser({
@@ -155,7 +148,7 @@ describe('onSelectHood', () => {
         skip(hood),
         yields(call(apiFetch, `/user/${hood.userId}`), {
           status: 200,
-          body: {},
+          body: { user: {} },
         }),
       );
 

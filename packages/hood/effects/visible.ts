@@ -7,7 +7,7 @@ const { getHoodWinners } = selectors;
 import { setHoodUIProps } from '../actions';
 import { getHoodUIPropsAsIds } from '../selectors';
 import { getHoodId } from '../utils';
-import { PolygonLeaflet, HoodId, HoodIds } from '../types';
+import { HoodId, HoodIds } from '../types';
 
 interface HoodIdsAction {
   type: string;
@@ -73,7 +73,7 @@ export function setHoodDisplay({
   hoodIds,
   display,
 }: SetHoodDisplay) {
-  hoodGeoJSON.eachLayer((hood: PolygonLeaflet) => {
+  hoodGeoJSON.eachLayer((hood: any) => {
     const hoodId = getHoodId(hood);
 
     if (hoodIds.indexOf(hoodId) === -1) {

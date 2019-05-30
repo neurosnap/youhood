@@ -24,7 +24,9 @@ const corePackages = [
 ];
 
 const packages = use(corePackages);
-const rootReducer: Reducer<WebState> = combineReducers(packages.reducers);
-const rootSaga = sagaCreator(packages.sagas);
+const rootReducer: Reducer<WebState> = combineReducers(
+  packages.reducers as any,
+);
+const rootSaga = sagaCreator(packages.sagas as any);
 
 export { packages, rootReducer, rootSaga };

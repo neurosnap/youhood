@@ -15,7 +15,7 @@ export interface HoodProps {
   regionid?: string;
   createdAt: string;
   updatedAt: string;
-  votes?: number;
+  votes: number;
 }
 export type HoodPropsList = HoodProps[];
 

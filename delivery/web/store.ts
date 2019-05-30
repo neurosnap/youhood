@@ -15,7 +15,7 @@ import { WebState } from '@youhood/types';
 const log = debug('app:saga:error');
 
 interface Props {
-  initState?: WebState;
+  initState: Partial<WebState>;
   rootReducer: Reducer<WebState>;
   rootSaga: any;
 }
