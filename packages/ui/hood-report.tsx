@@ -1,5 +1,4 @@
-import { Component, MouseEvent } from 'react';
-import * as h from 'react-hyperscript';
+import * as React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -26,13 +25,13 @@ interface State {
   reported: string;
 }
 
-export default class HoodReport extends Component<Props, State> {
+export default class HoodReport extends React.Component<Props, State> {
   state = {
     open: false,
     reported: '',
   };
 
-  toggle = (e: MouseEvent<HTMLElement>) => {
+  toggle = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     this.setState({
       open: !this.state.open,
@@ -50,21 +49,20 @@ export default class HoodReport extends Component<Props, State> {
     const { hood } = this.props;
     const { open, reported } = this.state;
     if (open) {
-      return h(ReportMenuConn, {
-        onClick: this.reported,
-        hoodId: hood.id,
-      });
+      return <ReportMenuConn onClick={this.reported} hoodId={hood.id} />;
     }
 
-    return reported
-      ? h(TextSmall, `Thanks! Reported for ${reported}`)
-      : h(TextSmall, [
-          h(
-            LinkDanger,
-            { onClick: this.toggle, href: `${domain}/report/${hood.id}` },
-            'Report',
-          ),
-        ]);
+    if (reported) {
+      return <TextSmall>Thanks! Reported for ${reported}</TextSmall>;
+    }
+
+    return (
+      <TextSmall>
+        <LinkDanger onClick={this.toggle} href={`${domain}/report/${hood.id}`}>
+          Report
+        </LinkDanger>
+      </TextSmall>
+    );
   }
 }
 
@@ -77,8 +75,8 @@ interface MenuProps extends MapState {
   hoodId: HoodId;
 }
 
-class ReportMenu extends Component<MenuProps> {
-  report = (e: MouseEvent<HTMLElement>, reason: string) => {
+class ReportMenu extends React.Component<MenuProps> {
+  report = (e: React.MouseEvent<HTMLElement>, reason: string) => {
     const { report, hoodId, onClick } = this.props;
     e.preventDefault();
     report({
@@ -89,26 +87,28 @@ class ReportMenu extends Component<MenuProps> {
   };
 
   render() {
-    return h(TextSmall, [
-      h('div', 'Reason'),
-      h(ButtonView, [
-        h(
-          LinkDanger,
-          { onClick: (e) => this.report(e, 'Profanity'), href: '#' },
-          'Profanity',
-        ),
-        h(
-          LinkDanger,
-          { onClick: (e) => this.report(e, 'Hood too large'), href: '#' },
-          'Hood too large',
-        ),
-        h(
-          LinkDanger,
-          { onClick: (e) => this.report(e, 'Hood too small'), href: '#' },
-          'Hood too small',
-        ),
-      ]),
-    ]);
+    return (
+      <TextSmall>
+        <div>Reason</div>
+        <ButtonView>
+          <LinkDanger onClick={(e) => this.report(e, 'Profanity')} href="#">
+            Profanity
+          </LinkDanger>
+          <LinkDanger
+            onClick={(e) => this.report(e, 'Hood too large')}
+            href="#"
+          >
+            Hood too large
+          </LinkDanger>
+          <LinkDanger
+            onClick={(e) => this.report(e, 'Hood too small')}
+            href="#"
+          >
+            Hood too small
+          </LinkDanger>
+        </ButtonView>
+      </TextSmall>
+    );
   }
 }
 
