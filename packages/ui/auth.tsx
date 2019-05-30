@@ -1,5 +1,4 @@
-import * as h from 'react-hyperscript';
-import { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 
 import theme from '@youhood/theme';
@@ -32,7 +31,7 @@ const TabMenu = styled.div`
   height: 36px;
 `;
 
-export class AuthMenu extends Component<any, IAuthMenuState> {
+export class AuthMenu extends React.Component<any, IAuthMenuState> {
   state = {
     tabSelected: 'Sign In' as Tab,
   };
@@ -49,14 +48,25 @@ export class AuthMenu extends Component<any, IAuthMenuState> {
     const tabs = tabNames.map((tab: Tab) => {
       const onClick = () => this.setTab(tab);
       const TabView = tab === tabSelected ? TabSelected : TabInactive;
-      return h(TabView, { onClick, key: tab }, tab);
+      return (
+        <TabView onClick={onClick} key={tab}>
+          {tab}
+        </TabView>
+      );
     });
     const Menu = tabSelected === 'Sign In' ? SignIn : Register;
 
-    return h('div', [h(TabMenu, tabs), h(Menu)]);
+    return (
+      <div>
+        <TabMenu>{tabs}</TabMenu>
+        <Menu />
+      </div>
+    );
   }
 }
 
-export default () => {
-  return h(DropdownMenuContainer, [h(AuthMenu)]);
-};
+export default () => (
+  <DropdownMenuContainer>
+    <AuthMenu />
+  </DropdownMenuContainer>
+);

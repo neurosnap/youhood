@@ -1,4 +1,4 @@
-import * as h from 'react-hyperscript';
+import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -95,23 +95,25 @@ export class HoodEditor extends Component<IProps, IState> {
 
   render() {
     const { name } = this.state;
-    const actions = [
-      h(LinkDanger, { href: '/cancel', onClick: this.handleCancel }, 'Cancel'),
-      h(LinkSuccess, { href: '/save', onClick: this.handleSave }, 'Save'),
-    ];
-
-    return h(OverlayContainer, [
-      h(OverlayHeader, [h(Header, 'Hood Editor')]),
-      h(HoodEditorContainer, [
-        h('label', { htmlFor: 'hood-name' }, 'Hood Name'),
-        h(InputOverlay, {
-          type: 'input',
-          value: name,
-          onChange: this.handleInput,
-        }),
-        h(EditorActions, actions),
-      ]),
-    ]);
+    return (
+      <OverlayContainer>
+        <OverlayHeader>
+          <Header>Hood Editor</Header>
+        </OverlayHeader>
+        <HoodEditorContainer>
+          <label htmlFor="hood-name">Hood Name</label>
+          <InputOverlay type="input" value={name} onChange={this.handleInput} />
+          <EditorActions>
+            <LinkDanger href="/cancel" onClick={this.handleCancel}>
+              Cancel
+            </LinkDanger>
+            <LinkSuccess href="/save" onClick={this.handleSave}>
+              Save
+            </LinkSuccess>
+          </EditorActions>
+        </HoodEditorContainer>
+      </OverlayContainer>
+    );
   }
 }
 

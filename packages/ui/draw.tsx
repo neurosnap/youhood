@@ -1,4 +1,4 @@
-import * as h from 'react-hyperscript';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -30,11 +30,12 @@ const Overlay = styled.div`
 interface ICancel {
   cancelDraw: CancelFn;
 }
-export const Cancel: React.SFC<ICancel> = ({ cancelDraw }) =>
-  h('div', [
-    h(Button, { onClick: cancelDraw }, [h('div', 'Cancel')]),
-    h(Overlay, { onClick: cancelDraw }),
-  ]);
+export const Cancel: React.SFC<ICancel> = ({ cancelDraw }) => (
+  <div>
+    <Button onClick={cancelDraw}>Cancel</Button>
+    <Overlay onClick={cancelDraw} />
+  </div>
+);
 
 type CancelFn = (event: React.MouseEvent<HTMLElement>) => void;
 interface IState {
@@ -57,9 +58,11 @@ export const DrawHood: React.SFC<Props> = ({
     return null;
   }
 
-  return isEditing
-    ? h(Cancel, { cancelDraw: handleCancelDrawHood })
-    : h(Button, { onClick: handleDrawHood }, 'Create Hood');
+  if (isEditing) {
+    return <Cancel cancelDraw={handleCancelDrawHood} />;
+  }
+
+  return <Button onClick={handleDrawHood}>Create Hood</Button>;
 };
 
 export default connect(
