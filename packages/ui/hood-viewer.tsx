@@ -1,6 +1,5 @@
-import { Component } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
-import * as h from 'react-hyperscript';
 
 import { HoodProps, HoodId, EditHoodPayload } from '@youhood/hood/types';
 import { actions, selectors } from '@youhood/hood';
@@ -61,7 +60,7 @@ interface Props {
   userVoteType: VoteTypes;
 }
 
-export class HoodViewer extends Component<Props> {
+export class HoodViewer extends React.Component<Props> {
   handleEdit = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const { edit, hoodId } = this.props;
@@ -90,7 +89,9 @@ export class HoodViewer extends Component<Props> {
     const actions = [];
     if (canEdit) {
       actions.push(
-        h(Link, { href: '/edit', onClick: this.handleEdit }, 'Edit'),
+        <Link href="/edit" onClick={this.handleEdit}>
+          Edit
+        </Link>,
       );
     }
 
@@ -98,59 +99,67 @@ export class HoodViewer extends Component<Props> {
     const userDownvoted = userVoted && userVoteType === 'downvote';
     const VoteUpState = userUpvoted ? Voted : VoteUp;
     const VoteDownState = userDownvoted ? Voted : VoteUp;
-    const UserUpVoting = canUserVote
-      ? h(
-          VoteUpState,
-          {
-            onClick: () => {
-              if (userUpvoted) {
-                handleUnvote(hoodId, currentUserId, 'upvote');
-                return;
-              }
+    const UserUpVoting = canUserVote ? (
+      <VoteUpState
+        onClick={() => {
+          if (userUpvoted) {
+            handleUnvote(hoodId, currentUserId, 'upvote');
+            return;
+          }
 
-              handleUpvote(hoodId, currentUserId);
-            },
-          },
-          '/\\',
-        )
-      : null;
-    const UserDownVoting = canUserVote
-      ? h(
-          VoteDownState,
-          {
-            onClick: () => {
-              if (userDownvoted) {
-                handleUnvote(hoodId, currentUserId, 'downvote');
-                return;
-              }
+          handleUpvote(hoodId, currentUserId);
+        }}
+      >
+        /\\
+      </VoteUpState>
+    ) : null;
+    const UserDownVoting = canUserVote ? (
+      <VoteDownState
+        onClick={() => {
+          if (userDownvoted) {
+            handleUnvote(hoodId, currentUserId, 'downvote');
+            return;
+          }
 
-              handleDownvote(hoodId, currentUserId);
-            },
-          },
-          '\\/',
-        )
-      : null;
+          handleDownvote(hoodId, currentUserId);
+        }}
+      >
+        \\/
+      </VoteDownState>
+    ) : null;
 
     const username = user.isTmp ? 'Anonymous' : user.email;
-    return h(OverlayContainer, [
-      h(OverlayHeader, [h(Header, 'Hood Viewer'), h(Actions, actions)]),
-      h(HoodContainer, [
-        h(Votes, [UserUpVoting, h(Header, votes), UserDownVoting]),
-        h('div', { style: { width: '85%' } }, [
-          h(HeaderSmall, hood.name),
-          h(TextSmall, [h('div', 'User'), h('div', username)]),
-          h(TextSmall, [
-            h('div', 'Last Updated'),
-            h('div', formatDate(hood.updatedAt)),
-          ]),
-          h(TextSmall, [
-            h('div', 'Created'),
-            h('div', formatDate(hood.createdAt)),
-          ]),
-          h(HoodReport, { hood }),
-        ]),
-      ]),
-    ]);
+    return (
+      <OverlayContainer>
+        <OverlayHeader>
+          <Header>Hood Viewer</Header>
+          <Actions>{...actions}</Actions>
+        </OverlayHeader>
+        <HoodContainer>
+          <Votes>
+            {UserUpVoting}
+            <Header>{votes}</Header>
+            {UserDownVoting}
+          </Votes>
+          <div style={{ width: '85%' }}>
+            <HeaderSmall>{hood.name}</HeaderSmall>
+            <TextSmall>
+              <div>User</div>
+              <div>{username}</div>
+            </TextSmall>
+            <TextSmall>
+              <div>Last Updated</div>
+              <div>{formatDate(hood.updatedAt)}</div>
+            </TextSmall>
+            <TextSmall>
+              <div>Created</div>
+              <div>{formatDate(hood.createdAt)}</div>
+            </TextSmall>
+            <HoodReport hood={hood} />
+          </div>
+        </HoodContainer>
+      </OverlayContainer>
+    );
   }
 }
 

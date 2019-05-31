@@ -1,4 +1,4 @@
-import * as h from 'react-hyperscript';
+import * as React from 'react';
 import styled from 'styled-components';
 
 import { Link, Nav, NavContent, NavLeft, Brand } from './ui';
@@ -18,11 +18,16 @@ const NavInv = styled(Nav)`
   }
 `;
 
-const Navbar = () =>
-  h(NavInv, [
-    h(NavContent, [
-      h(NavLeft, [h(NavLink, { href: '/' }, [h(Brand, 'YouHood api')])]),
-    ]),
-  ]);
+const Navbar = () => (
+  <NavInv>
+    <NavContent>
+      <NavLeft>
+        <NavLink href="/">
+          <Brand>YouHood api</Brand>
+        </NavLink>
+      </NavLeft>
+    </NavContent>
+  </NavInv>
+);
 
 export default Navbar;

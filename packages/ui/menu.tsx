@@ -1,6 +1,5 @@
+import * as React from 'react';
 import styled from 'styled-components';
-import * as h from 'react-hyperscript';
-import { Component } from 'react';
 
 import { Menu, Hamburger } from './ui';
 import theme from '@youhood/theme';
@@ -40,7 +39,7 @@ const Link = styled.a`
   }
 `;
 
-class MenuDrawer extends Component {
+class MenuDrawer extends React.Component {
   state = {
     show: false,
   };
@@ -50,34 +49,32 @@ class MenuDrawer extends Component {
   };
 
   render() {
-    return h('div', [
-      h(Menu, { onClick: this.toggle }, [h(Hamburger)]),
-      h(OverlayOuter, <any>{ show: this.state.show }, [
-        h(OverlayInner, [
-          h(Link, { href: '/' }, 'Home'),
-          h(Link, { href: '/docs' }, 'API Documentation'),
-          h(Link, { href: '/pricing' }, 'Pricing'),
-          h(
-            Link,
-            {
-              href: 'https://github.com/neurosnap/youhood/issues',
-              target: '_blank',
-            },
-            'Submit Feedback',
-          ),
-          h(
-            Link,
-            { href: 'https://github.com/neurosnap/youhood', target: '_blank' },
-            'Source Code',
-          ),
-          h(
-            Link,
-            { href: 'mailto:support@youhood.io', target: '_blank' },
-            'support@youhood.io',
-          ),
-        ]),
-      ]),
-    ]);
+    return (
+      <div>
+        <Menu onClick={this.toggle}>
+          <Hamburger />
+        </Menu>
+        <OverlayOuter show={this.state.show}>
+          <OverlayInner>
+            <Link href="/">Home</Link>
+            <Link href="/docs">API Documentation</Link>
+            <Link href="/pricing">Pricing</Link>
+            <Link
+              href="https://github.com/neurosnap/youhood/issues"
+              target="_blank"
+            >
+              Submit Feedback
+            </Link>
+            <Link href="https://github.com/neurosnap/youhood" target="_blank">
+              Source Code
+            </Link>
+            <Link href="mailto:support@youhood.io" target="_blank">
+              support@youhood.io
+            </Link>
+          </OverlayInner>
+        </OverlayOuter>
+      </div>
+    );
   }
 }
 

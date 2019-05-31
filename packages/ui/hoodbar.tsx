@@ -1,5 +1,5 @@
+import * as React from 'react';
 import styled from 'styled-components';
-import * as h from 'react-hyperscript';
 
 import HoodVisible from './hood-visible';
 import DrawHood from './draw';
@@ -12,4 +12,9 @@ const HoodBar = styled.div`
   display: flex;
 `;
 
-export default () => h(HoodBar, [h(DrawHood), h(HoodVisible)]);
+export default () => (
+  <HoodBar>
+    <DrawHood />
+    <HoodVisible />
+  </HoodBar>
+);

@@ -1,6 +1,5 @@
-import { Component } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
-import * as h from 'react-hyperscript';
 
 import { actions, selectors } from '@youhood/hood';
 const {
@@ -62,7 +61,7 @@ interface DefaultProps {
 
 const noop = () => {};
 
-export class HoodSelector extends Component<Props> {
+export class HoodSelector extends React.Component<Props> {
   static defaultProps: DefaultProps = {
     show: false,
     hoods: [],
@@ -92,64 +91,54 @@ export class HoodSelector extends Component<Props> {
     const hoodIds = hoods.map((hood) => hood.id);
     const allHoodsAreVisible = hoods.length === visibleHoodIds.length;
 
-    return h(OverlayContainer, [
-      h(OverlayHeader, 'Hoods on Point'),
-      h(HoodSelectionContainer, [
-        h('div', { style: { margin: '0.2rem 0' } }, [
-          allHoodsAreVisible
-            ? h(
-                HoodVisibility,
-                {
-                  onClick: () => hideHoods(hoodIds),
-                },
-                'hide all',
-              )
-            : h(
-                HoodVisibility,
-                {
-                  onClick: () => showHoods(hoodIds),
-                },
-                'show all',
-              ),
-        ]),
-        ...hoods.map((hood) => {
-          const { name } = hood;
-          const hoodId = hood.id;
-          const Item =
-            hoodIdSelected === hoodId ? HoodListItemSelected : HoodListItem;
-          const isHoodVisible = visibleHoodIds.indexOf(hoodId) >= 0;
-          const votes = votesByHood[hoodId];
+    return (
+      <OverlayContainer>
+        <OverlayHeader>Hoods on Point</OverlayHeader>
+        <HoodSelectionContainer>
+          <div style={{ margin: '0.2rem 0' }}>
+            {allHoodsAreVisible ? (
+              <HoodVisibility onClick={() => hideHoods(hoodIds)}>
+                hide all
+              </HoodVisibility>
+            ) : (
+              <HoodVisibility onClick={() => showHoods(hoodIds)}>
+                show all
+              </HoodVisibility>
+            )}
+          </div>
+          {hoods.map((hood) => {
+            const { name } = hood;
+            const hoodId = hood.id;
+            const Item =
+              hoodIdSelected === hoodId ? HoodListItemSelected : HoodListItem;
+            const isHoodVisible = visibleHoodIds.indexOf(hoodId) >= 0;
+            const votes = votesByHood[hoodId];
 
-          return h(HoodSelectionItem, [
-            isHoodVisible
-              ? h(
-                  HoodVisibility,
-                  {
-                    onClick: () => hideHoods([hoodId]),
-                  },
-                  'hide',
-                )
-              : h(
-                  HoodVisibility,
-                  {
-                    onClick: () => showHoods([hoodId]),
-                  },
-                  'show',
-                ),
-            h(
-              Item,
-              {
-                key: hoodId,
-                onClick: () => toggle(hoodId),
-                onMouseEnter: () => hover(hoodId, true),
-                onMouseLeave: () => hover(hoodId, false),
-              },
-              `${votes} [${name}]`,
-            ),
-          ]);
-        }),
-      ]),
-    ]);
+            return (
+              <HoodSelectionItem>
+                {isHoodVisible ? (
+                  <HoodVisibility onClick={() => hideHoods([hoodId])}>
+                    hide
+                  </HoodVisibility>
+                ) : (
+                  <HoodVisibility onClick={() => showHoods([hoodId])}>
+                    show
+                  </HoodVisibility>
+                )}
+                <Item
+                  key={hoodId}
+                  onClick={() => toggle(hoodId)}
+                  onMouseEnter={() => hover(hoodId, true)}
+                  onMouseLeave={() => hover(hoodId, false)}
+                >
+                  {votes} [{name}]
+                </Item>
+              </HoodSelectionItem>
+            );
+          })}
+        </HoodSelectionContainer>
+      </OverlayContainer>
+    );
   }
 }
 

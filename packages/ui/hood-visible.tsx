@@ -1,4 +1,4 @@
-import * as h from 'react-hyperscript';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -27,12 +27,13 @@ export const HoodVisible: React.SFC<Props> = ({
   showAll,
   hideAll,
   showWinners,
-}) =>
-  h(Visible, [
-    h(HoodBarButton, { onClick: showWinners }, 'Show Current Hoods'),
-    h(HoodBarButton, { onClick: showAll }, 'Show All Hoods'),
-    h(HoodBarButton, { onClick: hideAll }, 'Hide All Hoods'),
-  ]);
+}) => (
+  <Visible>
+    <HoodBarButton onClick={showWinners}>Show Current Hoods</HoodBarButton>
+    <HoodBarButton onClick={showAll}>Show All Hoods</HoodBarButton>
+    <HoodBarButton onClick={hideAll}>Hide All Hoods</HoodBarButton>
+  </Visible>
+);
 
 HoodVisible.defaultProps = {
   showAll: noop,
