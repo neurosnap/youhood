@@ -80,7 +80,7 @@ export class SignIn extends Component<IAuth, IAuthState> {
             Sign In
           </Button>
         </Buttons>
-        {error ? <ErrorText error={error} /> : null}
+        {error ? <ErrorText>{error}</ErrorText> : null}
       </SignInMenuEl>
     );
   }

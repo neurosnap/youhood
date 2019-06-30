@@ -1,4 +1,4 @@
-import * as h from 'react-hyperscript';
+import * as React from 'react';
 import styled from 'styled-components';
 
 import theme from '@youhood/theme';
@@ -40,14 +40,16 @@ const ContentView = styled.div`
 `;
 
 export default () => {
-  return h('div', [
-    h(NavbarStatic),
-    h(View, [
-      h(ContentView, [
-        h(Header, 'About'),
-        h(Content, 'This is the about page.'),
-      ]),
-    ]),
-    h(Footer),
-  ]);
+  return (
+    <div>
+      <NavbarStatic />
+      <View>
+        <ContentView>
+          <Header>About</Header>
+          <Content>This is the about page</Content>
+        </ContentView>
+      </View>
+      <Footer />
+    </div>
+  );
 };

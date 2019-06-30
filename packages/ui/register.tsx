@@ -136,7 +136,7 @@ export class Register extends React.Component<IAuth, IAuthState> {
             Register
           </Button>
         </Buttons>
-        {error ? <ErrorText error={error} /> : null}
+        {error ? <ErrorText>{error}</ErrorText> : null}
       </SignInMenuEl>
     );
   }
