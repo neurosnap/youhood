@@ -1,4 +1,4 @@
-import * as h from 'react-hyperscript';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Component, KeyboardEvent } from 'react';
@@ -25,9 +25,11 @@ export class SearchView extends Component<Props> {
   };
 
   render() {
-    return h(Search, [
-      h(SearchInput, { onKeyPress: this.keyPress, placeholder: 'Search' }),
-    ]);
+    return (
+      <Search>
+        <SearchInput onKeyPress={this.keyPress} placeholder="Search" />
+      </Search>
+    );
   }
 }
 

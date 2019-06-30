@@ -1,4 +1,4 @@
-import * as h from 'react-hyperscript';
+import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -55,34 +55,34 @@ export class SignIn extends Component<IAuth, IAuthState> {
     const { error } = this.props;
     const shouldDisableButton = !email || !password;
 
-    return h(SignInMenuEl, [
-      h(Input, {
-        className: 'signin-email',
-        type: 'text',
-        placeholder: 'email address',
-        value: email,
-        onChange: this.handleEmail,
-      }),
-      h(Input, {
-        className: 'signin-pass',
-        type: 'password',
-        placeholder: 'password',
-        value: password,
-        onChange: this.handlePassword,
-      }),
-      h(Buttons, [
-        h(
-          Button,
-          {
-            className: 'signin-btn',
-            onClick: this.handleClick,
-            disabled: shouldDisableButton,
-          },
-          'Sign in',
-        ),
-      ]),
-      error ? h(ErrorText, error) : null,
-    ]);
+    return (
+      <SignInMenuEl>
+        <Input
+          className="signin-email"
+          type="text"
+          placeholder="email address"
+          value={email}
+          onChange={this.handleEmail}
+        />
+        <Input
+          className="signin-pass"
+          type="password"
+          placeholder="password"
+          value={password}
+          onChange={this.handlePassword}
+        />
+        <Buttons>
+          <Button
+            className="signin-btn"
+            onClick={this.handleClick}
+            disabled={shouldDisableButton}
+          >
+            Sign In
+          </Button>
+        </Buttons>
+        {error ? <ErrorText error={error} /> : null}
+      </SignInMenuEl>
+    );
   }
 }
 

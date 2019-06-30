@@ -1,5 +1,4 @@
-import * as h from 'react-hyperscript';
-import { Component } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -41,7 +40,7 @@ interface IAuthState {
   acceptTerms: boolean;
 }
 
-export class Register extends Component<IAuth, IAuthState> {
+export class Register extends React.Component<IAuth, IAuthState> {
   static defaultProps = {
     onClick: () => {},
     currentUserId: '',
@@ -87,61 +86,59 @@ export class Register extends Component<IAuth, IAuthState> {
       !acceptTerms ||
       password !== passwordConfirm;
 
-    return h(SignInMenuEl, [
-      h(Input, {
-        className: 'register-email',
-        type: 'text',
-        placeholder: 'email address',
-        value: email,
-        onChange: this.handleEmail,
-      }),
-      h(Input, {
-        className: 'register-pass',
-        type: 'password',
-        placeholder: 'password',
-        value: password,
-        onChange: this.handlePassword,
-      }),
-      h(Input, {
-        className: 'register-pass-confirm',
-        type: 'password',
-        placeholder: 'confirm password',
-        value: passwordConfirm,
-        onChange: this.handlePasswordConfirm,
-      }),
-      h(Terms, [
-        h(Checkbox, {
-          id: 'terms',
-          type: 'checkbox',
-          checked: acceptTerms,
-          onChange: this.handleAcceptTerms,
-        }),
-        h(
-          'label',
-          {
-            for: 'terms',
-          },
-          [
-            h('span', 'I accept the'),
-            h(Link, { href: '/tos', target: '_blank' }, 'Terms of Service'),
-            h('span', ' and '),
-            h(Link, { href: '/privacy', target: '_blank' }, 'Privacy Policy'),
-          ],
-        ),
-      ]),
-      h(Buttons, [
-        h(
-          Button,
-          {
-            className: 'register-btn',
-            onClick: this.handleClick,
-            disabled: shouldDisableButton,
-          },
-          'Register',
-        ),
-      ]),
-      error ? h(ErrorText, error) : null,
-    ]);
+    return (
+      <SignInMenuEl>
+        <Input
+          className="register-email"
+          type="text"
+          placeholder="email address"
+          value={email}
+          onChange={this.handleEmail}
+        />
+        <Input
+          className="register-pass"
+          type="password"
+          placeholder="password"
+          value={password}
+          onChange={this.handlePassword}
+        />
+        <Input
+          className="register-pass-confirm"
+          type="password"
+          placeholder="confirm password"
+          value={passwordConfirm}
+          onChange={this.handlePasswordConfirm}
+        />
+        <Terms>
+          <Checkbox
+            id="terms"
+            type="checkbox"
+            checked={acceptTerms}
+            onChange={this.handleAcceptTerms}
+          />
+          <label htmlFor="terms">
+            <span>I accept the</span>
+            <Link href="/tos" target="_blank">
+              Terms of Service
+            </Link>
+            <span>and</span>
+            <Link href="/privacy" target="_blank">
+              Privacy Policy
+            </Link>
+          </label>
+        </Terms>
+        <Buttons>
+          <Button
+            className="register-btn"
+            onClick={this.handleClick}
+            disabled={shouldDisableButton}
+          >
+            Register
+          </Button>
+        </Buttons>
+        {error ? <ErrorText error={error} /> : null}
+      </SignInMenuEl>
+    );
   }
 }
 

@@ -1,4 +1,4 @@
-import * as h from 'react-hyperscript';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -17,14 +17,18 @@ interface Props {
 }
 
 export const Profile = ({ handleSignOut }: Props) => {
-  return h(DropdownMenuContainer, [
-    h(SignInMenuEl, [
-      h(Links, [
-        h(Link, { href: '/account' }, 'Account'),
-        h(Link, { href: '/signout', onClick: handleSignOut }, 'Sign Out'),
-      ]),
-    ]),
-  ]);
+  return (
+    <DropdownMenuContainer>
+      <SignInMenuEl>
+        <Links>
+          <Link href="/account">Account</Link>
+          <Link href="/signout" onClick={handleSignOut}>
+            Sign Out
+          </Link>
+        </Links>
+      </SignInMenuEl>
+    </DropdownMenuContainer>
+  );
 };
 
 export default connect(

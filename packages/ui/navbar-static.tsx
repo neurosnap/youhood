@@ -1,4 +1,4 @@
-import * as h from 'react-hyperscript';
+import * as React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { SFC } from 'react';
@@ -69,20 +69,28 @@ const NavMenu = styled(NavRight)`
   `}
 `;
 
-const Navbar: SFC<IProps> = ({ isUserLoggedIn, style = {} }) =>
-  h(Nav, { style }, [
-    h(NavView, [
-      h(NavBrand, [h(NavLink, { href: '/' }, [h(Brand, 'YouHood')])]),
-      h(NavMenu, [
-        h(Hover, [h(NavLink, { href: '/explore' }, 'Explore')]),
-        h(Hover, [h(NavLink, { href: '/docs' }, 'Docs')]),
-        h(Hover, [h(NavLink, { href: '/pricing' }, 'Pricing')]),
-        isUserLoggedIn
-          ? h(UserMenu)
-          : h(SignInLink, { href: '/signin' }, 'Sign In'),
-      ]),
-    ]),
-  ]);
+const Navbar: SFC<IProps> = ({ isUserLoggedIn, style = {} }) => (
+  <Nav style={style}>
+    <NavView>
+      <NavBrand>
+        <NavLink href="/" />
+        <Brand>YouHood</Brand>
+      </NavBrand>
+      <NavMenu>
+        <Hover>
+          <NavLink href="/explore">Explore</NavLink>
+          <NavLink href="/docs">Docs</NavLink>
+          <NavLink href="/pricing">Pricing</NavLink>
+          {isUserLoggedIn ? (
+            <UserMenu />
+          ) : (
+            <SignInLink href="/signin">Sign In</SignInLink>
+          )}
+        </Hover>
+      </NavMenu>
+    </NavView>
+  </Nav>
+);
 
 const mapState = (state: WebState) => {
   return {

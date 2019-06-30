@@ -1,4 +1,4 @@
-import * as h from 'react-hyperscript';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { Component } from 'react';
 import styled from 'styled-components';
@@ -38,13 +38,19 @@ export const DropMenu: React.SFC<IProps> = ({ open = false, items = [] }) => {
   }
 
   const HistoryItems = items.map((item, i) => {
-    return h('div', { key: i }, `${item.value} -- ${item.reason}`);
+    return <div key={i}>{`${item.value} -- ${item.reason}`}</div>;
   });
 
   const points =
-    items.length === 0 ? [h('div', 'Start getting points!')] : HistoryItems;
+    items.length === 0
+      ? [<div key={0}>Start getting points!</div>]
+      : HistoryItems;
 
-  return h(PointsMenuContainer, [h(DropMenuEl, points)]);
+  return (
+    <PointsMenuContainer>
+      <DropMenuEl>{...points}</DropMenuEl>
+    </PointsMenuContainer>
+  );
 };
 
 interface Props {
@@ -76,15 +82,17 @@ export class PointsView extends Component<Props, State> {
     const { points, pointHistory } = this.props;
     const { open } = this.state;
 
-    let Icon = h(Points, { onClick: this.toggleMenu }, `+${points}`);
+    let Icon = <Points onClick={this.toggleMenu}>+{points}</Points>;
     if (points === 0) {
-      Icon = h(Trophy, { onClick: this.toggleMenu });
+      Icon = <Trophy onClick={this.toggleMenu} />;
     }
 
-    return h(NavHover, { style: { position: 'relative' } }, [
-      Icon,
-      h(DropMenu, { open, items: pointHistory }),
-    ]);
+    return (
+      <NavHover style={{ position: 'relative' }}>
+        {Icon}
+        <DropMenu open={open} items={pointHistory} />
+      </NavHover>
+    );
   }
 }
 

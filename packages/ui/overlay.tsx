@@ -1,5 +1,5 @@
+import * as React from 'react';
 import { connect } from 'react-redux';
-import * as h from 'react-hyperscript';
 import styled from 'styled-components';
 
 import { selectors } from '@youhood/menu';
@@ -35,13 +35,14 @@ const OverlayInner = styled.div`
   height: 100%;
 `;
 
-const Overlay = ({ show = false, isEditing = false }) =>
-  h(OverlayOuter, <any>{ show }, [
-    h(OverlayInner, [
-      h(HoodSelector, { show }),
-      isEditing ? h(HoodEditor) : h(HoodViewer),
-    ]),
-  ]);
+const Overlay = ({ show = false, isEditing = false }) => (
+  <OverlayOuter show={show}>
+    <OverlayInner>
+      <HoodSelector show={show} />
+      {isEditing ? <HoodEditor /> : <HoodViewer />}
+    </OverlayInner>
+  </OverlayOuter>
+);
 
 export default connect((state: WebState) => ({
   show: isOverlayOpen(state),

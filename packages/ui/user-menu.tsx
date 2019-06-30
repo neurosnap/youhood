@@ -1,4 +1,4 @@
-import * as h from 'react-hyperscript';
+import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -74,18 +74,20 @@ export class UserMenu extends Component<IProps> {
     let menu = null;
     if (open) {
       if (authenticated) {
-        menu = h(Profile);
+        menu = <Profile />;
       } else {
-        menu = h(AuthMenu);
+        menu = <AuthMenu />;
       }
     }
 
-    return h(View, { tabIndex: 1, onBlur: this.onBlur }, [
-      h(NavHover, { onClick: this.toggleMenu }, [
-        h(Inner, authenticated ? user.email : 'Sign In'),
-      ]),
-      menu,
-    ]);
+    return (
+      <View tabIndex={1} onBlur={this.onBlur}>
+        <NavHover onClick={this.toggleMenu}>
+          <Inner>{authenticated ? user.email : 'Sign In'}</Inner>
+        </NavHover>
+        {menu}
+      </View>
+    );
   }
 }
 
