@@ -1,5 +1,4 @@
-import * as h from 'react-hyperscript';
-import { Component } from 'react';
+import * as React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { connect } from 'react-redux';
 
@@ -63,23 +62,25 @@ interface IProps {
   isLoggedIn: boolean;
 }
 
-export class RegisterPage extends Component<IProps> {
-  render() {
-    return h('div', { style: { height: '100%' } }, [
-      h(SignInView, [
-        h(SignInInner, [
-          h(BrandView, [h(NavLink, { href: '/' }, [h(Brand, 'YouHood')])]),
-          h(Register),
-          h(Info, [
-            h('div', 'Already have an account?'),
-            h(Link, { href: '/signin' }, 'Sign in'),
-          ]),
-        ]),
-        h(PageGlobalStyle),
-      ]),
-    ]);
-  }
-}
+export const RegisterPage: React.SFC<IProps> = () => (
+  <div style={{ height: '100%' }}>
+    <SignInView>
+      <SignInInner>
+        <BrandView>
+          <NavLink href="/">
+            <Brand>YouHood</Brand>
+          </NavLink>
+        </BrandView>
+        <Register />
+        <Info>
+          <div>Already have an account?</div>
+          <Link href="/signin">Sign In</Link>
+        </Info>
+      </SignInInner>
+      <PageGlobalStyle />
+    </SignInView>
+  </div>
+);
 
 const mapState = (state: WebState) => {
   return {

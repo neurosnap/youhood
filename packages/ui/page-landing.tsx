@@ -1,4 +1,4 @@
-import * as h from 'react-hyperscript';
+import * as React from 'react';
 import styled from 'styled-components';
 
 import theme from '@youhood/theme';
@@ -127,24 +127,27 @@ export const ButtonLight = styled(Button)`
 `;
 
 export default () => {
-  return h(ViewContainer, [
-    h(NavbarStatic, { style: { background: 'transparent' } }),
-    h(View, [
-      h(Intro, [
-        h(IntroView, [
-          h(Header, 'The neighborhood voting platform'),
-          h(
-            Pg,
-            'Youhood is a crowd-sourced platform for determining neighborhoods within cities.  We also provide an API that allows services to obtain geographical data on neighborhoods.',
-          ),
-          h(LinkView, [
-            h(Button, { href: '/register' }, 'Create Account'),
-            h(ButtonLight, { href: '/explore' }, 'Explore'),
-          ]),
-        ]),
-      ]),
-    ]),
-    h(Footer),
-    h(Stripes),
-  ]);
+  return (
+    <ViewContainer>
+      <NavbarStatic style={{ background: 'transparent' }} />
+      <View>
+        <Intro>
+          <IntroView>
+            <Header>The neighborhood voting platform</Header>
+            <Pg>
+              Youhood is a crowd-sourced platform for determining neighborhoods
+              within cities. We also provide an API that allows services to
+              obtain geographical data on neighborhoods.
+            </Pg>
+            <LinkView>
+              <Button href="/register">Create Account</Button>
+              <ButtonLight href="/explore">Explore</ButtonLight>
+            </LinkView>
+          </IntroView>
+        </Intro>
+      </View>
+      <Footer />
+      <Stripes />
+    </ViewContainer>
+  );
 };

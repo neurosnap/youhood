@@ -79,14 +79,18 @@ const Navbar: SFC<IProps> = ({ isUserLoggedIn, style = {} }) => (
       <NavMenu>
         <Hover>
           <NavLink href="/explore">Explore</NavLink>
-          <NavLink href="/docs">Docs</NavLink>
-          <NavLink href="/pricing">Pricing</NavLink>
-          {isUserLoggedIn ? (
-            <UserMenu />
-          ) : (
-            <SignInLink href="/signin">Sign In</SignInLink>
-          )}
         </Hover>
+        <Hover>
+          <NavLink href="/docs">Docs</NavLink>
+        </Hover>
+        <Hover>
+          <NavLink href="/pricing">Pricing</NavLink>
+        </Hover>
+        {isUserLoggedIn ? (
+          <UserMenu />
+        ) : (
+          <SignInLink href="/signin">Sign In</SignInLink>
+        )}
       </NavMenu>
     </NavView>
   </Nav>

@@ -1,5 +1,4 @@
-import * as h from 'react-hyperscript';
-import { Component, Fragment } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -40,7 +39,7 @@ interface IProps {
   fetchKeys: () => void;
 }
 
-class Account extends Component<IProps> {
+class Account extends React.Component<IProps> {
   componentWillMount() {
     const { fetchKeys } = this.props;
     fetchKeys();
@@ -48,27 +47,31 @@ class Account extends Component<IProps> {
 
   render() {
     const { user, apiKeys } = this.props;
-    return h(Fragment, [
-      h(NavbarStatic),
-      h(AccountView, [
-        h(AccountContainer, [
-          h(Flex, [h(Label, 'email'), h(Content, user.email)]),
-          h(Flex, [
-            h(Label, 'created at'),
-            h(Content, formatDate(user.createdAt || '')),
-          ]),
-          h(Flex, [
-            h(Label, 'api keys'),
-            h(
-              Content,
-              apiKeys.map((key) => {
-                return h('div', { key: key.apiKey }, key.apiKey);
-              }),
-            ),
-          ]),
-        ]),
-      ]),
-    ]);
+    return (
+      <React.Fragment>
+        <NavbarStatic />
+        <AccountView>
+          <AccountContainer>
+            <Flex>
+              <Label>email</Label>
+              <Content>{user.email}</Content>
+            </Flex>
+            <Flex>
+              <Label>created at</Label>
+              <Content>{formatDate(user.createdAt || '')}</Content>
+            </Flex>
+            <Flex>
+              <Label>api keys</Label>
+              <Content>
+                {apiKeys.map((key) => (
+                  <div key={key.apiKey}>{key.apiKey}</div>
+                ))}
+              </Content>
+            </Flex>
+          </AccountContainer>
+        </AccountView>
+      </React.Fragment>
+    );
   }
 }
 

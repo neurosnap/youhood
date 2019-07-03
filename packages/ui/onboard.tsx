@@ -1,5 +1,4 @@
-import { Component } from 'react';
-import * as h from 'react-hyperscript';
+import * as React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -71,83 +70,73 @@ const ProgressContainer = styled.div`
   margin: 10px 0;
 `;
 
-const intro = () => {
-  return h(Slide, [
-    h(Header, 'Wecome to YouHood!'),
-    h(
-      Section,
-      `The main goal of this site is to be the definitive source for determining
-      neighborhood boundaries.`,
-    ),
-    h(
-      Section,
-      `With this site, users are able to create neighborhoods, vote on them,
-      and the neighborhoods with the highest votes will be used as the source of our API.`,
-    ),
-  ]);
-};
+const intro = () => (
+  <Slide>
+    <Header>Welcome to Youhood!</Header>
+    <Section>
+      The main goal of this site is to be the definitive source for determining
+      neighborhood boundaries.
+    </Section>
+    <Section>
+      With this site, users are able to create neighborhoods, vote on them, and
+      the neighborhoods with the highest votes will be used as the source of our
+      API.
+    </Section>
+  </Slide>
+);
 
-const problem = () => {
-  return h(Slide, [
-    h(Header, 'The Problem'),
-    h(
-      Section,
-      `Neighborhood boundaries are difficult to determine because they are created
-      largely by the people that live in those cities.`,
-    ),
-    h(
-      Section,
-      `Most services that provide neighborhood data are difficult to access, difficult to find,
-      and outdated.`,
-    ),
-    h(
-      Section,
-      `Neighborhoods change over time, so why not create a service that is flexible
-      to that change?`,
-    ),
-  ]);
-};
+const problem = () => (
+  <Slide>
+    <Header>The Problem</Header>
+    <Section>
+      Neighborhood boundaries are difficult to determine because they are
+      created largely by the people that live in those cities.
+    </Section>
+    <Section>
+      Most services that provide neighborhood data are difficult to access,
+      difficult to find, and outdated.
+    </Section>
+    <Section>
+      Neighborhoods change over time, so why not create a service that is
+      flexible to that change?
+    </Section>
+  </Slide>
+);
 
-const solution = () => {
-  return h(Slide, [
-    h(Header, 'The Solution'),
-    h(
-      Section,
-      `We provide the tools for anyone to create neighborhoods, vote
-      on them, and choose what neighborhoods are in a city.`,
-    ),
-    h(
-      Section,
-      `Developers will be able to use our API to better understand the different
-      regions of a city.`,
-    ),
-    h(
-      Section,
-      `Apartment listing websites use neighborhood boundaries because they are
-      important to how users think about a city.`,
-    ),
-    h(
-      Section,
-      `Common queries such as "kerrytown ann abor" or "downtown detroit" become
-      trivial when leveraging our API.`,
-    ),
-  ]);
-};
+const solution = () => (
+  <Slide>
+    <Header>The Solution</Header>
+    <Section>
+      We provide the tools for anyone to create neighborhoods, vote on them, and
+      choose what neighborhoods are in a city.
+    </Section>
+    <Section>
+      Developers will be able to use our API to better understand the different
+      regions of a city.
+    </Section>
+    <Section>
+      Apartment listing websites use neighborhood boundaries because they are
+      important to how users think about a city.
+    </Section>
+    <Section>
+      Common queries such as "kerrytown ann abor" or "downtown detroit" become
+      trivial when leveraging our API.
+    </Section>
+  </Slide>
+);
 
-const closing = () => {
-  return h(Slide, [
-    h(Header, 'Want to contribute?'),
-    h(
-      Section,
-      'In order to contribute you need to first register for an account.',
-    ),
-    h(
-      Section,
-      'Then you can search for your city, vote on neighborhoods you agree with.',
-    ),
-    h(Section, 'Or you can contribute by creating new neighborhoods!'),
-  ]);
-};
+const closing = () => (
+  <Slide>
+    <Header>Want to contribute?</Header>
+    <Section>
+      In order to contribute you need to first register for an account.
+    </Section>
+    <Section>
+      Then you can search for your city, vote on neighborhoods you agree with.
+    </Section>
+    <Section>Or you can contribute by creating new neighborhoods!</Section>
+  </Slide>
+);
 
 const slides = [intro, problem, solution, closing];
 
@@ -164,12 +153,12 @@ const ProgressMeter = ({
   for (let i = 0; i < maxSteps; i += 1) {
     const completed = i <= step;
     if (completed) {
-      steps.push(h(ProgressActive));
+      steps.push(<ProgressActive key={i} />);
     } else {
-      steps.push(h(Progress));
+      steps.push(<Progress key={i} />);
     }
   }
-  return h(ProgressContainer, steps);
+  return <ProgressContainer>{steps}</ProgressContainer>;
 };
 
 interface IState {
@@ -182,7 +171,7 @@ interface IDispatch {
 
 interface IProps extends IState, IDispatch {}
 
-class Onboard extends Component<IProps> {
+class Onboard extends React.Component<IProps> {
   static defaultProps = {
     show: false,
     hide: () => {},
@@ -225,23 +214,36 @@ class Onboard extends Component<IProps> {
       return null;
     }
 
-    const Slide = slides[curSlide];
+    const CurrentSlide = slides[curSlide];
 
-    const Btn = onLastSlide
-      ? h(CompleteButton, { onClick: hide }, [h('div', 'Complete')])
-      : h(Button, { onClick: this.nextSlide }, [h('div', 'Continue')]);
+    const Btn = onLastSlide ? (
+      <CompleteButton onClick={hide}>
+        <div>Complete</div>
+      </CompleteButton>
+    ) : (
+      <Button onClick={this.nextSlide}>
+        <div>Continue</div>
+      </Button>
+    );
 
-    const Prev = onFirstSlide
-      ? null
-      : h(PrevButton, { onClick: this.prevSlide }, [h('div', 'Previous')]);
+    const Prev = onFirstSlide ? null : (
+      <PrevButton onClick={this.prevSlide}>
+        <div>Previous</div>
+      </PrevButton>
+    );
 
-    return h(Overlay, [
-      h(Modal, [
-        h(ProgressMeter, { step: curSlide, maxSteps: NUM_SLIDES }),
-        h(Slide),
-        h(Actions, [Prev, Btn]),
-      ]),
-    ]);
+    return (
+      <Overlay>
+        <Modal>
+          <ProgressMeter step={curSlide} maxSteps={NUM_SLIDES} />
+          <CurrentSlide />
+          <Actions>
+            {Prev}
+            {Btn}
+          </Actions>
+        </Modal>
+      </Overlay>
+    );
   }
 }
 

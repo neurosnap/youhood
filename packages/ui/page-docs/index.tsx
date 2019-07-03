@@ -1,6 +1,6 @@
+import * as React from 'react';
 import * as h from 'react-hyperscript';
 import { connect } from 'react-redux';
-import * as React from 'react';
 import styled from 'styled-components';
 
 import { selectors } from '@youhood/token';
@@ -38,13 +38,22 @@ We use built-in HTTP features, like HTTP authentication and HTTP verbs, which ar
 JSON is returned by all API responses, including errors.
 `;
 
-  return h('div', [h(Paragraph, intro)]);
+  return (
+    <div>
+      <Paragraph>{intro}</Paragraph>
+    </div>
+  );
 };
 
 const IntroCode = () => {
-  return h('div', [
-    h(Example, [h(ExampleParagraph, 'Base URL'), h(Pre, domain)]),
-  ]);
+  return (
+    <div>
+      <Example>
+        <ExampleParagraph>Base URL</ExampleParagraph>
+        <Pre>{domain}</Pre>
+      </Example>
+    </div>
+  );
 };
 
 const AuthText = () => {
@@ -58,19 +67,28 @@ const AuthText = () => {
   API requests without authentication will also fail.
   `;
 
-  return h('div', [h(Paragraph, beg), h(Paragraph, fin)]);
+  return (
+    <div>
+      <Paragraph>{beg}</Paragraph>
+      <Paragraph>{fin}</Paragraph>
+    </div>
+  );
 };
 
 const AuthCode: React.SFC<IProps> = ({ token }) => {
   const displayToken = token || 'INSERT-TOKEN-HERE';
   const isLoggedIn = !!token;
 
-  return h('div', [
-    isLoggedIn ? h(ExampleParagraph, 'Your current API token') : null,
-    isLoggedIn ? h(Pre, displayToken) : null,
-    h(ExampleParagraph, 'In order to authenticate use'),
-    h(Pre, `-H "Authorization: Bearer ${displayToken}"`),
-  ]);
+  return (
+    <div>
+      {isLoggedIn ? (
+        <ExampleParagraph>Your current API token</ExampleParagraph>
+      ) : null}
+      {isLoggedIn ? <Pre>{displayToken}</Pre> : null}
+      <ExampleParagraph>In order to authenticate use</ExampleParagraph>
+      <Pre>{`-H "Authorization: Bearer ${displayToken}`}</Pre>
+    </div>
+  );
 };
 
 const ErrorText = () => {
@@ -80,7 +98,12 @@ In general: Codes in the 2xx range indicate success.
 Codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter was omitted, etc.).
 Codes in the 5xx range indicate an error with YouHood's servers (these are rare).
 `;
-  return h('div', [h(Paragraph, error)]);
+
+  return (
+    <div>
+      <Paragraph>{error}</Paragraph>
+    </div>
+  );
 };
 
 const buildUrl = (token: string, endpoint: string) => {
@@ -89,11 +112,11 @@ const buildUrl = (token: string, endpoint: string) => {
   -H "Authorization: Bearer ${displayToken}"`;
 };
 
-const HoodText = () => {
-  return h('div', [
-    h(Paragraph, 'Retrives neighborhoods within the state and city'),
-  ]);
-};
+const HoodText = () => (
+  <div>
+    <Paragraph>Retrives neighborhoods within the state and city</Paragraph>
+  </div>
+);
 
 const Example = styled.div`
   padding: 30px 0;
@@ -111,13 +134,19 @@ const ExResp = () => {
   return h(ExampleParagraph, 'Example Response');
 };
 
-const HoodCode: React.SFC<IProps> = ({ token }) => {
-  return h('div', [
-    h(Pre, 'GET /hood/{state}/{city}'),
-    h(Example, [h(ExReq), h(Pre, buildUrl(token, '/hood/mi/ann%20arbor'))]),
-    h(Example, [h(ExResp), h(Pre, JSON.stringify(exampleHoodResp, null, 2))]),
-  ]);
-};
+const HoodCode: React.SFC<IProps> = ({ token }) => (
+  <div>
+    <Pre>{`GET /hood/{state}/{city}`}</Pre>
+    <Example>
+      <ExReq />
+      <Pre>{buildUrl(token, '/hood/mi/ann%20arbor')}</Pre>
+    </Example>
+    <Example>
+      <ExResp />
+      <Pre>{JSON.stringify(exampleHoodResp, null, 2)}</Pre>
+    </Example>
+  </div>
+);
 
 const SectionView = styled.div`
   display: flex;
@@ -159,13 +188,18 @@ const Section: React.SFC<{
   return h(
     SectionView,
     React.Children.map(children, (child, index) => {
-      const Title = () => h('h1', { id }, title);
+      const Title = () => <h1 id={id}>{title}</h1>;
 
       if (index === 0) {
-        return h(SectionLeft, [h(Title), child]);
+        return (
+          <SectionLeft>
+            <Title />
+            {child}
+          </SectionLeft>
+        );
       }
 
-      return h(SectionRight, [child]);
+      return <SectionRight>{child}</SectionRight>;
     }),
   );
 };
@@ -183,30 +217,31 @@ const DocViewInner = styled.div`
   `};
 `;
 
-const Docs: React.SFC<IProps> = ({ token }) =>
-  h('div', [
-    h(NavbarLogo),
-    h(DocView, [
-      h(DocViewInner, [
-        h(Section, { title: 'API Reference', id: 'api-reference' }, [
-          h(IntroText),
-          h(IntroCode),
-        ]),
-        h(Section, { id: 'auth', title: 'Authentication' }, [
-          h(AuthText),
-          h(AuthCode, { token }),
-        ]),
-        h(Section, { id: 'error', title: 'Errors' }, [
-          h(ErrorText),
-          h('div', ''),
-        ]),
-        h(Section, { title: 'Retrive neighborhoods for a city', id: 'hood' }, [
-          h(HoodText),
-          h(HoodCode, { token }),
-        ]),
-      ]),
-    ]),
-  ]);
+const Docs: React.SFC<IProps> = ({ token }) => (
+  <div>
+    <NavbarLogo />
+    <DocView>
+      <DocViewInner>
+        <Section title="API Reference" id="api-reference">
+          <IntroText />
+          <IntroCode />
+        </Section>
+        <Section title="Authentication" id="auth">
+          <AuthText />
+          <AuthCode token={token} />
+        </Section>
+        <Section title="Errors" id="error">
+          <ErrorText />
+          <div> </div>
+        </Section>
+        <Section title="Retrive neighborhoods for a city" id="hood">
+          <HoodText />
+          <HoodCode token={token} />
+        </Section>
+      </DocViewInner>
+    </DocView>
+  </div>
+);
 
 const mapState = (state: WebState) => {
   return {
