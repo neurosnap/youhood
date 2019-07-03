@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { shallow } from 'enzyme';
 import * as h from 'react-hyperscript';
 
@@ -7,13 +8,13 @@ import { Points, Trophy } from './ui';
 describe('PointsView', () => {
   describe('when there are no points', () => {
     it('should render the trophy icon', () => {
-      const tree = shallow(h(PointsView, { points: 0, pointHistory: [] }));
+      const tree = shallow(<PointsView points={0} pointHistory={[]} />);
       expect(tree.find(Trophy).length).toEqual(1);
     });
 
     describe('when clicking the button', () => {
       it('should set state to `open`', () => {
-        const tree = shallow(h(PointsView, { points: 0, pointHistory: [] }));
+        const tree = shallow(<PointsView points={0} pointHistory={[]} />);
         tree.find(Trophy).simulate('click');
         expect(tree.state('open')).toEqual(true);
       });
@@ -22,7 +23,7 @@ describe('PointsView', () => {
 
   describe('when there are points', () => {
     describe('when rendering', () => {
-      const tree = shallow(h(PointsView, { points: 10, pointHistory: [] }));
+      const tree = shallow(<PointsView points={10} pointHistory={[]} />);
 
       it('should render the points', () => {
         expect(tree).toMatchSnapshot();
@@ -38,7 +39,7 @@ describe('PointsView', () => {
 
     describe('when clicking the button', () => {
       it('should set state to `open`', () => {
-        const tree = shallow(h(PointsView, { points: 5, pointHistory: [] }));
+        const tree = shallow(<PointsView points={5} pointHistory={[]} />);
         tree.find(Points).simulate('click');
         expect(tree.state('open')).toEqual(true);
       });
@@ -50,12 +51,7 @@ describe('DropMenu', () => {
   describe('when it is open', () => {
     describe('when there is no point history', () => {
       it('should render help text', () => {
-        const tree = shallow(
-          h(DropMenu, {
-            open: true,
-            items: [],
-          }),
-        );
+        const tree = shallow(<DropMenu open={true} items={[]} />);
         expect(tree).toMatchSnapshot();
       });
     });
@@ -63,13 +59,13 @@ describe('DropMenu', () => {
     describe('when there is a point history', () => {
       it('should render point history as a list', () => {
         const tree = shallow(
-          h(DropMenu, {
-            open: true,
-            items: [
+          <DropMenu
+            open={true}
+            items={[
               { value: 10, reason: 'Something cool' },
               { value: 20, reason: 'Killin it' },
-            ],
-          }),
+            ]}
+          />,
         );
         expect(tree).toMatchSnapshot();
       });

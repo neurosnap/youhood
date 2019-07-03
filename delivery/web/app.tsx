@@ -1,4 +1,4 @@
-import * as h from 'react-hyperscript';
+import * as React from 'react';
 import { SFC } from 'react';
 import { connect } from 'react-redux';
 
@@ -34,7 +34,7 @@ const AuthRequired = (Component: any) => {
       window.location.replace('/signin');
     }
 
-    return h(Component);
+    return <Component />;
   };
 
   return connect(mapState)(req);
@@ -47,7 +47,7 @@ const Redirect = (Component: any) => {
       window.location.replace('/explore');
     }
 
-    return h(Component);
+    return <Component />;
   };
 
   return connect(mapState)(req);
@@ -56,23 +56,23 @@ const Redirect = (Component: any) => {
 const App = () => {
   switch (location.pathname) {
     case '/pricing':
-      return h(PricingPage);
+      return <PricingPage />;
     case '/tos':
-      return h(TosPage);
+      return <TosPage />;
     case '/privacy':
-      return h(PrivacyPage);
+      return <PrivacyPage />;
     case '/about':
-      return h(AboutPage);
+      return <AboutPage />;
     case '/docs':
-      return h(DocPage);
+      return <DocPage />;
     case '/account':
-      return h(AuthRequired(AccountPage));
+      return React.createElement(AuthRequired(AccountPage));
     case '/signin':
-      return h(Redirect(SigninPage));
+      return React.createElement(Redirect(SigninPage));
     case '/register':
-      return h(Redirect(RegisterPage));
+      return React.createElement(Redirect(RegisterPage));
     default:
-      return h(LandingPage);
+      return <LandingPage />;
   }
 };
 

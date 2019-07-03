@@ -1,5 +1,5 @@
+import * as React from 'react';
 import { shallow } from 'enzyme';
-import * as h from 'react-hyperscript';
 
 import { defaultUser } from '@youhood/user';
 
@@ -15,7 +15,7 @@ const user = defaultUser;
 describe('UserMenu', () => {
   describe('when user is not authenticated', () => {
     it('should render text `Sign In`', () => {
-      const tree = shallow(h(UserMenu, { authenticated: false, user }));
+      const tree = shallow(<UserMenu authenticated={false} user={user} />);
       expect(tree.find(Inner).html()).toContain('Sign In');
     });
   });
@@ -23,10 +23,10 @@ describe('UserMenu', () => {
   describe('when user is authenticated', () => {
     it('should render text of users email', () => {
       const tree = shallow(
-        h(UserMenu, {
-          authenticated: true,
-          user: { ...user, email: 'eric@cool.com' },
-        }),
+        <UserMenu
+          authenticated={true}
+          user={{ ...user, email: 'eric@cool.com' }}
+        />,
       );
       expect(tree.find(Inner).html()).toContain('eric@cool.com');
     });
@@ -36,14 +36,13 @@ describe('UserMenu', () => {
     describe('when the user is authenticated', () => {
       it('should render Profile component', () => {
         const tree = shallow(
-          h(UserMenu, {
-            authenticated: true,
-            user: { ...user, email: 'eric@cool.com' },
-          }),
+          <UserMenu
+            authenticated={true}
+            user={{ ...user, email: 'eric@cool.com' }}
+          />,
         );
 
         tree.find(NavHover).simulate('click');
-
         expect(tree.find(Profile).length).toEqual(1);
       });
     });
@@ -51,14 +50,13 @@ describe('UserMenu', () => {
     describe('when the user is not authenticated', () => {
       it('should render UserMenuMenu component', () => {
         const tree = shallow(
-          h(UserMenu, {
-            authenticated: false,
-            user: { ...user, email: 'eric@cool.com' },
-          }),
+          <UserMenu
+            authenticated={false}
+            user={{ ...user, email: 'eric@cool.com' }}
+          />,
         );
 
         tree.find(NavHover).simulate('click');
-
         expect(tree.find(AuthMenu).length).toEqual(1);
       });
     });
@@ -68,10 +66,10 @@ describe('UserMenu', () => {
         const ev = { currentTarget: { contains: () => false } };
         const doc = {};
         const tree = shallow(
-          h(UserMenu, {
-            authenticated: false,
-            user: { ...user, email: 'eric@cool.com' },
-          }),
+          <UserMenu
+            authenticated={false}
+            user={{ ...user, email: 'eric@cool.com' }}
+          />,
         );
         tree.setState({ open: true });
         const instance = tree.instance() as UserMenu;

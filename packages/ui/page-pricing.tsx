@@ -39,7 +39,7 @@ const ContentView = styled.div`
   `}
 `;
 
-export default () => {
+export default () => (
   <div>
     <NavbarStatic />
     <View>
@@ -49,5 +49,5 @@ export default () => {
       </ContentView>
     </View>
     <Footer />
-  </div>;
-};
+  </div>
+);

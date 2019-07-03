@@ -36,43 +36,27 @@ interface HoodVisible {
   (hoodIds: HoodIds): void;
 }
 
-interface Props {
+interface OwnProps {
   show: boolean;
-  toggle: Toggle;
+}
+
+interface MapState {
   hoods: HoodPropsList;
   visibleHoodIds: HoodIds;
-  hover: Hover;
   hoodIdSelected: HoodId;
-  hideHoods: HoodVisible;
-  showHoods: HoodVisible;
   votesByHood: VoteMap;
 }
 
-interface DefaultProps {
-  show: boolean;
-  visibleHoodIds: HoodIds;
-  hoods: HoodPropsList;
-  hover: Hover;
+interface MapDispatch {
   toggle: Toggle;
+  hover: Hover;
   hideHoods: HoodVisible;
   showHoods: HoodVisible;
-  votesByHood: VoteMap;
 }
 
-const noop = () => {};
+interface Props extends OwnProps, MapState, MapDispatch {}
 
 export class HoodSelector extends React.Component<Props> {
-  static defaultProps: DefaultProps = {
-    show: false,
-    hoods: [],
-    visibleHoodIds: [],
-    hover: noop,
-    toggle: noop,
-    hideHoods: noop,
-    showHoods: noop,
-    votesByHood: {},
-  };
-
   render() {
     const {
       show,
@@ -142,7 +126,7 @@ export class HoodSelector extends React.Component<Props> {
   }
 }
 
-export default connect(
+export default connect<MapState, MapDispatch, OwnProps, WebState>(
   (state: WebState) => {
     const hoods = getHoodsOnPoint(state);
     const hoodIds = hoods.map((hood) => hood.id);
@@ -161,4 +145,4 @@ export default connect(
     hideHoods: (hoodIds: HoodIds) => dispatch(hideHoods(hoodIds)),
     showHoods: (hoodIds: HoodIds) => dispatch(showHoods(hoodIds)),
   }),
-)(HoodSelector as any);
+);

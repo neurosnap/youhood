@@ -1,3 +1,4 @@
+import * as React from 'react';
 import * as h from 'react-hyperscript';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
@@ -19,10 +20,13 @@ export default () => {
   });
   (window as WindowInterface).reduxStore = store;
 
-  const AppConn = () =>
-    h(Provider, { store }, [
-      h(PersistGate, { loading: null, persistor }, [h(App)]),
-    ]);
+  const AppConn = () => (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>
+  );
 
   render(h(AppConn), document.querySelector('#app'));
 };

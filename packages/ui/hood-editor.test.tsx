@@ -1,5 +1,5 @@
+import * as React from 'react';
 import { mount } from 'enzyme';
-import * as h from 'react-hyperscript';
 
 import { HoodEditor } from './hood-editor';
 import { InputOverlay, LinkSuccess, LinkDanger } from './ui';
@@ -29,12 +29,12 @@ describe('HoodEditor', () => {
     const updateHoodName = jest.fn();
 
     const tree = mount(
-      h(HoodEditor, {
-        hood,
-        edit,
-        save,
-        updateHoodName,
-      }),
+      <HoodEditor
+        hood={hood}
+        edit={edit}
+        save={save}
+        updateHoodName={updateHoodName}
+      />,
     );
 
     // simulate editing a hood's name and saving it
@@ -62,12 +62,12 @@ describe('HoodEditor', () => {
     const edit = jest.fn();
 
     const tree = mount(
-      h(HoodEditor, {
-        hood,
-        edit,
-        save: () => {},
-        updateHoodName: () => {},
-      }),
+      <HoodEditor
+        hood={hood}
+        edit={edit}
+        save={() => {}}
+        updateHoodName={() => {}}
+      />,
     );
 
     // simulate editing a hood's name and cancelling it
