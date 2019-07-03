@@ -167,9 +167,7 @@ exports[`DrawHood when \`isEditing\` is true should render the cancel button 1`]
             className="hjBqYz"
             onClick={[Function]}
           >
-            <div>
-              Cancel
-            </div>
+            Cancel
           </button>
         </StyledComponent>
       </Styled(Styled(styled.button))>

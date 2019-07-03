@@ -13,7 +13,7 @@ const OverlayOuter = styled.div`
   height: 100%;
   background-color: ${theme.palette.bg.primary};
   transition: 0.2s linear;
-  transform: ${(props: any) =>
+  transform: ${(props: { show: boolean }) =>
     props.show ? 'translate3d(0, 0, 0)' : 'translate3d(-350px, 0, 0)'};
 `;
 

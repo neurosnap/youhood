@@ -22,7 +22,9 @@ exports[`DropMenu when it is open when there is a point history should render po
 exports[`DropMenu when it is open when there is no point history should render help text 1`] = `
 <styled.div>
   <styled.div>
-    <div>
+    <div
+      key="0"
+    >
       Start getting points!
     </div>
   </styled.div>
@@ -40,7 +42,8 @@ exports[`PointsView when there are points when rendering should render the point
   <styled.div
     onClick={[Function]}
   >
-    +10
+    +
+    10
   </styled.div>
   <Component
     items={Array []}

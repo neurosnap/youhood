@@ -346,7 +346,6 @@ export const Hamburger = () => {
   return (
     <svg
       height="32px"
-      style={{ enableBackground: 'new 0 0 32 32' }}
       viewBox="0 0 32 32"
       fill={`${theme.palette.font.primary}`}
       width="32px"

@@ -89,7 +89,7 @@ export class HoodViewer extends React.Component<Props> {
     const actions = [];
     if (canEdit) {
       actions.push(
-        <Link href="/edit" onClick={this.handleEdit}>
+        <Link key="edit" href="/edit" onClick={this.handleEdit}>
           Edit
         </Link>,
       );

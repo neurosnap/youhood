@@ -99,4 +99,4 @@ export class PointsView extends Component<Props, State> {
 export default connect((state: WebState) => ({
   points: getTotalPoints(state),
   pointHistory: getPoints(state),
-}))(PointsView as any);
+}))(PointsView);
