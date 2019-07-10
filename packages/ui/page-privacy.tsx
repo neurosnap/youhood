@@ -1,3 +1,4 @@
+import * as React from 'react';
 import * as h from 'react-hyperscript';
 import styled from 'styled-components';
 
@@ -52,37 +53,46 @@ const Ul = styled.ul`
   margin-left: 40px;
 `;
 
-const Intro = () =>
-  h(Content, [
-    h(
-      Pg,
-      'Eric Bower built the YouHood app as a Commercial app. This SERVICE is provided by Eric Bower and is intended for use as is.',
-    ),
-    h(
-      Pg,
-      'This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service.',
-    ),
-    h(
-      Pg,
-      'If you choose to use my Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that I collect is used for providing and improving the Service. I will not use or share your information with anyone except as described in this Privacy Policy.',
-    ),
-    h(
-      Pg,
-      'The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at YouHood unless otherwise defined in this Privacy Policy.',
-    ),
-  ]);
+const Intro = () => (
+  <Content>
+    <Pg>
+      Eric Bower built the YouHood app as a Commercial app. This SERVICE is
+      provided by Eric Bower and is intended for use as is.
+    </Pg>
+    <Pg>
+      This page is used to inform visitors regarding my policies with the
+      collection, use, and disclosure of Personal Information if anyone decided
+      to use my Service.
+    </Pg>
+    <Pg>
+      If you choose to use my Service, then you agree to the collection and use
+      of information in relation to this policy. The Personal Information that I
+      collect is used for providing and improving the Service. I will not use or
+      share your information with anyone except as described in this Privacy
+      Policy.
+    </Pg>
+    <Pg>
+      The terms used in this Privacy Policy have the same meanings as in our
+      Terms and Conditions, which is accessible at YouHood unless otherwise
+      defined in this Privacy Policy.
+    </Pg>
+  </Content>
+);
 
-const Collection = () =>
-  h(Content, [
-    h(
-      Pg,
-      'For a better experience, while using our Service, I may require you to provide us with certain personally identifiable information, including but not limited to email address. The information that I request will be retained on your device and is not collected by me in any way.',
-    ),
-    h(
-      Pg,
-      'The app does use third party services that may collect information used to identify you.',
-    ),
-  ]);
+const Collection = () => (
+  <Content>
+    <Pg>
+      For a better experience, while using our Service, I may require you to
+      provide us with certain personally identifiable information, including but
+      not limited to email address. The information that I request will be
+      retained on your device and is not collected by me in any way.
+    </Pg>
+    <Pg>
+      The app does use third party services that may collect information used to
+      identify you.
+    </Pg>
+  </Content>
+);
 
 const Log = () =>
   h(Content, [
