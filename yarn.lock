@@ -288,13 +288,6 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-hyperscript@^3.0.4":
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/@types/react-hyperscript/-/react-hyperscript-3.0.4.tgz#b7d4b357c018ac9d6b16dd543fb4c0209a23e91d"
-  integrity sha512-TZiUdoHJO5Sysw6hpS48CN9f2oDy2TEbrGr58JJACt0x9OZijH1bKCaXL6llk7QjCZWGsMSuyl6Jy4PhHcSjbw==
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-redux@^7.1.1":
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-7.1.1.tgz#eb01e89cf71cad77df9f442b819d5db692b997cb"
@@ -7572,11 +7565,6 @@ react-dom@^16.8.6:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
     scheduler "^0.13.6"
-
-react-hyperscript@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/react-hyperscript/-/react-hyperscript-3.2.0.tgz#24144ff6b1beb07af7154794a782a74b34920868"
-  integrity sha512-kf9VmxwCNqAImT3uDrCPJ8H5XdNzfSLps9x0qgJCH6OUCBiGAy1m9wHpedfr7GSuFqowhkNwv4ZuC40k3E/zRQ==
 
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.6:
   version "16.8.6"

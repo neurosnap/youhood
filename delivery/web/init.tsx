@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as h from 'react-hyperscript';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -28,5 +27,5 @@ export default () => {
     </Provider>
   );
 
-  render(h(AppConn), document.querySelector('#app'));
+  render(<AppConn />, document.querySelector('#app'));
 };

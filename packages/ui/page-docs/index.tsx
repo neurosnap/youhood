@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as h from 'react-hyperscript';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -127,11 +126,11 @@ const ExampleParagraph = styled.p`
 `;
 
 const ExReq = () => {
-  return h(ExampleParagraph, 'Example Request');
+  return <ExampleParagraph>Example Request</ExampleParagraph>;
 };
 
 const ExResp = () => {
-  return h(ExampleParagraph, 'Example Response');
+  return <ExampleParagraph>Example Response</ExampleParagraph>;
 };
 
 const HoodCode: React.SFC<IProps> = ({ token }) => (
@@ -185,22 +184,23 @@ const Section: React.SFC<{
   title: string;
   id: string;
 }> = ({ children, title, id }) => {
-  return h(
-    SectionView,
-    React.Children.map(children, (child, index) => {
-      const Title = () => <h1 id={id}>{title}</h1>;
+  return (
+    <SectionView>
+      {React.Children.map(children, (child, index) => {
+        const Title = () => <h1 id={id}>{title}</h1>;
 
-      if (index === 0) {
-        return (
-          <SectionLeft>
-            <Title />
-            {child}
-          </SectionLeft>
-        );
-      }
+        if (index === 0) {
+          return (
+            <SectionLeft>
+              <Title />
+              {child}
+            </SectionLeft>
+          );
+        }
 
-      return <SectionRight>{child}</SectionRight>;
-    }),
+        return <SectionRight>{child}</SectionRight>;
+      })}
+    </SectionView>
   );
 };
 

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import * as h from 'react-hyperscript';
 
 import { PointsView, DropMenu } from './points';
 import { Points, Trophy } from './ui';
@@ -74,7 +73,7 @@ describe('DropMenu', () => {
 
   describe('when it is not open', () => {
     it('should render null', () => {
-      const tree = shallow(h(DropMenu, { open: false, items: [] }));
+      const tree = shallow(<DropMenu open={false} items={[]} />);
       expect(tree).toMatchSnapshot();
     });
   });
