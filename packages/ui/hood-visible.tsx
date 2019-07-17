@@ -47,4 +47,4 @@ export default connect(
     hideAll: () => dispatch(hideAllHoods()),
     showWinners: () => dispatch(showOnlyWinnerHoods()),
   }),
-)(HoodVisible as any);
+)(HoodVisible);

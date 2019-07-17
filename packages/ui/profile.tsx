@@ -39,4 +39,4 @@ export default connect(
       dispatch(signOut());
     },
   }),
-)(Profile as any);
+)(Profile);

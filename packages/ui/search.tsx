@@ -39,4 +39,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 export default connect(
   null,
   mapDispatchToProps,
-)(SearchView as any);
+)(SearchView);

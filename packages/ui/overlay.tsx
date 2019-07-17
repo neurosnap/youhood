@@ -47,4 +47,4 @@ const Overlay = ({ show = false, isEditing = false }) => (
 export default connect((state: WebState) => ({
   show: isOverlayOpen(state),
   isEditing: getIsEditing(state),
-}))(Overlay as any);
+}))(Overlay);

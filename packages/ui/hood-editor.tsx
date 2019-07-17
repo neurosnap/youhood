@@ -127,4 +127,4 @@ export default connect(
     save: (hoodId: HoodId) => dispatch(saveHood(hoodId)),
     edit: (opts: EditHoodPayload) => dispatch(editHood(opts)),
   }),
-)(HoodEditor as any);
+)(HoodEditor);
