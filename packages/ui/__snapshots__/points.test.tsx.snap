@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DropMenu when it is not open should render null 1`] = `""`;
+
+exports[`DropMenu when it is open when there is a point history should render point history as a list 1`] = `
+<styled.div>
+  <styled.div>
+    <div
+      key="0"
+    >
+      10 -- Something cool
+    </div>
+    <div
+      key="1"
+    >
+      20 -- Killin it
+    </div>
+  </styled.div>
+</styled.div>
+`;
+
+exports[`DropMenu when it is open when there is no point history should render help text 1`] = `
+<styled.div>
+  <styled.div>
+    <div
+      key="0"
+    >
+      Start getting points!
+    </div>
+  </styled.div>
+</styled.div>
+`;
+
+exports[`PointsView when there are points when rendering should render the points 1`] = `
+<styled.button
+  style={
+    Object {
+      "position": "relative",
+    }
+  }
+>
+  <styled.div
+    onClick={[Function]}
+  >
+    +
+    10
+  </styled.div>
+  <Component
+    items={Array []}
+    open={false}
+  />
+</styled.button>
+`;

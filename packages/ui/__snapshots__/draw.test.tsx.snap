@@ -1,0 +1,220 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DrawHood when \`isEditing\` is false should render the create button 1`] = `
+<Component
+  handleCancelDrawHood={[Function]}
+  handleDrawHood={[Function]}
+  isEditing={false}
+  isUserLoggedIn={true}
+>
+  <Styled(Styled(styled.button))
+    onClick={[Function]}
+  >
+    <StyledComponent
+      forwardedComponent={
+        Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "attrs": Array [],
+          "componentStyle": ComponentStyle {
+            "componentId": "sc-csuQGl",
+            "isStatic": true,
+            "lastClassName": "hjBqYz",
+            "rules": Array [
+              "
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 0.4rem;
+  margin: 0 0.4rem;
+  background: inherit;
+  color: inherit;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+
+  :hover:enabled {
+    background-color: ",
+              "rgba(255, 255, 255, 0.25)",
+              ";
+  }
+
+  :disabled {
+    color: ",
+              "#ccc",
+              ";
+  }
+",
+              "
+  font-size: ",
+              "0.8rem",
+              ";
+",
+              "
+  width: 91px;
+  display: flex;
+  justify-content: center;
+",
+            ],
+          },
+          "displayName": "Styled(Styled(styled.button))",
+          "foldedComponentIds": Array [
+            "sc-jKJlTe",
+            "sc-eNQAEJ",
+          ],
+          "render": [Function],
+          "styledComponentId": "sc-csuQGl",
+          "target": "button",
+          "toString": [Function],
+          "warnTooManyClasses": [Function],
+          "withComponent": [Function],
+        }
+      }
+      forwardedRef={null}
+      onClick={[Function]}
+    >
+      <button
+        className="hjBqYz"
+        onClick={[Function]}
+      >
+        Create Hood
+      </button>
+    </StyledComponent>
+  </Styled(Styled(styled.button))>
+</Component>
+`;
+
+exports[`DrawHood when \`isEditing\` is true should render the cancel button 1`] = `
+<Component
+  handleCancelDrawHood={[Function]}
+  handleDrawHood={[Function]}
+  isEditing={true}
+  isUserLoggedIn={true}
+>
+  <Component
+    cancelDraw={[Function]}
+  >
+    <div>
+      <Styled(Styled(styled.button))
+        onClick={[Function]}
+      >
+        <StyledComponent
+          forwardedComponent={
+            Object {
+              "$$typeof": Symbol(react.forward_ref),
+              "attrs": Array [],
+              "componentStyle": ComponentStyle {
+                "componentId": "sc-csuQGl",
+                "isStatic": true,
+                "lastClassName": "hjBqYz",
+                "rules": Array [
+                  "
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 0.4rem;
+  margin: 0 0.4rem;
+  background: inherit;
+  color: inherit;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+
+  :hover:enabled {
+    background-color: ",
+                  "rgba(255, 255, 255, 0.25)",
+                  ";
+  }
+
+  :disabled {
+    color: ",
+                  "#ccc",
+                  ";
+  }
+",
+                  "
+  font-size: ",
+                  "0.8rem",
+                  ";
+",
+                  "
+  width: 91px;
+  display: flex;
+  justify-content: center;
+",
+                ],
+              },
+              "displayName": "Styled(Styled(styled.button))",
+              "foldedComponentIds": Array [
+                "sc-jKJlTe",
+                "sc-eNQAEJ",
+              ],
+              "render": [Function],
+              "styledComponentId": "sc-csuQGl",
+              "target": "button",
+              "toString": [Function],
+              "warnTooManyClasses": [Function],
+              "withComponent": [Function],
+            }
+          }
+          forwardedRef={null}
+          onClick={[Function]}
+        >
+          <button
+            className="hjBqYz"
+            onClick={[Function]}
+          >
+            Cancel
+          </button>
+        </StyledComponent>
+      </Styled(Styled(styled.button))>
+      <styled.div
+        onClick={[Function]}
+      >
+        <StyledComponent
+          forwardedComponent={
+            Object {
+              "$$typeof": Symbol(react.forward_ref),
+              "attrs": Array [],
+              "componentStyle": ComponentStyle {
+                "componentId": "sc-Rmtcm",
+                "isStatic": true,
+                "lastClassName": "keJsFf",
+                "rules": Array [
+                  "
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 56px;
+  background-color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+",
+                ],
+              },
+              "displayName": "styled.div",
+              "foldedComponentIds": Array [],
+              "render": [Function],
+              "styledComponentId": "sc-Rmtcm",
+              "target": "div",
+              "toString": [Function],
+              "warnTooManyClasses": [Function],
+              "withComponent": [Function],
+            }
+          }
+          forwardedRef={null}
+          onClick={[Function]}
+        >
+          <div
+            className="keJsFf"
+            onClick={[Function]}
+          />
+        </StyledComponent>
+      </styled.div>
+    </div>
+  </Component>
+</Component>
+`;
