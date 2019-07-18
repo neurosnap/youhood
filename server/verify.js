@@ -1,4 +1,3 @@
-const router = require('express-promise-router')();
 const uuid = require('uuid/v4');
 
 const db = require('./db');
@@ -6,24 +5,11 @@ const sendEmail = require('./email');
 const sendNotificationEmail = require('./notification');
 
 module.exports = {
-  router,
   createValidationToken,
   sendVerifyEmail,
+  validateUser,
+  getUserByToken,
 };
-
-router.get('/:token', async (req, res) => {
-  const token = req.params.token;
-  const validation = await getUserByToken(token);
-  if (validation.error) {
-    const err = new Error(validation.error);
-    err.status = 400;
-    return next(err);
-  }
-
-  const { email, userId } = validation;
-  await validateUser(userId);
-  return res.json({ success: `${email} has been validated!` });
-});
 
 async function createValidationToken(userId) {
   const token = uuid();

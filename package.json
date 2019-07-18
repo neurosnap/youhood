@@ -2,7 +2,6 @@
   "name": "youhood",
   "version": "1.0.0",
   "description": "Crowd sourced neighborhood map",
-  "main": "index.js",
   "private": true,
   "npmClient": "yarn",
   "scripts": {

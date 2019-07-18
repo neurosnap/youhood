@@ -1,8 +1,6 @@
 const router = require('express-promise-router')();
-const debug = require('debug');
-const sendNotificationEmail = require('./notification');
 
-const log = debug('router:report');
+const sendNotificationEmail = require('../notification');
 
 router.post('/:hoodId', async (req, res) => {
   const hoodId = req.params.hoodId;
@@ -15,6 +13,8 @@ router.post('/:hoodId', async (req, res) => {
     text,
     html: text,
   });
+
+  res.json({ success: true });
 });
 
-module.exports = { router };
+module.exports = router;

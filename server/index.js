@@ -4,21 +4,7 @@ const debug = require('debug');
 
 const requireAuth = require('./require-auth');
 const socket = require('./socket');
-const auth = require('./auth');
-const authRoutes = auth.router;
-const voteRoutes = require('./vote');
-const point = require('./point');
-const pointRoutes = point.router;
-const hood = require('./hood');
-const hoodRoutes = hood.router;
-const user = require('./user');
-const userRoutes = user.router;
-const verify = require('./verify');
-const verifyRoutes = verify.router;
-const apiKeys = require('./api-key');
-const apiKeyRoutes = apiKeys.router;
-const report = require('./report');
-const reportRoutes = report.router;
+const routes = require('./route');
 
 const app = express();
 const log = debug('app:index');
@@ -40,14 +26,14 @@ app.get('/', (req, res) => {
   const timestamp = new Date().toISOString();
   return res.json({ timestamp });
 });
-app.use('/auth', requireAuth, authRoutes);
-app.use('/vote', requireAuth, voteRoutes);
-app.use('/hood', requireAuth, hoodRoutes);
-app.use('/point', requireAuth, pointRoutes);
-app.use('/user', requireAuth, userRoutes);
-app.use('/api-keys', requireAuth, apiKeyRoutes);
-app.use('/verify', verifyRoutes);
-app.use('/report', reportRoutes);
+app.use('/auth', requireAuth, routes.auth);
+app.use('/vote', requireAuth, routes.vote);
+app.use('/hood', requireAuth, routes.hood);
+app.use('/point', requireAuth, routes.point);
+app.use('/user', requireAuth, routes.user);
+app.use('/api-keys', requireAuth, routes.apiKey);
+app.use('/verify', routes.verify);
+app.use('/report', routes.report);
 app.use((err, req, res, net) => {
   const status = err.status || 400;
   const json = { status, error: err.message };
