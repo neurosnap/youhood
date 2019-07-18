@@ -7,7 +7,7 @@ const { findOrCreateUser } = require('./user');
 const { addPoint } = require('./point');
 const { transformSQLToGeoJson } = require('./transform');
 
-const log = debug('hood');
+const log = debug('app:hood');
 
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || '';
 

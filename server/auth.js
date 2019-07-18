@@ -1,6 +1,9 @@
 const bcrypt = require('bcrypt');
+const debug = require('debug');
 
 const db = require('./db');
+
+const log = debug('app:auth');
 
 const hashFn = (password, salt) =>
   new Promise((resolve, reject) => {
@@ -26,7 +29,7 @@ async function updateHoodUserId(prevUserId, userId) {
     await db.query(sql, [userId, prevUserId]);
     return {};
   } catch (err) {
-    console.log(err);
+    log(err);
     return { error: err.detail };
   }
 }
@@ -39,7 +42,7 @@ async function updatePointUserId(prevUserId, userId) {
     await db.query(sql, [userId, prevUserId]);
     return {};
   } catch (err) {
-    console.log(err);
+    log(err);
     return { error: err.detail };
   }
 }

@@ -4,7 +4,7 @@ const uuid = require('uuid/v4');
 
 const { getHoods } = require('./hood');
 
-const log = debug('server:socket');
+const log = debug('app:socket');
 
 const DEFAULT_CITY = 'ann arbor';
 const DEFAULT_STATE = 'mi';

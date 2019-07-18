@@ -2,7 +2,7 @@ const debug = require('debug');
 
 const db = require('./db');
 
-const log = debug('server:user');
+const log = debug('app:user');
 
 async function findUser(id) {
   const sql = 'SELECT id, email, created_at, is_tmp FROM hood_user WHERE id=$1';
