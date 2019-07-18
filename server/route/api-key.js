@@ -1,27 +1,21 @@
 const router = require('express-promise-router')();
 
 const {
-  getApiKeyFromRequest,
-  getUserByApiKey,
-  getApiKeysByUser,
+  getApiKeysFromRequest,
+  createApiKeysFromRequest,
 } = require('../api-key');
 
 router.get('/', async (req, res) => {
-  const token = getApiKeyFromRequest(req);
-  const result = await getUserByApiKey(token);
-
+  const result = await getApiKeysFromRequest(req);
   if (result.error) {
     return res.status(400).json({ error: result.error });
   }
 
-  const apiKeys = await getApiKeysByUser(result.user.id);
-  return res.status(200).json({ apiKeys });
+  return res.json({ apiKeys: result.apiKeys });
 });
 
 router.post('/', async (req, res) => {
-  const token = getApiKeyFromRequest(req);
-  const user = await getUserByApiKey(token);
-  const apiKey = await createApiKeyForUser(user.id);
+  const apiKey = await createApiKeysFromRequest(req);
   return res.status(200).json({ apiKey });
 });
 

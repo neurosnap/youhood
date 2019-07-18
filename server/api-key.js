@@ -1,6 +1,26 @@
 const uuid = require('uuid/v4');
+
 const db = require('./db');
 const { findUser } = require('./user');
+
+async function getApiKeysFromRequest(req) {
+  const token = getApiKeyFromRequest(req);
+  const result = await getUserByApiKey(token);
+
+  if (result.error) {
+    return result;
+  }
+
+  const apiKeys = await getApiKeysByUser(result.user.id);
+  return { apiKeys };
+}
+
+async function createApiKeysFromRequest(req) {
+  const token = getApiKeyFromRequest(req);
+  const user = await getUserByApiKey(token);
+  const apiKey = await createApiKeyForUser(user.id);
+  return apiKey;
+}
 
 async function getApiKeysByUser(userId) {
   const sql = `SELECT id, api_key, is_valid, label, created_at
@@ -63,6 +83,8 @@ function getApiKeyFromRequest(req) {
 }
 
 module.exports = {
+  getApiKeysFromRequest,
+  createApiKeysFromRequest,
   getApiKeysByUser,
   createApiKeyForUser,
   findOrCreateApiKey,
