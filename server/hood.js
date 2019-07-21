@@ -6,10 +6,64 @@ const db = require('./db');
 const { findOrCreateUser } = require('./user');
 const { addPoint } = require('./point');
 const { transformSQLToGeoJson } = require('./transform');
+const sendNotificationEmail = require('./notification');
 
 const log = debug('app:hood');
 
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || '';
+
+async function searchForHoodsByCity(state, city) {
+  const hoods = await getHoodsByCity(city, state);
+  if (hoods.error) {
+    return hoods;
+  }
+
+  const winners = await getHoodWinnerIdsByCity(city, state);
+  if (winners.error) {
+    return winners;
+  }
+
+  return { ...hoods, ...winners };
+}
+
+async function saveHood(body, connections) {
+  const data = transformHood(body);
+  const results = await Promise.all(
+    data.map((preparedHood) => createOrUpdateHood(preparedHood)),
+  );
+
+  const successHoods = results.filter((res) => res.hood);
+
+  if (connections) {
+    const geojson = transformSQLToGeoJson(successHoods.map((res) => res.hood));
+    sendAll(Object.values(connections), {
+      type: 'got-hoods',
+      data: { hoods: geojson },
+    });
+  }
+
+  const hoods = successHoods.map((res) => ({
+    properties: { id: res.hood.id },
+  }));
+
+  successHoods.forEach(({ hood }) => {
+    const text =
+      `id: ${hood.id}\n` +
+      `state: ${hood.state}\n` +
+      `city: ${hood.city}\n` +
+      `name: ${hood.name}\n` +
+      `user id: ${hood.hood_user_id}\n` +
+      `---`;
+
+    sendNotificationEmail({
+      subject: `${hood.name} hood created in ${hood.city}, ${hood.state}`,
+      text,
+      html: text.replace(/\n/g, '<br />'),
+    });
+  });
+
+  return { hoods };
+}
 
 function sendAll(connections, msg) {
   for (let i = 0; i < connections.length; i++) {
@@ -343,4 +397,6 @@ module.exports = {
   transformHood,
   transformHoodToList,
   updateHood,
+  searchForHoodsByCity,
+  saveHood,
 };

@@ -1,18 +1,14 @@
 const debug = require('debug');
 const router = require('express-promise-router')();
 
-const sendNotificationEmail = require('../notification');
 const {
-  createOrUpdateHood,
   findHood,
-  getHoodsByCity,
-  getHoodWinnerIdsByCity,
   getHoodWinnersByCity,
-  sendAll,
-  transformHood,
+  searchForHoodsByCity,
+  saveHood,
 } = require('../hood');
 
-const log = debug('hood');
+const log = debug('router:hood');
 
 router.get('/:hoodId', async (req, res) => {
   const hoodId = req.params.hoodId;
@@ -27,18 +23,12 @@ router.get('/:hoodId', async (req, res) => {
 router.get('/:state/:city/all', async (req, res) => {
   const state = req.params.state;
   const city = req.params.city;
-
-  const hoods = await getHoodsByCity(city, state);
-  if (hoods.error) {
-    return res.status(400).json(hoods);
+  const results = await searchForHoodsByCity(state, city);
+  if (results.error) {
+    return res.status(400).json(results);
   }
 
-  const winners = await getHoodWinnerIdsByCity(city, state);
-  if (winners.error) {
-    return res.status(400).json(winners);
-  }
-
-  return res.json({ ...hoods, ...winners });
+  return res.json(results);
 });
 
 router.get('/:state/:city', async (req, res) => {
@@ -56,43 +46,8 @@ router.get('/:state/:city', async (req, res) => {
 router.post('/save', async (req, res) => {
   log(req.body);
   const connections = req.app.get('connections');
-
-  const data = transformHood(req.body);
-  const results = await Promise.all(
-    data.map((preparedHood) => createOrUpdateHood(preparedHood)),
-  );
-
-  const successHoods = results.filter((res) => res.hood);
-
-  if (connections) {
-    const geojson = transformSQLToGeoJson(successHoods.map((res) => res.hood));
-    sendAll(Object.values(connections), {
-      type: 'got-hoods',
-      data: { hoods: geojson },
-    });
-  }
-
-  const hoods = successHoods.map((res) => ({
-    properties: { id: res.hood.id },
-  }));
-
-  successHoods.forEach(({ hood }) => {
-    const text =
-      `id: ${hood.id}\n` +
-      `state: ${hood.state}\n` +
-      `city: ${hood.city}\n` +
-      `name: ${hood.name}\n` +
-      `user id: ${hood.hood_user_id}\n` +
-      `---`;
-
-    sendNotificationEmail({
-      subject: `${hood.name} hood created in ${hood.city}, ${hood.state}`,
-      text,
-      html: text.replace(/\n/g, '<br />'),
-    });
-  });
-
-  return res.json({ hoods });
+  const results = await saveHood(req.body, connections);
+  return res.json(results);
 });
 
 module.exports = router;
