@@ -5,6 +5,20 @@ const { findOrCreateUser, findUser } = require('./user');
 
 module.exports = { router, addPoint, removePoint };
 
+async function getPointsForUser(userId) {
+  const sql = `
+    SELECT
+      neighborhood_id,
+      reason,
+      created_at
+    FROM point
+    WHERE hood_user_id=$1
+  `;
+
+  const results = await db.query(sql, [userId]);
+  return results.rows;
+}
+
 async function addPoint({ userId, hoodId, reason }) {
   if (!userId) {
     throw new Error('Must provide userId');
@@ -46,4 +60,5 @@ async function removePoint({ userId, hoodId }) {
 module.exports = {
   removePoint,
   addPoint,
+  getPointsForUser,
 };

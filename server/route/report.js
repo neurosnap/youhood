@@ -1,20 +1,12 @@
 const router = require('express-promise-router')();
 
-const sendNotificationEmail = require('../notification');
+const reportHood = require('../report');
 
 router.post('/:hoodId', async (req, res) => {
   const hoodId = req.params.hoodId;
-  const data = req.body;
-  const reason = data.reason;
-  const text = `${hoodId} has been reported for ${reason}`;
-
-  sendNotificationEmail({
-    subject: `A hood has been reported!`,
-    text,
-    html: text,
-  });
-
-  res.json({ success: true });
+  const { reason } = req.body;
+  const result = await reportHood({ hoodId, reason });
+  return res.json(result);
 });
 
 module.exports = router;

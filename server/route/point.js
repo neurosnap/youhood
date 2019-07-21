@@ -1,24 +1,14 @@
 const router = require('express-promise-router')();
 const debug = require('debug');
 
-const db = require('../db');
-const { addPoint } = require('../point');
+const { addPoint, getPointsForUser } = require('../point');
 
-const log = debug('app:point');
+const log = debug('router:point');
 
 router.get('/:userId', async (req, res) => {
   const userId = req.params.userId;
-  const sql = `
-    SELECT
-      neighborhood_id,
-      reason,
-      created_at
-    FROM point
-    WHERE hood_user_id=$1
-  `;
-
-  const results = await db.query(sql, [userId]);
-  return res.json({ points: results.rows });
+  const points = await getPointsForUser(userId);
+  return res.json({ points });
 });
 
 router.post('/:userId', async (req, res) => {
