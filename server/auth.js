@@ -67,11 +67,11 @@ async function signin(email, password) {
     type: 'success',
     data: { token: apiKey, user },
   };
-  return res.json(jso);
+
+  return jso;
 }
 
-async function register(currentUserId, email, password) {
-  const connections = req.app.get('connections');
+async function register(currentUserId, email, password, connections) {
   log(email, password);
 
   if (!isemail.validate(email)) {

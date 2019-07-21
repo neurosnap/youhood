@@ -10,7 +10,8 @@ module.exports = router;
 
 router.get('/:hoodIds', async (req, res) => {
   const hoodIds = req.params.hoodIds.split(',');
-  await getVotesByHoods(hoodIds);
+  const results = await getVotesByHoods(hoodIds);
+  res.json(results);
 });
 
 router.post('/:hoodId/:userId/upvote', async (req, res) => {

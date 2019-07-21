@@ -1,6 +1,8 @@
 const router = require('express-promise-router')();
 const debug = require('debug');
 
+const { signin, register } = require('../auth');
+
 const log = debug('router:auth');
 
 router.post('/signin', async (req, res) => {
@@ -18,8 +20,9 @@ router.post('/signin', async (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
+  const connections = req.app.get('connections');
   const { currentUserId, email, password } = req.body;
-  const result = await register(currentUserId, email, password);
+  const result = await register(currentUserId, email, password, connections);
   log(result);
 
   if (result.type === 'invalid') {
