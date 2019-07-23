@@ -63,7 +63,7 @@ server-dev:
 	PORT=8080 \
 	GOOGLE_API_KEY=$(GOOGLE_API_KEY) \
 	SENDGRID_API_KEY=$(SENDGRID_API_KEY) \
-	$(BIN)/nodemon ./server/index.js
+	$(BIN)/nodemon ts-node ./server/index.ts
 .PHONY: server
 
 psql:

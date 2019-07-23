@@ -182,10 +182,10 @@
     "@types/node" "*"
     "@types/range-parser" "*"
 
-"@types/express@4.11.1":
-  version "4.11.1"
-  resolved "https://registry.yarnpkg.com/@types/express/-/express-4.11.1.tgz#f99663b3ab32d04cb11db612ef5dd7933f75465b"
-  integrity sha512-ttWle8cnPA5rAelauSWeWJimtY2RsUf2aspYZs7xPHiWgOlPn6nnUfBMtrkcnjFJuIHJF4gNOdVvpLK2Zmvh6g==
+"@types/express@^4.17.0":
+  version "4.17.0"
+  resolved "https://registry.yarnpkg.com/@types/express/-/express-4.17.0.tgz#49eaedb209582a86f12ed9b725160f12d04ef287"
+  integrity sha512-CjaMu57cjgjuZbh9DpkloeGxV45CnMGlVd+XpG7Gm9QgVrd7KFq+X4HY0vM+2v0bczS48Wg7bvnMY5TN+Xmcfw==
   dependencies:
     "@types/body-parser" "*"
     "@types/express-serve-static-core" "*"

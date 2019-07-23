@@ -1,8 +1,4 @@
 {
-  "baseUrl": "types",
-  "typeRoots": [
-    "types"
-  ],
   "compilerOptions": {
     "strict": true,
     "noImplicitAny": true,
@@ -10,8 +6,9 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
+    "esModuleInterop": true,
     "jsx": "react",
-    "allowSyntheticDefaultImports": false,
+    "allowSyntheticDefaultImports": true,
     "target": "es5",
     "outDir": "./dist",
     "module": "commonjs",
@@ -31,7 +28,8 @@
   "include": [
     "delivery/**/*",
     "packages/**/*",
-    "scripts/**/*"
+    "scripts/**/*",
+    "server/**/*"
   ],
   "exclude": [
     "node_modules",

@@ -1,6 +1,8 @@
-const WebSocket = require('ws');
-const debug = require('debug');
-const uuid = require('uuid/v4');
+import ws from 'ws';
+import debug from 'debug';
+import uuid from 'uuid/v4';
+import { Express } from 'express';
+import { Server } from 'http';
 
 const { getHoods } = require('./hood');
 
@@ -9,8 +11,8 @@ const log = debug('app:socket');
 const DEFAULT_CITY = 'ann arbor';
 const DEFAULT_STATE = 'mi';
 
-function init(server, app) {
-  const wss = new WebSocket.Server({ server });
+export default function init(server: Server, app: Express) {
+  const wss = new ws.Server({ server });
 
   wss.on('connection', (socket) => {
     log('user connected');
@@ -20,6 +22,10 @@ function init(server, app) {
     app.set('connections', connections);
 
     socket.on('message', (event) => {
+      if (typeof event !== 'string') {
+        throw new Error('socket can only receive events as string');
+      }
+
       const jso = JSON.parse(event);
       log('message', jso);
 
@@ -43,5 +49,3 @@ function init(server, app) {
 
   return wss;
 }
-
-module.exports = init;

@@ -1,10 +1,11 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const debug = require('debug');
+import express from 'express';
+import bodyParser from 'body-parser';
+import debug from 'debug';
 
-const requireAuth = require('./require-auth');
-const socket = require('./socket');
-const routes = require('./route');
+import requireAuth from './require-auth';
+import socket from './socket';
+import routes from './route';
+import { errorMiddleware } from './error';
 
 const app = express();
 const log = debug('app:index');
@@ -34,12 +35,7 @@ app.use('/user', requireAuth, routes.user);
 app.use('/api-keys', requireAuth, routes.apiKey);
 app.use('/verify', routes.verify);
 app.use('/report', routes.report);
-app.use((err, req, res, net) => {
-  const status = err.status || 400;
-  const json = { status, error: err.message };
-  log(json);
-  return res.status(status).json(json);
-});
+app.use(errorMiddleware);
 
 const port = process.env.PORT || 8080;
 const server = app.listen(port, () => {
