@@ -1,4 +1,3 @@
-const router = require('express-promise-router')();
 const debug = require('debug');
 const fetch = require('node-fetch');
 const uuid = require('uuid/v4');
@@ -9,54 +8,26 @@ const { addPoint } = require('./point');
 const { transformSQLToGeoJson } = require('./transform');
 const sendNotificationEmail = require('./notification');
 
-const log = debug('router:hood');
+const log = debug('app:hood');
 
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || '';
 
-router.get('/:hoodId', async (req, res) => {
-  const hoodId = req.params.hoodId;
-  const hood = await findHood(hoodId);
-  if (hood.error) {
-    return res.status(400).json(hood);
-  }
-
-  return res.json(hood);
-});
-
-router.get('/:state/:city/all', async (req, res) => {
-  const state = req.params.state;
-  const city = req.params.city;
-
+async function searchForHoodsByCity(state, city) {
   const hoods = await getHoodsByCity(city, state);
   if (hoods.error) {
-    return res.status(400).json(hoods);
+    return hoods;
   }
 
   const winners = await getHoodWinnerIdsByCity(city, state);
   if (winners.error) {
-    return res.status(400).json(winners);
+    return winners;
   }
 
-  return res.json({ ...hoods, ...winners });
-});
+  return { ...hoods, ...winners };
+}
 
-router.get('/:state/:city', async (req, res) => {
-  const state = req.params.state;
-  const city = req.params.city;
-
-  const hoods = await getHoodWinnersByCity(city, state);
-  if (hoods.error) {
-    return res.status(400).json(hoods);
-  }
-
-  return res.json(hoods);
-});
-
-router.post('/save', async (req, res) => {
-  log(req.body);
-  const connections = req.app.get('connections');
-
-  const data = transformHood(req.body);
+async function saveHood(body, connections) {
+  const data = transformHood(body);
   const results = await Promise.all(
     data.map((preparedHood) => createOrUpdateHood(preparedHood)),
   );
@@ -91,8 +62,8 @@ router.post('/save', async (req, res) => {
     });
   });
 
-  return res.json({ hoods });
-});
+  return { hoods };
+}
 
 function sendAll(connections, msg) {
   for (let i = 0; i < connections.length; i++) {
@@ -412,10 +383,20 @@ async function getHoodsByCity(city, state) {
 }
 
 module.exports = {
-  sendAll,
+  createHood,
+  createOrUpdateHood,
+  findHood,
   getHoods,
+  getHoodsByCity,
   getHoodsByUserId,
-  router,
   getHoodWinnerIdsByCity,
   getHoodWinnersByCity,
+  reverseGeoLookgup,
+  sendAll,
+  transformGeoLookup,
+  transformHood,
+  transformHoodToList,
+  updateHood,
+  searchForHoodsByCity,
+  saveHood,
 };

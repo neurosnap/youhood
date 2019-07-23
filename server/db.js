@@ -1,4 +1,7 @@
 const { Pool } = require('pg');
+const debug = require('debug');
+
+const log = debug('app:db');
 
 const conn = {
   user: process.env.PGUSER,
@@ -7,15 +10,15 @@ const conn = {
   port: process.env.PGPORT,
   host: process.env.PGHOST,
 };
-console.log(conn);
+log(conn);
 
 const pool = new Pool(conn);
 
 pool.connect((err, client, release) => {
   if (err) {
-    console.log(err);
+    log(err);
   } else {
-    console.log('Connected to postgresql!');
+    log('Connected to postgresql!');
   }
 
   release();
@@ -25,6 +28,6 @@ module.exports = {
   query: (text, params) => pool.query(text, params),
   end: () =>
     pool.end().then(() => {
-      console.log('pool has ended!');
+      log('pool has ended!');
     }),
 };

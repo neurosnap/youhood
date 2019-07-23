@@ -1,15 +1,11 @@
 const router = require('express-promise-router')();
-const debug = require('debug');
 
 const db = require('./db');
 const { findOrCreateUser, findUser } = require('./user');
 
-const log = debug('app:point');
-
 module.exports = { router, addPoint, removePoint };
 
-router.get('/:userId', async (req, res) => {
-  const userId = req.params.userId;
+async function getPointsForUser(userId) {
   const sql = `
     SELECT
       neighborhood_id,
@@ -20,21 +16,8 @@ router.get('/:userId', async (req, res) => {
   `;
 
   const results = await db.query(sql, [userId]);
-  return res.json({ points: results.rows });
-});
-
-router.post('/:userId', async (req, res) => {
-  const userId = req.params.userId;
-  const { hoodId, reason } = req.body;
-
-  try {
-    const points = await addPoint({ userId, hoodId, reason });
-    return res.json({ points });
-  } catch (err) {
-    log(err);
-    return res.status(400).json({ error: err.detail });
-  }
-});
+  return results.rows;
+}
 
 async function addPoint({ userId, hoodId, reason }) {
   if (!userId) {
@@ -73,3 +56,9 @@ async function removePoint({ userId, hoodId }) {
   const results = await db.query(sql, params);
   return results.rows;
 }
+
+module.exports = {
+  removePoint,
+  addPoint,
+  getPointsForUser,
+};

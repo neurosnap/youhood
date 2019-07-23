@@ -1,18 +1,15 @@
-const bcrypt = require('bcrypt');
-const router = require('express-promise-router')();
 const uuid = require('uuid/v4');
 const isemail = require('isemail');
+const bcrypt = require('bcrypt');
+const debug = require('debug');
 
 const db = require('./db');
 const { getHoodsByUserId, sendAll } = require('./hood');
 const { findOrCreateApiKey } = require('./api-key');
 const { createValidationToken, sendVerifyEmail } = require('./verify');
 
+const log = debug('app:auth');
 const saltRounds = 10;
-
-module.exports = {
-  router,
-};
 
 const hashFn = (password, salt) =>
   new Promise((resolve, reject) => {
@@ -30,12 +27,12 @@ const compare = (password, hash) =>
     });
   });
 
-router.post('/signin', async (req, res) => {
-  const { email, password } = req.body;
-  console.log(email, password);
-
+async function signin(email, password) {
   if (!isemail.validate(email)) {
-    return res.status(400).json({ error: 'must provide valid email address' });
+    return {
+      type: 'invalid',
+      error: 'must provide valid email address',
+    };
   }
 
   const sql = 'SELECT * FROM hood_user WHERE email=$1';
@@ -45,8 +42,10 @@ router.post('/signin', async (req, res) => {
     const result = await db.query(sql, [email]);
     user = result.rows[0];
   } catch (err) {
-    console.log(err);
-    return res.status(401).json({ error: 'could not find email' });
+    return {
+      type: 'email_not_found',
+      error: 'could not find email',
+    };
   }
 
   try {
@@ -55,38 +54,49 @@ router.post('/signin', async (req, res) => {
       throw new Error('invalid password');
     }
   } catch (err) {
-    console.log(err);
-    return res.status(401).json({ error: 'invalid password' });
+    return {
+      type: 'invalid',
+      error: 'invalid password',
+    };
   }
 
   delete user.passhash;
 
   const apiKey = await findOrCreateApiKey(user.id);
-  const jso = { token: apiKey, user };
-  console.log(jso);
-  return res.json(jso);
-});
+  const jso = {
+    type: 'success',
+    data: { token: apiKey, user },
+  };
 
-router.post('/register', async (req, res) => {
-  const { currentUserId, email, password } = req.body;
-  const connections = req.app.get('connections');
-  console.log(email, password);
+  return jso;
+}
+
+async function register(currentUserId, email, password, connections) {
+  log(email, password);
 
   if (!isemail.validate(email)) {
-    return res.status(400).json({ error: 'invalid email address' });
+    return {
+      type: 'invalid',
+      error: 'invalid email address',
+    };
   }
 
   if (!password) {
-    return res.status(400).json({ error: 'password must not be empty' });
+    return {
+      type: 'invalid',
+      error: 'password must not be empty',
+    };
   }
 
   let passhash;
   try {
     passhash = await hashFn(password, saltRounds);
-    console.log(passhash);
+    log(passhash);
   } catch (err) {
-    console.log(err);
-    return res.status(400).json({ error: 'could not hash password' });
+    return {
+      type: 'server_error',
+      error: 'could not hash password',
+    };
   }
 
   const sql = `INSERT INTO hood_user(id, email, passhash)
@@ -96,15 +106,15 @@ router.post('/register', async (req, res) => {
   try {
     const result = await db.query(sql, [uuid(), email, passhash]);
     newUser = result.rows[0];
-    console.log(result);
+    log(result);
   } catch (err) {
-    console.log(err);
-    return res
-      .status(400)
-      .json({ error: `could not add user to database: ${err.detail}` });
+    return {
+      type: 'server_error',
+      error: `could not add user to database: ${err.detail}`,
+    };
   }
 
-  console.log(newUser);
+  log(newUser);
   if (currentUserId) {
     await updateHoodUserId(currentUserId, newUser.id);
     await updatePointUserId(currentUserId, newUser.id);
@@ -119,8 +129,11 @@ router.post('/register', async (req, res) => {
   const verifyToken = await createValidationToken(user.id);
   sendVerifyEmail(user.email, verifyToken);
 
-  return res.json({ user, token: apiKey, verifyToken });
-});
+  return {
+    type: 'success',
+    data: { user, token: apiKey, verifyToken },
+  };
+}
 
 async function updateHoodUserId(prevUserId, userId) {
   const sql = `UPDATE neighborhood SET hood_user_id=$1
@@ -130,7 +143,7 @@ async function updateHoodUserId(prevUserId, userId) {
     await db.query(sql, [userId, prevUserId]);
     return {};
   } catch (err) {
-    console.log(err);
+    log(err);
     return { error: err.detail };
   }
 }
@@ -143,7 +156,16 @@ async function updatePointUserId(prevUserId, userId) {
     await db.query(sql, [userId, prevUserId]);
     return {};
   } catch (err) {
-    console.log(err);
+    log(err);
     return { error: err.detail };
   }
 }
+
+module.exports = {
+  signin,
+  register,
+  hashFn,
+  compare,
+  updateHoodUserId,
+  updatePointUserId,
+};

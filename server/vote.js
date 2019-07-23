@@ -1,14 +1,58 @@
-const router = require('express-promise-router')();
 const debug = require('debug');
 
-const { addPoint, removePoint } = require('./point');
 const db = require('./db');
+const { addPoint, removePoint } = require('./point');
+
 const log = debug('app:vote');
 
-module.exports = router;
+async function upvote(hoodId, userId) {
+  const alreadyVoted = await findVote({ hoodId, userId, voteType: 'upvote' });
+  if (alreadyVoted) {
+    return {
+      type: 'user_already_voted',
+      error: 'user already upvoted hood',
+      data: alreadyVoted,
+    };
+  }
 
-router.get('/:hoodIds', async (req, res) => {
-  const hoodIds = req.params.hoodIds.split(',');
+  await unvote({ hoodId, userId });
+  const payload = await vote({ hoodId, userId, voteType: 'upvote' });
+
+  try {
+    await addPoint({ hoodId, userId, reason: 'UPVOTE' });
+  } catch (err) {
+    log(err);
+  }
+
+  return { type: 'success', data: payload };
+}
+
+async function downvote(hoodId, userId) {
+  const alreadyVoted = await findVote({ hoodId, userId, voteType: 'downvote' });
+  if (alreadyVoted) {
+    return {
+      type: 'user_already_voted',
+      error: 'user already downvoted hood',
+      data: alreadyVoted,
+    };
+  }
+
+  await unvote({ hoodId, userId });
+  const payload = await vote({ hoodId, userId, voteType: 'downvote' });
+
+  try {
+    await removePoint({ hoodId, userId });
+  } catch (err) {
+    log(err);
+  }
+
+  return {
+    type: 'success',
+    data: payload,
+  };
+}
+
+async function getVotesByHoods(hoodIds) {
   const sql = `
     SELECT
       neighborhood_id,
@@ -21,7 +65,7 @@ router.get('/:hoodIds', async (req, res) => {
   const results = await db.query(sql, [hoodIds]);
 
   if (results.rows.length === 0) {
-    return res.json({ votes: {} });
+    return { votes: {} };
   }
 
   const votes = hoodIds.reduce((acc, hoodId) => {
@@ -36,57 +80,8 @@ router.get('/:hoodIds', async (req, res) => {
     return acc;
   }, {});
 
-  return res.json({ votes });
-});
-
-router.post('/:hoodId/:userId/upvote', async (req, res) => {
-  const hoodId = req.params.hoodId;
-  const userId = req.params.userId;
-  const alreadyVoted = await findVote({ hoodId, userId, voteType: 'upvote' });
-  if (alreadyVoted) {
-    console.log(alreadyVoted);
-    return res.status(400).json({ error: 'user already upvoted hood' });
-  }
-
-  await unvote({ hoodId, userId });
-  const payload = await vote({ hoodId, userId, voteType: 'upvote' });
-  try {
-    await addPoint({ hoodId, userId, reason: 'UPVOTE' });
-  } catch (err) {
-    log(err);
-  }
-  return res.json(payload);
-});
-
-router.post('/:hoodId/:userId/downvote', async (req, res) => {
-  const hoodId = req.params.hoodId;
-  const userId = req.params.userId;
-  const alreadyVoted = await findVote({ hoodId, userId, voteType: 'downvote' });
-  if (alreadyVoted) {
-    return res.json({ error: 'user already downvoted hood' });
-  }
-
-  await unvote({ hoodId, userId });
-  const payload = await vote({ hoodId, userId, voteType: 'downvote' });
-  try {
-    await removePoint({ hoodId, userId });
-  } catch (err) {
-    log(err);
-  }
-  return res.json(payload);
-});
-
-router.post('/:hoodId/:userId/unvote', async (req, res) => {
-  const hoodId = req.params.hoodId;
-  const userId = req.params.userId;
-  const result = await unvote({ hoodId, userId });
-  try {
-    await removePoint({ hoodId, userId });
-  } catch (err) {
-    log(err);
-  }
-  return res.json(result);
-});
+  return { votes };
+}
 
 async function findVote({ hoodId, userId, voteType }) {
   const sql = `
@@ -127,3 +122,12 @@ async function vote({ hoodId, userId, voteType }) {
   const votes = { [hoodId]: [userId] };
   return { votes };
 }
+
+module.exports = {
+  upvote,
+  downvote,
+  getVotesByHoods,
+  vote,
+  unvote,
+  findVote,
+};

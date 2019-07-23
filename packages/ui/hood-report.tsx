@@ -53,7 +53,7 @@ export default class HoodReport extends React.Component<Props, State> {
     }
 
     if (reported) {
-      return <TextSmall>Thanks! Reported for ${reported}</TextSmall>;
+      return <TextSmall>Thanks! Reported for {reported}</TextSmall>;
     }
 
     return (
