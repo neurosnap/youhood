@@ -46,7 +46,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "gen-tester": "^4.0.2",
     "husky": "^0.14.3",
-    "immer": "^1.5.0",
+    "immer": "^8.0.1",
     "jest": "^22.4.3",
     "jest-environment-enzyme": "^6.0.0",
     "jest-enzyme": "^6.0.0",
